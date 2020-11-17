@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<RCC>
+    <qresource prefix="/">
+        <file alias="ico/menu/back.png">../ico/menu/back.png</file>
+        <file alias="ico/menu/drawer.png">../ico/menu/drawer.png</file>
+        <file alias="ico/menu/help.png">../ico/menu/help.png</file>
+        <file alias="ico/menu/logout.png">../ico/menu/logout.png</file>
+        <file alias="ico/menu/notes.png">../ico/menu/notes.png</file>
+        <file alias="ico/menu/phone.png">../ico/menu/phone.png</file>
+        <file alias="ico/menu/settings.png">../ico/menu/settings.png</file>
+        <file alias="ico/menu/store.png">../ico/menu/store.png</file>
+        <file alias="ico/menu/user.png">../ico/menu/user.png</file>
+        <file alias="ico/menu/close.png">../ico/menu/close.png</file>
+        <file alias="ico/menu/cancel.png">../ico/menu/cancel.png</file>
+        <file alias="img/logo/logo.png">../img/logo/logo.png</file>
+        <file alias="img/sale/barcode.png">../img/sale/barcode.png</file>
+        <file alias="ico/calculator/del.png">../ico/calculator/del.png</file>
+        <file alias="ico/calculator/+.png">../ico/calculator/+.png</file>
+    </qresource>
+</RCC>

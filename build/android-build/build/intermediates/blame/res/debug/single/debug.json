@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "/Users/michael_savchenko/Downloads/share/DreamkasAndroid/build/android-build/build/intermediates/res/merged/debug/drawable-ldpi_icon.png.flat",
+        "source": "/Users/michael_savchenko/Downloads/share/DreamkasAndroid/build/android-build/res/drawable-ldpi/icon.png"
+    },
+    {
+        "merged": "/Users/michael_savchenko/Downloads/share/DreamkasAndroid/build/android-build/build/intermediates/res/merged/debug/drawable_splash.xml.flat",
+        "source": "/Users/michael_savchenko/Downloads/share/DreamkasAndroid/build/android-build/res/drawable/splash.xml"
+    },
+    {
+        "merged": "/Users/michael_savchenko/Downloads/share/DreamkasAndroid/build/android-build/build/intermediates/res/merged/debug/drawable-mdpi_icon.png.flat",
+        "source": "/Users/michael_savchenko/Downloads/share/DreamkasAndroid/build/android-build/res/drawable-mdpi/icon.png"
+    },
+    {
+        "merged": "/Users/michael_savchenko/Downloads/share/DreamkasAndroid/build/android-build/build/intermediates/res/merged/debug/drawable_icon.png.flat",
+        "source": "/Users/michael_savchenko/Downloads/share/DreamkasAndroid/build/android-build/res/drawable/icon.png"
+    },
+    {
+        "merged": "/Users/michael_savchenko/Downloads/share/DreamkasAndroid/build/android-build/build/intermediates/res/merged/debug/layout_splash.xml.flat",
+        "source": "/Users/michael_savchenko/Qt/5.13.2/android_armv7/src/android/java/res/layout/splash.xml"
+    },
+    {
+        "merged": "/Users/michael_savchenko/Downloads/share/DreamkasAndroid/build/android-build/build/intermediates/res/merged/debug/drawable-hdpi_icon.png.flat",
+        "source": "/Users/michael_savchenko/Downloads/share/DreamkasAndroid/build/android-build/res/drawable-hdpi/icon.png"
+    }
+]

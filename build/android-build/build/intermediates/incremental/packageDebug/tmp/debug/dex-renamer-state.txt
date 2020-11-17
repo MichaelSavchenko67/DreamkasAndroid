@@ -1,0 +1,4 @@
+#Wed Sep 23 10:15:45 MSK 2020
+base.0=/Users/michael_savchenko/Downloads/share/DreamkasAndroid/build/android-build/build/intermediates/transforms/dexMerger/debug/0
+path.0=classes.dex
+renamed.0=classes.dex
