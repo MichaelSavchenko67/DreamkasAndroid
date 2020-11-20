@@ -8,6 +8,7 @@ Button {
     height: parent.height
 
     property var txt
+    property real fontPixelSize: 0.5 * parent.height
 
     display: AbstractButton.TextOnly
     background: Rectangle {
@@ -17,15 +18,15 @@ Button {
         Text {
             id: name
             anchors.fill: parent
-            text: qsTr(txt)
+            text: (txt !== "undefinded") ? qsTr(txt) : ""
             clip: true
             font {
-                pixelSize: 0.8 * parent.height
+                pixelSize: fontPixelSize
                 family: "Roboto"
                 styleName: "normal"
                 weight: Font.Bold
             }
-            color: "#AC58E1"
+            color: "#0064B4"
             elide: Label.ElideRight
             horizontalAlignment: Qt.AlignHCenter
             verticalAlignment: Qt.AlignVCenter

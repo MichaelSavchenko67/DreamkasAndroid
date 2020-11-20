@@ -44,7 +44,6 @@
         <file>ico/menu/circle_en_violet.png</file>
         <file>qml/pages/subpages/FiscalPurchase.qml</file>
         <file>ico/menu/viki.jpg</file>
-        <file>ico/menu/pay_success.jpg</file>
         <file>qml/pages/PromoSwipeView.qml</file>
         <file>qml/pages/Login.qml</file>
         <file>ico/menu/logo.png</file>
@@ -54,5 +53,14 @@
         <file>qml/components/sale/LoginButton.qml</file>
         <file>ico/menu/login_err.png</file>
         <file>qml/components/sale/AnimatedText.qml</file>
+        <file>ico/menu/ico_short.png</file>
+        <file>qml/components/sale/MenuDrawer.qml</file>
+        <file>qml/pages/subpages/OpenShiftBanner.qml</file>
+        <file>img/sale/cashier.png</file>
+        <file>qml/pages/subpages/EnterCostChoose.qml</file>
+        <file>qml/pages/subpages/Operation.qml</file>
+        <file>ico/menu/operation_success.png</file>
+        <file>ico/menu/operation_failed.png</file>
+        <file>qml/components/sale/PopupMain.qml</file>
     </qresource>
 </RCC>

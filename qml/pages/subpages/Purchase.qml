@@ -35,7 +35,7 @@ Page {
             console.log("[Purchase.qml]\tDelete purchase")
             positionModel.clear()
             setAddRightMenuButtonVisible(false)
-            popup.close()
+            root.popupClose()
             rootStack.pop()
         }
     }
@@ -46,7 +46,7 @@ Page {
             console.log("[Login.qml]\Delete selected position")
             delCheckedPos()
             setAddRightMenuButtonVisible(false)
-            popup.close()
+            root.popupClose()
             if (positionModel.count === 0) {
                 rootStack.pop()
             }
@@ -58,18 +58,28 @@ Page {
         text: qsTr("Удалить чек")
 
         onTriggered: {
-            msg.text = qsTr("Удалить чек?")
-            confirm.action = confirmDelPurchase
-            popup.open()
+            root.popupReset()
+            root.popupSetTitle("Удаление")
+            root.popupSetAddMsg("Удалить чек?")
+            root.popupSetFirstActionName("УДАЛИТЬ")
+            root.popupSetFirstAction(confirmDelPurchase)
+            root.popupSetSecondActionName("ОТМЕНА")
+            root.popupSetSecondAction(popupCancel)
+            root.popupOpen()
         }
     }
 
     Action {
         id: deletePosition
         onTriggered: {
-            msg.text = qsTr("Удалить выбранные позиции?")
-            confirm.action = confirmDelPositions
-            popup.open()
+            root.popupReset()
+            root.popupSetTitle("Удаление")
+            root.popupSetAddMsg("Удалить выбранные позиции?")
+            root.popupSetFirstActionName("УДАЛИТЬ")
+            root.popupSetFirstAction(confirmDelPositions)
+            root.popupSetSecondActionName("ОТМЕНА")
+            root.popupSetSecondAction(popupCancel)
+            root.popupOpen()
         }
     }
 
@@ -149,102 +159,13 @@ Page {
         }
     }
 
-    Popup {
-        id: popup
-        width: 0.9 * purchasePage.width
-        height: 0.5 * width
-        x: 0.5 * (purchasePage.width - width)
-        y: 0.5 * (parent.height - height)
-        modal: true
-        focus: true
-        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
-        background: Rectangle {
-            id: popupFrame
-            radius: 8
-            color: "#FFFFFF"
-
-            Column {
-                width: 0.85 * parent.width
-                height: 0.8 * parent.height
-                anchors.centerIn: parent
-                spacing: 0.5 * msg.font.pixelSize
-
-                Text {
-                    id: title
-                    width: parent.width
-                    height: 0.3 * parent.height
-                    text: qsTr("Удаление")
-                    clip: true
-                    font {
-                        pixelSize: 0.16 * parent.height
-                        family: "Roboto"
-                        styleName: "normal"
-                        weight: Font.Bold
-                        bold: true
-                    }
-                    color: "black"
-                    elide: Label.ElideRight
-                    horizontalAlignment: Qt.AlignLeft
-                    verticalAlignment: Qt.AlignBottom
-                }
-
-                Text {
-                    id: msg
-                    width: title.width
-                    height: 0.4 * parent.height
-                    clip: title.clip
-                    font {
-                        pixelSize: 0.67 * title.font.pixelSize
-                        family: title.font.family
-                        styleName: title.font.styleName
-                        weight: Font.Normal
-                    }
-                    color: "#AA000000"
-                    elide: title.elide
-                    horizontalAlignment: title.horizontalAlignment
-                    verticalAlignment: Qt.AlignTop
-                }
-            }
-
-            Row {
-                width: 0.5 * parent.width
-                height: 0.12 * parent.height
-                anchors {
-                    bottom: parent.bottom
-                    bottomMargin: 0.183 * parent.height
-                    right: parent.right
-                    rightMargin: 0.156 * parent.width
-                }
-                spacing: cancel.font.pixelSize
-
-                SaleComponents.ButtonPopup {
-                    id: cancel
-                    width: 0.5 * parent.width
-                    height: parent.height
-                    txt: "ОТМЕНА"
-
-                    onPressed: {
-                        popup.close()
-                    }
-                }
-
-                SaleComponents.ButtonPopup {
-                    id: confirm
-                    width: cancel.width
-                    height: cancel.height
-                    txt: "УДАЛИТЬ"
-                }
-            }
-        }
-    }
-
     contentData: ListView {
         id: purchaseView
         anchors.fill: parent
         clip: true
         spacing: 0.35 * head.height
 
-        cacheBuffer: 100 * (0.15 * purchaseView.height)
+        cacheBuffer: 100 * 0.15 * purchaseView.height
 
         model: ListModel {
             id: positionModel

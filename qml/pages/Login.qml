@@ -88,7 +88,7 @@ Page {
             repeat: true
             property int i: 1
             onTriggered: {
-                loaderMsg.add2Queue("Hello Hello Hello World\n" + i++)
+                loaderMsg.add2Queue("Загрузка\n" + i++)
             }
         }
 

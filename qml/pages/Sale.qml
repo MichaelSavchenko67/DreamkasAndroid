@@ -17,6 +17,24 @@ Page {
             setRightMenuButtonAction(searchGoods)
             setRightMenuButtonVisible(true)
             clearContextMenu()
+            enterCost.isOpenShiftBannerEnable = !isShiftOpened
+            popupTimer.running = isShiftOpened
+        }
+    }
+
+    Timer {
+        id: popupTimer
+        interval: 20000
+        running: false
+        repeat: false
+        onTriggered: {
+            root.popupReset()
+            root.popupSetTitle("Смена превысила 24 часа")
+            root.popupSetAddMsg("Операция недопустима, т.к.смена превысила 24 часа.")
+            root.popupSetFirstActionName("ЗАКРЫТЬ СМЕНУ")
+            root.popupSetFirstAction(closeShift)
+            root.popupSetClosePolicy(Popup.NoAutoClose)
+            root.popupOpen()
         }
     }
 
@@ -83,7 +101,14 @@ Page {
         anchors.fill: parent
         currentIndex: tabBar.currentIndex
 
-        Subpages.EnterCost {}
+        Subpages.EnterCost {id: enterCost}
+//        Page {
+//            id: enterCostPage
+//            Layout.fillHeight: true
+//            Layout.fillWidth: true
+//            Subpages.OpenShiftBanner {id: openShiftBanner; /*visible: !isShiftOpened*/}
+//            Subpages.EnterCostChoose {visible: !openShiftBanner.visible}
+//        }
         Subpages.Favorites {}
     }
 }

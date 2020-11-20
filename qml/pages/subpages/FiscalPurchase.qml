@@ -134,7 +134,7 @@ Page {
                 width: 0.22 * fiscalPurchasePage.width
                 height: width
                 anchors.horizontalCenter:  parent.horizontalCenter
-                source: "qrc:/ico/menu/pay_success.jpg"
+                source: "qrc:/ico/menu/operation_success.png"
             }
 
             Text {

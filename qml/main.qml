@@ -4,6 +4,8 @@ import QtQuick.Window 2.3
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 
+import "qrc:/qml/components/sale" as SaleComponents
+
 ApplicationWindow {
     id: root
 //    width: Screen.width
@@ -12,10 +14,13 @@ ApplicationWindow {
     height: 960
     visible: true
 
+    property bool isShiftOpened: true
+
     Action {
         id: openMenu
         onTriggered: {
             console.log("[main.qml]\tOpen menu")
+            drawer.open()
         }
     }
 
@@ -48,6 +53,27 @@ ApplicationWindow {
         }
     }
 
+    Action {
+        id: openShift
+        onTriggered: {
+            root.openShift()
+        }
+    }
+
+    Action {
+        id: closeShift
+        onTriggered: {
+            root.closeShift()
+        }
+    }
+
+    Action {
+        id: popupCancel
+        onTriggered: {
+            root.popupClose()
+        }
+    }
+
     Menu {
         id: rootContextMenu
         x: parent.width - width
@@ -56,6 +82,10 @@ ApplicationWindow {
         onClosed: {
             itemAt(currentIndex).highlighted = false
         }
+    }
+
+    SaleComponents.PopupMain {
+        id: popup
     }
 
     function setMainPageTitle(title) {
@@ -135,6 +165,124 @@ ApplicationWindow {
 
     function setToolbarVisible(visible) {
         toolBar.visible = visible
+    }
+    // MAIN POPUP
+    function popupOpen() {
+        popup.open()
+    }
+
+    function popupClose() {
+        popup.close()
+    }
+
+    function popupSetTitle(title) {
+        popup.titleMsg = title
+    }
+
+    function popupSetAddMsg(addMsg) {
+        popup.addMsg = addMsg
+    }
+
+    function popupSetFirstActionName(name) {
+        popup.firsButtonName = name
+    }
+
+    function popupSetSecondActionName(name) {
+        popup.secondButtonName = name
+    }
+
+    function popupSetFirstAction(action) {
+        popup.setFirstButtonAction(action)
+    }
+
+    function popupSetSecondAction(action) {
+        popup.setSecondButtonAction(action)
+    }
+
+    function popupSetClosePolicy(closePolicy) {
+        popup.closePolicy = closePolicy
+    }
+
+    function popupReset() {
+        popupClose()
+        popupSetTitle("")
+        popupSetAddMsg("")
+        popupSetFirstActionName("")
+        popupSetSecondActionName("")
+        popupSetFirstAction(null)
+        popupSetSecondAction(null)
+        popupSetClosePolicy(Popup.NoAutoClose)
+    }
+
+    function openShiftDialog() {
+        popupReset()
+
+        if (!isShiftOpened) {
+            root.popupSetTitle("Открытие смены")
+            root.popupSetAddMsg("Вы уверены, что хотите открыть смену?")
+            root.popupSetFirstActionName("ОТКРЫТЬ СМЕНУ")
+            root.popupSetFirstAction(openShift)
+            root.popupSetSecondActionName("ОТМЕНА")
+            root.popupSetSecondAction(popupCancel)
+        } else {
+            root.popupSetTitle("Смена уже открыта")
+            root.popupSetAddMsg("Проверьте настройки ККТ")
+            root.popupSetSecondActionName("ОТМЕНА")
+            root.popupSetSecondAction(popupCancel)
+        }
+
+        root.popupSetClosePolicy(Popup.CloseOnPressOutside | Popup.CloseOnEscape)
+        root.popupOpen()
+    }
+
+    function closeShiftDialog() {
+        popupReset()
+
+        if (isShiftOpened) {
+            root.popupSetTitle("Закрытие смены")
+            root.popupSetAddMsg("Вы уверены, что хотите закрыть смену?")
+            root.popupSetFirstActionName("ЗАКРЫТЬ СМЕНУ")
+            root.popupSetFirstAction(closeShift)
+            root.popupSetSecondActionName("ОТМЕНА")
+            root.popupSetSecondAction(popupCancel)
+        } else {
+            root.popupSetTitle("Смена уже закрыта")
+            root.popupSetAddMsg("Проверьте настройки ККТ")
+            root.popupSetSecondActionName("ОТМЕНА")
+            root.popupSetSecondAction(popupCancel)
+        }
+
+        root.popupSetClosePolicy(Popup.CloseOnPressOutside | Popup.CloseOnEscape)
+        root.popupOpen()
+    }
+
+    function openShift() {
+        console.log("[main.qml]\topen shift ...")
+        drawer.close()
+        popupReset()
+        openPage("qrc:/qml/pages/subpages/Operation.qml")
+        rootStack.currentItem.operation = "Открытие смены"
+        rootStack.currentItem.complite = true
+        rootStack.currentItem.resMsg = "Смена открыта"
+        isShiftOpened = true
+    }
+
+    function closeShift() {
+        console.log("[main.qml]\tclose shift ...")
+        drawer.close()
+        popupReset()
+        openPage("qrc:/qml/pages/subpages/Operation.qml")
+        rootStack.currentItem.operation = "Закрытие смены"
+        rootStack.currentItem.complite = true
+        rootStack.currentItem.resMsg = "Смена закрыта"
+        isShiftOpened = false
+    }
+    // ---
+    SaleComponents.MenuDrawer {
+        id: drawer
+        width: 0.776 * root.width
+        height: root.height
+        interactive: (toolBar.visible && (leftButton.action === openMenu))  
     }
 
     menuBar: ToolBar {
