@@ -58,10 +58,17 @@ Drawer {
                 id: menuItems
 
                 property var actions : {
+                    "Формирование чека": function() { rootStack.pop(null) },
+                    "Подключить ККТ": function() { root.openPage("qrc:/qml/pages/subpages/Connect2printer.qml") },
+                    "Отключить ККТ": function() { root.openDisconnectPrinterDialog() },
+                    "Отключить ККТ": function() { root.openDisconnectPrinterDialog() },
                     "Открыть смену": function() { root.openShiftDialog() },
                     "Закрыть смену": function() { root.closeShiftDialog() }
                 }
 
+                ListElement {item: "Формирование чека"}
+                ListElement {item: "Подключить ККТ"}
+                ListElement {item: "Отключить ККТ"}
                 ListElement {item: "Открыть смену"}
                 ListElement {item: "Закрыть смену"}
                 ListElement {item: "Example 1"}
@@ -78,7 +85,7 @@ Drawer {
             delegate: ItemDelegate {
                 id: menuItem
                 width: menuListView.width
-                height: 0.1 * menuListView.height
+                height: (item === "Открыть смену") ? 0 : 0.1 * menuListView.height
 
                 Text {
                     id: menuItemName

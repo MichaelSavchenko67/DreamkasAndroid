@@ -14,7 +14,8 @@ ApplicationWindow {
     height: 960
     visible: true
 
-    property bool isShiftOpened: true
+    property bool isPrinterConnected: false
+    property bool isShiftOpened: false
 
     Action {
         id: openMenu
@@ -64,6 +65,13 @@ ApplicationWindow {
         id: closeShift
         onTriggered: {
             root.closeShift()
+        }
+    }
+
+    Action {
+        id: disconnectPrinter
+        onTriggered: {
+            root.disconnectPrinter()
         }
     }
 
@@ -256,15 +264,27 @@ ApplicationWindow {
         root.popupOpen()
     }
 
+    function openDisconnectPrinterDialog() {
+        popupReset()
+        root.popupSetTitle("Отключение ККТ")
+        root.popupSetAddMsg("Вы уверены, что хотите отключить ККТ?")
+        root.popupSetFirstActionName("ОТКЛЮЧИТЬ ККТ")
+        root.popupSetFirstAction(disconnectPrinter)
+        root.popupSetSecondActionName("ОТМЕНА")
+        root.popupSetSecondAction(popupCancel)
+        root.popupSetClosePolicy(Popup.CloseOnPressOutside | Popup.CloseOnEscape)
+        root.popupOpen()
+    }
+
     function openShift() {
         console.log("[main.qml]\topen shift ...")
         drawer.close()
         popupReset()
-        openPage("qrc:/qml/pages/subpages/Operation.qml")
-        rootStack.currentItem.operation = "Открытие смены"
-        rootStack.currentItem.complite = true
-        rootStack.currentItem.resMsg = "Смена открыта"
-        isShiftOpened = true
+        openPage("qrc:/qml/pages/subpages/OpenShift.qml")
+//        rootStack.currentItem.operation = "Открытие смены"
+//        rootStack.currentItem.complite = true
+//        rootStack.currentItem.resMsg = "Смена открыта"
+//        isShiftOpened = true
     }
 
     function closeShift() {
@@ -276,6 +296,13 @@ ApplicationWindow {
         rootStack.currentItem.complite = true
         rootStack.currentItem.resMsg = "Смена закрыта"
         isShiftOpened = false
+    }
+
+    function disconnectPrinter() {
+        console.log("[main.qml]\tdisconnect printer ...")
+        drawer.close()
+        popupReset()
+        openPage("qrc:/qml/pages/subpages/DisconnectPrinter.qml")
     }
     // ---
     SaleComponents.MenuDrawer {

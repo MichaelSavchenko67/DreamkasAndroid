@@ -62,5 +62,11 @@
         <file>ico/menu/operation_success.png</file>
         <file>ico/menu/operation_failed.png</file>
         <file>qml/components/sale/PopupMain.qml</file>
+        <file>qml/pages/subpages/OpenShift.qml</file>
+        <file>qml/pages/subpages/Connect2printer.qml</file>
+        <file>qml/pages/subpages/ConnectPrinter.qml</file>
+        <file>qml/pages/subpages/DisconnectPrinter.qml</file>
+        <file>qml/pages/subpages/Connect2printerBanner.qml</file>
+        <file>img/sale/printer.png</file>
     </qresource>
 </RCC>

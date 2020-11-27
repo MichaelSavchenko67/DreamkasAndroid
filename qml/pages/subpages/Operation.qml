@@ -27,6 +27,7 @@ Page {
         running: true
         repeat: false
         onTriggered: {
+            console.log("Timer finish")
             loader.running = false
             finish = true
         }
@@ -67,6 +68,10 @@ Page {
             }
 
             Text {
+                onTextChanged: {
+                    console.log("onTextChanged : " + text)
+                }
+
                 id: operationMsg
                 width: parent.width
                 anchors {
@@ -74,7 +79,7 @@ Page {
                     topMargin: 0.25 * operationResImg.height
                     horizontalCenter: parent.horizontalCenter
                 }
-                text: qsTr(operation)
+                text: qsTr((operation === "undefined") ? " ": operation)
                 font {
                     pixelSize: 0.04 * operationPage.height
                     family: "Roboto"
@@ -136,7 +141,7 @@ Page {
                     top: operationResImg.bottom
                     topMargin: 0.25 * operationResImg.height
                 }
-                text: qsTr(resMsg)
+                text: qsTr((resMsg === "undefined") ? " ": resMsg)
                 font {
                     pixelSize: 0.04 * operationPage.height
                     family: "Roboto"

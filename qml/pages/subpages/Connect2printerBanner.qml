@@ -14,14 +14,14 @@ Page {
 
         Image {
             id: cashierImg
-            height: 0.4 * parent.height
-            width: 0.465 * height
+            width: 0.33 * parent.width
+            height: 0.93 * width
             anchors {
                 top: parent.top
-                topMargin: 0.33 * height
+                topMargin: height
                 horizontalCenter: parent.horizontalCenter
             }
-            source: "qrc:/img/sale/cashier.png"
+            source: "qrc:/img/sale/printer.png"
         }
 
         Text {
@@ -34,7 +34,7 @@ Page {
                 horizontalCenter: cashierImg.horizontalCenter
             }
 
-            text: qsTr("Открытие смены")
+            text: qsTr("Не подключена ККТ")
             font {
                 pixelSize: 0.8 * height
                 family: "Roboto"
@@ -58,7 +58,7 @@ Page {
                 horizontalCenter: title.horizontalCenter
             }
 
-            text: qsTr("Для продолжения работы вам\nнеобходимо открыть смену")
+            text: qsTr("Для продолжения работы вам\nнеобходимо подключить ККТ")
             font {
                 pixelSize: 0.56 * title.font.pixelSize
                 family: title.font.family
@@ -84,12 +84,15 @@ Page {
             }
             borderWidth: 0
             backRadius: 5
-            buttonTxt: qsTr("ОТКРЫТЬ СМЕНУ")
+            buttonTxt: qsTr("ПОДКЛЮЧИТЬ ККТ")
             fontSize: 0.33 * height
             buttonTxtColor: "white"
             pushUpColor: "#0064B4"
             pushDownColor: "#004075"
-            action: openShift
+
+            onClicked: {
+                openPage("qrc:/qml/pages/subpages/Connect2printer.qml")
+            }
         }
     }
 }
