@@ -14,7 +14,7 @@ ApplicationWindow {
     height: 960
     visible: true
 
-    property bool isPrinterConnected: false
+    property bool isPrinterConnected: true
     property bool isShiftOpened: false
 
     Action {

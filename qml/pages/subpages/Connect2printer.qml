@@ -30,7 +30,7 @@ Page {
 
         Label {
             id: title
-            text: "Устройство для подключения"
+            text: isPrinterConnected ? "Подключенное устройство" : "Устройство для подключения"
             font {
                 pixelSize: ip.font.pixelSize
                 family: "Roboto"
@@ -62,6 +62,7 @@ Page {
                 id: ip
                 width: 0.5 * parent.width
                 anchors.left: ipTitle.right
+                enabled: !isPrinterConnected
                 placeholderText: "___.___.___.___"
                 placeholderTextColor: "black"
                 font {
@@ -97,17 +98,22 @@ Page {
         anchors.horizontalCenter: parent.horizontalCenter
         width: 0.9 * parent.width
         height: 0.16 * width
-        enabled: ip.acceptableInput
+        enabled: isPrinterConnected || ip.acceptableInput
         borderWidth: 0
         backRadius: 5
-        buttonTxt: qsTr("ПОДКЛЮЧИТЬ")
+        buttonTxt: qsTr(isPrinterConnected ? "ОТКЛЮЧИТЬ" : "ПОДКЛЮЧИТЬ")
         fontSize: 0.27 * height
         buttonTxtColor: "white"
         pushUpColor: enabled ? "#0064B4" : "#BDC3C7"
         pushDownColor: "#004075"
         onClicked: {
-            console.log("[Connect2printer.qml]\tconnect to printer with ip: " + ip.displayText)
-            openPage("qrc:/qml/pages/subpages/ConnectPrinter.qml")
+            if (isPrinterConnected) {
+                console.log("[Connect2printer.qml]\tdisconnect printer with ip: " + ip.displayText)
+                root.openDisconnectPrinterDialog()
+            } else {
+                console.log("[Connect2printer.qml]\tconnect to printer with ip: " + ip.displayText)
+                openPage("qrc:/qml/pages/subpages/ConnectPrinter.qml")
+            }
         }
     }
 }
