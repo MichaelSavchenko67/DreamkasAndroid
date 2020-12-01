@@ -84,7 +84,7 @@ Drawer {
             delegate: ItemDelegate {
                 id: menuItem
                 width: menuListView.width
-                height: 0.1 * menuListView.height
+                height: (item === "Открыть смену") ? 0 : 0.1 * menuListView.height
 
                 Row {
                     anchors.fill: parent
@@ -95,7 +95,7 @@ Drawer {
                         id: statusIco
                         height: menuItemName.font.pixelSize
                         width: height
-                        visible: true
+                        visible: menuItemName.visible
                         anchors.verticalCenter: parent.verticalCenter
                         source: "qrc:/ico/menu/operation_success.png"
 
@@ -106,6 +106,7 @@ Drawer {
                         width: parent.width - statusIco.width
                         anchors.verticalCenter: parent.verticalCenter
                         text: qsTr(item)
+                        visible: (menuItem.height > 0)
                         font {
                             pixelSize: 0.83 * userName.font.pixelSize
                             family: "Roboto"
