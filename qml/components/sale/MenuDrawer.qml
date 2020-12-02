@@ -62,7 +62,8 @@ Drawer {
                     "Подключить ККТ": function() { root.openPage("qrc:/qml/pages/subpages/Connect2printer.qml") },
                     "Отключить ККТ": function() { root.openDisconnectPrinterDialog() },
                     "Открыть смену": function() { root.openShiftDialog() },
-                    "Закрыть смену": function() { root.closeShiftDialog() }
+                    "Закрыть смену": function() { root.closeShiftDialog() },
+                    "Кабинет Дримкас": function() { root.openPage("qrc:/qml/pages/subpages/CabinetConnection.qml") }
                 }
 
                 ListElement {item: "Формирование чека"}
@@ -70,6 +71,7 @@ Drawer {
                 ListElement {item: "Отключить ККТ"}
                 ListElement {item: "Открыть смену"}
                 ListElement {item: "Закрыть смену"}
+                ListElement {item: "Кабинет Дримкас"}
                 ListElement {item: "Example 1"}
                 ListElement {item: "Example 2"}
                 ListElement {item: "Example 3"}

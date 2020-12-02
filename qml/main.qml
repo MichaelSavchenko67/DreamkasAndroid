@@ -16,6 +16,7 @@ ApplicationWindow {
 
     property bool isPrinterConnected: true
     property bool isShiftOpened: false
+    property bool isCabinetEnable: false
 
     Action {
         id: openMenu

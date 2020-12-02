@@ -68,5 +68,11 @@
         <file>qml/pages/subpages/DisconnectPrinter.qml</file>
         <file>qml/pages/subpages/Connect2printerBanner.qml</file>
         <file>img/sale/printer.png</file>
+        <file>qml/pages/subpages/CabinetConnection.qml</file>
+        <file>qml/pages/subpages/Connect2Cabinet.qml</file>
+        <file>img/logo/cabinet_logo.png</file>
+        <file>qml/pages/subpages/CabinetCodeEnter.qml</file>
+        <file>qml/pages/subpages/CabinetConnectedBanner.qml</file>
+        <file>qml/pages/subpages/DisconnectCabinet.qml</file>
     </qresource>
 </RCC>
