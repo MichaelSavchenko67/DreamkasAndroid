@@ -19,7 +19,7 @@ Drawer {
                 anchors {
                     top: parent.top
                     left: parent.left
-                    leftMargin: 0.057 * parent.width
+                    leftMargin: 0.07 * parent.width
                     topMargin: 0.07 * parent.width
                 }
                 source: "qrc:/ico/menu/ico_short.png"
@@ -32,7 +32,7 @@ Drawer {
                 anchors {
                     bottom: parent.bottom
                     left: parent.left
-                    leftMargin: 0.057 * parent.width
+                    leftMargin: 0.07 * parent.width
                     bottomMargin: 0.07 * parent.width
                 }
                 text: qsTr("Савченко Михаил")
@@ -58,10 +58,16 @@ Drawer {
                 id: menuItems
 
                 property var actions : {
+                    "Формирование чека": function() { rootStack.pop(null) },
+                    "Подключить ККТ": function() { root.openPage("qrc:/qml/pages/subpages/Connect2printer.qml") },
+                    "Отключить ККТ": function() { root.openDisconnectPrinterDialog() },
                     "Открыть смену": function() { root.openShiftDialog() },
                     "Закрыть смену": function() { root.closeShiftDialog() }
                 }
 
+                ListElement {item: "Формирование чека"}
+                ListElement {item: "Подключить ККТ"}
+                ListElement {item: "Отключить ККТ"}
                 ListElement {item: "Открыть смену"}
                 ListElement {item: "Закрыть смену"}
                 ListElement {item: "Example 1"}
@@ -78,24 +84,41 @@ Drawer {
             delegate: ItemDelegate {
                 id: menuItem
                 width: menuListView.width
-                height: 0.1 * menuListView.height
+                height: (item === "Открыть смену") ? 0 : 0.1 * menuListView.height
 
-                Text {
-                    id: menuItemName
+                Row {
                     anchors.fill: parent
-                    text: qsTr(item)
-                    font {
-                        pixelSize: 0.83 * userName.font.pixelSize
-                        family: "Roboto"
-                        styleName: "normal"
-                        weight: Font.Normal
+                    spacing: (statusIco.visible ? 0.5 * (logo.anchors.leftMargin - statusIco.width) : logo.anchors.leftMargin)
+                    leftPadding: spacing
+
+                    Image {
+                        id: statusIco
+                        height: menuItemName.font.pixelSize
+                        width: height
+                        visible: menuItemName.visible
+                        anchors.verticalCenter: parent.verticalCenter
+                        source: "qrc:/ico/menu/operation_success.png"
+
                     }
-                    clip: true
-                    color: "black"
-                    elide: Text.ElideRight
-                    horizontalAlignment: Qt.AlignLeft
-                    verticalAlignment: Qt.AlignVCenter
-                    leftPadding: logo.anchors.leftMargin
+
+                    Text {
+                        id: menuItemName
+                        width: parent.width - statusIco.width
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: qsTr(item)
+                        visible: (menuItem.height > 0)
+                        font {
+                            pixelSize: 0.83 * userName.font.pixelSize
+                            family: "Roboto"
+                            styleName: "normal"
+                            weight: Font.Normal
+                        }
+                        clip: true
+                        color: "black"
+                        elide: Text.ElideRight
+                        horizontalAlignment: Qt.AlignLeft
+                        verticalAlignment: Qt.AlignVCenter
+                    }
                 }
                 onClicked: {
                     console.log("[MenuDrawer.qml]\t" + (index + 1) + ". "+ menuItemName.text)
@@ -107,7 +130,7 @@ Drawer {
             ScrollBar.vertical: ScrollBar {
                 id: scroll
                 policy: ScrollBar.AsNeeded
-                width: 5
+                width: 8
             }
         }
     }

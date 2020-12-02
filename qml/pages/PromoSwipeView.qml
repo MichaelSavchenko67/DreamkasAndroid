@@ -116,7 +116,7 @@ Page {
                             width: 0.5 * parent.width
                             height: 0.35 * width
                             borderWidth: 0
-                            backRadius: 8
+                            backRadius: 5
                             buttonTxt: qsTr("ПРОДОЛЖИТЬ")
                             fontSize: 0.33 * height
                             buttonTxtColor: "white"

@@ -174,7 +174,7 @@ Page {
                 width: 0.44 * fiscalPurchasePage.width
                 height: 0.4 * width
                 borderWidth: 0
-                backRadius: 8
+                backRadius: 5
                 buttonTxt: qsTr("Продолжить")
                 fontSize: 0.03 * fiscalPurchasePage.height
                 buttonTxtColor: "white"

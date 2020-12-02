@@ -12,6 +12,7 @@ Page {
 
     property bool isOpenShiftBannerEnable: !isShiftOpened
 
-    Subpages.OpenShiftBanner {id: openShiftBanner; visible: isOpenShiftBannerEnable}
-    Subpages.EnterCostChoose {visible: !openShiftBanner.visible}
+    Subpages.Connect2printerBanner {id: connect2printerBanner; visible: !root.isPrinterConnected}
+    Subpages.OpenShiftBanner {id: openShiftBanner; visible: (root.isPrinterConnected && isOpenShiftBannerEnable)}
+    Subpages.EnterCostChoose {visible: (root.isPrinterConnected && !isOpenShiftBannerEnable)}
 }
