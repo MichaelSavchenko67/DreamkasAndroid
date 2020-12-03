@@ -229,6 +229,9 @@ ApplicationWindow {
         popupSetTitle("")
         popupSetAddMsg("")
         popupSetLoader(false)
+        popup.isComplite = false
+        popup.success = false
+        popup.resMsg = ""
         popupSetFirstActionName("")
         popupSetSecondActionName("")
         popupSetFirstAction(null)

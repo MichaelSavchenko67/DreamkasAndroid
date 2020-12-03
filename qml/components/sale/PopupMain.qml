@@ -10,6 +10,9 @@ Popup {
     property var firsButtonName
     property var secondButtonName
     property bool isLoader: false
+    property bool isComplite: false
+    property bool success: false
+    property var resMsg
 
     function setFirstButtonAction(action) {
         fisrtButton.action = action
@@ -33,6 +36,7 @@ Popup {
         Column {
             width: 0.85 * parent.width
             height: 0.9 * parent.height
+            visible: !isComplite
             anchors.centerIn: parent
             spacing: 0.25 * msg.font.pixelSize
 
@@ -90,7 +94,7 @@ Popup {
         Row {
             width: 0.9 * parent.width
             height: 0.17 * parent.height
-            visible: !loader.visible
+            visible: !loader.visible && !compliteMsg.visible
             anchors {
                 bottom: popupFrame.bottom
                 bottomMargin: 0.183 * popupFrame.height
@@ -114,6 +118,48 @@ Popup {
                 visible: (txt !== "undefined") && (txt.length > 0)
                 anchors.right: fisrtButton.visible ? fisrtButton.left : parent.right
                 txt: secondButtonName
+            }
+        }
+
+        Column {
+            id: compliteMsg
+            width: 0.85 * parent.width
+            height: 0.9 * parent.height
+            visible: isComplite
+            anchors {
+                top: popupFrame.top
+                topMargin: 0.5 * resIco.height
+                horizontalCenter: parent.horizontalCenter
+            }
+            spacing: 0.5 * resIco.height
+
+            Image {
+                id: resIco
+                width: 0.22 * parent.width
+                height: width
+                anchors.horizontalCenter: parent.horizontalCenter
+                source: success ? "qrc:/ico/menu/operation_success.png" : "qrc:/ico/menu/operation_failed.png"
+            }
+
+            Text {
+                width: parent.width
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: qsTr((resMsg === "undefined") ? " ": resMsg)
+                font: msg.font
+                color: "black"
+                elide: Label.ElideRight
+                horizontalAlignment: Qt.AlignHCenter
+                verticalAlignment: Qt.AlignVCenter
+            }
+
+            Timer {
+                id: skipMsg
+                interval: 3000
+                running: isComplite
+                repeat: false
+                onTriggered: {
+                    root.popupReset()
+                }
             }
         }
     }
