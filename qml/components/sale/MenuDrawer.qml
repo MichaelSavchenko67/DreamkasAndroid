@@ -63,7 +63,8 @@ Drawer {
                     "Отключить ККТ": function() { root.openDisconnectPrinterDialog() },
                     "Открыть смену": function() { root.openShiftDialog() },
                     "Закрыть смену": function() { root.closeShiftDialog() },
-                    "Кабинет Дримкас": function() { root.openPage("qrc:/qml/pages/subpages/CabinetConnection.qml") }
+                    "Кабинет Дримкас": function() { root.openPage("qrc:/qml/pages/subpages/CabinetConnection.qml") },
+                    "X-отчёт": function() { root.openXReportDialog() }
                 }
 
                 ListElement {item: "Формирование чека"}
@@ -72,7 +73,7 @@ Drawer {
                 ListElement {item: "Открыть смену"}
                 ListElement {item: "Закрыть смену"}
                 ListElement {item: "Кабинет Дримкас"}
-                ListElement {item: "Example 1"}
+                ListElement {item: "X-отчёт"}
                 ListElement {item: "Example 2"}
                 ListElement {item: "Example 3"}
                 ListElement {item: "Example 4"}

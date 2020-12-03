@@ -1,5 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.3
+import QtQuick.Controls.Material 2.12
 
 import "qrc:/qml/components/sale" as SaleComponents
 
@@ -8,6 +9,7 @@ Popup {
     property var addMsg
     property var firsButtonName
     property var secondButtonName
+    property bool isLoader: false
 
     function setFirstButtonAction(action) {
         fisrtButton.action = action
@@ -57,6 +59,7 @@ Popup {
                 id: msg
                 width: title.width
                 height: 0.4 * parent.height
+                visible: !loader.visible
                 clip: title.clip
                 text: (addMsg !== "undefined") ? qsTr(addMsg) : ""
                 font {
@@ -72,11 +75,22 @@ Popup {
                 horizontalAlignment: title.horizontalAlignment
                 verticalAlignment: Qt.AlignTop
             }
+
+            BusyIndicator {
+                id: loader
+                anchors.horizontalCenter: parent.horizontalCenter
+                implicitWidth: 0.1 * popupFrame.width
+                implicitHeight: implicitWidth
+                visible: isLoader
+                running: true
+                Material.accent: "green"
+            }
         }
 
         Row {
             width: 0.9 * parent.width
             height: 0.17 * parent.height
+            visible: !loader.visible
             anchors {
                 bottom: popupFrame.bottom
                 bottomMargin: 0.183 * popupFrame.height
