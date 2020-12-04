@@ -16,6 +16,7 @@ ApplicationWindow {
 
     property bool isPrinterConnected: true
     property bool isShiftOpened: false
+    property bool isCabinetEnable: false
 
     Action {
         id: openMenu
@@ -79,6 +80,13 @@ ApplicationWindow {
         id: popupCancel
         onTriggered: {
             root.popupClose()
+        }
+    }
+
+    Action {
+        id: printXReport
+        onTriggered: {
+            popupSetLoader(true)
         }
     }
 
@@ -211,10 +219,19 @@ ApplicationWindow {
         popup.closePolicy = closePolicy
     }
 
+    function popupSetLoader(isloader) {
+        popupSetClosePolicy(Popup.NoAutoClose)
+        popup.isLoader = isloader
+    }
+
     function popupReset() {
         popupClose()
         popupSetTitle("")
         popupSetAddMsg("")
+        popupSetLoader(false)
+        popup.isComplite = false
+        popup.success = false
+        popup.resMsg = ""
         popupSetFirstActionName("")
         popupSetSecondActionName("")
         popupSetFirstAction(null)
@@ -260,6 +277,18 @@ ApplicationWindow {
             root.popupSetSecondAction(popupCancel)
         }
 
+        root.popupSetClosePolicy(Popup.CloseOnPressOutside | Popup.CloseOnEscape)
+        root.popupOpen()
+    }
+
+    function openXReportDialog() {
+        popupReset()
+        root.popupSetTitle("Печать X-отчёта")
+        root.popupSetAddMsg("Вы уверены, что хотите распечатать X-отчёт?")
+        root.popupSetFirstActionName("ПЕЧАТЬ")
+        root.popupSetFirstAction(printXReport)
+        root.popupSetSecondActionName("ОТМЕНА")
+        root.popupSetSecondAction(popupCancel)
         root.popupSetClosePolicy(Popup.CloseOnPressOutside | Popup.CloseOnEscape)
         root.popupOpen()
     }
