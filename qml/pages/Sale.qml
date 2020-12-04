@@ -18,7 +18,7 @@ Page {
             setRightMenuButtonVisible(true)
             clearContextMenu()
             enterCost.isOpenShiftBannerEnable = !isShiftOpened
-            popupTimer.running = isShiftOpened
+//            popupTimer.running = isShiftOpened
         }
     }
 

@@ -19,7 +19,7 @@ Drawer {
                 anchors {
                     top: parent.top
                     left: parent.left
-                    leftMargin: 0.07 * parent.width
+                    leftMargin: 0.08 * parent.width
                     topMargin: 0.07 * parent.width
                 }
                 source: "qrc:/ico/menu/ico_short.png"
@@ -32,7 +32,7 @@ Drawer {
                 anchors {
                     bottom: parent.bottom
                     left: parent.left
-                    leftMargin: 0.07 * parent.width
+                    leftMargin: 0.08 * parent.width
                     bottomMargin: 0.07 * parent.width
                 }
                 text: qsTr("Савченко Михаил")

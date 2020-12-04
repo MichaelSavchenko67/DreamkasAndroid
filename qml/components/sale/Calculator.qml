@@ -11,10 +11,17 @@ import "qrc:/content/calculator.js" as CalcEngine
 
 Rectangle {
     id: calculatorPage
-    anchors.horizontalCenter: parent.horizontalCenter
+    width: parent.width
+    height: 0.7 * parent.height
+    anchors {
+        top: parent.top
+        horizontalCenter: parent.horizontalCenter
+    }
+
+    color: "#00FFFFFF"
+
     property string formulaStr
     property string formulaTotal: CalcEngine.getRes(/*formulaStr*/)
-
 
     signal add2purchase()
 
@@ -36,78 +43,164 @@ Rectangle {
         formulaTotal = CalcEngine.getRes()
     }
 
-    ScrollView {
-        id: formulaView
-        width: parent.width
-        height: 0.32 * parent.height
-        anchors.top: parent.top
-        clip: true
-
-        ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-        ScrollBar.vertical.policy: ScrollBar.AsNeeded
-
-        contentWidth: width
-        contentData: Text {
-            id: formula
-            width: formulaView.width
-            height: formulaView.height
-            font.pixelSize: 0.3 * formulaView.height
-            text: formulaStr + "\n= " + formulaTotal + "  \u20BD"
-            horizontalAlignment: Text.AlignRight
-            wrapMode: Text.WrapAnywhere
+    Column {
+        anchors.fill: parent
+        spacing: 0.06 * height
+        anchors {
+            top: parent.top
+            topMargin: 0.06 * height
+            horizontalCenter: parent.horizontalCenter
         }
-    }
 
-    Rectangle {
-        width: parent.width
-        height: parent.height
-        anchors.top: formulaView.bottom
-        border.color: "#c2c2c2"
-        border.width: 1
-        color: "#f2f2f2"
+        Rectangle {
+            id: calcMsgRec
+            width: 0.918 * parent.width
+            height: 0.23 * width
+            anchors.horizontalCenter: parent.horizontalCenter
+            color: calculatorPage.color
+            border {
+                color: "#C4C4C4"
+                width: 1
+            }
+            radius: 7
 
-        GridLayout {
-           id: calculatorButtonsGrid
-           width: parent.width - 2 * parent.border.width
-           height: parent.height - 2 * parent.border.width
-           anchors.centerIn: parent
-           columnSpacing: 0
-           rowSpacing: 0
+            ScrollView {
+                id: formulaView
+                width: parent.width
+                anchors.verticalCenter: parent.verticalCenter
+                visible: (formulaStr.length > 0)
 
-           SaleComponents.ButtonClc {btnX: 1; btnY: 1; txt: "7"}
-           SaleComponents.ButtonClc {btnX: 2; btnY: 1; txt: "8"}
-           SaleComponents.ButtonClc {btnX: 3; btnY: 1; txt: "9"}
-           SaleComponents.ButtonClc {btnX: 4; btnY: 1; txt: "backspace"; txtVisible: false; operator: true;
-                                     enabled: (formulaStr.length > 0)
-                                     ico: enabled ? "qrc:/ico/calculator/del_en.png" : "qrc:/ico/calculator/del_dis.png"
-                                     icoSize: 0.9 * width}
+                clip: true
+                ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+                ScrollBar.vertical.policy: ScrollBar.AsNeeded
 
-           SaleComponents.ButtonClc {btnX: 1; btnY: 2; txt: "4"}
-           SaleComponents.ButtonClc {btnX: 2; btnY: 2; txt: "5"}
-           SaleComponents.ButtonClc {btnX: 3; btnY: 2; txt: "6"}
-           SaleComponents.ButtonClc {btnX: 4; btnY: 2; txt: "*"; txtVisible: false; operator: true;
-                                     ico: "qrc:/ico/calculator/+.png"; icoRotation: 45
-                                     icoSize: 0.2 * width}
+                contentWidth: width
+                contentData: Text {
+                    id: formula
+                    width: formulaView.width
+                    height: formulaView.height
+                    font: positionName.font
+                    text: formulaStr + "\n= " + formulaTotal + "  \u20BD"
+                    horizontalAlignment: Text.AlignRight
+                    wrapMode: Text.WrapAnywhere
+                    lineHeight: 1.5
+                    leftPadding: font.pixelSize
+                    rightPadding: font.pixelSize
+                    topPadding: font.pixelSize
+                    bottomPadding: font.pixelSize
+                }
+            }
 
-           SaleComponents.ButtonClc {btnX: 1; btnY: 3; txt: "1"}
-           SaleComponents.ButtonClc {btnX: 2; btnY: 3; txt: "2"}
-           SaleComponents.ButtonClc {btnX: 3; btnY: 3; txt: "3"}
-           SaleComponents.ButtonClc {btnX: 4; btnY: 3; txt: "+"; txtVisible: false; operator: true;
-                                     ico: "qrc:/ico/calculator/+.png"
-                                     icoSize: 0.2 * width}
+            Row {
+                anchors.fill: parent
+                visible: !formulaView.visible
 
-           SaleComponents.ButtonClc {btnX: 1; btnY: 4; txt: "0"}
-           SaleComponents.ButtonClc {btnX: 2; btnY: 4; txt: ","}
-           SaleComponents.ButtonClc {
-               id: add2purchase
-               btnX: 3; btnY: 4; txt: "add2purchase"; txtVisible: false; btnW: 2; operator: true;
-               enabled: formulaTotal != "0,00"
-               ico: enabled ? "qrc:/ico/calculator/add2purchaseEn.png" : "qrc:/ico/calculator/add2purchaseDis.png";
-               icoSize: 0.9 * width
-               onClicked: {
-                   calculatorPage.add2purchase()
+                Text {
+                    id: positionName
+                    text: qsTr("Товар по свободной цене")
+                    font {
+                        pixelSize: 0.211 * parent.height
+                        family: "Roboto"
+                        styleName: "normal"
+                        weight: Font.DemiBold
+                    }
+                    width: 0.5 * parent.width - font.pixelSize
+                    clip: true
+                    color: "black"
+                    elide: Text.ElideRight
+                    maximumLineCount: 4
+                    wrapMode: Text.WordWrap
+                    lineHeight: 1.5
+                    horizontalAlignment: Qt.AlignLeft
+                    verticalAlignment: Qt.AlignVCenter
+                    anchors {
+                        left: parent.left
+                        leftMargin: font.pixelSize
+                        verticalCenter: parent.verticalCenter
+                    }
+                }
+
+                Text {
+                    id: positionQtyCost
+                    width: positionName.width
+                    text: qsTr("1" + " x " + openPurchase.total + "  \u20BD\n= " + openPurchase.total + "  \u20BD")
+                    visible: (openPurchase.total != "0,00")
+                    font {
+                        pixelSize: positionName.font.pixelSize
+                        family: positionName.font.family
+                        styleName: positionName.font.styleName
+                        weight: positionName.font.weight
+                    }
+                    lineHeight: 1.5
+                    clip: true
+                    color: positionName.color
+                    elide: Text.ElideLeft
+                    wrapMode: Text.WordWrap
+                    maximumLineCount: 4
+                    horizontalAlignment: Qt.AlignRight
+                    verticalAlignment: Qt.AlignVCenter
+                    anchors {
+                        right: parent.right
+                        rightMargin: positionName.font.pixelSize
+                        verticalCenter: positionName.verticalCenter
+                        bottomMargin: 0.265 * parent.height
+                    }
+                }
+            }
+        }
+
+        Rectangle {
+            id: calcKeyboard
+            width: calcMsgRec.width
+            height: 0.81 * width
+            anchors.horizontalCenter: parent.horizontalCenter
+            border.color: "#C4C4C4"
+            border.width: 1
+            color: "#f2f2f2"
+
+            GridLayout {
+               id: calculatorButtonsGrid
+               width: parent.width - 2 * parent.border.width
+               height: parent.height - 2 * parent.border.width
+               anchors.centerIn: parent
+               columnSpacing: 0
+               rowSpacing: 0
+
+               SaleComponents.ButtonClc {btnX: 1; btnY: 1; txt: "7"}
+               SaleComponents.ButtonClc {btnX: 2; btnY: 1; txt: "8"}
+               SaleComponents.ButtonClc {btnX: 3; btnY: 1; txt: "9"}
+               SaleComponents.ButtonClc {btnX: 4; btnY: 1; txt: "backspace"; txtVisible: false; operator: true;
+                                         enabled: (formulaStr.length > 0)
+                                         ico: enabled ? "qrc:/ico/calculator/del_en.png" : "qrc:/ico/calculator/del_dis.png"
+                                         icoSize: 0.9 * width}
+
+               SaleComponents.ButtonClc {btnX: 1; btnY: 2; txt: "4"}
+               SaleComponents.ButtonClc {btnX: 2; btnY: 2; txt: "5"}
+               SaleComponents.ButtonClc {btnX: 3; btnY: 2; txt: "6"}
+               SaleComponents.ButtonClc {btnX: 4; btnY: 2; txt: "*"; txtVisible: false; operator: true;
+                                         ico: "qrc:/ico/calculator/+.png"; icoRotation: 45
+                                         icoSize: 0.2 * width}
+
+               SaleComponents.ButtonClc {btnX: 1; btnY: 3; txt: "1"}
+               SaleComponents.ButtonClc {btnX: 2; btnY: 3; txt: "2"}
+               SaleComponents.ButtonClc {btnX: 3; btnY: 3; txt: "3"}
+               SaleComponents.ButtonClc {btnX: 4; btnY: 3; txt: "+"; txtVisible: false; operator: true;
+                                         ico: "qrc:/ico/calculator/+.png"
+                                         icoSize: 0.2 * width}
+
+               SaleComponents.ButtonClc {btnX: 1; btnY: 4; txt: "0"}
+               SaleComponents.ButtonClc {btnX: 2; btnY: 4; txt: ","}
+               SaleComponents.ButtonClc {
+                   id: add2purchase
+                   btnX: 3; btnY: 4; txt: "add2purchase"; txtVisible: false; btnW: 2; operator: true;
+                   enabled: formulaTotal != "0,00"
+                   ico: enabled ? "qrc:/ico/calculator/add2purchaseEn.png" : "qrc:/ico/calculator/add2purchaseDis.png";
+                   icoSize: 0.9 * width
+                   onClicked: {
+                       calculatorPage.add2purchase()
+                   }
                }
-           }
+            }
         }
     }
 }

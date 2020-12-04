@@ -15,7 +15,7 @@ ApplicationWindow {
     visible: true
 
     property bool isPrinterConnected: true
-    property bool isShiftOpened: false
+    property bool isShiftOpened: true
     property bool isCabinetEnable: false
 
     Action {
@@ -59,6 +59,7 @@ ApplicationWindow {
         id: openShift
         onTriggered: {
             root.openShift()
+            isShiftOpened = true
         }
     }
 
@@ -66,6 +67,7 @@ ApplicationWindow {
         id: closeShift
         onTriggered: {
             root.closeShift()
+            isShiftOpened = false
         }
     }
 
