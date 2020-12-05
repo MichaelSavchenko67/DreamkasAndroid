@@ -18,7 +18,7 @@ Page {
             setRightMenuButtonVisible(true)
             clearContextMenu()
             enterCost.isOpenShiftBannerEnable = !isShiftOpened
-            popupTimer.running = isShiftOpened
+//            popupTimer.running = isShiftOpened
         }
     }
 
@@ -69,9 +69,7 @@ Page {
         }
 
         background: Rectangle {
-            anchors.fill: parent
             color: "#4DA13F"
-
             DropShadow {
                 visible: true
                 anchors.fill: parent

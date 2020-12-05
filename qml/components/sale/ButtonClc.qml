@@ -34,15 +34,20 @@ Button {
         text: txt
         anchors.centerIn: parent
         visible: txtVisible
-        font.pixelSize: 0.45 * parent.height
-        font.bold: true
+        font {
+            family: "Roboto"
+            pixelSize: 0.355 * parent.height
+            styleName: "normal"
+            weight: Font.Bold
+            bold: true
+        }
     }
 
     flat: true
 
     background: Rectangle {
         anchors.fill: parent
-        border.color: "#c2c2c2"
+        border.color: "#C4C4C4"
         border.width: 1
         color: parent.down ? colorDown : colorUp
 

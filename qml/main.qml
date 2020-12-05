@@ -15,7 +15,7 @@ ApplicationWindow {
     visible: true
 
     property bool isPrinterConnected: true
-    property bool isShiftOpened: false
+    property bool isShiftOpened: true
     property bool isCabinetEnable: false
 
     Action {
@@ -59,6 +59,7 @@ ApplicationWindow {
         id: openShift
         onTriggered: {
             root.openShift()
+            isShiftOpened = true
         }
     }
 
@@ -66,6 +67,7 @@ ApplicationWindow {
         id: closeShift
         onTriggered: {
             root.closeShift()
+            isShiftOpened = false
         }
     }
 
@@ -102,6 +104,11 @@ ApplicationWindow {
 
     SaleComponents.PopupMain {
         id: popup
+    }
+
+    SaleComponents.PopupSale {
+        id: popupSale
+        closePolicy: Popup.NoAutoClose
     }
 
     function setMainPageTitle(title) {
@@ -304,7 +311,49 @@ ApplicationWindow {
         root.popupSetClosePolicy(Popup.CloseOnPressOutside | Popup.CloseOnEscape)
         root.popupOpen()
     }
+    // SALE POPUP
+    function popupSaleOpen() {
+        popupSale.open()
+    }
 
+    function popupSaleClose() {
+        popupSale.close()
+    }
+
+    function popupSaleSetTitle(titleStr) {
+        popupSale.titleStr = titleStr
+    }
+
+    function popupSaleSetSubTitle(subTitleStr) {
+        popupSale.subTitleStr = subTitleStr
+    }
+
+    function popupSaleSetSubscription(subscriptionStr) {
+        popupSale.subscriptionStr = subscriptionStr
+    }
+
+    function popupSaleReset() {
+        popupSaleClose()
+        popupSaleSetTitle("")
+        popupSaleSetSubTitle("")
+        popupSaleSetSubscription("")
+        popupSale.isEnterQuantity = false
+    }
+
+    function openEnterCostDialog(goodsName, measure, subscription) {
+        popupSaleReset()
+        popupSaleSetTitle(goodsName)
+        popupSaleSetSubTitle(measure)
+        popupSaleSetSubscription(subscription)
+        popupSaleOpen()
+    }
+
+    function openEnterAmountDialog(goodsName, measure, subscription) {
+        openEnterCostDialog(goodsName, measure, subscription)
+        popupSale.isEnterQuantity = true
+    }
+
+    //
     function openShift() {
         console.log("[main.qml]\topen shift ...")
         drawer.close()

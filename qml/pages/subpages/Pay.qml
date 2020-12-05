@@ -27,6 +27,7 @@ Page {
     property var purchaseTotal: "0,00"
     property var excessTotal: "0,00"
     property var deliveryTotal: "0,00"
+    property bool cashPay: true
 
     contentData: Item {
         id: content
@@ -97,7 +98,7 @@ Page {
                         Button {
                             id: enterSumFieldButton
                             anchors.fill: parent
-                            enabled: cash.checked
+                            enabled: cashPay
                             background: Item {}
                             onClicked: {
                                 enterSumField.focus = true
@@ -111,8 +112,8 @@ Page {
                         height: parent.height
                         text: purchaseTotal
                         visible: false
-                        enabled: cash.checked
-                        focus: true
+                        enabled: cashPay
+                        focus: cashPay
                         inputMethodHints: Qt.ImhFormattedNumbersOnly
                         validator: RegExpValidator { regExp: /[0-9]{1,},[0-9]{1,2}/ }
 
@@ -131,7 +132,7 @@ Page {
                         }
 
                         onEnabledChanged: {
-                            if (!enabled && cashless.checked) {
+                            if (!enabled && !cashPay) {
                                 displayText = purchaseTotal
                                 enterPaymentSum.text = purchaseTotal + " \u20BD"
                             }
@@ -166,7 +167,7 @@ Page {
                     Text {
                         width: parent.width
                         height: total.height - deliveryTitle.height
-                        text: (cash.checked ? qsTr(CalcEngine.formatResult(payPage.deliveryTotal)) : "0,00") + " \u20BD"
+                        text: (cashPay ? qsTr(CalcEngine.formatResult(payPage.deliveryTotal)) : "0,00") + " \u20BD"
                         font {
                             pixelSize: 0.8 * height
                             family: "Roboto"
@@ -212,7 +213,7 @@ Page {
                     id: excessSum
                     width: parent.width
                     height: excess.height - excessTitle.height
-                    text: (cash.checked ? qsTr(CalcEngine.formatResult(excessTotal)) : "0,00") + " \u20BD"
+                    text: (cashPay ? qsTr(CalcEngine.formatResult(excessTotal)) : "0,00") + " \u20BD"
                     font {
                         pixelSize: 0.8 * height
                         family: "Roboto"
@@ -314,104 +315,9 @@ Page {
                 topMargin: 0.5 * totalSumMsg.height
             }
 
-            Text {
-                id: payTypesTitle
-                width: parent.width
-                height: 0.3 * parent.height
-                Layout.alignment: Qt.AlignLeft | Qt.AlignTop
-                text: qsTr("Выберете способ оплаты:")
-                font: totalTitle.font
-                clip: true
-                color: "black"
-                horizontalAlignment: Qt.AlignLeft
-                verticalAlignment: Qt.AlignVCenter
-            }
-
             Row {
                 width: parent.width
                 height: parent.height - payTypesTitle.height
-
-                Rectangle {
-                    id: payTypes
-                    width: 0.5 * parent.width
-                    height: parent.height
-                    border.width: 0
-                    anchors {
-                        left: parent.left
-                        verticalCenter: parent.verticalCenter
-                    }
-
-                    RadioButton {
-                        id: cash
-                        checked: true
-                        anchors.top: parent.top
-                        text: qsTr("Наличные")
-                        font {
-                            pixelSize: totalTitle.font.pixelSize
-                            family: "Roboto"
-                            styleName: "normal"
-                            weight: Font.DemiBold
-                            bold: true
-                        }
-
-                        onCheckedChanged: {
-                            if (checked) {
-                                excessTotal = "0,00"
-                                deliveryTotal = "0,00"
-                                enterSumFieldButton.clicked()
-                            } else {
-                                enterPaymentSum.text = purchaseTotal + " \u20BD"
-                                enterSumField.text = purchaseTotal
-                                excessTotal = "0,00"
-                                deliveryTotal = "0,00"
-                            }
-                        }
-
-                        indicator: Rectangle {
-                            implicitWidth: 26
-                            implicitHeight: 26
-                            x: cash.leftPadding
-                            y: parent.height / 2 - height / 2
-                            radius: 13
-                            border.color: cash.down ? "#17a81a" : "#21be2b"
-
-                            Rectangle {
-                                width: 14
-                                height: 14
-                                x: 6
-                                y: 6
-                                radius: 7
-                                color: cash.down ? "#17a81a" : "#21be2b"
-                                visible: cash.checked
-                            }
-                        }
-                    }
-
-                    RadioButton {
-                        id: cashless
-                        anchors.top: cash.bottom
-                        text: qsTr("Безнал")
-                        font: cash.font
-                        indicator: Rectangle {
-                            implicitWidth: 26
-                            implicitHeight: 26
-                            x: cashless.leftPadding
-                            y: parent.height / 2 - height / 2
-                            radius: 13
-                            border.color: cashless.down ? "#17a81a" : "#21be2b"
-
-                            Rectangle {
-                                width: 14
-                                height: 14
-                                x: 6
-                                y: 6
-                                radius: 7
-                                color: cashless.down ? "#17a81a" : "#21be2b"
-                                visible: cashless.checked
-                            }
-                        }
-                    }
-                }
 
                 Rectangle {
                     width: 0.2 * content.width
@@ -427,12 +333,12 @@ Page {
                         id: payButton
                         buttonWidth: parent.width
                         anchors.fill: parent
-                        enabled: cashless.checked ? true : (payPage.excessTotal === "0,00")
+                        enabled: !cashPay ? true : (payPage.excessTotal === "0,00")
                         enabledIcon: "qrc:/ico/menu/circle_en_violet.png"
                         onClicked: {
                             openPage("qrc:/qml/pages/subpages/FiscalPurchase.qml")
-                            rootStack.currentItem.isCashPay = cash.checked
-                            if (cash.checked) {
+                            rootStack.currentItem.isCashPay = cashPay
+                            if (cashPay) {
                                 rootStack.currentItem.paymentSum = CalcEngine.formatResult(enterSumField.displayText)
                                 rootStack.currentItem.delivery = CalcEngine.formatResult(payPage.deliveryTotal)
                             } else {

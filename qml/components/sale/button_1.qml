@@ -31,13 +31,13 @@ Button {
         Text {
             id: txt
             text: buttonTxt
-            anchors {
-                verticalCenter: parent.verticalCenter
-                centerIn: parent
-            }
+            anchors.fill: parent
+            elide: Text.ElideRight
+            maximumLineCount: 3
+            wrapMode: Text.WordWrap
             horizontalAlignment: TextInput.AlignHCenter
             verticalAlignment: TextInput.AlignVCenter
-            color: buttonTxtColor
+            color: enabled ? buttonTxtColor : "#595959"
             font {
                 pixelSize: fontSize
                 weight: Font.DemiBold
@@ -48,7 +48,7 @@ Button {
 
     background: Rectangle {
         id: rect
-        color: parent.down ? pushDownColor : pushUpColor
+        color: enabled ? (parent.down ? pushDownColor : pushUpColor) : "#C2C2C2"
         border.color: "#c4c4c4"
         border.width: borderWidth
         radius: backRadius

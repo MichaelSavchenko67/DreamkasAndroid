@@ -74,5 +74,7 @@
         <file>qml/pages/subpages/CabinetCodeEnter.qml</file>
         <file>qml/pages/subpages/CabinetConnectedBanner.qml</file>
         <file>qml/pages/subpages/DisconnectCabinet.qml</file>
+        <file>qml/components/sale/PopupSale.qml</file>
+        <file>qml/components/sale/FooterMain.qml</file>
     </qresource>
 </RCC>
