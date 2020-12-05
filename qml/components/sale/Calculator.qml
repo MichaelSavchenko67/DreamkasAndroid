@@ -13,15 +13,20 @@ Rectangle {
     id: calculatorPage
     width: parent.width
     height: 0.7 * parent.height
-    anchors {
-        top: parent.top
-        horizontalCenter: parent.horizontalCenter
-    }
+    anchors.horizontalCenter: parent.horizontalCenter
 
     color: "#00FFFFFF"
 
     property string formulaStr
-    property string formulaTotal: CalcEngine.getRes(/*formulaStr*/)
+    property string formulaTotal: CalcEngine.getRes()
+
+    property bool saleDisplay: true
+    property bool fullKeyboard: true
+
+    property var enterCostTitle: "Яблоки красные"
+    property var enterCostSubTitle: "Цена, \u20BD/кг"
+    property var enterCostSubscription: "Неправильное значение, введите снова"
+    property bool enterQuantity: false
 
     signal add2purchase()
 
@@ -41,6 +46,24 @@ Rectangle {
         CalcEngine.reset()
         formulaStr = ""
         formulaTotal = CalcEngine.getRes()
+        fullDisplayReset()
+    }
+
+    function fullDisplayInit(enterTitle, enterSubTitle, enterSubscription) {
+        enterCostTitle = enterTitle
+        enterCostSubTitle = enterSubTitle
+        enterCostSubscription = enterSubscription
+        saleDisplay = false
+        fullKeyboard = false
+    }
+
+    function fullDisplayReset() {
+        saleDisplay = true
+        fullKeyboard = true
+        enterQuantity = false
+        enterCostTitle = ""
+        enterCostSubTitle = ""
+        enterCostSubscription = ""
     }
 
     Column {
@@ -57,6 +80,7 @@ Rectangle {
             width: 0.918 * parent.width
             height: 0.23 * width
             anchors.horizontalCenter: parent.horizontalCenter
+            visible: saleDisplay
             color: calculatorPage.color
             border {
                 color: "#C4C4C4"
@@ -67,6 +91,7 @@ Rectangle {
             ScrollView {
                 id: formulaView
                 width: parent.width
+                height: parent.height
                 anchors.verticalCenter: parent.verticalCenter
                 visible: (formulaStr.length > 0)
 
@@ -82,6 +107,7 @@ Rectangle {
                     font: positionName.font
                     text: formulaStr + "\n= " + formulaTotal + "  \u20BD"
                     horizontalAlignment: Text.AlignRight
+                    verticalAlignment: Qt.AlignVCenter
                     wrapMode: Text.WrapAnywhere
                     lineHeight: 1.5
                     leftPadding: font.pixelSize
@@ -120,49 +146,133 @@ Rectangle {
                     }
                 }
 
-                Text {
+                ScrollView {
                     id: positionQtyCost
                     width: positionName.width
-                    text: qsTr("1" + " x " + openPurchase.total + "  \u20BD\n= " + openPurchase.total + "  \u20BD")
-                    visible: (openPurchase.total != "0,00")
-                    font {
-                        pixelSize: positionName.font.pixelSize
-                        family: positionName.font.family
-                        styleName: positionName.font.styleName
-                        weight: positionName.font.weight
-                    }
-                    lineHeight: 1.5
-                    clip: true
-                    color: positionName.color
-                    elide: Text.ElideLeft
-                    wrapMode: Text.WordWrap
-                    maximumLineCount: 4
-                    horizontalAlignment: Qt.AlignRight
-                    verticalAlignment: Qt.AlignVCenter
+                    height: positionName.height
                     anchors {
+                        verticalCenter: parent.verticalCenter
                         right: parent.right
-                        rightMargin: positionName.font.pixelSize
-                        verticalCenter: positionName.verticalCenter
-                        bottomMargin: 0.265 * parent.height
+                    }
+                    visible: (openPurchase.total != "0,00")
+                    clip: true
+                    ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+                    ScrollBar.vertical.policy: ScrollBar.AsNeeded
+
+                    contentWidth: width
+                    contentData: Text {
+                        width: positionQtyCost.width
+                        height: positionQtyCost.height
+                        font: positionName.font
+                        text: qsTr("1" + " x " + openPurchase.total + "  \u20BD\n= " + openPurchase.total + "  \u20BD")
+                        horizontalAlignment: Text.AlignRight
+                        verticalAlignment: Qt.AlignVCenter
+                        wrapMode: Text.WrapAnywhere
+                        lineHeight: 1.5
+                        leftPadding: font.pixelSize
+                        rightPadding: font.pixelSize
+                        topPadding: font.pixelSize
+                        bottomPadding: font.pixelSize
                     }
                 }
             }
         }
 
         Rectangle {
-            id: calcKeyboard
+            visible: !calcMsgRec.visible
+            width: 0.918 * parent.width
+            height: 0.43 * keyboardFull.height
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            Column {
+                id: fullDisplayFrame
+                anchors.fill: parent
+                spacing: 0.1 * height
+
+                Text {
+                    id: titleStr
+                    text: qsTr(enterCostTitle)
+                    font {
+                        pixelSize: 0.18 * parent.height
+                        family: "Roboto"
+                        styleName: "normal"
+                        weight: Font.Bold
+                        bold: true
+                    }
+                    width: parent.width
+                    clip: true
+                    color: "black"
+                    elide: Text.ElideRight
+                    topPadding: 0.5 * font.pixelSize
+                    leftPadding: topPadding
+                    horizontalAlignment: Qt.AlignLeft
+                    verticalAlignment: Qt.AlignVCenter
+                }
+
+                Text {
+                    id: subtitleStr
+                    text: qsTr(enterCostSubTitle)
+                    font {
+                        pixelSize: 0.7 * titleStr.font.pixelSize
+                        family: "Roboto"
+                        styleName: "normal"
+                        weight: Font.Normal
+                    }
+                    width: parent.width
+                    clip: true
+                    color: "black"
+                    elide: Text.ElideRight
+                    rightPadding: 0.5 * font.pixelSize
+                    horizontalAlignment: Qt.AlignRight
+                    verticalAlignment: Qt.AlignVCenter
+                }
+
+                Text {
+                    text: qsTr(enterQuantity ? formulaStr : (formulaTotal + "  \u20BD"))
+                    font {
+                        pixelSize: 0.18 * parent.height
+                        family: "Roboto"
+                        styleName: "normal"
+                        weight: Font.Normal
+                    }
+                    width: parent.width
+                    clip: true
+                    color: "black"
+                    elide: Text.ElideRight
+                    rightPadding: 0.5 * font.pixelSize
+                    horizontalAlignment: Qt.AlignRight
+                    verticalAlignment: Qt.AlignVCenter
+                }
+
+                Text {
+                    id: subscriptionStr
+                    text: qsTr(enterCostSubscription)
+                    font: subtitleStr.font
+                    width: parent.width
+                    clip: true
+                    color: "red"
+                    elide: Text.ElideRight
+                    rightPadding: 0.5 * font.pixelSize
+                    horizontalAlignment: Qt.AlignRight
+                    verticalAlignment: Qt.AlignVCenter
+                }
+            }
+        }
+
+        Rectangle {
             width: calcMsgRec.width
             height: 0.81 * width
             anchors.horizontalCenter: parent.horizontalCenter
             border.color: "#C4C4C4"
-            border.width: 1
+            border.width: 0
             color: "#f2f2f2"
 
             GridLayout {
-               id: calculatorButtonsGrid
+               id: keyboardFull
                width: parent.width - 2 * parent.border.width
                height: parent.height - 2 * parent.border.width
                anchors.centerIn: parent
+               visible: fullKeyboard
                columnSpacing: 0
                rowSpacing: 0
 
@@ -192,6 +302,44 @@ Rectangle {
                SaleComponents.ButtonClc {btnX: 2; btnY: 4; txt: ","}
                SaleComponents.ButtonClc {
                    id: add2purchase
+                   btnX: 3; btnY: 4; txt: "add2purchase"; txtVisible: false; btnW: 2; operator: true;
+                   enabled: formulaTotal != "0,00"
+                   ico: enabled ? "qrc:/ico/calculator/add2purchaseEn.png" : "qrc:/ico/calculator/add2purchaseDis.png";
+                   icoSize: 0.9 * width
+                   onClicked: {
+                       calculatorPage.add2purchase()
+                   }
+               }
+            }
+
+            GridLayout {
+               id: keyboardShort
+               width: parent.width - 2 * parent.border.width
+               height: parent.height - 2 * parent.border.width
+               anchors.centerIn: parent
+               visible: !keyboardFull.visible
+               columnSpacing: 0
+               rowSpacing: 0
+
+               SaleComponents.ButtonClc {btnX: 1; btnY: 1; txt: "7"}
+               SaleComponents.ButtonClc {btnX: 2; btnY: 1; txt: "8"}
+               SaleComponents.ButtonClc {btnX: 3; btnY: 1; txt: "9"}
+               SaleComponents.ButtonClc {btnX: 4; btnY: 1; txt: "backspace"; txtVisible: false; btnH: 3; operator: true;
+                                         enabled: (formulaStr.length > 0)
+                                         ico: enabled ? "qrc:/ico/calculator/del_en.png" : "qrc:/ico/calculator/del_dis.png"
+                                         icoSize: 0.9 * width}
+
+               SaleComponents.ButtonClc {btnX: 1; btnY: 2; txt: "4"}
+               SaleComponents.ButtonClc {btnX: 2; btnY: 2; txt: "5"}
+               SaleComponents.ButtonClc {btnX: 3; btnY: 2; txt: "6"}
+
+               SaleComponents.ButtonClc {btnX: 1; btnY: 3; txt: "1"}
+               SaleComponents.ButtonClc {btnX: 2; btnY: 3; txt: "2"}
+               SaleComponents.ButtonClc {btnX: 3; btnY: 3; txt: "3"}
+
+               SaleComponents.ButtonClc {btnX: 1; btnY: 4; txt: "0"}
+               SaleComponents.ButtonClc {btnX: 2; btnY: 4; txt: ","}
+               SaleComponents.ButtonClc {
                    btnX: 3; btnY: 4; txt: "add2purchase"; txtVisible: false; btnW: 2; operator: true;
                    enabled: formulaTotal != "0,00"
                    ico: enabled ? "qrc:/ico/calculator/add2purchaseEn.png" : "qrc:/ico/calculator/add2purchaseDis.png";

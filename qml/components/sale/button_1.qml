@@ -31,10 +31,7 @@ Button {
         Text {
             id: txt
             text: buttonTxt
-            anchors {
-                verticalCenter: parent.verticalCenter
-                centerIn: parent
-            }
+            anchors.fill: parent
             elide: Text.ElideRight
             maximumLineCount: 3
             wrapMode: Text.WordWrap

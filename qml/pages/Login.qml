@@ -198,7 +198,7 @@ Page {
                         width: parent.width
                         height: parent.height
                         source: enabled ? "qrc:/ico/calculator/del_en.png" : "qrc:/ico/calculator/del_dis.png"
-                        color: enabled ? "green" : "grey"
+                        color: enabled ? "#0064B4" : "grey"
                     }
                     onClicked: {
                         deleteDigit()

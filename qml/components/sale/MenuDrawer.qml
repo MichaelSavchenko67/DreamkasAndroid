@@ -64,7 +64,9 @@ Drawer {
                     "Открыть смену": function() { root.openShiftDialog() },
                     "Закрыть смену": function() { root.closeShiftDialog() },
                     "Кабинет Дримкас": function() { root.openPage("qrc:/qml/pages/subpages/CabinetConnection.qml") },
-                    "X-отчёт": function() { root.openXReportDialog() }
+                    "X-отчёт": function() { root.openXReportDialog() },
+                    "Ввод цены товара": function() { root.openEnterCostDialog("Яблоки красные", "Цена, \u20BD/кг", "Неправильное значение, введите снова") },
+                    "Ввод количества товара": function() { root.openEnterAmountDialog("Яблоки красные", "Количество, кг", "Неправильное значение, введите снова") }
                 }
 
                 ListElement {item: "Формирование чека"}
@@ -74,8 +76,8 @@ Drawer {
                 ListElement {item: "Закрыть смену"}
                 ListElement {item: "Кабинет Дримкас"}
                 ListElement {item: "X-отчёт"}
-                ListElement {item: "Example 2"}
-                ListElement {item: "Example 3"}
+                ListElement {item: "Ввод цены товара"}
+                ListElement {item: "Ввод количества товара"}
                 ListElement {item: "Example 4"}
                 ListElement {item: "Example 5"}
                 ListElement {item: "Example 6"}
