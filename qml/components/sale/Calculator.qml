@@ -19,14 +19,9 @@ Rectangle {
 
     property string formulaStr
     property string formulaTotal: CalcEngine.getRes()
-
-    property bool saleDisplay: true
-    property bool fullKeyboard: true
-
     property var enterCostTitle: "Яблоки красные"
     property var enterCostSubTitle: "Цена, \u20BD/кг"
     property var enterCostSubscription: "Неправильное значение, введите снова"
-    property bool enterQuantity: false
 
     signal add2purchase()
 
@@ -53,20 +48,37 @@ Rectangle {
         enterCostTitle = enterTitle
         enterCostSubTitle = enterSubTitle
         enterCostSubscription = enterSubscription
-        saleDisplay = false
-        fullKeyboard = false
     }
 
     function fullDisplayReset() {
-        saleDisplay = true
-        fullKeyboard = true
-        enterQuantity = false
         enterCostTitle = ""
         enterCostSubTitle = ""
         enterCostSubscription = ""
     }
 
+    function setDisplay(state) {
+        display.state = state
+    }
+
+    function setKeyboard(state) {
+        keyboard.state = state
+    }
+
+    function getKeyboardWidth() {
+        return keyboard.width
+    }
+
+    function setPrecDigits(precDigits) {
+        CalcEngine.setPrecDigits(precDigits)
+    }
+
+    function setInitValue(initValue) {
+        formulaStr = initValue
+        CalcEngine.parseFormula()
+    }
+
     Column {
+        id: display
         anchors.fill: parent
         spacing: 0.06 * height
         anchors {
@@ -75,12 +87,30 @@ Rectangle {
             horizontalCenter: parent.horizontalCenter
         }
 
+        states: [
+            State {
+                name: "saleDisplay"
+                PropertyChanges { target: calcMsgRec; visible: true }
+                PropertyChanges { target: fullDisplay; visible: false }
+            },
+            State {
+                name: "enterAmountDisplay"
+                PropertyChanges { target: fullDisplay; visible: true }
+                PropertyChanges { target: calcMsgRec; visible: false }
+            },
+            State {
+                name: "withoutDisplay"
+                PropertyChanges { target: calcMsgRec; visible: false }
+                PropertyChanges { target: fullDisplay; visible: false }
+            }
+        ]
+
         Rectangle {
             id: calcMsgRec
             width: 0.918 * parent.width
             height: 0.23 * width
             anchors.horizontalCenter: parent.horizontalCenter
-            visible: saleDisplay
+            visible: false
             color: calculatorPage.color
             border {
                 color: "#C4C4C4"
@@ -179,10 +209,11 @@ Rectangle {
         }
 
         Rectangle {
-            visible: !calcMsgRec.visible
+            id: fullDisplay
             width: 0.918 * parent.width
             height: 0.43 * keyboardFull.height
             anchors.horizontalCenter: parent.horizontalCenter
+            visible: false
 
             Column {
                 id: fullDisplayFrame
@@ -228,7 +259,7 @@ Rectangle {
                 }
 
                 Text {
-                    text: qsTr(enterQuantity ? formulaStr : (formulaTotal + "  \u20BD"))
+                    text: qsTr(CalcEngine.formatCommaResult(formulaStr) + "  \u20BD")
                     font {
                         pixelSize: 0.18 * parent.height
                         family: "Roboto"
@@ -260,6 +291,7 @@ Rectangle {
         }
 
         Rectangle {
+            id: keyboard
             width: calcMsgRec.width
             height: 0.81 * width
             anchors.horizontalCenter: parent.horizontalCenter
@@ -267,12 +299,34 @@ Rectangle {
             border.width: 0
             color: "#f2f2f2"
 
+            states: [
+                State {
+                    name: "keyboardFull"
+                    PropertyChanges { target: keyboardFull; visible: true }
+                    PropertyChanges { target: keyboardShort; visible: false }
+                    PropertyChanges { target: keyboardShortest; visible: false }
+                },
+                State {
+                    name: "keyboardShort"
+                    PropertyChanges { target: keyboardFull; visible: false }
+                    PropertyChanges { target: keyboardShort; visible: true }
+                    PropertyChanges { target: keyboardShortest; visible: false }
+                },
+                State {
+                    name: "keyboardShortest"
+                    PropertyChanges { target: keyboardFull; visible: false }
+                    PropertyChanges { target: keyboardShort; visible: false }
+                    PropertyChanges { target: keyboardShortest; visible: true }
+                    PropertyChanges { target: keyboard; height: 0.85 * calculatorPage.height; width: 1.123 * height }
+                }
+            ]
+
             GridLayout {
                id: keyboardFull
                width: parent.width - 2 * parent.border.width
                height: parent.height - 2 * parent.border.width
                anchors.centerIn: parent
-               visible: fullKeyboard
+               visible: false
                columnSpacing: 0
                rowSpacing: 0
 
@@ -317,7 +371,7 @@ Rectangle {
                width: parent.width - 2 * parent.border.width
                height: parent.height - 2 * parent.border.width
                anchors.centerIn: parent
-               visible: !keyboardFull.visible
+               visible: false
                columnSpacing: 0
                rowSpacing: 0
 
@@ -348,6 +402,35 @@ Rectangle {
                        calculatorPage.add2purchase()
                    }
                }
+            }
+
+            GridLayout {
+               id: keyboardShortest
+               width: parent.width - 2 * parent.border.width
+               height: parent.height - 2 * parent.border.width
+               anchors.centerIn: parent
+               visible: false
+               columnSpacing: 0
+               rowSpacing: 0
+
+               SaleComponents.ButtonClc {btnX: 1; btnY: 1; txt: "7"}
+               SaleComponents.ButtonClc {btnX: 2; btnY: 1; txt: "8"}
+               SaleComponents.ButtonClc {btnX: 3; btnY: 1; txt: "9"}
+
+               SaleComponents.ButtonClc {btnX: 1; btnY: 2; txt: "4"}
+               SaleComponents.ButtonClc {btnX: 2; btnY: 2; txt: "5"}
+               SaleComponents.ButtonClc {btnX: 3; btnY: 2; txt: "6"}
+
+               SaleComponents.ButtonClc {btnX: 1; btnY: 3; txt: "1"}
+               SaleComponents.ButtonClc {btnX: 2; btnY: 3; txt: "2"}
+               SaleComponents.ButtonClc {btnX: 3; btnY: 3; txt: "3"}
+
+               SaleComponents.ButtonClc {btnX: 1; btnY: 4; txt: "0"}
+               SaleComponents.ButtonClc {btnX: 2; btnY: 4; txt: ","}
+               SaleComponents.ButtonClc {btnX: 3; btnY: 4; txt: "backspace"; txtVisible: false; operator: true;
+                                         enabled: (formulaStr.length > 0)
+                                         ico: enabled ? "qrc:/ico/calculator/del_en.png" : "qrc:/ico/calculator/del_dis.png"
+                                         icoSize: 0.9 * width}
             }
         }
     }

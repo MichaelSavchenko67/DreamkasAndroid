@@ -6,7 +6,7 @@ import QtGraphicalEffects 1.0
 Rectangle {
     id: frame
     width: parent.width
-    height: parent.height - calculator.height - 2 * 0.06 * parent.height
+    height: 0.2 * width
     anchors.bottom: parent.bottom
     color: "#F2F3F5"
     DropShadow {

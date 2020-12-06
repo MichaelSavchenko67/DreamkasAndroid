@@ -337,22 +337,15 @@ ApplicationWindow {
         popupSaleSetTitle("")
         popupSaleSetSubTitle("")
         popupSaleSetSubscription("")
-        popupSale.isEnterQuantity = false
     }
 
-    function openEnterCostDialog(goodsName, measure, subscription) {
+    function openEnterAmountDialog(goodsName, measure, subscription) {
         popupSaleReset()
         popupSaleSetTitle(goodsName)
         popupSaleSetSubTitle(measure)
         popupSaleSetSubscription(subscription)
         popupSaleOpen()
     }
-
-    function openEnterAmountDialog(goodsName, measure, subscription) {
-        openEnterCostDialog(goodsName, measure, subscription)
-        popupSale.isEnterQuantity = true
-    }
-
     //
     function openShift() {
         console.log("[main.qml]\topen shift ...")

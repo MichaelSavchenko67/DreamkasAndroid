@@ -8,13 +8,20 @@ import "qrc:/content/calculator.js" as CalcEngine
 
 Page {
     id: payPage
-    Layout.fillHeight: true
-    Layout.fillWidth: true
+
+    property var pageIndex: "payPage"
+    property var purchaseTotal: "0,00"
+    property var excessTotal: "0,00"
+    property var deliveryTotal: "0,00"
+
+    onPurchaseTotalChanged: {
+        calculator.setInitValue(purchaseTotal)
+    }
 
     onFocusChanged: {
         if (focus) {
             console.log("[Pay.qml]\tfocus changed: " + focus)
-            setMainPageTitle("Оплата")
+            setMainPageTitle("Оплата наличными")
             setLeftMenuButtonAction(back)
             resetAddRightMenuButton()
             setRightMenuButtonVisible(false)
@@ -23,331 +30,210 @@ Page {
         }
     }
 
-    property var pageIndex: "payPage"
-    property var purchaseTotal: "0,00"
-    property var excessTotal: "0,00"
-    property var deliveryTotal: "0,00"
-    property bool cashPay: true
-
-    contentData: Item {
-        id: content
-        implicitHeight: parent.height
-        implicitWidth: parent.width
+    contentData: Rectangle {
         anchors.fill: parent
 
-        RowLayout {
-            id: totalSums
-            width: 0.91 * parent.width
-            height: 0.18 * parent.height
+        Column {
+            width: parent.width
+            height: parent.height - spacing
             anchors {
                 top: parent.top
-                topMargin: 0.3 * height
-                horizontalCenter: parent.horizontalCenter
+                topMargin: 2 * spacing
             }
-            spacing: 0
 
-            ColumnLayout {
-                id: totalSumsField
-                width: 0.5 * parent.width
-                height: parent.height
-                Layout.alignment: Qt.AlignLeft | Qt.AlignTop
-                spacing: 0.5 * totalTitle.font.pixelSize
+            spacing: 0.5 * (height - totalSums.height - calculator.height)
+
+            Row {
+                id: totalSums
+                width: calculator.getKeyboardWidth()
+                height: 0.4 * width
+                anchors.horizontalCenter: parent.horizontalCenter
 
                 Column {
-                    id: total
-                    width: parent.width
-                    height: 0.5 * parent.height
-                    Layout.alignment: Qt.AlignTop
-                    spacing: 0
+                    width: 0.5 * parent.width
+                    height: parent.height
 
                     Text {
                         id: totalTitle
                         width: parent.width
-                        height: 0.5 * total.height
-                        text: qsTr("Получено")
+                        height: parent.height / 3
+                        text: "Получено"
                         font {
-                            pixelSize: 0.6 * height
-                            family: "Roboto"
-                            styleName: "normal"
-                            weight: Font.Normal
-                        }
-                        clip: true
-                        color: "black"
-                        horizontalAlignment: Qt.AlignLeft
-                        verticalAlignment: Qt.AlignTop
-                    }
-
-                    Text {
-                        id: enterPaymentSum
-                        width: parent.width
-                        height: total.height - totalTitle.height
-                        text: enterSumField.displayText
-                        font {
-                            pixelSize: 0.8 * height
+                            pixelSize: 0.1 * totalSums.height
                             family: "Roboto"
                             styleName: "normal"
                             weight: Font.DemiBold
-                            bold: true
                         }
                         clip: true
+                        color: "black"
                         elide: Text.ElideRight
-                        maximumLineCount: 1
-                        color: enterSumField.focus ? "green" : "black"
                         horizontalAlignment: Qt.AlignLeft
-                        verticalAlignment: Qt.AlignBottom
-                        Button {
-                            id: enterSumFieldButton
-                            anchors.fill: parent
-                            enabled: cashPay
-                            background: Item {}
-                            onClicked: {
-                                enterSumField.focus = true
+                        verticalAlignment: Qt.AlignVCenter
+                        topPadding: leftPadding
+                    }
+
+                    Label {
+                        id: enterPaymentSum
+                        width: totalTitle.width
+                        height: totalTitle.height
+
+                        text:  CalcEngine.formatCommaResult(calculator.formulaStr) + " \u20BD"
+
+                        font {
+                            pixelSize: 1.3 * totalTitle.font.pixelSize
+                            family: "Roboto"
+                            styleName: "normal"
+                            weight: Font.Bold
+                            bold: true
+                        }
+                        clip: totalTitle.clip
+                        color: totalTitle.color
+                        elide: totalTitle.elide
+                        horizontalAlignment: totalTitle.horizontalAlignment
+                        verticalAlignment: totalTitle.verticalAlignment
+                        leftPadding: font.pixelSize
+                        background: Rectangle {
+                            border {
+                                color: "green"
+                                width: 2
+                            }
+                            radius: 5
+                        }
+
+                        property var difference
+                        property var total
+
+                        onTextChanged: {
+                            total = CalcEngine.formatCommaResult(calculator.formulaStr)
+                            difference = CalcEngine.calc(total.replace(/\s/g, '') + "-" + purchaseTotal.replace(/\s/g, ''))
+
+                            if (Number(difference) >= 0) {
+                                deliveryTotal = difference.replace(".", ",")
+                                excessTotal = "0,00"
+                            } else {
+                                excessTotal = difference.replace(".", ",").substring(1)
+                                deliveryTotal = "0,00"
                             }
                         }
                     }
 
-                    TextField {
-                        id: enterSumField
-                        width: enterPaymentSum.width
-                        height: parent.height
-                        text: purchaseTotal
-                        visible: false
-                        enabled: cashPay
-                        focus: cashPay
-                        inputMethodHints: Qt.ImhFormattedNumbersOnly
-                        validator: RegExpValidator { regExp: /[0-9]{1,},[0-9]{1,2}/ }
-
-                        property var difference
-
-                        onDisplayTextChanged: {
-                            enterPaymentSum.text = ((displayText.length > 0) ? CalcEngine.formatResult(displayText) : "0,00") + " \u20BD"
-                            difference = CalcEngine.calc(displayText.replace(/\s/g, '') + "-" + purchaseTotal.replace(/\s/g, ''))
-                            if (Number(difference) >= 0) {
-                                payPage.deliveryTotal = difference.replace(".", ",")
-                                payPage.excessTotal = "0,00"
-                            } else {
-                                payPage.excessTotal = difference.replace(".", ",").substring(1)
-                                payPage.deliveryTotal = "0,00"
-                            }
-                        }
-
-                        onEnabledChanged: {
-                            if (!enabled && !cashPay) {
-                                displayText = purchaseTotal
-                                enterPaymentSum.text = purchaseTotal + " \u20BD"
-                            }
-                        }
+                    Text {
+                        id: excessSum
+                        width: totalTitle.width
+                        height: totalTitle.height
+                        text: "Доплата " + CalcEngine.formatCommaResult(excessTotal) + " \u20BD"
+                        font: totalTitle.font
+                        clip: totalTitle.clip
+                        color: totalTitle.color
+                        elide: totalTitle.elide
+                        horizontalAlignment: totalTitle.horizontalAlignment
+                        verticalAlignment: totalTitle.verticalAlignment
+                        bottomPadding: leftPadding
                     }
                 }
 
                 Column {
-                    id: delivery
-                    width: parent.width
-                    height: 0.5 * parent.height
-                    Layout.alignment: Qt.AlignBottom
-                    spacing: 0
+                    width: 0.5 * parent.width
+                    height: parent.height
 
                     Text {
                         id: deliveryTitle
-                        width: parent.width
-                        height: 0.5 * delivery.height
-                        text: qsTr("Сдача")
-                        font {
-                            pixelSize: 0.6 * height
-                            family: "Roboto"
-                            styleName: "normal"
-                            weight: Font.Normal
-                        }
-                        clip: true
-                        color: "black"
-                        horizontalAlignment: Qt.AlignLeft
-                        verticalAlignment: Qt.AlignTop
-                    }
-
-                    Text {
-                        width: parent.width
-                        height: total.height - deliveryTitle.height
-                        text: (cashPay ? qsTr(CalcEngine.formatResult(payPage.deliveryTotal)) : "0,00") + " \u20BD"
-                        font {
-                            pixelSize: 0.8 * height
-                            family: "Roboto"
-                            styleName: "normal"
-                            weight: Font.DemiBold
-                            bold: true
-                        }
-                        clip: true
-                        elide: Text.ElideRight
-                        maximumLineCount: 1
-                        color: "black"
-                        horizontalAlignment: Qt.AlignLeft
-                        verticalAlignment: Qt.AlignBottom
-                    }
-                }
-            }
-
-            Column {
-                id: excess
-                width: 0.5 * parent.width
-                height: 0.5 * parent.height
-                Layout.alignment: Qt.AlignRight | Qt.AlignTop
-                spacing: 0
-
-                Text {
-                    id: excessTitle
-                    width: parent.width
-                    height: 0.5 * excess.height
-                    text: qsTr("Доплата")
-                    font {
-                        pixelSize: 0.6 * height
-                        family: "Roboto"
-                        styleName: "normal"
-                        weight: Font.Normal
-                    }
-                    clip: true
-                    color: "black"
-                    horizontalAlignment: Qt.AlignRight
-                    verticalAlignment: Qt.AlignTop
-                }
-
-                Text {
-                    id: excessSum
-                    width: parent.width
-                    height: excess.height - excessTitle.height
-                    text: (cashPay ? qsTr(CalcEngine.formatResult(excessTotal)) : "0,00") + " \u20BD"
-                    font {
-                        pixelSize: 0.8 * height
-                        family: "Roboto"
-                        styleName: "normal"
-                        weight: Font.DemiBold
-                        bold: true
-                    }
-                    clip: true
-                    elide: Text.ElideRight
-                    maximumLineCount: 1
-                    color: (excessTotal === "0,00") ? "black" : "red"
-                    horizontalAlignment: Qt.AlignRight
-                    verticalAlignment: Qt.AlignBottom
-                }
-            }
-        }
-
-        Rectangle {
-            id: totalSumMsg
-            height: 0.06 * parent.height
-            width: parent.width
-            anchors {
-                top: totalSums.bottom
-                topMargin: 0.5 * height
-            }
-
-            Label {
-                height: parent.height
-                width: parent.width - 0.5 * parent.height
-                anchors {
-                    left: parent.left
-                    leftMargin: 0.5 * parent.height
-                }
-
-                text: qsTr("Итого, чек")
-                font {
-                    pixelSize: 0.5 * parent.height
-                    family: "Roboto"
-                    styleName: "normal"
-                    weight: Font.Normal
-                }
-                color: "black"
-                elide: Label.ElideRight
-                horizontalAlignment: Qt.AlignLeft
-                verticalAlignment: Qt.AlignVCenter
-            }
-
-            Button {
-                id: openPurchase
-                height: 1.5 * parent.height
-                width: 2.82 * height
-
-                property var total: purchaseTotal
-
-                anchors{
-                    right: parent.right
-                    rightMargin: 0.5 * parent.height
-                    verticalCenter: parent.verticalCenter
-                }
-                background: Rectangle {
-                    border.width: 0
-                    color: openPurchase.pressed ? "#B2BFB0" : "#E7FFE3"
-
-                    Text {
-                        id: totalSum
-                        anchors.centerIn: parent
-                        text: openPurchase.total + "  \u20BD"
-                        font {
-                            pixelSize: 0.5 * totalSumMsg.height
-                            family: "Roboto"
-                            styleName: "normal"
-                            weight: Font.DemiBold
-                        }
-                        color: "#4DA03F"
-                        elide: Label.ElideRight
+                        width: totalTitle.width
+                        height: totalTitle.height
+                        text: "Сдача"
+                        font: totalTitle.font
+                        clip: totalTitle.clip
+                        color: totalTitle.color
+                        elide: totalTitle.elide
                         horizontalAlignment: Qt.AlignRight
                         verticalAlignment: Qt.AlignVCenter
+                        topPadding: totalTitle.topPadding
+                    }
 
-                        onContentWidthChanged: {
-                            if (contentWidth > 6 * height) {
-                                openPurchase.width = 1.2 * contentWidth
-                            }
-                        }
+                    Text {
+                        width: deliveryTitle.width
+                        height: deliveryTitle.height
+                        text: CalcEngine.formatCommaResult(deliveryTotal) + " \u20BD"
+                        font: enterPaymentSum.font
+                        clip: deliveryTitle.clip
+                        color: deliveryTitle.color
+                        elide: deliveryTitle.elide
+                        horizontalAlignment: deliveryTitle.horizontalAlignment
+                        verticalAlignment: deliveryTitle.verticalAlignment
+                        leftPadding: deliveryTitle.leftPadding
                     }
                 }
 
-                onClicked: {
-                    openPage("qrc:/qml/pages/subpages/Purchase.qml")
+            }
+
+            SaleComponents.Calculator {
+                id: calculator
+
+                Component.onCompleted: {
+                    reset()
+                    setKeyboard("keyboardShortest")
+                    setPrecDigits(2)
                 }
             }
         }
+    }
 
-        ColumnLayout {
-            width: totalSums.width
-            height: 0.2 * parent.height
-            anchors {
-                horizontalCenter: parent.horizontalCenter
-                top: totalSumMsg.bottom
-                topMargin: 0.5 * totalSumMsg.height
-            }
+    footer: SaleComponents.FooterMain {
+        id: footerMain
+        Rectangle {
+            anchors.fill: parent
+            color: "#F2F3F5"
 
             Row {
                 width: parent.width
-                height: parent.height - payTypesTitle.height
+                height: 0.7 * parent.height
+                anchors.verticalCenter: parent.verticalCenter
+                spacing: 0.044 * width
+                leftPadding: spacing
+                rightPadding: spacing
 
-                Rectangle {
-                    width: 0.2 * content.width
-                    height: width
-                    border.width: 0
-                    border.color: "blue"
-                    anchors {
-                        right: parent.right
-                        verticalCenter: parent.verticalCenter
+                SaleComponents.Button_1 {
+                    width: 2 / 3 * (parent.width - 3 * parent.spacing)
+                    height: parent.height
+                    anchors.verticalCenter: parent.verticalCenter
+                    borderWidth: 1
+                    backRadius: 5
+                    buttonTxt: qsTr("ОПЛАТИТЬ")
+                    fontSize: 0.23 * height
+                    buttonTxtColor: "#0064B4"
+                    pushUpColor: "#FFFFFF"
+                    pushDownColor: "#C2C2C2"
+                    enabled: (excessTotal === "0,00")
+
+                    onClicked: {
+                        openPage("qrc:/qml/pages/subpages/FiscalPurchase.qml")
+                        rootStack.currentItem.isCashPay = true
+                        rootStack.currentItem.paymentSum = CalcEngine.formatResult(enterPaymentSum.total.replace(/\s/g, ''))
+                        rootStack.currentItem.delivery = CalcEngine.formatResult(payPage.deliveryTotal)
                     }
+                }
 
-                    SaleComponents.CircleButton {
-                        id: payButton
-                        buttonWidth: parent.width
-                        anchors.fill: parent
-                        enabled: !cashPay ? true : (payPage.excessTotal === "0,00")
-                        enabledIcon: "qrc:/ico/menu/circle_en_violet.png"
-                        onClicked: {
-                            openPage("qrc:/qml/pages/subpages/FiscalPurchase.qml")
-                            rootStack.currentItem.isCashPay = cashPay
-                            if (cashPay) {
-                                rootStack.currentItem.paymentSum = CalcEngine.formatResult(enterSumField.displayText)
-                                rootStack.currentItem.delivery = CalcEngine.formatResult(payPage.deliveryTotal)
-                            } else {
-                                rootStack.currentItem.paymentSum = CalcEngine.formatResult(purchaseTotal)
-                            }
-                        }
+                SaleComponents.Button_1 {
+                    id: openPurchase
+
+                    width: (parent.width - 3 * parent.spacing) / 3
+                    height: parent.height
+                    anchors.verticalCenter: parent.verticalCenter
+                    borderWidth: 1
+                    backRadius: 5
+                    buttonTxt: qsTr("ИТОГО\n" + purchaseTotal + " \u20BD")
+                    fontSize: 0.23 * height
+                    buttonTxtColor: "#FFFFFF"
+                    pushUpColor: "#0064B4"
+                    pushDownColor: "#004075"
+                    enabled: (total != "0,00")
+
+                    onClicked: {
+                        root.openPage("qrc:/qml/pages/subpages/Purchase.qml")
                     }
                 }
             }
         }
     }
+
 }

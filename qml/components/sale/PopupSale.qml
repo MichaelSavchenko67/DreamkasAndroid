@@ -8,12 +8,13 @@ Popup {
     property var titleStr
     property var subTitleStr
     property var subscriptionStr
-    property bool isEnterQuantity: false
 
     onOpened: {
         calculator.reset()
+        calculator.setDisplay("enterAmountDisplay")
+        calculator.setKeyboard("keyboardShort")
         calculator.fullDisplayInit(titleStr, subTitleStr, subscriptionStr)
-        calculator.enterQuantity = isEnterQuantity
+        calculator.setPrecDigits(2)
     }
 
     onClosed: {

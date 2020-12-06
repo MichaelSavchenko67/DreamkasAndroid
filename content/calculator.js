@@ -8,7 +8,7 @@
         Default precision:  2 decimal places in result of calculation
                             3 decimal places in each digits group
 **/
-let precDigits = 3      // available digit precision
+var precDigits = 3      // available digit precision
 let precRes = 2         // available result of calculation precision
 let dot = "."           // dot symbol
 let comma = ","         // comma symbol
@@ -26,7 +26,15 @@ function reset() {
     digitsArr = [""]
     lastSymbol = ""
     result = "0.00"
+    setPrecDigits(3)
 }
+
+function setPrecDigits(prec) {
+    if (prec > 0) {
+        precDigits = prec
+    }
+}
+
 /**
  * @brief getPrec get precision of digit group
  * @param digitGroup {string} digit group
@@ -44,9 +52,22 @@ function formatResult(result) {
   return parts.join(dot);
 }
 
+function formatCommaResult(result) {
+  var parts = result.toString().split(comma);
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  return parts.join(comma);
+}
+
 function getResNumber() {
     console.log(result)
     return (result === "undefined") ? 0 : Number(result)
+}
+
+function parseFormula() {
+    result = calc(calculatorPage.formulaStr)
+    digits = calculatorPage.formulaStr
+    digitsArr[digitsArr.length - 1] = digits
+    lastSymbol = calculatorPage.formulaStr.substring(0, calculatorPage.formulaStr.length - 1)
 }
 
 function getRes() {
@@ -108,7 +129,7 @@ function disabled(symbol) {
             console.warn("Digit: " + symbol + " after zero in start digits group!")
             return true
         } else if (!isOperator(symbol) && (getPrec(digits) >= precDigits)) {
-            console.warn("Max precision complite!")
+            console.warn("Max precision: " + precDigits + " complite!")
             return true
         }
     }
