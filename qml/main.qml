@@ -337,11 +337,18 @@ ApplicationWindow {
         popupSale.subscriptionStr = subscriptionStr
     }
 
+    function popupSaleSetPrecision(prec) {
+        if (prec > 0) {
+            popupSale.prec = prec
+        }
+    }
+
     function popupSaleReset() {
         popupSaleClose()
         popupSaleSetTitle("")
         popupSaleSetSubTitle("")
         popupSaleSetSubscription("")
+        popupSaleSetPrecision(3)
     }
 
     function openEnterAmountDialog(goodsName, measure, subscription) {
@@ -351,6 +358,12 @@ ApplicationWindow {
         popupSaleSetSubscription(subscription)
         popupSaleOpen()
     }
+
+    function openEnterCostDialog(goodsName, measure, subscription) {
+        openEnterAmountDialog(goodsName, measure, subscription)
+        popupSaleSetPrecision(2)
+    }
+
     //
     function openShift() {
         console.log("[main.qml]\topen shift ...")

@@ -65,7 +65,7 @@ Drawer {
                     "Закрыть смену": function() { root.closeShiftDialog() },
                     "Кабинет Дримкас": function() { root.openPage("qrc:/qml/pages/subpages/CabinetConnection.qml") },
                     "X-отчёт": function() { root.openXReportDialog() },
-                    "Ввод цены товара": function() { root.openEnterAmountDialog("Яблоки красные", "Цена, \u20BD/кг", "Неправильное значение, введите снова") },
+                    "Ввод цены товара": function() { root.openEnterCostDialog("Яблоки красные", "Цена, \u20BD/кг", "Неправильное значение, введите снова") },
                     "Ввод количества товара": function() { root.openEnterAmountDialog("Яблоки красные", "Количество, кг", "Неправильное значение, введите снова") },
                     "Ввод суммы платежа": function() { root.openPage("qrc:/qml/pages/subpages/Pay.qml") },
                     "Изъять или внести": function() { root.openPage("qrc:/qml/pages/subpages/InsRes.qml") }
