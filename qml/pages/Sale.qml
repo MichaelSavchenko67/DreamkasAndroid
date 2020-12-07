@@ -11,6 +11,7 @@ Page {
         if (focus) {
             console.log("[Sale.qml]\tfocus changed: " + focus)
             setToolbarVisible(true)
+            setToolBarShadow(false)
             setMainPageTitle("Формирование чека")
             setLeftMenuButtonAction(openMenu)
             resetAddRightMenuButton()
@@ -45,7 +46,7 @@ Page {
         currentIndex: tabStack.currentIndex
 
         contentData: Repeater {
-            model: ["ВВОД ЦЕНЫ", "ИЗБРАННОЕ"]
+            model: ["ВВОД ЦЕНЫ", "ПЛИТКИ"]
 
             TabButton {
                 height: parent.height
@@ -70,16 +71,6 @@ Page {
 
         background: Rectangle {
             color: "#4DA13F"
-            DropShadow {
-                visible: true
-                anchors.fill: parent
-                cached: true
-                verticalOffset: 1
-                radius: verticalOffset
-                samples: 1 + 2 * radius
-                source: parent
-                color: "#d6d6d6"
-            }
 
             DropShadow {
                 visible: true
@@ -100,13 +91,6 @@ Page {
         currentIndex: tabBar.currentIndex
 
         Subpages.EnterCost {id: enterCost}
-//        Page {
-//            id: enterCostPage
-//            Layout.fillHeight: true
-//            Layout.fillWidth: true
-//            Subpages.OpenShiftBanner {id: openShiftBanner; /*visible: !isShiftOpened*/}
-//            Subpages.EnterCostChoose {visible: !openShiftBanner.visible}
-//        }
         Subpages.Favorites {}
     }
 }

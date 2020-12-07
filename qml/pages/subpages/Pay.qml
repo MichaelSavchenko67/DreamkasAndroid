@@ -59,7 +59,7 @@ Page {
                         height: parent.height / 3
                         text: "Получено"
                         font {
-                            pixelSize: 0.1 * totalSums.height
+                            pixelSize: 0.13 * totalSums.height
                             family: "Roboto"
                             styleName: "normal"
                             weight: Font.DemiBold
@@ -121,7 +121,7 @@ Page {
                         id: excessSum
                         width: totalTitle.width
                         height: totalTitle.height
-                        text: "Доплата " + CalcEngine.formatCommaResult(excessTotal) + " \u20BD"
+                        text: "Доплата " + '<b>' + CalcEngine.formatCommaResult(excessTotal) + " \u20BD</b>"
                         font: totalTitle.font
                         clip: totalTitle.clip
                         color: totalTitle.color
@@ -140,6 +140,7 @@ Page {
                         id: deliveryTitle
                         width: totalTitle.width
                         height: totalTitle.height
+                        anchors.verticalCenter: totalTitle.verticalCenter
                         text: "Сдача"
                         font: totalTitle.font
                         clip: totalTitle.clip

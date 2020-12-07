@@ -186,7 +186,12 @@ ApplicationWindow {
         rootContextMenu.addAction(menuAction)
     }
 
+    function setToolBarShadow(visible) {
+        toolBarShadow.visible = visible
+    }
+
     function setToolbarVisible(visible) {
+        toolBarShadow.visible = visible
         toolBar.visible = visible
     }
     // MAIN POPUP
@@ -440,6 +445,18 @@ ApplicationWindow {
         background: Rectangle {
             anchors.fill: parent
             color: "#4DA13F"
+
+            DropShadow {
+                id: toolBarShadow
+                visible: true
+                anchors.fill: parent
+                cached: true
+                verticalOffset: 8
+                radius: 8
+                samples: 1 + 2 * radius
+                source: parent
+                color: "#d1d1d1"
+            }
         }
     }
 
