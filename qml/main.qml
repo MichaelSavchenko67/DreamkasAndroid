@@ -186,7 +186,12 @@ ApplicationWindow {
         rootContextMenu.addAction(menuAction)
     }
 
+    function setToolBarShadow(visible) {
+        toolBarShadow.visible = visible
+    }
+
     function setToolbarVisible(visible) {
+        toolBarShadow.visible = visible
         toolBar.visible = visible
     }
     // MAIN POPUP
@@ -332,15 +337,21 @@ ApplicationWindow {
         popupSale.subscriptionStr = subscriptionStr
     }
 
+    function popupSaleSetPrecision(prec) {
+        if (prec > 0) {
+            popupSale.prec = prec
+        }
+    }
+
     function popupSaleReset() {
         popupSaleClose()
         popupSaleSetTitle("")
         popupSaleSetSubTitle("")
         popupSaleSetSubscription("")
-        popupSale.isEnterQuantity = false
+        popupSaleSetPrecision(3)
     }
 
-    function openEnterCostDialog(goodsName, measure, subscription) {
+    function openEnterAmountDialog(goodsName, measure, subscription) {
         popupSaleReset()
         popupSaleSetTitle(goodsName)
         popupSaleSetSubTitle(measure)
@@ -348,9 +359,9 @@ ApplicationWindow {
         popupSaleOpen()
     }
 
-    function openEnterAmountDialog(goodsName, measure, subscription) {
-        openEnterCostDialog(goodsName, measure, subscription)
-        popupSale.isEnterQuantity = true
+    function openEnterCostDialog(goodsName, measure, subscription) {
+        openEnterAmountDialog(goodsName, measure, subscription)
+        popupSaleSetPrecision(2)
     }
 
     //
@@ -447,6 +458,18 @@ ApplicationWindow {
         background: Rectangle {
             anchors.fill: parent
             color: "#4DA13F"
+
+            DropShadow {
+                id: toolBarShadow
+                visible: true
+                anchors.fill: parent
+                cached: true
+                verticalOffset: 8
+                radius: 8
+                samples: 1 + 2 * radius
+                source: parent
+                color: "#d1d1d1"
+            }
         }
     }
 

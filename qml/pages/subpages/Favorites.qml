@@ -13,7 +13,7 @@ Page {
     }
 
     Label {
-        text: "ИЗБРАННОЕ"
+        text: "ПЛИТКИ"
         anchors.centerIn: parent
         font {
             pixelSize: 48

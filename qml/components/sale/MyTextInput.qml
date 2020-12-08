@@ -48,17 +48,6 @@ Rectangle {
                 visible: true
                 anchors.fill: parent
                 cached: true
-                verticalOffset: 1
-                radius: verticalOffset
-                samples: 1 + 2 * radius
-                source: parent
-                color: "#d6d6d6"
-            }
-
-            DropShadow {
-                visible: true
-                anchors.fill: parent
-                cached: true
                 verticalOffset: 8
                 radius: verticalOffset
                 samples: 1 + 2 * radius

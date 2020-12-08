@@ -26,7 +26,6 @@
         <file>qml/components/sale/Calculator.qml</file>
         <file>ico/calculator/add2purchaseDis.png</file>
         <file>ico/calculator/add2purchaseEn.png</file>
-        <file>ico/calculator/del.png</file>
         <file>ico/calculator/del_dis.png</file>
         <file>ico/calculator/del_en.png</file>
         <file>ico/menu/circle_dis.png</file>
@@ -76,5 +75,6 @@
         <file>qml/pages/subpages/DisconnectCabinet.qml</file>
         <file>qml/components/sale/PopupSale.qml</file>
         <file>qml/components/sale/FooterMain.qml</file>
+        <file>qml/pages/subpages/InsRes.qml</file>
     </qresource>
 </RCC>

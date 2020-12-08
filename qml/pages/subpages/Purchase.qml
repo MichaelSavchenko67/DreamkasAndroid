@@ -11,6 +11,7 @@ Page {
     Layout.fillWidth: true
 
     property bool checkOn: false
+    property int curPos: -1
 
     onFocusChanged: {
         clearContextMenu()
@@ -65,6 +66,7 @@ Page {
             root.popupSetFirstAction(confirmDelPurchase)
             root.popupSetSecondActionName("ОТМЕНА")
             root.popupSetSecondAction(popupCancel)
+            root.popupSetClosePolicy(Popup.CloseOnPressOutside | Popup.CloseOnEscape)
             root.popupOpen()
         }
     }
@@ -76,9 +78,25 @@ Page {
             root.popupSetTitle("Удаление")
             root.popupSetAddMsg("Удалить выбранные позиции?")
             root.popupSetFirstActionName("УДАЛИТЬ")
+//            root.popupSetFirstAction(confirmDelPositions)
+            root.popupSetSecondActionName("ОТМЕНА")
+            root.popupSetSecondAction(popupCancel)
+            root.popupSetClosePolicy(Popup.CloseOnPressOutside | Popup.CloseOnEscape)
+            root.popupOpen()
+        }
+    }
+
+    Action {
+        id: deletePositionFromMenu
+        onTriggered: {
+            root.popupReset()
+            root.popupSetTitle("Удаление")
+            root.popupSetAddMsg("Удалить позицию?")
+            root.popupSetFirstActionName("УДАЛИТЬ")
             root.popupSetFirstAction(confirmDelPositions)
             root.popupSetSecondActionName("ОТМЕНА")
             root.popupSetSecondAction(popupCancel)
+            root.popupSetClosePolicy(Popup.CloseOnPressOutside | Popup.CloseOnEscape)
             root.popupOpen()
         }
     }
@@ -496,6 +514,7 @@ Page {
                     }
 
                     Text {
+                        id: measureField
                         width: parent.width - quantityField.width
                         height: parent.height
                         anchors.verticalCenter: quantityField.verticalCenter
@@ -506,6 +525,24 @@ Page {
                         horizontalAlignment: quantityField.horizontalAlignment
                         verticalAlignment: quantityField.verticalAlignment
                     }
+
+
+                    Menu {
+                        id: positionContextMenu
+                        x: parent.width - quantityField.width - measureField.width
+                        y: parent.height
+                        transformOrigin: Menu.TopRight
+
+                        onClosed: {
+                            itemAt(currentIndex).highlighted = false
+                        }
+
+                        MenuItem {
+                            text: "Удалить"
+                            action: deletePositionFromMenu
+                        }
+                        MenuItem {text: "Добавить скидку"}
+                    }
                 }
             }
 
@@ -515,6 +552,9 @@ Page {
 
             onClicked: {
                 check.checked = check.visible && !check.checked
+                if (!check.visible) {
+                    positionContextMenu.open()
+                }
                 resetQtyEditOn()
             }
         }
