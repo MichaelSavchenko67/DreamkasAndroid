@@ -246,53 +246,17 @@ Page {
                     Column {
                         anchors.fill: parent
 
-                        RadioButton {
+                        SaleComponents.RadioButtonCursor {
                             id: reserve
                             checked: true
                             text: qsTr("Изъять")
                             font: cashTitle.font
-                            indicator: Rectangle {
-                                implicitHeight: 26
-                                implicitWidth: 26
-                                x: reserve.leftPadding
-                                y: parent.height / 2 - height / 2
-                                radius: 13
-                                border.color: reserve.down ? "#17a81a" : "#21be2b"
-
-                                Rectangle {
-                                    width: 14
-                                    height: 14
-                                    x: 6
-                                    y: 6
-                                    radius: 7
-                                    color: reserve.down ? "#17a81a" : "#21be2b"
-                                    visible: reserve.checked
-                                }
-                            }
                         }
 
-                        RadioButton {
+                        SaleComponents.RadioButtonCursor {
                             id: insert
                             text: qsTr("Внести")
                             font: reserve.font
-                            indicator: Rectangle {
-                                implicitWidth: 26
-                                implicitHeight: 26
-                                x: insert.leftPadding
-                                y: parent.height / 2 - height / 2
-                                radius: 13
-                                border.color: insert.down ? "#17a81a" : "#21be2b"
-
-                                Rectangle {
-                                    width: 14
-                                    height: 14
-                                    x: 6
-                                    y: 6
-                                    radius: 7
-                                    color: insert.down ? "#17a81a" : "#21be2b"
-                                    visible: insert.checked
-                                }
-                            }
 
                             onCheckedChanged: {
                                 calcInsRes(checked)

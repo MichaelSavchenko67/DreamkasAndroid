@@ -35,6 +35,10 @@ function setPrecDigits(prec) {
     }
 }
 
+function getNumber(text) {
+    return (text === "undefined") ? 0 : Number(text.replace(/\s/g, '').replace(',', '.'))
+}
+
 /**
  * @brief getPrec get precision of digit group
  * @param digitGroup {string} digit group

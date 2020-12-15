@@ -145,7 +145,7 @@ Page {
         ScrollBar.vertical: ScrollBar {
             id: scroll
             policy: ScrollBar.AsNeeded
-            width: 5
+            width: 8
 
             onVisualPositionChanged: {
                 findGoodsInput.editOn = false
