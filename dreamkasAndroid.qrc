@@ -76,5 +76,17 @@
         <file>qml/components/sale/PopupSale.qml</file>
         <file>qml/components/sale/FooterMain.qml</file>
         <file>qml/pages/subpages/InsRes.qml</file>
+        <file>qml/pages/subpages/PurchaseCorrection.qml</file>
+        <file>qml/components/sale/EnterDate.qml</file>
+        <file>qml/components/sale/RadioButtonCursor.qml</file>
+        <file>qml/components/settings/NdsSumEnter.qml</file>
+        <file>qml/pages/subpages/PurchaseCorrectionView.qml</file>
+        <file>qml/components/settings/ParamRow.qml</file>
+        <file>qml/components/settings/EnterParamValue.qml</file>
+        <file>qml/components/settings/ParamTitle.qml</file>
+        <file>qml/components/settings/ParamSubTitle.qml</file>
+        <file>qml/components/settings/ParamName.qml</file>
+        <file>qml/components/settings/PopupDate.qml</file>
+        <file>qml/pages/subpages/PrintPurchaseCorrection.qml</file>
     </qresource>
 </RCC>
