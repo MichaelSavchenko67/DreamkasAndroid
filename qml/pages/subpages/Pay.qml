@@ -185,56 +185,70 @@ Page {
             anchors.fill: parent
             color: "#F2F3F5"
 
-            Row {
-                width: parent.width
-                height: 0.7 * parent.height
-                anchors.verticalCenter: parent.verticalCenter
-                spacing: 0.044 * width
-                leftPadding: spacing
-                rightPadding: spacing
+            Column {
+                anchors.fill: parent
+                spacing: 0.5 * buttons.spacing
 
-                SaleComponents.Button_1 {
-                    width: 2 / 3 * (parent.width - 3 * parent.spacing)
-                    height: parent.height
-                    anchors.verticalCenter: parent.verticalCenter
-                    borderWidth: 1
-                    backRadius: 5
-                    buttonTxt: qsTr("ОПЛАТИТЬ")
-                    fontSize: 0.23 * height
-                    buttonTxtColor: "#0064B4"
-                    pushUpColor: "#FFFFFF"
-                    pushDownColor: "#C2C2C2"
-                    enabled: (excessTotal === "0,00")
-
-                    onClicked: {
-                        openPage("qrc:/qml/pages/subpages/FiscalPurchase.qml")
-                        rootStack.currentItem.isCashPay = true
-                        rootStack.currentItem.paymentSum = CalcEngine.formatResult(enterPaymentSum.total.replace(/\s/g, ''))
-                        rootStack.currentItem.delivery = CalcEngine.formatResult(payPage.deliveryTotal)
-                    }
+                Text {
+                    id: clcSign
+                    text: "ПРИХОД" + " • " + "УСН"
+                    font.pixelSize: payButton.fontSize
+                    color: "#595959"
+                    topPadding: 0.5 * buttons.spacing
+                    leftPadding: buttons.spacing
                 }
 
-                SaleComponents.Button_1 {
-                    id: openPurchase
+                Row {
+                    id: buttons
+                    width: parent.width
+                    height: 0.7 * (parent.height - clcSign.height)
+                    spacing: 0.044 * width
+                    leftPadding: spacing
+                    rightPadding: spacing
 
-                    width: (parent.width - 3 * parent.spacing) / 3
-                    height: parent.height
-                    anchors.verticalCenter: parent.verticalCenter
-                    borderWidth: 1
-                    backRadius: 5
-                    buttonTxt: qsTr("ИТОГО\n" + purchaseTotal + " \u20BD")
-                    fontSize: 0.23 * height
-                    buttonTxtColor: "#FFFFFF"
-                    pushUpColor: "#0064B4"
-                    pushDownColor: "#004075"
-                    enabled: (total != "0,00")
+                    SaleComponents.Button_1 {
+                        id: payButton
+                        width: 2 / 3 * (parent.width - 3 * parent.spacing)
+                        height: parent.height
+                        anchors.verticalCenter: parent.verticalCenter
+                        borderWidth: 1
+                        backRadius: 5
+                        buttonTxt: qsTr("ОПЛАТИТЬ")
+                        fontSize: 0.23 * height
+                        buttonTxtColor: "#0064B4"
+                        pushUpColor: "#FFFFFF"
+                        pushDownColor: "#C2C2C2"
+                        enabled: (excessTotal === "0,00")
 
-                    onClicked: {
-                        root.openPage("qrc:/qml/pages/subpages/Purchase.qml")
+                        onClicked: {
+                            openPage("qrc:/qml/pages/subpages/FiscalPurchase.qml")
+                            rootStack.currentItem.isCashPay = true
+                            rootStack.currentItem.paymentSum = CalcEngine.formatResult(enterPaymentSum.total.replace(/\s/g, ''))
+                            rootStack.currentItem.delivery = CalcEngine.formatResult(payPage.deliveryTotal)
+                        }
+                    }
+
+                    SaleComponents.Button_1 {
+                        id: openPurchase
+
+                        width: (parent.width - 3 * parent.spacing) / 3
+                        height: parent.height
+                        anchors.verticalCenter: parent.verticalCenter
+                        borderWidth: 1
+                        backRadius: 5
+                        buttonTxt: qsTr("ИТОГО\n" + purchaseTotal + " \u20BD")
+                        fontSize: 0.23 * height
+                        buttonTxtColor: "#FFFFFF"
+                        pushUpColor: "#0064B4"
+                        pushDownColor: "#004075"
+                        enabled: (total != "0,00")
+
+                        onClicked: {
+                            root.openPage("qrc:/qml/pages/subpages/Purchase.qml")
+                        }
                     }
                 }
             }
         }
     }
-
 }

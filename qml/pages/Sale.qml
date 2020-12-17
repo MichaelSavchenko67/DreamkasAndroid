@@ -15,11 +15,24 @@ Page {
             setMainPageTitle("Формирование чека")
             setLeftMenuButtonAction(openMenu)
             resetAddRightMenuButton()
-            setRightMenuButtonAction(searchGoods)
+            setAddRightMenuButtonIco("qrc:/ico/menu/search.png")
+            setAddRightMenuButtonAction(searchGoods)
+            setAddRightMenuButtonVisible(true)
+            setRightMenuButtonAction(openContextMenu)
             setRightMenuButtonVisible(true)
             clearContextMenu()
+            add2contextMenu(purchaseParams)
             enterCost.isOpenShiftBannerEnable = !isShiftOpened
 //            popupTimer.running = isShiftOpened
+        }
+    }
+
+    Action {
+        id: purchaseParams
+        text: qsTr("Параметры оплаты")
+
+        onTriggered: {
+            root.openPage("qrc:/qml/pages/subpages/PurchaseParams.qml")
         }
     }
 

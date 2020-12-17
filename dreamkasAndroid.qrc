@@ -88,5 +88,7 @@
         <file>qml/components/settings/ParamName.qml</file>
         <file>qml/components/settings/PopupDate.qml</file>
         <file>qml/pages/subpages/PrintPurchaseCorrection.qml</file>
+        <file>qml/pages/subpages/PurchaseParams.qml</file>
+        <file>qml/pages/subpages/DefaultSno.qml</file>
     </qresource>
 </RCC>
