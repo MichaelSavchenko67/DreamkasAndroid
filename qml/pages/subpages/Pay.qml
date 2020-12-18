@@ -13,6 +13,8 @@ Page {
     property var purchaseTotal: "0,00"
     property var excessTotal: "0,00"
     property var deliveryTotal: "0,00"
+    property var lackTotal: "0,00"
+    property bool isGetCash: true
 
     onPurchaseTotalChanged: {
         calculator.setInitValue(purchaseTotal)
@@ -57,7 +59,7 @@ Page {
                         id: totalTitle
                         width: parent.width
                         height: parent.height / 3
-                        text: "Получено"
+                        text: qsTr(isGetCash ? "Получено" : "Сумма")
                         font {
                             pixelSize: 0.13 * totalSums.height
                             family: "Roboto"
@@ -122,9 +124,25 @@ Page {
                         width: totalTitle.width
                         height: totalTitle.height
                         text: "Доплата " + '<b>' + CalcEngine.formatCommaResult(excessTotal) + " \u20BD</b>"
+                        visible: isGetCash
                         font: totalTitle.font
                         clip: totalTitle.clip
                         color: totalTitle.color
+                        elide: totalTitle.elide
+                        horizontalAlignment: totalTitle.horizontalAlignment
+                        verticalAlignment: totalTitle.verticalAlignment
+                        bottomPadding: leftPadding
+                    }
+
+                    Text {
+                        id: lackSum
+                        width: totalSums.width
+                        height: totalTitle.height
+                        text: "Сумма превышена на " + '<b>' + "0,00" + " \u20BD</b>"
+                        visible: !excessSum.visible
+                        font: totalTitle.font
+                        clip: totalTitle.clip
+                        color: "red"
                         elide: totalTitle.elide
                         horizontalAlignment: totalTitle.horizontalAlignment
                         verticalAlignment: totalTitle.verticalAlignment
@@ -135,6 +153,7 @@ Page {
                 Column {
                     width: 0.5 * parent.width
                     height: parent.height
+                    visible: isGetCash
 
                     Text {
                         id: deliveryTitle
@@ -174,6 +193,7 @@ Page {
                     reset()
                     setKeyboard("keyboardShortest")
                     setPrecDigits(2)
+                    setEnable(isGetCash)
                 }
             }
         }
@@ -191,18 +211,25 @@ Page {
 
                 Text {
                     id: clcSign
-                    text: "ПРИХОД" + " • " + "УСН"
-                    font.pixelSize: payButton.fontSize
+                    text: "ВОЗВРАТ ПРИХОДА" + " • " + "ПАТЕНТ"
+                    font {
+                        pixelSize: payButton.fontSize
+                        weight: Font.DemiBold
+                        bold: fontBold
+                    }
                     color: "#595959"
-                    topPadding: 0.5 * buttons.spacing
+                    elide: Text.ElideRight
+                    horizontalAlignment: TextInput.AlignLeft
+                    verticalAlignment: TextInput.AlignVCenter
+                    topPadding: buttons.spacing
                     leftPadding: buttons.spacing
                 }
 
                 Row {
                     id: buttons
                     width: parent.width
-                    height: 0.7 * (parent.height - clcSign.height)
-                    spacing: 0.044 * width
+                    height: 0.9 * (parent.height - clcSign.height)
+                    spacing: 0.5 * (0.044 * width)
                     leftPadding: spacing
                     rightPadding: spacing
 

@@ -31,6 +31,13 @@ Page {
                 calculator.reset()
             }
         }
+
+        SaleComponents.PopupCashlessPaymentChoose {
+            id: popupCashlessPaymentChoose
+            onClosed: {
+                cashlessButton.hold = false
+            }
+        }
     }
 
     footer: SaleComponents.FooterMain {
@@ -44,18 +51,25 @@ Page {
 
                 Text {
                     id: clcSign
-                    text: "ПРИХОД" + " • " + "УСН"
-                    font.pixelSize: cashButton.fontSize
+                    text: "ВОЗВРАТ ПРИХОДА" + " • " + "ПАТЕНТ"
+                    font {
+                        pixelSize: cashButton.fontSize
+                        weight: Font.DemiBold
+                        bold: fontBold
+                    }
                     color: "#595959"
-                    topPadding: 0.5 * buttons.spacing
+                    elide: Text.ElideRight
+                    horizontalAlignment: TextInput.AlignHCenter
+                    verticalAlignment: TextInput.AlignVCenter
+                    topPadding: buttons.spacing
                     leftPadding: buttons.spacing
                 }
 
                 Row {
                     id: buttons
                     width: parent.width
-                    height: 0.7 * (parent.height - clcSign.height)
-                    spacing: 0.044 * width
+                    height: 0.9 * (parent.height - clcSign.height)
+                    spacing: 0.5 * (0.044 * width)
                     leftPadding: spacing
                     rightPadding: spacing
 
@@ -80,22 +94,47 @@ Page {
                     }
 
                     SaleComponents.Button_1 {
+                        id: cashlessButton
                         width: (parent.width - 4 * parent.spacing) / 3
                         height: parent.height
                         anchors.verticalCenter: parent.verticalCenter
                         borderWidth: 1
                         backRadius: 5
-                        buttonTxt: qsTr("БЕЗНАЛ")
+                        buttonTxt: qsTr(root.cashlessPaymentName.toUpperCase())
                         fontSize: 0.23 * height
                         buttonTxtColor: "#0064B4"
                         pushUpColor: "#FFFFFF"
                         pushDownColor: "#C2C2C2"
                         enabled: openPurchase.enabled
 
+                        property bool hold: false
+
+                        Timer {
+                            id: holdTimer
+                            repeat: false
+                            running: false
+
+                            onTriggered: {
+                                parent.hold = parent.pressed
+                                if (parent.pressed) {
+                                    running = false
+                                    popupCashlessPaymentChoose.open()
+                                }
+                            }
+                        }
+
+                        onPressedChanged: {
+                            holdTimer.interval = 1000
+                            holdTimer.running = !hold && pressed
+                        }
+
                         onClicked: {
-                            root.openPage("qrc:/qml/pages/subpages/FiscalPurchase.qml")
-                            rootStack.currentItem.isCashPay = false
-                            rootStack.currentItem.paymentSum = CalcEngine.formatResult(openPurchase.total)
+                            if (!hold) {
+                                popupCashlessPaymentChoose.close()
+                                root.openPage("qrc:/qml/pages/subpages/FiscalPurchase.qml")
+                                rootStack.currentItem.isCashPay = false
+                                rootStack.currentItem.paymentSum = CalcEngine.formatResult(openPurchase.total)
+                            }
                         }
                     }
 

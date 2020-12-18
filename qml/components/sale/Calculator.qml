@@ -77,6 +77,10 @@ Rectangle {
         CalcEngine.parseFormula()
     }
 
+    function setEnable(isEnable) {
+        keyboardShortest.setEnable(isEnable)
+    }
+
     Column {
         id: display
         anchors.fill: parent
@@ -413,21 +417,36 @@ Rectangle {
                columnSpacing: 0
                rowSpacing: 0
 
-               SaleComponents.ButtonClc {btnX: 1; btnY: 1; txt: "7"}
-               SaleComponents.ButtonClc {btnX: 2; btnY: 1; txt: "8"}
-               SaleComponents.ButtonClc {btnX: 3; btnY: 1; txt: "9"}
+               function setEnable(isEnable) {
+                   one.enabled = isEnable
+                   two.enabled = isEnable
+                   three.enabled = isEnable
+                   four.enabled = isEnable
+                   five.enabled = isEnable
+                   six.enabled = isEnable
+                   seven.enabled = isEnable
+                   eight.enabled = isEnable
+                   nine.enabled = isEnable
+                   zero.enabled = isEnable
+                   backspace.enabled = isEnable
+                   comma.enabled = isEnable
+               }
 
-               SaleComponents.ButtonClc {btnX: 1; btnY: 2; txt: "4"}
-               SaleComponents.ButtonClc {btnX: 2; btnY: 2; txt: "5"}
-               SaleComponents.ButtonClc {btnX: 3; btnY: 2; txt: "6"}
+               SaleComponents.ButtonClc {id: seven; btnX: 1; btnY: 1; txt: "7"}
+               SaleComponents.ButtonClc {id: eight; btnX: 2; btnY: 1; txt: "8"}
+               SaleComponents.ButtonClc {id: nine; btnX: 3; btnY: 1; txt: "9"}
 
-               SaleComponents.ButtonClc {btnX: 1; btnY: 3; txt: "1"}
-               SaleComponents.ButtonClc {btnX: 2; btnY: 3; txt: "2"}
-               SaleComponents.ButtonClc {btnX: 3; btnY: 3; txt: "3"}
+               SaleComponents.ButtonClc {id: four; btnX: 1; btnY: 2; txt: "4"}
+               SaleComponents.ButtonClc {id: five; btnX: 2; btnY: 2; txt: "5"}
+               SaleComponents.ButtonClc {id: six; btnX: 3; btnY: 2; txt: "6"}
 
-               SaleComponents.ButtonClc {btnX: 1; btnY: 4; txt: "0"}
-               SaleComponents.ButtonClc {btnX: 2; btnY: 4; txt: ","}
-               SaleComponents.ButtonClc {btnX: 3; btnY: 4; txt: "backspace"; txtVisible: false; operator: true;
+               SaleComponents.ButtonClc {id: one; btnX: 1; btnY: 3; txt: "1"}
+               SaleComponents.ButtonClc {id: two; btnX: 2; btnY: 3; txt: "2"}
+               SaleComponents.ButtonClc {id: three; btnX: 3; btnY: 3; txt: "3"}
+
+               SaleComponents.ButtonClc {id: zero; btnX: 1; btnY: 4; txt: "0"}
+               SaleComponents.ButtonClc {id: comma; btnX: 2; btnY: 4; txt: ","}
+               SaleComponents.ButtonClc {id: backspace; btnX: 3; btnY: 4; txt: "backspace"; txtVisible: false; operator: true;
                                          enabled: (formulaStr.length > 0)
                                          ico: enabled ? "qrc:/ico/calculator/del_en.png" : "qrc:/ico/calculator/del_dis.png"
                                          icoSize: 0.9 * width}

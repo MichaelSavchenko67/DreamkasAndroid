@@ -18,12 +18,17 @@ Page {
             setAddRightMenuButtonIco("qrc:/ico/menu/search.png")
             setAddRightMenuButtonAction(searchGoods)
             setAddRightMenuButtonVisible(true)
-            setRightMenuButtonAction(openContextMenu)
+            setRightMenuButtonAction(openSaleMenu)
             setRightMenuButtonVisible(true)
-            clearContextMenu()
-            add2contextMenu(purchaseParams)
             enterCost.isOpenShiftBannerEnable = !isShiftOpened
 //            popupTimer.running = isShiftOpened
+        }
+    }
+
+    Action {
+        id: openSaleMenu
+        onTriggered: {
+            saleMenu.open()
         }
     }
 
@@ -33,6 +38,21 @@ Page {
 
         onTriggered: {
             root.openPage("qrc:/qml/pages/subpages/PurchaseParams.qml")
+        }
+    }
+
+    Menu {
+        id: saleMenu
+        width: 0.6 * parent.width
+        x: parent.width - width
+        transformOrigin: Menu.TopRight
+
+        Component.onCompleted: {
+            addAction(purchaseParams)
+        }
+
+        onClosed: {
+            itemAt(currentIndex).highlighted = false
         }
     }
 

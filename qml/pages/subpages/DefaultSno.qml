@@ -24,40 +24,11 @@ Page {
         Column {
             id: sno
             width: parent.width
-            spacing: snoTitle.topPadding
+            spacing: snoChoose.topPadding
 
-            SettingsComponents.ParamTitle { id: snoTitle; text: "Система налогооблажения"; topPadding: leftPadding }
-
-            Column {
-                width: parent.width
-                leftPadding: 1.5 * parent.spacing
-
-                SaleComponents.RadioButtonCursor {
-                    id: snoOSN
-                    checked: true
-                    text: qsTr("ОСН")
-                    font: corrSale.font
-                }
-
-                SaleComponents.RadioButtonCursor {
-                    text: qsTr("УСН доход")
-                    font: corrSale.font
-                }
-
-                SaleComponents.RadioButtonCursor {
-                    text: qsTr("УСН доход-расход")
-                    font: corrSale.font
-                }
-
-                SaleComponents.RadioButtonCursor {
-                    text: qsTr("ЕНВД")
-                    font: corrSale.font
-                }
-
-                SaleComponents.RadioButtonCursor {
-                    text: qsTr("Патент")
-                    font: corrSale.font
-                }
+            SettingsComponents.SnoChoose {
+                id: snoChoose
+                topPadding: 0.5 * 0.06 * parent.width
             }
         }
 

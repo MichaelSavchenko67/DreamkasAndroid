@@ -4,8 +4,13 @@ import QtQuick.Controls 2.12
 import "qrc:/qml/components/sale" as SaleComponents
 import "qrc:/qml/components/settings" as SettingsComponents
 
-Page {
-    anchors.fill: parent
+Flickable {
+    id: flickable
+    contentHeight: pane.height
+    width: parent.width
+
+    property int purchaseClcSignTmp
+    property int purchaseSnoTmp
 
     onFocusChanged: {
         if (focus) {
@@ -18,103 +23,49 @@ Page {
         }
     }
 
-    contentData: Rectangle {
-        anchors.fill: parent
+    Pane {
+        id: pane
+        width: flickable.width
 
         Column {
-            id: data
+            id: frame
             width: parent.width
-            spacing: clcSign.topPadding
+            anchors.horizontalCenter: parent.horizontalCenter
+            spacing: 0.5 * 0.06 * width
 
-            SettingsComponents.ParamTitle { id: clcSign; text: "Признак расчета"; topPadding: leftPadding }
+            SettingsComponents.PurchaseClcSignChoose { id: purchaseClcSignChoose }
 
-            Column {
-                id: clcSignChoose
-                width: parent.width
+            SettingsComponents.SnoChoose { id: snoChoose }
+
+            SettingsComponents.CashlessPaymentChoose {id: cashlessPaymentChoose}
+
+            SaleComponents.Button_1 {
                 anchors.horizontalCenter: parent.horizontalCenter
-                leftPadding: 1.5 * parent.spacing
-
-                SaleComponents.RadioButtonCursor {
-                    id: clcSale
-                    checked: true
-                    text: qsTr("Приход")
-                    font {
-                        pixelSize: cashTitle.font.pixelSize
-                        family: "Roboto"
-                        styleName: "normal"
-                        weight: Font.Normal
-                    }
-                }
-
-                SaleComponents.RadioButtonCursor {
-                    text: qsTr("Возврат прихода")
-                    font: clcSale.font
-                }
-
-                SaleComponents.RadioButtonCursor {
-                    text: qsTr("Расход")
-                    font: clcSale.font
-                }
-
-                SaleComponents.RadioButtonCursor {
-                    text: qsTr("Возврат расхода")
-                    font: clcSale.font
-                }
-            }
-
-            SettingsComponents.ParamTitle { text: "Система налогооблажения" }
-
-            Column {
-                width: parent.width
-                leftPadding: 1.5 * parent.spacing
-
-                SaleComponents.RadioButtonCursor {
-                    id: snoOSN
-                    checked: true
-                    text: qsTr("ОСН")
-                    font: corrSale.font
-                }
-
-                SaleComponents.RadioButtonCursor {
-                    text: qsTr("УСН доход")
-                    font: corrSale.font
-                }
-
-                SaleComponents.RadioButtonCursor {
-                    text: qsTr("УСН доход-расход")
-                    font: corrSale.font
-                }
-
-                SaleComponents.RadioButtonCursor {
-                    text: qsTr("ЕНВД")
-                    font: corrSale.font
-                }
-
-                SaleComponents.RadioButtonCursor {
-                    text: qsTr("Патент")
-                    font: corrSale.font
+                width: 0.9 * parent.width
+                height: 0.16 * width
+                borderWidth: 0
+                backRadius: 5
+                buttonTxt: qsTr("СОХРАНИТЬ")
+                fontSize: 0.27 * height
+                buttonTxtColor: "white"
+                pushUpColor: enabled ? "#0064B4" : "#BDC3C7"
+                pushDownColor: "#004075"
+                onClicked: {
+                    console.log("Purchase clc sign choosen: " + purchaseClcSignChoose.clcSignChoosen)
+                    console.log("SNO choosen: " + snoChoose.snoChoosen)
+                    console.log("Cashless payment choosen: " + cashlessPaymentChoose.cashlessPaymentChoosen)
+                    root.cashlessPaymentName = cashlessPaymentChoose.cashlessPaymentChoosen
+                    root.closePage()
                 }
             }
         }
+    }
 
-        SaleComponents.Button_1 {
-            anchors {
-                horizontalCenter: parent.horizontalCenter
-                bottom: parent.bottom
-                bottomMargin: data.spacing
-            }
-            width: 0.9 * parent.width
-            height: 0.16 * width
-            borderWidth: 0
-            backRadius: 5
-            buttonTxt: qsTr("СОХРАНИТЬ")
-            fontSize: 0.27 * height
-            buttonTxtColor: "white"
-            pushUpColor: enabled ? "#0064B4" : "#BDC3C7"
-            pushDownColor: "#004075"
-            onClicked: {
-                root.closePage()
-            }
+    ScrollBar.vertical: ScrollBar {
+        width: 8
+        policy: ScrollBar.AlwaysOn
+        onVisualPositionChanged: {
+            focus = true
         }
     }
 }
