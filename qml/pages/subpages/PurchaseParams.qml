@@ -37,8 +37,6 @@ Flickable {
 
             SettingsComponents.SnoChoose { id: snoChoose }
 
-            SettingsComponents.CashlessPaymentChoose {id: cashlessPaymentChoose}
-
             SaleComponents.Button_1 {
                 anchors.horizontalCenter: parent.horizontalCenter
                 width: 0.9 * parent.width
@@ -53,8 +51,6 @@ Flickable {
                 onClicked: {
                     console.log("Purchase clc sign choosen: " + purchaseClcSignChoose.clcSignChoosen)
                     console.log("SNO choosen: " + snoChoose.snoChoosen)
-                    console.log("Cashless payment choosen: " + cashlessPaymentChoose.cashlessPaymentChoosen)
-                    root.cashlessPaymentName = cashlessPaymentChoose.cashlessPaymentChoosen
                     root.closePage()
                 }
             }

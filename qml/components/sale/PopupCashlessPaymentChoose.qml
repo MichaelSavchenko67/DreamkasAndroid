@@ -4,9 +4,12 @@ import QtQuick.Controls.Material 2.12
 
 import "qrc:/qml/components/sale" as SaleComponents
 import "qrc:/qml/components/settings" as SettingsComponents
+import "qrc:/content/calculator.js" as CalcEngine
 
 Popup {
     id: popupCashlessPaymentChoose
+
+    property var total: "0,00"
 
     width: 0.8 * parent.width
     height: 1.2 * width
@@ -19,6 +22,22 @@ Popup {
         anchors.fill: parent
         radius: 8
         color: "#FFFFFF"
+
+        ToolButton {
+            id: exitButton
+            anchors {
+                top: parent.top
+                right: parent.right
+            }
+            icon {
+                color: "#979797"
+                height: 0.038 * parent.height
+                source: "qrc:/ico/menu/close.png"
+            }
+            onClicked: {
+                popupCashlessPaymentChoose.close()
+            }
+        }
 
         Column {
             width: parent.width
@@ -39,8 +58,11 @@ Popup {
                 pushUpColor: "#0064B4"
                 pushDownColor: "#004075"
                 onClicked: {
-                    root.cashlessPaymentName = cashlessPaymentChoose.cashlessPaymentChoosen
                     popupCashlessPaymentChoose.close()
+                    root.openPage("qrc:/qml/pages/subpages/FiscalPurchase.qml")
+                    rootStack.currentItem.isCashPay = false
+                    rootStack.currentItem.cashlessPaymentName = cashlessPaymentChoose.cashlessPaymentChoosen
+                    rootStack.currentItem.paymentSum = CalcEngine.formatResult(total)
                 }
             }
         }

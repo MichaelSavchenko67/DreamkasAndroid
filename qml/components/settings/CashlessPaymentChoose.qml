@@ -8,7 +8,7 @@ Column {
     width: parent.width
     spacing: parent.spacing
 
-    property var cashlessPaymentChoosen: root.cashlessPaymentName
+    property var cashlessPaymentChoosen: "Картой"
 
     SettingsComponents.ParamTitle { text: "Безналичный платёж" }
 
@@ -18,7 +18,7 @@ Column {
 
         SaleComponents.RadioButtonCursor {
             id: cashless
-            checked: (text === cashlessPaymentChoosen)
+            checked: true
             text: qsTr("Картой")
             font {
                 pixelSize: 0.6 * 0.07 * parent.width
@@ -35,7 +35,6 @@ Column {
         }
 
         SaleComponents.RadioButtonCursor {
-            checked: (text === cashlessPaymentChoosen)
             text: qsTr("Аванс")
             font: cashless.font
             onCheckedChanged: {
@@ -46,7 +45,6 @@ Column {
         }
 
         SaleComponents.RadioButtonCursor {
-            checked: (text === cashlessPaymentChoosen)
             text: qsTr("Кредит")
             font: cashless.font
             onCheckedChanged: {
@@ -57,7 +55,6 @@ Column {
         }
 
         SaleComponents.RadioButtonCursor {
-            checked: (text === cashlessPaymentChoosen)
             text: qsTr("Иная форма")
             font: cashless.font
             onCheckedChanged: {

@@ -18,7 +18,6 @@ ApplicationWindow {
     property bool isShiftOpened: true
     property bool isCabinetEnable: false
     property var cashInDrawer: "100,00"
-    property var cashlessPaymentName: "Картой"
 
     Action {
         id: openMenu

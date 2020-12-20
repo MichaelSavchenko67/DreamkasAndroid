@@ -34,9 +34,7 @@ Page {
 
         SaleComponents.PopupCashlessPaymentChoose {
             id: popupCashlessPaymentChoose
-            onClosed: {
-                cashlessButton.hold = false
-            }
+            total: openPurchase.total
         }
     }
 
@@ -100,41 +98,15 @@ Page {
                         anchors.verticalCenter: parent.verticalCenter
                         borderWidth: 1
                         backRadius: 5
-                        buttonTxt: qsTr(root.cashlessPaymentName.toUpperCase())
+                        buttonTxt: qsTr("БЕЗНАЛ")
                         fontSize: 0.23 * height
                         buttonTxtColor: "#0064B4"
                         pushUpColor: "#FFFFFF"
                         pushDownColor: "#C2C2C2"
                         enabled: openPurchase.enabled
 
-                        property bool hold: false
-
-                        Timer {
-                            id: holdTimer
-                            repeat: false
-                            running: false
-
-                            onTriggered: {
-                                parent.hold = parent.pressed
-                                if (parent.pressed) {
-                                    running = false
-                                    popupCashlessPaymentChoose.open()
-                                }
-                            }
-                        }
-
-                        onPressedChanged: {
-                            holdTimer.interval = 1000
-                            holdTimer.running = !hold && pressed
-                        }
-
                         onClicked: {
-                            if (!hold) {
-                                popupCashlessPaymentChoose.close()
-                                root.openPage("qrc:/qml/pages/subpages/FiscalPurchase.qml")
-                                rootStack.currentItem.isCashPay = false
-                                rootStack.currentItem.paymentSum = CalcEngine.formatResult(openPurchase.total)
-                            }
+                            popupCashlessPaymentChoose.open()
                         }
                     }
 
