@@ -88,7 +88,6 @@
         <file>qml/components/settings/ParamName.qml</file>
         <file>qml/components/settings/PopupDate.qml</file>
         <file>qml/pages/subpages/PrintPurchaseCorrection.qml</file>
-        <file>ico/menu/.DS_Store</file>
         <file>ico/menu/credit_card.png</file>
         <file>qml/components/sale/ButtonImg.qml</file>
         <file>qml/components/sale/ButtonIcoH.qml</file>
