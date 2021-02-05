@@ -80,12 +80,12 @@ Page {
                 validator: RegExpValidator {regExp:  /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/ }
                 cursorDelegate: Rectangle {
                     visible: ip.cursorVisible
-                    color: "green"
+                    color: "#5C7490"
                     width: 2 * ip.cursorRectangle.width
                 }
                 background: Rectangle {
                     border.width: 2
-                    border.color: ip.focus ? "green" : "gray"
+                    border.color: ip.focus ? "#5C7490" : "gray"
                     color: "#FFFFFF"
                     radius: 5
                 }
@@ -104,7 +104,7 @@ Page {
         buttonTxt: qsTr(isPrinterConnected ? "ОТКЛЮЧИТЬ" : "ПОДКЛЮЧИТЬ")
         fontSize: 0.27 * height
         buttonTxtColor: "white"
-        pushUpColor: enabled ? "#0064B4" : "#BDC3C7"
+        pushUpColor: enabled ? "#415A77" : "#BDC3C7"
         pushDownColor: "#004075"
         onClicked: {
             if (isPrinterConnected) {

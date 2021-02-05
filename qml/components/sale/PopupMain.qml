@@ -87,7 +87,7 @@ Popup {
                 implicitHeight: implicitWidth
                 visible: isLoader
                 running: true
-                Material.accent: "green"
+                Material.accent: "#5C7490"
             }
         }
 

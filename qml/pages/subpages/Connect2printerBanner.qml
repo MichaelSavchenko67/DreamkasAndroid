@@ -87,7 +87,7 @@ Page {
             buttonTxt: qsTr("ПОДКЛЮЧИТЬ ККТ")
             fontSize: 0.33 * height
             buttonTxtColor: "white"
-            pushUpColor: "#0064B4"
+            pushUpColor: "#415A77"
             pushDownColor: "#004075"
 
             onClicked: {

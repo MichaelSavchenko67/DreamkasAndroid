@@ -101,7 +101,7 @@ Page {
                             buttonTxt: qsTr("ПЕЧАТЬ")
                             fontSize: 0.27 * height
                             buttonTxtColor: "white"
-                            pushUpColor: enabled ? "#0064B4" : "#BDC3C7"
+                            pushUpColor: enabled ? "#415A77" : "#BDC3C7"
                             pushDownColor: "#004075"
                             onClicked: {
                                 root.openPage("qrc:/qml/pages/subpages/PrintPurchaseCorrection.qml")

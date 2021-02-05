@@ -53,7 +53,7 @@ Popup {
                 buttonTxt: choosenDate.toLocaleDateString(Qt.locale("ru_RU"))
                 fontSize: 0.27 * height
                 buttonTxtColor: "white"
-                pushUpColor: "#0064B4"
+                pushUpColor: "#415A77"
                 pushDownColor: "#004075"
                 onClicked: {
                     popupDate.close()

@@ -43,7 +43,7 @@ Row {
             height: 2 * parent.font.pixelSize
             anchors.verticalCenter: parent.verticalCenter
             border {
-                color: "#0064B4"
+                color: "#415A77"
                 width: 2
             }
             radius: 5

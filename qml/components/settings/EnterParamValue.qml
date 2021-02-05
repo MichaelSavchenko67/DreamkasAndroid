@@ -21,7 +21,7 @@ TextField {
         height: 2 * parent.font.pixelSize
         anchors.verticalCenter: parent.verticalCenter
         border {
-            color: parent.focus ? "#4DA13F" : "#0064B4"
+            color: parent.focus ? "#5C7490" : "#415A77"
             width: 2
         }
         radius: 5

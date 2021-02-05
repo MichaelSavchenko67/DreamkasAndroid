@@ -6,9 +6,9 @@ import QtGraphicalEffects 1.0
 Rectangle {
     id: frame
     width: parent.width
-    height: 0.25 * width
+    height: 0.3 * width
     anchors.bottom: parent.bottom
-    color: "#F2F3F5"
+    color: "#F6F6F6"
 
     DropShadow {
         visible: true

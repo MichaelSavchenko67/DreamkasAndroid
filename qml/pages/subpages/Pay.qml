@@ -30,6 +30,14 @@ Page {
         }
     }
 
+    function isExcess() {
+        return (Number(excessTotal.replace(',', '.')) > 0)
+    }
+
+    function isDelivery() {
+        return (Number(deliveryTotal.replace(',', '.')) > 0)
+    }
+
     contentData: Rectangle {
         anchors.fill: parent
 
@@ -41,130 +49,119 @@ Page {
                 topMargin: 2 * spacing
             }
 
-            spacing: 0.5 * (height - totalSums.height - calculator.height)
+            spacing: 0.5 * (height - 0.4 * calculator.getKeyboardWidth() - calculator.height)
 
-            Row {
-                id: totalSums
-                width: calculator.getKeyboardWidth()
-                height: 0.4 * width
+            Rectangle {
+                width: 0.92 * parent.width
+                height: 0.12 * width
                 anchors.horizontalCenter: parent.horizontalCenter
+                color: "#F6F6F6"
+                border.width: 0
+                radius: 16
 
-                Column {
-                    width: 0.5 * parent.width
-                    height: parent.height
+                Label {
+                    text: qsTr("К оплате " + '<b>' + purchaseTotal + " \u20BD" + '<b>')
+                    height: 2 * font.pixelSize
+                    width: parent.width
+                    anchors.verticalCenter: parent.verticalCenter
+                    font {
+                        pixelSize: totalTitle.font.pixelSize
+                        family: "Roboto"
+                        styleName: "normal"
+                        weight: Font.Normal
+                    }
+                    color: "black"
+                    elide: Label.ElideRight
+                    horizontalAlignment: Qt.AlignLeft
+                    verticalAlignment: Qt.AlignVCenter
+                    leftPadding: totalTitle.font.pixelSize
+                }
+            }
 
-                    Text {
-                        id: totalTitle
-                        width: parent.width
-                        height: parent.height / 3
-                        text: "Получено"
-                        font {
-                            pixelSize: 0.13 * totalSums.height
-                            family: "Roboto"
-                            styleName: "normal"
-                            weight: Font.DemiBold
-                        }
-                        clip: true
-                        color: "black"
-                        elide: Text.ElideRight
-                        horizontalAlignment: Qt.AlignLeft
-                        verticalAlignment: Qt.AlignVCenter
-                        topPadding: leftPadding
+            Column {
+                width: parent.width
+                spacing: 0.5 * parent.spacing
+
+                Label {
+                    id: totalTitle
+                    text: qsTr("Принято от клиента")
+                    height: 2 * font.pixelSize
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    font {
+                        pixelSize: 0.13 * 0.4 * calculator.getKeyboardWidth()
+                        family: "Roboto"
+                        styleName: "normal"
+                        weight: Font.Normal
+                    }
+                    color: "black"
+                    elide: Label.ElideRight
+                    horizontalAlignment: Qt.AlignHCenter
+                    verticalAlignment: Qt.AlignVCenter
+                }
+
+                Label {
+                    id: enterPaymentSum
+                    width: parent.width
+                    height: totalTitle.height
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    text:  CalcEngine.formatCommaResult(calculator.formulaStr) + " \u20BD"
+                    font {
+                        pixelSize: 1.3 * totalTitle.font.pixelSize
+                        family: "Roboto"
+                        styleName: "normal"
+                        weight: Font.Bold
+                        bold: true
+                    }
+                    clip: totalTitle.clip
+                    color: "#0064B4"
+                    elide: totalTitle.elide
+                    horizontalAlignment: totalTitle.horizontalAlignment
+                    verticalAlignment: totalTitle.verticalAlignment
+                    background: Rectangle {
+                        color: "#00FFFFFF"
+                        border.width: 0
                     }
 
-                    Label {
-                        id: enterPaymentSum
-                        width: totalTitle.width
-                        height: totalTitle.height
+                    property var difference
+                    property var total
 
-                        text:  CalcEngine.formatCommaResult(calculator.formulaStr) + " \u20BD"
+                    onTextChanged: {
+                        total = CalcEngine.formatCommaResult(calculator.formulaStr)
+                        difference = CalcEngine.calc(total.replace(/\s/g, '') + "-" + purchaseTotal.replace(/\s/g, ''))
 
-                        font {
-                            pixelSize: 1.3 * totalTitle.font.pixelSize
-                            family: "Roboto"
-                            styleName: "normal"
-                            weight: Font.Bold
-                            bold: true
+                        if (Number(difference) >= 0) {
+                            deliveryTotal = difference.replace(".", ",")
+                            excessTotal = "0,00"
+                        } else {
+                            excessTotal = difference.replace(".", ",").substring(1)
+                            deliveryTotal = "0,00"
                         }
-                        clip: totalTitle.clip
-                        color: totalTitle.color
-                        elide: totalTitle.elide
-                        horizontalAlignment: totalTitle.horizontalAlignment
-                        verticalAlignment: totalTitle.verticalAlignment
-                        leftPadding: font.pixelSize
-                        background: Rectangle {
-                            border {
-                                color: "green"
-                                width: 2
-                            }
-                            radius: 5
-                        }
-
-                        property var difference
-                        property var total
-
-                        onTextChanged: {
-                            total = CalcEngine.formatCommaResult(calculator.formulaStr)
-                            difference = CalcEngine.calc(total.replace(/\s/g, '') + "-" + purchaseTotal.replace(/\s/g, ''))
-
-                            if (Number(difference) >= 0) {
-                                deliveryTotal = difference.replace(".", ",")
-                                excessTotal = "0,00"
-                            } else {
-                                excessTotal = difference.replace(".", ",").substring(1)
-                                deliveryTotal = "0,00"
-                            }
-                        }
-                    }
-
-                    Text {
-                        id: excessSum
-                        width: totalTitle.width
-                        height: totalTitle.height
-                        text: "Доплата " + '<b>' + CalcEngine.formatCommaResult(excessTotal) + " \u20BD</b>"
-                        font: totalTitle.font
-                        clip: totalTitle.clip
-                        color: totalTitle.color
-                        elide: totalTitle.elide
-                        horizontalAlignment: totalTitle.horizontalAlignment
-                        verticalAlignment: totalTitle.verticalAlignment
-                        bottomPadding: leftPadding
                     }
                 }
 
-                Column {
-                    width: 0.5 * parent.width
-                    height: parent.height
-
-                    Text {
-                        id: deliveryTitle
-                        width: totalTitle.width
-                        height: totalTitle.height
-                        anchors.verticalCenter: totalTitle.verticalCenter
-                        text: "Сдача"
-                        font: totalTitle.font
-                        clip: totalTitle.clip
-                        color: totalTitle.color
-                        elide: totalTitle.elide
-                        horizontalAlignment: Qt.AlignRight
-                        verticalAlignment: Qt.AlignVCenter
-                        topPadding: totalTitle.topPadding
-                    }
-
-                    Text {
-                        width: deliveryTitle.width
-                        height: deliveryTitle.height
-                        text: CalcEngine.formatCommaResult(deliveryTotal) + " \u20BD"
-                        font: enterPaymentSum.font
-                        clip: deliveryTitle.clip
-                        color: deliveryTitle.color
-                        elide: deliveryTitle.elide
-                        horizontalAlignment: deliveryTitle.horizontalAlignment
-                        verticalAlignment: deliveryTitle.verticalAlignment
-                        leftPadding: deliveryTitle.leftPadding
-                    }
+                Rectangle {
+                    height: 2
+                    width: enterPaymentSum.contentWidth + 2 * enterPaymentSum.font.pixelSize
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    color: "#00FFFFFF"
+                    border.width: 1
+                    border.color: "#E0E0E0"
                 }
 
+                Text {
+                    id: excessDeliverySum
+                    width: totalTitle.width
+                    height: totalTitle.height
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    text: isExcess() ? "Доплатить " + '<b>' + CalcEngine.formatCommaResult(excessTotal) + " \u20BD</b>" :
+                                       isDelivery() ? "Сдача " + '<b>' +CalcEngine.formatCommaResult(deliveryTotal) + " \u20BD</b>" : ""
+                    font: totalTitle.font
+                    clip: totalTitle.clip
+                    color: isExcess() ? "#C62828" : "black"
+                    elide: totalTitle.elide
+                    horizontalAlignment: totalTitle.horizontalAlignment
+                    verticalAlignment: totalTitle.verticalAlignment
+                }
             }
 
             SaleComponents.Calculator {
@@ -181,29 +178,46 @@ Page {
 
     footer: SaleComponents.FooterMain {
         id: footerMain
+        height: btnRow.height + 2 * 0.125 * btnRow.height
+
         Rectangle {
             anchors.fill: parent
-            color: "#F2F3F5"
+            color: "#F6F6F6"
 
             Row {
+                id: btnRow
                 width: parent.width
-                height: 0.7 * parent.height
-                anchors.verticalCenter: parent.verticalCenter
-                spacing: 0.044 * width
+                height: 0.16 * width
+                anchors {
+                    bottom: parent.bottom
+                    bottomMargin: 0.125 * height
+                }
+                spacing: 0.03 * width
                 leftPadding: spacing
                 rightPadding: spacing
 
-                SaleComponents.Button_1 {
-                    width: 2 / 3 * (parent.width - 3 * parent.spacing)
+                SaleComponents.ButtonIcoH {
+                    id: openPurchase
+                    width: (parent.width - 3 * parent.spacing) / 3
                     height: parent.height
                     anchors.verticalCenter: parent.verticalCenter
-                    borderWidth: 1
-                    backRadius: 5
-                    buttonTxt: qsTr("ОПЛАТИТЬ")
-                    fontSize: 0.23 * height
-                    buttonTxtColor: "#0064B4"
+                    iconPath: "qrc:/ico/menu/purchase.png"
+                    buttonTxt: "ЧЕК"
+                    buttonTxtColor: "#415A77"
                     pushUpColor: "#FFFFFF"
-                    pushDownColor: "#C2C2C2"
+                    pushDownColor: "#F2F2F2"
+                    enabled: (enterPaymentSum.total !== "0,00")
+
+                    onClicked: {
+                        root.openPage("qrc:/qml/pages/subpages/Purchase.qml")
+                    }
+                }
+
+                SaleComponents.ButtonIcoH {
+                    width: 2 / 3 * (parent.width - 3 * parent.spacing)
+                    height: parent.height
+                    iconPath: "qrc:/ico/menu/credit_card.png"
+                    buttonTxt: enabled ? (Number(deliveryTotal.replace(',', '.') > 0) ? "ОПЛАТИТЬ" : "ОПЛАТИТЬ БЕЗ СДАЧИ") :  "ОПЛАТИТЬ"
                     enabled: (excessTotal === "0,00")
 
                     onClicked: {
@@ -211,26 +225,6 @@ Page {
                         rootStack.currentItem.isCashPay = true
                         rootStack.currentItem.paymentSum = CalcEngine.formatResult(enterPaymentSum.total.replace(/\s/g, ''))
                         rootStack.currentItem.delivery = CalcEngine.formatResult(payPage.deliveryTotal)
-                    }
-                }
-
-                SaleComponents.Button_1 {
-                    id: openPurchase
-
-                    width: (parent.width - 3 * parent.spacing) / 3
-                    height: parent.height
-                    anchors.verticalCenter: parent.verticalCenter
-                    borderWidth: 1
-                    backRadius: 5
-                    buttonTxt: qsTr("ИТОГО\n" + purchaseTotal + " \u20BD")
-                    fontSize: 0.23 * height
-                    buttonTxtColor: "#FFFFFF"
-                    pushUpColor: "#0064B4"
-                    pushDownColor: "#004075"
-                    enabled: (total != "0,00")
-
-                    onClicked: {
-                        root.openPage("qrc:/qml/pages/subpages/Purchase.qml")
                     }
                 }
             }

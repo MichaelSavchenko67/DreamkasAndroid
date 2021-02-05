@@ -12,8 +12,8 @@ Button {
     property int btnY
     property int btnW: 1
     property int btnH: 1
-    property color colorDown: "#d2d2d2"
-    property color colorUp: "#f2f2f2"
+    property color colorDown: "#0064B4"
+    property color colorUp: "#FFFFFF"
     property string ico
     property double icoRotation
     property real icoSize: 0.25 * buttonClc.width
@@ -47,9 +47,10 @@ Button {
 
     background: Rectangle {
         anchors.fill: parent
-        border.color: "#C4C4C4"
+        border.color: "#ECECEC"
         border.width: 1
         color: parent.down ? colorDown : colorUp
+        opacity: parent.down ? 0.3 : 1
 
         Image {
             width: icoSize

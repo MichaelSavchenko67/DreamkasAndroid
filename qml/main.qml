@@ -8,10 +8,12 @@ import "qrc:/qml/components/sale" as SaleComponents
 
 ApplicationWindow {
     id: root
-//    width: Screen.width
-//    height: Screen.height
-    width: 540
-    height: 960
+    width: Screen.width
+    height: Screen.height
+//    width: 720
+//    height: 1280
+//    width: 1080
+//    height: 1920
     visible: true
 
     property bool isPrinterConnected: true
@@ -94,7 +96,9 @@ ApplicationWindow {
 
     Menu {
         id: rootContextMenu
+        height: toolBar.height
         x: parent.width - width
+        y: toolBar.y
         transformOrigin: Menu.TopRight
 
         onClosed: {
@@ -185,6 +189,26 @@ ApplicationWindow {
     function add2contextMenu(menuAction) {
         rootContextMenu.addAction(menuAction)
     }
+
+    function setHeaderTitleButtonVisible(visible) {
+        headerTitleButton.visible = visible
+    }
+
+    function add2HeaderTitleContextMenu(menuAction) {
+        headerTitleContextMenu.addAction(menuAction)
+    }
+
+    function reseHeaderTitleContextMenu() {
+        while(headerTitleContextMenu.count) {
+            headerTitleContextMenu.removeItem(headerTitleContextMenu.takeAction(0));
+        }
+    }
+
+    function resetHeaderTitleButton() {
+        reseHeaderTitleContextMenu()
+        headerTitleButton.visible = false
+    }
+
 
     function setToolBarShadow(visible) {
         toolBarShadow.visible = visible
@@ -420,19 +444,79 @@ ApplicationWindow {
                 }
             }
 
-            Label {
-                id: headerTitle
-                font {
-                    pixelSize: 0.375 * parent.height
-                    family: "Roboto"
-                    styleName: "normal"
-                    weight: Font.DemiBold
-                }
-                color: "white"
-                elide: Label.ElideRight
-                horizontalAlignment: Qt.AlignLeft
-                verticalAlignment: Qt.AlignVCenter
+            Row {
+                id: titleFrame
                 Layout.fillWidth: true
+                anchors.verticalCenter: toolBar.verticalCenter
+
+                Label {
+                    id: headerTitle
+                    anchors.verticalCenter: parent.verticalCenter
+                    font {
+                        pixelSize: 0.375 * toolBar.height
+                        family: "Roboto"
+                        styleName: "normal"
+                        weight: Font.DemiBold
+                    }
+                    color: "white"
+                    elide: Label.ElideRight
+                    horizontalAlignment: Qt.AlignLeft
+                    verticalAlignment: Qt.AlignVCenter
+                }
+
+                ToolButton {
+                    id: headerTitleButton
+                    property bool openContext: false
+                    visible: false
+
+                    Menu {
+                        id: headerTitleContextMenu
+                        width: headerTitle.width
+                        height: toolBar.height
+                        x: -headerTitle.width
+                        y: toolBar.y
+                        transformOrigin: Menu.TopRight
+
+                        onClosed: {
+                            itemAt(currentIndex).highlighted = false
+                        }
+                    }
+
+                    icon {
+                        source: "qrc:/ico/menu/down.png"
+                        color: "white"
+                        height: 0.18 * parent.height
+                    }
+
+                    onPressed: {
+                        openContext = !openContext
+                    }
+
+                    onOpenContextChanged: {
+                        if (openContext) {
+                            headerTitleContextMenu.open()
+                        }
+                    }
+
+                    states: State {
+                        name: "toPressed"; when: headerTitleContextMenu.opened
+                        PropertyChanges {
+                            target: headerTitleButton
+                            rotation: 180
+                        }
+                    }
+
+                    transitions: Transition {
+                        to: "toPressed"
+                        reversible: true
+
+                        PropertyAnimation {
+                            properties: "rotation"
+                            easing.type: Easing.InOutQuad
+                            duration: 100
+                        }
+                    }
+                }
             }
 
             ToolButton {
@@ -457,7 +541,7 @@ ApplicationWindow {
 
         background: Rectangle {
             anchors.fill: parent
-            color: "#4DA13F"
+            color: "#5C7490"
 
             DropShadow {
                 id: toolBarShadow

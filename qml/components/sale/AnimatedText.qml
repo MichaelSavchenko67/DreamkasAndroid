@@ -43,7 +43,7 @@ Text {
 
     SequentialAnimation {
         id: changeMsgAnimation
-        PropertyAnimation { target: animatedMsg; property: "color"; to: "green"; duration: ((animatedMsg.text.length > 0) ? 330 :  0) }
+        PropertyAnimation { target: animatedMsg; property: "color"; to: "#5C7490"; duration: ((animatedMsg.text.length > 0) ? 330 :  0) }
         NumberAnimation { target: animatedMsg; property: "opacity"; to: 0; duration: ((animatedMsg.text.length > 0) ? 330 :  0) }
         PropertyAnimation { target: animatedMsg; property: "text"; to: nextMsg }
         PropertyAnimation { target: animatedMsg; property: "color"; to: "black" }

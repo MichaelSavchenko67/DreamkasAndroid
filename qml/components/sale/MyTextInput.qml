@@ -42,7 +42,7 @@ Rectangle {
 
             border.width: 0
             radius: 0
-            color: "#4DA13F"
+            color: "#5C7490"
 
             DropShadow {
                 visible: true

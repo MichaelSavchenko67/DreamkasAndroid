@@ -56,7 +56,7 @@ Page {
                 implicitWidth: 0.1 * fiscalPurchasePage.width
                 implicitHeight: implicitWidth
                 running: true
-                Material.accent: "green"
+                Material.accent: "#5C7490"
             }
 
             Text {
@@ -178,8 +178,8 @@ Page {
                 buttonTxt: qsTr("Продолжить")
                 fontSize: 0.03 * fiscalPurchasePage.height
                 buttonTxtColor: "white"
-                pushUpColor: "#AC58E1"
-                pushDownColor: "#651D92"
+                pushUpColor: "#415A77"
+                pushDownColor: "#004075"
                 onClicked: {
                     rootStack.pop(null)
                 }

@@ -63,7 +63,7 @@ Page {
                     implicitWidth: 0.1 * operationPage.width
                     implicitHeight: implicitWidth
                     running: true
-                    Material.accent: "green"
+                    Material.accent: "#5C7490"
                 }
             }
 
