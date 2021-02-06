@@ -21,6 +21,21 @@ Page {
     property var paymentSum: "0,00"
     property var delivery: "0,00"
     property bool changeMsg: false
+    property var cashlessPaymentName: ""
+
+    function getTitle() {
+        if (isCashPay) {
+            return qsTr("Оплата " + "наличными\n" + paymentSum + "  \u20BD")
+        } else if (cashlessPaymentName === "Картой") {
+            return qsTr("Оплата " + "картой\n" + paymentSum + "  \u20BD")
+        } else if (cashlessPaymentName === "Аванс") {
+            return qsTr("Аванс\n" + paymentSum + "  \u20BD")
+        } else if (cashlessPaymentName === "Кредит") {
+            return qsTr("Кредит\n" + paymentSum + "  \u20BD")
+        } else if (cashlessPaymentName === "Иная форма") {
+            return qsTr("Иная форма оплаты\n" + paymentSum + "  \u20BD")
+        }
+    }
 
     Timer {
         interval: 3000
@@ -63,7 +78,7 @@ Page {
                 id: payMsg
                 width: parent.width
                 anchors.horizontalCenter: fiscalPurchasePage.horizontalCenter
-                text: qsTr("Оплата " + (isCashPay ? "наличными\n" : "картой\n") + paymentSum + "  \u20BD")
+                text: getTitle()
                 font {
                     pixelSize: 0.04 * fiscalPurchasePage.height
                     family: "Roboto"
@@ -79,7 +94,7 @@ Page {
             Text {
                 width: parent.width
                 anchors.horizontalCenter: fiscalPurchasePage.horizontalCenter
-                visible: !isCashPay
+                visible: (!isCashPay && (cashlessPaymentName === "Картой"))
                 text: qsTr("Следуйте инструкциям\nна терминале")
                 font {
                     pixelSize: 0.03 * fiscalPurchasePage.height
