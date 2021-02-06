@@ -13,13 +13,14 @@ Page {
             setToolbarVisible(true)
             setToolBarShadow(false)
             setMainPageTitle("Приход" + " • " + "Патент")
-            add2HeaderTitleContextMenu(purchaseMenu)
+            add2HeaderTitleContextMenu(purchaseParams)
             setHeaderTitleButtonVisible(true)
             setLeftMenuButtonAction(openMenu)
             resetAddRightMenuButton()
-            setRightMenuButtonAction(searchGoods)
-            setRightMenuButtonVisible(true)
-            clearContextMenu()
+            setAddRightMenuButtonIco("qrc:/ico/menu/search.png")
+            setAddRightMenuButtonAction(searchGoods)
+            setAddRightMenuButtonVisible(true)
+            setRightMenuButtonVisible(false)
             enterCost.isOpenShiftBannerEnable = !isShiftOpened
 //            popupTimer.running = isShiftOpened
         } else {
@@ -28,8 +29,12 @@ Page {
     }
 
     Action {
-        id: purchaseMenu
-        text: qsTr("Меню чека")
+        id: purchaseParams
+        text: qsTr("Параметры оплаты")
+
+        onTriggered: {
+            root.openPage("qrc:/qml/pages/subpages/PurchaseParams.qml")
+        }
     }
 
     Timer {

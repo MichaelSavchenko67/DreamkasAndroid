@@ -31,6 +31,11 @@ Page {
                 calculator.reset()
             }
         }
+
+        SaleComponents.PopupCashlessPaymentChoose {
+            id: popupCashlessPaymentChoose
+            total: openPurchase.total
+        }
     }
 
     footer: SaleComponents.FooterMain {
@@ -90,6 +95,8 @@ Page {
                     onClicked: {
                         root.openPage("qrc:/qml/pages/subpages/Purchase.qml")
                     }
+                    topPadding: buttons.spacing
+                    leftPadding: buttons.spacing
                 }
 
                 SaleComponents.ButtonIcoH {
@@ -101,9 +108,7 @@ Page {
                     enabled: openPurchase.enabled
 
                     onClicked: {
-                        root.openPage("qrc:/qml/pages/subpages/FiscalPurchase.qml")
-                        rootStack.currentItem.isCashPay = false
-                        rootStack.currentItem.paymentSum = CalcEngine.formatResult(openPurchase.total)
+                        popupCashlessPaymentChoose.open()
                     }
                 }
 

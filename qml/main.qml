@@ -19,6 +19,7 @@ ApplicationWindow {
     property bool isPrinterConnected: true
     property bool isShiftOpened: true
     property bool isCabinetEnable: false
+    property var cashInDrawer: "100,00"
 
     Action {
         id: openMenu
@@ -146,7 +147,7 @@ ApplicationWindow {
             return "qrc:/ico/menu/context_menu.png"
         }
 
-        return ""
+        return "qrc:/ico/menu/context_menu.png"
     }
 
     function setLeftMenuButtonAction(action) {

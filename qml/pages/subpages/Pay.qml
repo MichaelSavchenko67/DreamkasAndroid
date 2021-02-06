@@ -13,6 +13,8 @@ Page {
     property var purchaseTotal: "0,00"
     property var excessTotal: "0,00"
     property var deliveryTotal: "0,00"
+    property var lackTotal: "0,00"
+    property bool isGetCash: true
 
     onPurchaseTotalChanged: {
         calculator.setInitValue(purchaseTotal)
@@ -171,6 +173,7 @@ Page {
                     reset()
                     setKeyboard("keyboardShortest")
                     setPrecDigits(2)
+                    setEnable(isGetCash)
                 }
             }
         }
@@ -211,6 +214,8 @@ Page {
                     onClicked: {
                         root.openPage("qrc:/qml/pages/subpages/Purchase.qml")
                     }
+                    topPadding: buttons.spacing
+                    leftPadding: buttons.spacing
                 }
 
                 SaleComponents.ButtonIcoH {
@@ -230,5 +235,4 @@ Page {
             }
         }
     }
-
 }

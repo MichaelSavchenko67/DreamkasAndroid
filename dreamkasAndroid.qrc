@@ -94,5 +94,11 @@
         <file>ico/menu/wallet.png</file>
         <file>qml/components/sale/ButtonIcoV.qml</file>
         <file>ico/menu/purchase.png</file>
+        <file>qml/pages/subpages/PurchaseParams.qml</file>
+        <file>qml/pages/subpages/DefaultSno.qml</file>
+        <file>qml/components/settings/SnoChoose.qml</file>
+        <file>qml/components/settings/CashlessPaymentChoose.qml</file>
+        <file>qml/components/settings/PurchaseClcSignChoose.qml</file>
+        <file>qml/components/sale/PopupCashlessPaymentChoose.qml</file>
     </qresource>
 </RCC>

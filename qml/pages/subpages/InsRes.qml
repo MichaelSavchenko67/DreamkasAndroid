@@ -10,8 +10,7 @@ Page {
     id: payPage
 
     property var cash
-    property var cashInDrawer: "100,00"
-    property var cashPast: cashInDrawer
+    property var cashPast: root.cashInDrawer
     property bool isReserveAvailable: true
 
     property real cashInt: 0.00
@@ -35,7 +34,7 @@ Page {
         var total = CalcEngine.formatCommaResult(calculator.formulaStr)
         cashInt = Number(total.replace(/\s/g, '').replace(',', '.'))
         console.log("cashInt: " + cashInt)
-        cashPast = CalcEngine.calc(cashInDrawer.replace(/\s/g, '') + (isInsertion ? "+" : "-") + total.replace(/\s/g, '')).replace('.', ',')
+        cashPast = CalcEngine.calc(root.cashInDrawer.replace(/\s/g, '') + (isInsertion ? "+" : "-") + total.replace(/\s/g, '')).replace('.', ',')
         cashPastInt = Number(cashPast.replace(',', '.'))
         console.log("cashPasInt: " + cashPastInt)
         isReserveAvailable = ((cashInt > 0) && (cashPastInt >= 0))
@@ -161,7 +160,7 @@ Page {
                     Text {
                         width: cashCurrentTitle.width
                         height: cashCurrentTitle.height
-                        text: CalcEngine.formatCommaResult(cashInDrawer) + " \u20BD"
+                        text: CalcEngine.formatCommaResult(root.cashInDrawer) + " \u20BD"
                         font: enterCashSum.font
                         clip: cashCurrentTitle.clip
                         color: cashCurrentTitle.color

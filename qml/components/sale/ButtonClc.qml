@@ -41,6 +41,7 @@ Button {
             weight: Font.Bold
             bold: true
         }
+        color: enabled ? "black" : "#ACACAC"
     }
 
     flat: true
