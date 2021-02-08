@@ -51,7 +51,7 @@ Rectangle {
             styleName: "normal"
             weight: Font.Normal
         }
-        color: "#0064B4"
+        color: "#415A77"
         horizontalAlignment: Qt.AlignHCenter
         verticalAlignment: Qt.AlignVCenter
     }

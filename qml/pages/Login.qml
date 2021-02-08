@@ -79,7 +79,7 @@ Page {
             implicitWidth: 0.1 * parent.width
             implicitHeight: implicitWidth
             running: true
-            Material.accent: "green"
+            Material.accent: "#5C7490"
         }
 
         Timer {
@@ -198,7 +198,7 @@ Page {
                         width: parent.width
                         height: parent.height
                         source: enabled ? "qrc:/ico/calculator/del_en.png" : "qrc:/ico/calculator/del_dis.png"
-                        color: enabled ? "#0064B4" : "grey"
+                        color: enabled ? "#415A77" : "grey"
                     }
                     onClicked: {
                         deleteDigit()

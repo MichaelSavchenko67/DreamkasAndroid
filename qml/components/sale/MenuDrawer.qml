@@ -10,7 +10,7 @@ Drawer {
         header: Rectangle {
             height: 0.214 * menuBar.height
             width: menuBar.width
-            color: "#4DA13F"
+            color: "#5C7490"
 
             Image {
                 id: logo

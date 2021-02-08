@@ -6,6 +6,8 @@ Page {
     Layout.fillHeight: true
     Layout.fillWidth: true
 
+    property var pageTitle: "ПЛИТКИ"
+
     onFocusChanged: {
         if (focus) {
             console.log("[Favorites.qml]\tfocus changed: " + focus)
@@ -13,7 +15,7 @@ Page {
     }
 
     Label {
-        text: "ПЛИТКИ"
+        text: pageTitle
         anchors.centerIn: parent
         font {
             pixelSize: 48

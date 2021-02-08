@@ -112,7 +112,7 @@ Page {
                         leftPadding: font.pixelSize
                         background: Rectangle {
                             border {
-                                color: "green"
+                                color: "#5C7490"
                                 width: 2
                             }
                             radius: 5
@@ -200,14 +200,20 @@ Page {
 
     footer: SaleComponents.FooterMain {
         id: footerMain
+        height: btnRow.height + 2 * 0.125 * btnRow.height
+
         Rectangle {
             anchors.fill: parent
-            color: "#F2F3F5"
+            color: "#F6F6F6"
 
             Row {
+                id: btnRow
                 width: parent.width
-                height: 0.7 * parent.height
-                anchors.verticalCenter: parent.verticalCenter
+                height: 0.2 * width
+                anchors {
+                    bottom: parent.bottom
+                    bottomMargin:  0.125 * height
+                }
                 spacing: 0.044 * width
                 leftPadding: spacing
                 rightPadding: spacing
@@ -215,14 +221,14 @@ Page {
                 SaleComponents.Button_1 {
                     id: insResButton
                     width: 2 / 3 * (parent.width - 3 * parent.spacing)
-                    height: parent.height
+                    height: btnRow.height
                     anchors.verticalCenter: parent.verticalCenter
                     borderWidth: 1
                     backRadius: 5
                     buttonTxt: qsTr(insert.checked ? "ВНЕСТИ" : "ИЗЪЯТЬ")
                     fontSize: 0.23 * height
                     buttonTxtColor: "#FFFFFF"
-                    pushUpColor: "#0064B4"
+                    pushUpColor: "#415A77"
                     pushDownColor: "#004075"
                     enabled: false
 
@@ -235,31 +241,23 @@ Page {
                     }
                 }
 
-                Rectangle {
-                    id: insResTypes
-                    width: (parent.width - 3 * parent.spacing) / 3
-                    height: footerMain.height
+                Column {
                     anchors.verticalCenter: parent.verticalCenter
-                    color: "#00FFFFFF"
 
-                    Column {
-                        anchors.fill: parent
+                    SaleComponents.RadioButtonCursor {
+                        id: reserve
+                        checked: true
+                        text: qsTr("Изъять")
+                        font: cashTitle.font
+                    }
 
-                        SaleComponents.RadioButtonCursor {
-                            id: reserve
-                            checked: true
-                            text: qsTr("Изъять")
-                            font: cashTitle.font
-                        }
+                    SaleComponents.RadioButtonCursor {
+                        id: insert
+                        text: qsTr("Внести")
+                        font: reserve.font
 
-                        SaleComponents.RadioButtonCursor {
-                            id: insert
-                            text: qsTr("Внести")
-                            font: reserve.font
-
-                            onCheckedChanged: {
-                                calcInsRes(checked)
-                            }
+                        onCheckedChanged: {
+                            calcInsRes(checked)
                         }
                     }
                 }

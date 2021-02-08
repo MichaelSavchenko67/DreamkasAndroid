@@ -26,7 +26,7 @@ Button {
                 styleName: "normal"
                 weight: Font.Bold
             }
-            color: "#0064B4"
+            color: "#415A77"
             elide: Label.ElideRight
             horizontalAlignment: Qt.AlignHCenter
             verticalAlignment: Qt.AlignVCenter

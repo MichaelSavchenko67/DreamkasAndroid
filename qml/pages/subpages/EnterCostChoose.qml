@@ -39,96 +39,90 @@ Page {
     }
 
     footer: SaleComponents.FooterMain {
+        height: btnRow.height + totalMsg.height + 3 * 0.125 * btnRow.height
+
+        Component.onCompleted: {
+            calculator.setFooterHeight(height)
+        }
+
         Rectangle {
             anchors.fill: parent
-            color: "#F2F3F5"
+            color: "#F6F6F6"
 
-            Column {
-                anchors.fill: parent
-                spacing: 0.5 * buttons.spacing
+            Label {
+                id: totalMsg
+                text: qsTr("К оплате <b>" + openPurchase.total + " \u20BD</b>")
+                width: parent.width
+                anchors {
+                    bottom: btnRow.top
+                    bottomMargin: 0.125 * btnRow.height
+                }
+                leftPadding: btnRow.spacing
+                font {
+                    pixelSize: 1.5 * openPurchase.fontSize
+                    family: "Roboto"
+                    styleName: "normal"
+                    weight: Font.Normal
+                }
+                color: "black"
+                elide: Label.ElideRight
+                horizontalAlignment: Qt.AlignLeft
+                verticalAlignment: Qt.AlignBottom
+            }
 
-                Text {
-                    id: clcSign
-                    text: "ВОЗВРАТ ПРИХОДА" + " • " + "ПАТЕНТ"
-                    font {
-                        pixelSize: cashButton.fontSize
-                        weight: Font.DemiBold
-                        bold: fontBold
+            Row {
+                id: btnRow
+                width: parent.width
+                height: 0.16 * width
+                anchors {
+                    bottom: parent.bottom
+                    bottomMargin: 0.125 * height
+                }
+                spacing: 0.03 * width
+                leftPadding: spacing
+                rightPadding: spacing
+
+                SaleComponents.ButtonIcoV {
+                    id: openPurchase
+                    property var total: "0,00"
+                    iconPath: "qrc:/ico/menu/purchase.png"
+                    buttonTxt: "ЧЕК"
+                    width: 0.12 * parent.width
+                    height: parent.height
+                    anchors.verticalCenter: parent.verticalCenter
+                    enabled: (total != "0,00")
+
+                    onClicked: {
+                        root.openPage("qrc:/qml/pages/subpages/Purchase.qml")
                     }
-                    color: "#595959"
-                    elide: Text.ElideRight
-                    horizontalAlignment: TextInput.AlignHCenter
-                    verticalAlignment: TextInput.AlignVCenter
                     topPadding: buttons.spacing
                     leftPadding: buttons.spacing
                 }
 
-                Row {
-                    id: buttons
-                    width: parent.width
-                    height: 0.9 * (parent.height - clcSign.height)
-                    spacing: 0.5 * (0.044 * width)
-                    leftPadding: spacing
-                    rightPadding: spacing
+                SaleComponents.ButtonIcoH {
+                    width: (parent.width - 4 * parent.spacing - openPurchase.width) / 2
+                    height: parent.height
+                    anchors.verticalCenter: parent.verticalCenter
+                    buttonTxt: "БЕЗНАЛ"
+                    iconPath: "qrc:/ico/menu/credit_card.png"
+                    enabled: openPurchase.enabled
 
-                    SaleComponents.Button_1 {
-                        id: cashButton
-                        width: (parent.width - 4 * parent.spacing) / 3
-                        height: parent.height
-                        anchors.verticalCenter: parent.verticalCenter
-                        borderWidth: 1
-                        backRadius: 5
-                        buttonTxt: qsTr("НАЛИЧНЫЕ")
-                        fontSize: 0.23 * height
-                        buttonTxtColor: "#0064B4"
-                        pushUpColor: "#FFFFFF"
-                        pushDownColor: "#C2C2C2"
-                        enabled: openPurchase.enabled
-
-                        onClicked: {
-                            root.openPage("qrc:/qml/pages/subpages/Pay.qml")
-                            rootStack.currentItem.purchaseTotal = openPurchase.total
-                        }
+                    onClicked: {
+                        popupCashlessPaymentChoose.open()
                     }
+                }
 
-                    SaleComponents.Button_1 {
-                        id: cashlessButton
-                        width: (parent.width - 4 * parent.spacing) / 3
-                        height: parent.height
-                        anchors.verticalCenter: parent.verticalCenter
-                        borderWidth: 1
-                        backRadius: 5
-                        buttonTxt: qsTr("БЕЗНАЛ")
-                        fontSize: 0.23 * height
-                        buttonTxtColor: "#0064B4"
-                        pushUpColor: "#FFFFFF"
-                        pushDownColor: "#C2C2C2"
-                        enabled: openPurchase.enabled
+                SaleComponents.ButtonIcoH {
+                    width:  (parent.width - 4 * parent.spacing - openPurchase.width) / 2
+                    height: parent.height
+                    anchors.verticalCenter: parent.verticalCenter
+                    buttonTxt: "НАЛИЧНЫЕ"
+                    iconPath: "qrc:/ico/menu/wallet.png"
+                    enabled: openPurchase.enabled
 
-                        onClicked: {
-                            popupCashlessPaymentChoose.open()
-                        }
-                    }
-
-                    SaleComponents.Button_1 {
-                        id: openPurchase
-                        property var total: "0,00"
-
-                        width: (parent.width - 4 * parent.spacing) / 3
-                        height: parent.height
-                        anchors.verticalCenter: parent.verticalCenter
-                        borderWidth: 1
-                        backRadius: 5
-                        buttonTxt: qsTr("ИТОГО\n" + total + " \u20BD")
-                        fontSize: 0.23 * height
-                        buttonTxtColor: "#FFFFFF"
-                        pushUpColor: "#0064B4"
-                        pushDownColor: "#004075"
-                        enabled: (total != "0,00")
-
-                        onClicked: {
-                            root.openPage("qrc:/qml/pages/subpages/Purchase.qml")
-                        }
+                    onClicked: {
+                        root.openPage("qrc:/qml/pages/subpages/Pay.qml")
+                        rootStack.currentItem.purchaseTotal = openPurchase.total
                     }
                 }
             }

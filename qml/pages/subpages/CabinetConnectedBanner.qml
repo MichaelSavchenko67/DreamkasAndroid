@@ -59,7 +59,7 @@ Page {
                 buttonTxt: qsTr("ОТКЛЮЧИТЬ ОТ КАБИНЕТА")
                 fontSize: 0.27 * height
                 buttonTxtColor: "white"
-                pushUpColor: enabled ? "#0064B4" : "#BDC3C7"
+                pushUpColor: enabled ? "#415A77" : "#BDC3C7"
                 pushDownColor: "#004075"
                 onClicked: {
                     console.log("[CabinetConnection.qml]\tdisconnect")
@@ -76,7 +76,7 @@ Page {
                 backRadius: 5
                 buttonTxt: qsTr("ПОДКЛЮЧИТЬ К ДРУГОМУ КАБИНЕТУ")
                 fontSize: 0.27 * height
-                buttonTxtColor: clicked ? "#4DA13F" : "#206914"
+                buttonTxtColor: clicked ? "#5C7490" : "#206914"
                 pushUpColor: "#00FFFFFF"
                 pushDownColor: pushUpColor
                 onClicked: {

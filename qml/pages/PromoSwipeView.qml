@@ -24,7 +24,7 @@ Page {
     contentData: Rectangle {
         id: frame
         anchors.fill: parent
-        color: "#4DA13F"
+        color: "#5C7490"
 
         SwipeView {
             id: promoSwipeView
@@ -42,7 +42,7 @@ Page {
 
                 Rectangle {
                     border.width: 0.02 * width
-                    border.color: "#4DA13F"
+                    border.color: "#5C7490"
                     color: "white"
                     radius: 0.03 * parent.width
 
@@ -101,7 +101,7 @@ Page {
                                 width: addPromoMsg.width
                                 font: addPromoMsg.font
                                 text: qsTr("<a href='https://dreamkas.ru/kluch/'>подробнее</a>")
-                                color: "green"
+                                color: "#5C7490"
                                 linkColor: color
                                 elide: Label.ElideRight
                                 horizontalAlignment: Qt.AlignHCenter
@@ -121,8 +121,8 @@ Page {
                             buttonTxt: qsTr("ПРОДОЛЖИТЬ")
                             fontSize: 0.33 * height
                             buttonTxtColor: "white"
-                            pushUpColor: "#AC58E1"
-                            pushDownColor: "#651D92"
+                            pushUpColor: "#415A77"
+                            pushDownColor: "#004075"
                             onClicked: {
                                 console.log("[PromoSwipeView.qml]\tSkip promo messages")
                                 closePage()

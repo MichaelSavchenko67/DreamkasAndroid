@@ -226,7 +226,7 @@ Flickable {
                         height: 2 * parent.font.pixelSize
                         anchors.verticalCenter: parent.verticalCenter
                         border {
-                            color: parent.focus ? "#4DA13F" : "#0064B4"
+                            color: parent.focus ? "#5C7490" : "#415A77"
                             width: 2
                         }
                         radius: 5
@@ -297,7 +297,7 @@ Flickable {
                 buttonTxt: qsTr("СФОРМИРОВАТЬ")
                 fontSize: 0.27 * height
                 buttonTxtColor: "white"
-                pushUpColor: enabled ? "#0064B4" : "#BDC3C7"
+                pushUpColor: enabled ? "#415A77" : "#BDC3C7"
                 pushDownColor: "#004075"
                 onClicked: {
                     root.openPage("qrc:/qml/pages/subpages/PurchaseCorrectionView.qml")

@@ -12,23 +12,19 @@ Page {
             console.log("[Sale.qml]\tfocus changed: " + focus)
             setToolbarVisible(true)
             setToolBarShadow(false)
-            setMainPageTitle("Формирование чека")
+            setMainPageTitle("Приход" + " • " + "Патент")
+            add2HeaderTitleContextMenu(purchaseParams)
+            setHeaderTitleButtonVisible(true)
             setLeftMenuButtonAction(openMenu)
             resetAddRightMenuButton()
             setAddRightMenuButtonIco("qrc:/ico/menu/search.png")
             setAddRightMenuButtonAction(searchGoods)
             setAddRightMenuButtonVisible(true)
-            setRightMenuButtonAction(openSaleMenu)
-            setRightMenuButtonVisible(true)
+            setRightMenuButtonVisible(false)
             enterCost.isOpenShiftBannerEnable = !isShiftOpened
 //            popupTimer.running = isShiftOpened
-        }
-    }
-
-    Action {
-        id: openSaleMenu
-        onTriggered: {
-            saleMenu.open()
+        } else {
+            resetHeaderTitleButton()
         }
     }
 
@@ -38,21 +34,6 @@ Page {
 
         onTriggered: {
             root.openPage("qrc:/qml/pages/subpages/PurchaseParams.qml")
-        }
-    }
-
-    Menu {
-        id: saleMenu
-        width: 0.6 * parent.width
-        x: parent.width - width
-        transformOrigin: Menu.TopRight
-
-        Component.onCompleted: {
-            addAction(purchaseParams)
-        }
-
-        onClosed: {
-            itemAt(currentIndex).highlighted = false
         }
     }
 
@@ -79,21 +60,24 @@ Page {
         currentIndex: tabStack.currentIndex
 
         contentData: Repeater {
-            model: ["ВВОД ЦЕНЫ", "ПЛИТКИ"]
+            id: tabs
+            model: ["ВВОД ЦЕНЫ", "ОВОЩИ", "ФРУКТЫ", "МОЛОКО", "АЛКОГОЛЬ"]
 
             TabButton {
                 height: parent.height
+                width: Math.max(100, tabBar.width / ((tabs.count > 4) ? 4.5 : 4))
 
                 Label {
                     anchors.fill: parent
                     text: qsTr(modelData)
                     font {
-                        pixelSize: 0.5 * parent.height
+                        pixelSize: 0.4 * parent.height
                         family: "Roboto"
                         styleName: "normal"
                         weight: Font.DemiBold
                     }
-                    color: parent.focus ? "white" : "#d6d6d6"
+                    color: "#5C7490"
+                    opacity: parent.focus ? 1 : 0.74
                     elide: Label.ElideRight
                     horizontalAlignment: Qt.AlignCenter
                     verticalAlignment: Qt.AlignVCenter
@@ -103,18 +87,7 @@ Page {
         }
 
         background: Rectangle {
-            color: "#4DA13F"
-
-            DropShadow {
-                visible: true
-                anchors.fill: parent
-                cached: true
-                verticalOffset: 8
-                radius: verticalOffset
-                samples: 1 + 2 * radius
-                source: parent
-                color: "#d1d1d1"
-            }
+            color: "#FFFFFF"
         }
     }
 
@@ -124,6 +97,9 @@ Page {
         currentIndex: tabBar.currentIndex
 
         Subpages.EnterCost {id: enterCost}
-        Subpages.Favorites {}
+        Subpages.Favorites {pageTitle: "ОВОЩИ"}
+        Subpages.Favorites {pageTitle: "ФРУКТЫ"}
+        Subpages.Favorites {pageTitle: "МОЛОКО"}
+        Subpages.Favorites {pageTitle: "АЛКОГОЛЬ"}
     }
 }

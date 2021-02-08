@@ -370,7 +370,7 @@ Page {
                             height: width
                             anchors.verticalCenter: parent.verticalCenter
                             border.width: 1
-                            border.color: check.checked ? "green" : "black"
+                            border.color: check.checked ? "#5C7490" : "black"
                             Image {
                                 anchors.fill: parent
                                 source: "qrc:/ico/menu/check.png"
@@ -498,12 +498,12 @@ Page {
                         validator: RegExpValidator { regExp: /[0-9]{1,},[0-9]{1,3}/ }
                         cursorDelegate: Rectangle {
                             visible: quantityField.cursorVisible
-                            color: "green"
+                            color: "#5C7490"
                             width: 2 * quantityField.cursorRectangle.width
                         }
                         background: Rectangle {
                             border.width: 1
-                            border.color: quantityField.focus ? "green" : "gray"
+                            border.color: quantityField.focus ? "#5C7490" : "gray"
                             color: "#FFFFFF"
                             radius: 5
                         }

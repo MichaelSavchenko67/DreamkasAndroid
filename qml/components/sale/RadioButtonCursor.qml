@@ -9,7 +9,7 @@ RadioButton {
         x: button.leftPadding
         y: parent.height / 2 - height / 2
         radius: 13
-        border.color: button.checked ? "#0064B4" : "#979797"
+        border.color: button.checked ? "#415A77" : "#979797"
         color: "#00FFFFFF"
 
         Rectangle {
