@@ -100,5 +100,12 @@
         <file>qml/components/settings/CashlessPaymentChoose.qml</file>
         <file>qml/components/settings/PurchaseClcSignChoose.qml</file>
         <file>qml/components/sale/PopupCashlessPaymentChoose.qml</file>
+        <file>qml/pages/subpages/ScanWiFiNetworks.qml</file>
+        <file>ico/settings/signal_25_percent.png</file>
+        <file>ico/settings/signal_50_percent.png</file>
+        <file>ico/settings/signal_75_percent.png</file>
+        <file>ico/settings/signal_100_percent.png</file>
+        <file>ico/menu/choose_right.png</file>
+        <file>ico/settings/signal_off.png</file>
     </qresource>
 </RCC>
