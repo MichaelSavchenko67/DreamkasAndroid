@@ -22,15 +22,13 @@ Page {
     }
 
     Column {
-        anchors {
-           fill: parent
-           leftMargin: 0.044 * connect2printerPage.width
-           topMargin: 2 * 0.044 * connect2printerPage.width
-        }
+        width: parent.width
+        spacing: title.font.pixelSize
 
         Label {
             id: title
-            text: isPrinterConnected ? "Подключенное устройство" : "Устройство для подключения"
+            text: isPrinterConnected ? "Подключенное устройство" : "Введите IP-адрес устройства"
+            anchors.horizontalCenter: parent.horizontalCenter
             font {
                 pixelSize: ip.font.pixelSize
                 family: "Roboto"
@@ -39,29 +37,17 @@ Page {
             }
             clip: true
             elide: "ElideRight"
+            topPadding: parent.spacing
         }
 
-        Row {
+        Column {
             width: parent.width
-            anchors {
-                top: title.bottom
-                topMargin: 0.044 * connect2printerPage.width
-            }
-
-            Label {
-                id: ipTitle
-                width: 0.25 * parent.width
-                anchors.verticalCenter: ip.verticalCenter
-                text: "IP-адрес:"
-                font: ip.font
-                clip: true
-                elide: "ElideRight"
-            }
+            spacing: 0.25 * parent.spacing
 
             TextField {
                 id: ip
                 width: 0.5 * parent.width
-                anchors.left: ipTitle.right
+                anchors.horizontalCenter: parent.horizontalCenter
                 enabled: !isPrinterConnected
                 placeholderText: "___.___.___.___"
                 placeholderTextColor: "black"
@@ -73,7 +59,7 @@ Page {
                     bold: true
                 }
                 clip: true
-                color: "black"
+                color: "#0064B4"
                 horizontalAlignment: Qt.AlignHCenter
                 verticalAlignment: Qt.AlignVCenter
                 inputMethodHints: Qt.ImhDigitsOnly
@@ -84,35 +70,57 @@ Page {
                     width: 2 * ip.cursorRectangle.width
                 }
                 background: Rectangle {
-                    border.width: 2
-                    border.color: ip.focus ? "#5C7490" : "gray"
-                    color: "#FFFFFF"
-                    radius: 5
+                    border.width: 0
+                    color: "#00FFFFFF"
+                }
+            }
+
+            Rectangle {
+                height: 2 * border.width
+                width: title.contentWidth
+                anchors.horizontalCenter: parent.horizontalCenter
+                color: "#E0E0E0"
+                border.color: "#E0E0E0"
+                border.width: 1
+            }
+        }
+
+        SaleComponents.Button_1 {
+            anchors.horizontalCenter: parent.horizontalCenter
+            width: 0.9 * parent.width
+            height: 0.16 * width
+            enabled: isPrinterConnected || ip.acceptableInput
+            borderWidth: 0
+            backRadius: 18
+            buttonTxt: qsTr((isPrinterConnected ? "ОТКЛЮЧИТЬ" : "ПОДКЛЮЧИТЬ") +" УСТРОЙСТВО")
+            fontSize: 0.27 * height
+            buttonTxtColor: "white"
+            pushUpColor: enabled ? "#415A77" : "#BDC3C7"
+            pushDownColor: "#004075"
+            onClicked: {
+                if (isPrinterConnected) {
+                    console.log("[Connect2printer.qml]\tdisconnect printer with ip: " + ip.displayText)
+                    root.openDisconnectPrinterDialog()
+                } else {
+                    console.log("[Connect2printer.qml]\tconnect to printer with ip: " + ip.displayText)
+                    openPage("qrc:/qml/pages/subpages/ConnectPrinter.qml")
                 }
             }
         }
-    }
 
-    SaleComponents.Button_1 {
-        anchors.centerIn: parent
-        anchors.horizontalCenter: parent.horizontalCenter
-        width: 0.9 * parent.width
-        height: 0.16 * width
-        enabled: isPrinterConnected || ip.acceptableInput
-        borderWidth: 0
-        backRadius: 5
-        buttonTxt: qsTr(isPrinterConnected ? "ОТКЛЮЧИТЬ" : "ПОДКЛЮЧИТЬ")
-        fontSize: 0.27 * height
-        buttonTxtColor: "white"
-        pushUpColor: enabled ? "#415A77" : "#BDC3C7"
-        pushDownColor: "#004075"
-        onClicked: {
-            if (isPrinterConnected) {
-                console.log("[Connect2printer.qml]\tdisconnect printer with ip: " + ip.displayText)
-                root.openDisconnectPrinterDialog()
-            } else {
-                console.log("[Connect2printer.qml]\tconnect to printer with ip: " + ip.displayText)
-                openPage("qrc:/qml/pages/subpages/ConnectPrinter.qml")
+        SaleComponents.Button_1 {
+            anchors.horizontalCenter: parent.horizontalCenter
+            width: 0.9 * parent.width
+            height: 0.16 * width
+            borderWidth: 0
+            backRadius: 18
+            buttonTxt: qsTr("ПОИСК УСТРОЙСТВА")
+            fontSize: 0.27 * height
+            buttonTxtColor: "white"
+            pushUpColor: enabled ? "#415A77" : "#BDC3C7"
+            pushDownColor: "#004075"
+            onClicked: {
+                root.openPage("qrc:/qml/pages/subpages/ScanWiFiNetworks.qml")
             }
         }
     }

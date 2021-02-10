@@ -8,15 +8,15 @@ import "qrc:/qml/components/sale" as SaleComponents
 
 ApplicationWindow {
     id: root
-    width: Screen.width
-    height: Screen.height
-//    width: 720
-//    height: 1280
+//    width: Screen.width
+//    height: Screen.height
+    width: 720
+    height: 1280
 //    width: 1080
 //    height: 1920
     visible: true
 
-    property bool isPrinterConnected: true
+    property bool isPrinterConnected: false
     property bool isShiftOpened: true
     property bool isCabinetEnable: false
     property var cashInDrawer: "100,00"
