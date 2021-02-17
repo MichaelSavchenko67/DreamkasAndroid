@@ -107,5 +107,10 @@
         <file>ico/settings/signal_100_percent.png</file>
         <file>ico/menu/choose_right.png</file>
         <file>ico/settings/signal_off.png</file>
+        <file>qml/pages/subpages/ConnectedPrinterInfo.qml</file>
+        <file>ico/settings/factory.png</file>
+        <file>ico/settings/language.png</file>
+        <file>ico/menu/success_ico_small.png</file>
+        <file>ico/settings/lock.png</file>
     </qresource>
 </RCC>
