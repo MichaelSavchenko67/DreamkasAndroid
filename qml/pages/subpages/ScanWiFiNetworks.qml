@@ -3,6 +3,7 @@ import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 
 import "qrc:/qml/components/sale" as SaleComponents
+import "qrc:/qml/components/settings" as SettingsComponents
 
 Page {
     id: scanWiFiNetworks
@@ -10,7 +11,7 @@ Page {
     Layout.fillWidth: true
 
     property bool isNetworksFound: true
-    property var connectedSSID: "VIKI PRINT 57 283733"
+    property var connectedSSID: "VIKI PRINT WIFI 0493099329"
 
     onFocusChanged: {
         clearContextMenu()
@@ -20,6 +21,7 @@ Page {
             setLeftMenuButtonAction(openMenu)
             setRightMenuButtonVisible(false)
             setToolbarVisible(true)
+            enterPasswordPopup.open()
         }
     }
 
@@ -55,6 +57,13 @@ Page {
         return ""
     }
 
+    SettingsComponents.EnterPasswordPopup {
+        id: enterPasswordPopup
+        onEntered: {
+            console.log("Entered password: " + enteredPassword)
+        }
+    }
+
     contentData: Rectangle {
         anchors.fill: parent
         color: "#00FFFFFF"
@@ -81,7 +90,7 @@ Page {
                 horizontalAlignment: Label.AlignLeft
                 verticalAlignment: Label.AlignVCenter
                 topPadding: parent.spacing
-                leftPadding: topPadding
+                leftPadding: 0.7 * topPadding
             }
 
             ListView {
@@ -93,7 +102,7 @@ Page {
                     id: networksList
 
                     ListElement {
-                        ssid: "VIKI PRINT 57 283733"
+                        ssid: "VIKI PRINT WIFI 0493099329"
                         plantNum: "03849292722"
                         level: 25
                         isPassNeeded: true
@@ -203,7 +212,7 @@ Page {
                             id: network
                             width: parent.width
                             height: 2.56 * levelIco.height
-                            leftPadding: title.topPadding
+                            leftPadding: 0.7 * title.topPadding
 
                             Image {
                                 id: levelIco
@@ -338,7 +347,7 @@ Page {
                 width: 0.6 * parent.width
                 height: 0.2 * width
                 borderWidth: 0
-                backRadius: 18
+                backRadius: 8
                 buttonTxt: qsTr("ПОДКЛЮЧИТЬ ПО IP-АДРЕСУ")
                 fontSize: 0.27 * height
                 buttonTxtColor: "white"

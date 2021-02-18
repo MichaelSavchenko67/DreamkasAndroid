@@ -91,7 +91,7 @@ Page {
             height: 0.16 * width
             enabled: isPrinterConnected || ip.acceptableInput
             borderWidth: 0
-            backRadius: 18
+            backRadius: 8
             buttonTxt: qsTr((isPrinterConnected ? "ОТКЛЮЧИТЬ" : "ПОДКЛЮЧИТЬ") +" УСТРОЙСТВО")
             fontSize: 0.27 * height
             buttonTxtColor: "white"
