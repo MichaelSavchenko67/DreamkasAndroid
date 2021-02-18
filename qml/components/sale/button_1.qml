@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 
 Button {
+    id: button
     property real backRadius: 0
     property real borderWidth: 1
     property var buttonTxt
@@ -37,7 +38,7 @@ Button {
             wrapMode: Text.WordWrap
             horizontalAlignment: TextInput.AlignHCenter
             verticalAlignment: TextInput.AlignVCenter
-            color: enabled ? buttonTxtColor : "#595959"
+            color: enabled ? buttonTxtColor : ((button.opacity < 1.0) ? buttonTxtColor : "#595959")
             font {
                 pixelSize: fontSize
                 weight: Font.DemiBold
@@ -48,7 +49,7 @@ Button {
 
     background: Rectangle {
         id: rect
-        color: enabled ? (parent.down ? pushDownColor : pushUpColor) : "#C2C2C2"
+        color: enabled ? (parent.down ? pushDownColor : pushUpColor) : ((button.opacity < 1.0) ? pushUpColor : "#C2C2C2")
         border.color: "#c4c4c4"
         border.width: borderWidth
         radius: backRadius

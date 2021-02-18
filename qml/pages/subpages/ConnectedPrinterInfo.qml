@@ -242,7 +242,7 @@ Page {
                 width: 0.9 * parent.width
                 height: 0.16 * width
                 borderWidth: 0
-                backRadius: 18
+                backRadius: 8
                 buttonTxt: qsTr((isConnected ? "ОТКЛЮЧИТЬ" : "ПОДКЛЮЧИТЬ") +" УСТРОЙСТВО")
                 fontSize: 0.27 * height
                 buttonTxtColor: isConnected ? "#415A77" : "white"

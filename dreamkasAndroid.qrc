@@ -112,5 +112,8 @@
         <file>ico/settings/language.png</file>
         <file>ico/menu/success_ico_small.png</file>
         <file>ico/settings/lock.png</file>
+        <file>qml/components/settings/EnterPasswordPopup.qml</file>
+        <file>ico/settings/eye.png</file>
+        <file>ico/settings/eye_off.png</file>
     </qresource>
 </RCC>
