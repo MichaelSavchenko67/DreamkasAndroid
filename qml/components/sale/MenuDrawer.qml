@@ -59,7 +59,7 @@ Drawer {
 
                 property var actions : {
                     "Формирование чека": function() { rootStack.pop(null) },
-                    "Подключить ККТ": function() { root.openPage("qrc:/qml/pages/subpages/Connect2printer.qml") },
+                    "Подключить ККТ": function() { root.openPage("qrc:/qml/pages/subpages/ScanWiFiNetworks.qml") },
                     "Отключить ККТ": function() { root.openDisconnectPrinterDialog() },
                     "Открыть смену": function() { root.openShiftDialog() },
                     "Закрыть смену": function() { root.closeShiftDialog() },

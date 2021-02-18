@@ -15,7 +15,7 @@ Page {
             console.log("[Connect2printer.qml]\tfocus changed: " + focus)
             setMainPageTitle("Подключение ККТ")
             resetAddRightMenuButton()
-            setLeftMenuButtonAction(openMenu)
+            setLeftMenuButtonAction(back)
             setRightMenuButtonVisible(false)
             setToolbarVisible(true)
         }
@@ -105,22 +105,6 @@ Page {
                     console.log("[Connect2printer.qml]\tconnect to printer with ip: " + ip.displayText)
                     openPage("qrc:/qml/pages/subpages/ConnectPrinter.qml")
                 }
-            }
-        }
-
-        SaleComponents.Button_1 {
-            anchors.horizontalCenter: parent.horizontalCenter
-            width: 0.9 * parent.width
-            height: 0.16 * width
-            borderWidth: 0
-            backRadius: 18
-            buttonTxt: qsTr("ПОИСК УСТРОЙСТВА")
-            fontSize: 0.27 * height
-            buttonTxtColor: "white"
-            pushUpColor: enabled ? "#415A77" : "#BDC3C7"
-            pushDownColor: "#004075"
-            onClicked: {
-                root.openPage("qrc:/qml/pages/subpages/ScanWiFiNetworks.qml")
             }
         }
     }

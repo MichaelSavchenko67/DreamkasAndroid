@@ -91,7 +91,7 @@ Page {
             pushDownColor: "#004075"
 
             onClicked: {
-                openPage("qrc:/qml/pages/subpages/Connect2printer.qml")
+                openPage("qrc:/qml/pages/subpages/ScanWiFiNetworks.qml")
             }
         }
     }
