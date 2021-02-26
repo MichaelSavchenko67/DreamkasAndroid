@@ -60,176 +60,407 @@ Page {
                 leftPadding: topPadding
             }
 
-            Column {
+            ScrollView {
                 width: parent.width
+                height: parent.height - title.height - title.topPadding -
+                        (anotherButton.visible ? 2 : 1 ) * connectionButton.height -
+                        (anotherButton.visible ? 3 : 2 ) * parent.spacing
                 clip: true
 
-                ItemDelegate {
+                Column {
                     width: parent.width
-                    height: network.height
 
-                    Row {
-                        id: network
+                    ItemDelegate {
                         width: parent.width
-                        height: 2.56 * levelIco.height
-                        leftPadding: title.topPadding
+                        height: network.height
 
-                        Image {
-                            id: levelIco
-                            anchors.verticalCenter: parent.verticalCenter
-                            width: 0.09 * parent.width
-                            height: width
-                            source: level
-                        }
+                        Row {
+                            id: network
+                            width: parent.width
+                            height: 2.56 * levelIco.height
+                            leftPadding: title.topPadding
 
-                        Column {
-                            width: parent.width - levelIco.width - 2 * parent.leftPadding
-                            height: levelIco.height
-                            anchors.verticalCenter: parent.verticalCenter
-
-                            Label {
-                                id: networkName
-                                width: parent.width
-                                text: qsTr("Уровень сигнала")
-                                font {
-                                    pixelSize: 0.5 * levelIco.height
-                                    family: "Roboto"
-                                    styleName: "normal"
-                                    weight: Font.Normal
-                                }
-                                color: "black"
-                                clip: true
-                                elide: "ElideRight"
-                                verticalAlignment: Label.AlignTop
-                                leftPadding: font.pixelSize
+                            Image {
+                                id: levelIco
+                                anchors.verticalCenter: parent.verticalCenter
+                                width: 0.09 * parent.width
+                                height: width
+                                source: level
                             }
 
-                            Label {
-                                width: parent.width
-                                text: qsTr(levelName)
-                                font {
-                                    pixelSize: 0.83 * networkName.font.pixelSize
-                                    family: "Roboto"
-                                    styleName: "normal"
-                                    weight: Font.Normal
+                            Column {
+                                width: parent.width - levelIco.width - 2 * parent.leftPadding
+                                height: levelIco.height
+                                anchors.verticalCenter: parent.verticalCenter
+
+                                Label {
+                                    id: networkName
+                                    width: parent.width
+                                    text: qsTr("Уровень сигнала")
+                                    font {
+                                        pixelSize: 0.5 * levelIco.height
+                                        family: "Roboto"
+                                        styleName: "normal"
+                                        weight: Font.Normal
+                                    }
+                                    color: "black"
+                                    clip: true
+                                    elide: "ElideRight"
+                                    verticalAlignment: Label.AlignTop
+                                    leftPadding: font.pixelSize
                                 }
-                                color: "#979797"
-                                clip: true
-                                elide: "ElideRight"
-                                verticalAlignment: Label.AlignBottom
-                                leftPadding: networkName.leftPadding
+
+                                Label {
+                                    width: parent.width
+                                    text: qsTr(levelName)
+                                    font {
+                                        pixelSize: 0.83 * networkName.font.pixelSize
+                                        family: "Roboto"
+                                        styleName: "normal"
+                                        weight: Font.Normal
+                                    }
+                                    color: "#979797"
+                                    clip: true
+                                    elide: "ElideRight"
+                                    verticalAlignment: Label.AlignBottom
+                                    leftPadding: networkName.leftPadding
+                                }
                             }
                         }
                     }
-                }
 
-                ItemDelegate {
-                    width: parent.width
-                    height: network.height
-
-                    Row {
+                    ItemDelegate {
                         width: parent.width
-                        height: 2.56 * levelIco.height
-                        leftPadding: title.topPadding
+                        height: network.height
 
-                        Image {
-                            anchors.verticalCenter: parent.verticalCenter
-                            width: 0.09 * parent.width
-                            height: width
-                            source: "qrc:/ico/settings/factory.png"
-                        }
+                        Row {
+                            width: parent.width
+                            height: 2.56 * levelIco.height
+                            leftPadding: title.topPadding
 
-                        Column {
-                            width: parent.width - levelIco.width - 2 * parent.leftPadding
-                            height: levelIco.height
-                            anchors.verticalCenter: parent.verticalCenter
-
-                            Label {
-                                width: parent.width
-                                text: qsTr("Заводской номер")
-                                font {
-                                    pixelSize: 0.5 * levelIco.height
-                                    family: "Roboto"
-                                    styleName: "normal"
-                                    weight: Font.Normal
-                                }
-                                color: "black"
-                                clip: true
-                                elide: "ElideRight"
-                                verticalAlignment: Label.AlignTop
-                                leftPadding: font.pixelSize
+                            Image {
+                                anchors.verticalCenter: parent.verticalCenter
+                                width: 0.09 * parent.width
+                                height: width
+                                source: "qrc:/ico/settings/factory.png"
                             }
 
-                            Label {
-                                width: parent.width
-                                text: qsTr(plantNum)
-                                font {
-                                    pixelSize: 0.83 * networkName.font.pixelSize
-                                    family: "Roboto"
-                                    styleName: "normal"
-                                    weight: Font.Normal
+                            Column {
+                                width: parent.width - levelIco.width - 2 * parent.leftPadding
+                                height: levelIco.height
+                                anchors.verticalCenter: parent.verticalCenter
+
+                                Label {
+                                    width: parent.width
+                                    text: qsTr("Заводской номер")
+                                    font {
+                                        pixelSize: 0.5 * levelIco.height
+                                        family: "Roboto"
+                                        styleName: "normal"
+                                        weight: Font.Normal
+                                    }
+                                    color: "black"
+                                    clip: true
+                                    elide: "ElideRight"
+                                    verticalAlignment: Label.AlignTop
+                                    leftPadding: font.pixelSize
                                 }
-                                color: "#979797"
-                                clip: true
-                                elide: "ElideRight"
-                                verticalAlignment: Label.AlignBottom
-                                leftPadding: networkName.leftPadding
+
+                                Label {
+                                    width: parent.width
+                                    text: qsTr(plantNum)
+                                    font {
+                                        pixelSize: 0.83 * networkName.font.pixelSize
+                                        family: "Roboto"
+                                        styleName: "normal"
+                                        weight: Font.Normal
+                                    }
+                                    color: "#979797"
+                                    clip: true
+                                    elide: "ElideRight"
+                                    verticalAlignment: Label.AlignBottom
+                                    leftPadding: networkName.leftPadding
+                                }
                             }
                         }
                     }
-                }
 
-                ItemDelegate {
-                    width: parent.width
-                    height: network.height
-
-                    Row {
+                    ItemDelegate {
                         width: parent.width
-                        height: 2.56 * levelIco.height
-                        leftPadding: title.topPadding
+                        height: network.height
 
-                        Image {
-                            anchors.verticalCenter: parent.verticalCenter
-                            width: 0.09 * parent.width
-                            height: width
-                            source: "qrc:/ico/settings/language.png"
-                        }
+                        Row {
+                            width: parent.width
+                            height: 2.56 * levelIco.height
+                            leftPadding: title.topPadding
 
-                        Column {
-                            width: parent.width - levelIco.width - 2 * parent.leftPadding
-                            height: levelIco.height
-                            anchors.verticalCenter: parent.verticalCenter
-
-                            Label {
-                                width: parent.width
-                                text: qsTr("MAC-адрес")
-                                font {
-                                    pixelSize: 0.5 * levelIco.height
-                                    family: "Roboto"
-                                    styleName: "normal"
-                                    weight: Font.Normal
-                                }
-                                color: "black"
-                                clip: true
-                                elide: "ElideRight"
-                                verticalAlignment: Label.AlignTop
-                                leftPadding: font.pixelSize
+                            Image {
+                                anchors.verticalCenter: parent.verticalCenter
+                                width: 0.09 * parent.width
+                                height: width
+                                source: "qrc:/ico/settings/language.png"
                             }
 
-                            Label {
-                                width: parent.width
-                                text: qsTr(macAddress.toUpperCase())
-                                font {
-                                    pixelSize: 0.83 * networkName.font.pixelSize
-                                    family: "Roboto"
-                                    styleName: "normal"
-                                    weight: Font.Normal
+                            Column {
+                                width: parent.width - levelIco.width - 2 * parent.leftPadding
+                                height: levelIco.height
+                                anchors.verticalCenter: parent.verticalCenter
+
+                                Label {
+                                    width: parent.width
+                                    text: qsTr("MAC-адрес")
+                                    font {
+                                        pixelSize: 0.5 * levelIco.height
+                                        family: "Roboto"
+                                        styleName: "normal"
+                                        weight: Font.Normal
+                                    }
+                                    color: "black"
+                                    clip: true
+                                    elide: "ElideRight"
+                                    verticalAlignment: Label.AlignTop
+                                    leftPadding: font.pixelSize
                                 }
-                                color: "#979797"
-                                clip: true
-                                elide: "ElideRight"
-                                verticalAlignment: Label.AlignBottom
-                                leftPadding: networkName.leftPadding
+
+                                Label {
+                                    width: parent.width
+                                    text: qsTr(macAddress.toUpperCase())
+                                    font {
+                                        pixelSize: 0.83 * networkName.font.pixelSize
+                                        family: "Roboto"
+                                        styleName: "normal"
+                                        weight: Font.Normal
+                                    }
+                                    color: "#979797"
+                                    clip: true
+                                    elide: "ElideRight"
+                                    verticalAlignment: Label.AlignBottom
+                                    leftPadding: networkName.leftPadding
+                                }
+                            }
+                        }
+                    }
+
+                    ItemDelegate {
+                        width: parent.width
+                        height: network.height
+
+                        Row {
+                            width: parent.width
+                            height: 2.56 * levelIco.height
+                            leftPadding: title.topPadding
+
+                            Image {
+                                anchors.verticalCenter: parent.verticalCenter
+                                width: 0.09 * parent.width
+                                height: width
+                                source: "qrc:/ico/settings/language.png"
+                            }
+
+                            Column {
+                                width: parent.width - levelIco.width - 2 * parent.leftPadding
+                                height: levelIco.height
+                                anchors.verticalCenter: parent.verticalCenter
+
+                                Label {
+                                    width: parent.width
+                                    text: qsTr("MAC-адрес")
+                                    font {
+                                        pixelSize: 0.5 * levelIco.height
+                                        family: "Roboto"
+                                        styleName: "normal"
+                                        weight: Font.Normal
+                                    }
+                                    color: "black"
+                                    clip: true
+                                    elide: "ElideRight"
+                                    verticalAlignment: Label.AlignTop
+                                    leftPadding: font.pixelSize
+                                }
+
+                                Label {
+                                    width: parent.width
+                                    text: qsTr(macAddress.toUpperCase())
+                                    font {
+                                        pixelSize: 0.83 * networkName.font.pixelSize
+                                        family: "Roboto"
+                                        styleName: "normal"
+                                        weight: Font.Normal
+                                    }
+                                    color: "#979797"
+                                    clip: true
+                                    elide: "ElideRight"
+                                    verticalAlignment: Label.AlignBottom
+                                    leftPadding: networkName.leftPadding
+                                }
+                            }
+                        }
+                    }
+
+                    ItemDelegate {
+                        width: parent.width
+                        height: network.height
+
+                        Row {
+                            width: parent.width
+                            height: 2.56 * levelIco.height
+                            leftPadding: title.topPadding
+
+                            Image {
+                                anchors.verticalCenter: parent.verticalCenter
+                                width: 0.09 * parent.width
+                                height: width
+                                source: "qrc:/ico/settings/language.png"
+                            }
+
+                            Column {
+                                width: parent.width - levelIco.width - 2 * parent.leftPadding
+                                height: levelIco.height
+                                anchors.verticalCenter: parent.verticalCenter
+
+                                Label {
+                                    width: parent.width
+                                    text: qsTr("MAC-адрес")
+                                    font {
+                                        pixelSize: 0.5 * levelIco.height
+                                        family: "Roboto"
+                                        styleName: "normal"
+                                        weight: Font.Normal
+                                    }
+                                    color: "black"
+                                    clip: true
+                                    elide: "ElideRight"
+                                    verticalAlignment: Label.AlignTop
+                                    leftPadding: font.pixelSize
+                                }
+
+                                Label {
+                                    width: parent.width
+                                    text: qsTr(macAddress.toUpperCase())
+                                    font {
+                                        pixelSize: 0.83 * networkName.font.pixelSize
+                                        family: "Roboto"
+                                        styleName: "normal"
+                                        weight: Font.Normal
+                                    }
+                                    color: "#979797"
+                                    clip: true
+                                    elide: "ElideRight"
+                                    verticalAlignment: Label.AlignBottom
+                                    leftPadding: networkName.leftPadding
+                                }
+                            }
+                        }
+                    }
+
+                    ItemDelegate {
+                        width: parent.width
+                        height: network.height
+
+                        Row {
+                            width: parent.width
+                            height: 2.56 * levelIco.height
+                            leftPadding: title.topPadding
+
+                            Image {
+                                anchors.verticalCenter: parent.verticalCenter
+                                width: 0.09 * parent.width
+                                height: width
+                                source: "qrc:/ico/settings/language.png"
+                            }
+
+                            Column {
+                                width: parent.width - levelIco.width - 2 * parent.leftPadding
+                                height: levelIco.height
+                                anchors.verticalCenter: parent.verticalCenter
+
+                                Label {
+                                    width: parent.width
+                                    text: qsTr("MAC-адрес")
+                                    font {
+                                        pixelSize: 0.5 * levelIco.height
+                                        family: "Roboto"
+                                        styleName: "normal"
+                                        weight: Font.Normal
+                                    }
+                                    color: "black"
+                                    clip: true
+                                    elide: "ElideRight"
+                                    verticalAlignment: Label.AlignTop
+                                    leftPadding: font.pixelSize
+                                }
+
+                                Label {
+                                    width: parent.width
+                                    text: qsTr(macAddress.toUpperCase())
+                                    font {
+                                        pixelSize: 0.83 * networkName.font.pixelSize
+                                        family: "Roboto"
+                                        styleName: "normal"
+                                        weight: Font.Normal
+                                    }
+                                    color: "#979797"
+                                    clip: true
+                                    elide: "ElideRight"
+                                    verticalAlignment: Label.AlignBottom
+                                    leftPadding: networkName.leftPadding
+                                }
+                            }
+                        }
+                    }
+
+                    ItemDelegate {
+                        width: parent.width
+                        height: network.height
+
+                        Row {
+                            width: parent.width
+                            height: 2.56 * levelIco.height
+                            leftPadding: title.topPadding
+
+                            Image {
+                                anchors.verticalCenter: parent.verticalCenter
+                                width: 0.09 * parent.width
+                                height: width
+                                source: "qrc:/ico/settings/language.png"
+                            }
+
+                            Column {
+                                width: parent.width - levelIco.width - 2 * parent.leftPadding
+                                height: levelIco.height
+                                anchors.verticalCenter: parent.verticalCenter
+
+                                Label {
+                                    width: parent.width
+                                    text: qsTr("MAC-адрес")
+                                    font {
+                                        pixelSize: 0.5 * levelIco.height
+                                        family: "Roboto"
+                                        styleName: "normal"
+                                        weight: Font.Normal
+                                    }
+                                    color: "black"
+                                    clip: true
+                                    elide: "ElideRight"
+                                    verticalAlignment: Label.AlignTop
+                                    leftPadding: font.pixelSize
+                                }
+
+                                Label {
+                                    width: parent.width
+                                    text: qsTr(macAddress.toUpperCase())
+                                    font {
+                                        pixelSize: 0.83 * networkName.font.pixelSize
+                                        family: "Roboto"
+                                        styleName: "normal"
+                                        weight: Font.Normal
+                                    }
+                                    color: "#979797"
+                                    clip: true
+                                    elide: "ElideRight"
+                                    verticalAlignment: Label.AlignBottom
+                                    leftPadding: networkName.leftPadding
+                                }
                             }
                         }
                     }
@@ -238,6 +469,28 @@ Page {
 
             SaleComponents.Button_1 {
                 id: connectionButton
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: 0.9 * parent.width
+                height: 0.16 * width
+                borderWidth: 0
+                backRadius: 8
+                buttonTxt: qsTr((isConnected ? "ОТКЛЮЧИТЬ" : "ПОДКЛЮЧИТЬ") +" УСТРОЙСТВО")
+                fontSize: 0.27 * height
+                buttonTxtColor: isConnected ? "#415A77" : "white"
+                pushUpColor: isConnected ? "#F6F6F6" : "#415A77"
+                pushDownColor: isConnected ? "#B9B9B9" : "#004075"
+                onClicked: {
+                    console.log("[Connect2printer.qml]\t" + (isConnected ? "disconnect" : "connect")+ " printer with dns: " + dns)
+                    if (isConnected) {
+                        root.openDisconnectPrinterDialog()
+                    } else {
+                        openPage("qrc:/qml/pages/subpages/ConnectPrinter.qml")
+                    }
+                }
+            }
+
+            SaleComponents.Button_1 {
+                id: anotherButton
                 anchors.horizontalCenter: parent.horizontalCenter
                 width: 0.9 * parent.width
                 height: 0.16 * width
