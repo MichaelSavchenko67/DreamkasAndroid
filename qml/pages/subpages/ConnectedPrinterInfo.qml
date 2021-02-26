@@ -62,13 +62,14 @@ Page {
 
             ScrollView {
                 width: parent.width
-                height: parent.height - title.height - title.topPadding -
-                        (anotherButton.visible ? 2 : 1 ) * connectionButton.height -
-                        (anotherButton.visible ? 3 : 2 ) * parent.spacing
+                height: parent.height - title.height - title.topPadding - buttonsGroup.height - 2 * parent.spacing
                 clip: true
+                ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+                ScrollBar.vertical.width: 8
 
                 Column {
                     width: parent.width
+                    spacing: 0.25 * title.font.pixelSize
 
                     ItemDelegate {
                         width: parent.width
@@ -467,46 +468,52 @@ Page {
                 }
             }
 
-            SaleComponents.Button_1 {
-                id: connectionButton
-                anchors.horizontalCenter: parent.horizontalCenter
-                width: 0.9 * parent.width
-                height: 0.16 * width
-                borderWidth: 0
-                backRadius: 8
-                buttonTxt: qsTr((isConnected ? "ОТКЛЮЧИТЬ" : "ПОДКЛЮЧИТЬ") +" УСТРОЙСТВО")
-                fontSize: 0.27 * height
-                buttonTxtColor: isConnected ? "#415A77" : "white"
-                pushUpColor: isConnected ? "#F6F6F6" : "#415A77"
-                pushDownColor: isConnected ? "#B9B9B9" : "#004075"
-                onClicked: {
-                    console.log("[Connect2printer.qml]\t" + (isConnected ? "disconnect" : "connect")+ " printer with dns: " + dns)
-                    if (isConnected) {
-                        root.openDisconnectPrinterDialog()
-                    } else {
-                        openPage("qrc:/qml/pages/subpages/ConnectPrinter.qml")
+            Column {
+                id: buttonsGroup
+                width: parent.width
+
+                SaleComponents.Button_1 {
+                    id: connectionButton
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    width: 0.9 * parent.width
+                    height: 0.16 * width
+                    borderWidth: 0
+                    backRadius: 8
+                    buttonTxt: qsTr((isConnected ? "ОТКЛЮЧИТЬ" : "ПОДКЛЮЧИТЬ") +" УСТРОЙСТВО")
+                    fontSize: 0.27 * height
+                    buttonTxtColor: isConnected ? "#415A77" : "white"
+                    pushUpColor: isConnected ? "#F6F6F6" : "#415A77"
+                    pushDownColor: isConnected ? "#B9B9B9" : "#004075"
+                    onClicked: {
+                        console.log("[Connect2printer.qml]\t" + (isConnected ? "disconnect" : "connect")+ " printer with dns: " + dns)
+                        if (isConnected) {
+                            root.openDisconnectPrinterDialog()
+                        } else {
+                            openPage("qrc:/qml/pages/subpages/ConnectPrinter.qml")
+                        }
                     }
                 }
-            }
 
-            SaleComponents.Button_1 {
-                id: anotherButton
-                anchors.horizontalCenter: parent.horizontalCenter
-                width: 0.9 * parent.width
-                height: 0.16 * width
-                borderWidth: 0
-                backRadius: 8
-                buttonTxt: qsTr((isConnected ? "ОТКЛЮЧИТЬ" : "ПОДКЛЮЧИТЬ") +" УСТРОЙСТВО")
-                fontSize: 0.27 * height
-                buttonTxtColor: isConnected ? "#415A77" : "white"
-                pushUpColor: isConnected ? "#F6F6F6" : "#415A77"
-                pushDownColor: isConnected ? "#B9B9B9" : "#004075"
-                onClicked: {
-                    console.log("[Connect2printer.qml]\t" + (isConnected ? "disconnect" : "connect")+ " printer with dns: " + dns)
-                    if (isConnected) {
-                        root.openDisconnectPrinterDialog()
-                    } else {
-                        openPage("qrc:/qml/pages/subpages/ConnectPrinter.qml")
+                SaleComponents.Button_1 {
+                    id: anotherButton
+                    visible: false
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    width: 0.9 * parent.width
+                    height: 0.16 * width
+                    borderWidth: 0
+                    backRadius: 8
+                    buttonTxt: qsTr((isConnected ? "ОТКЛЮЧИТЬ" : "ПОДКЛЮЧИТЬ") +" УСТРОЙСТВО")
+                    fontSize: 0.27 * height
+                    buttonTxtColor: isConnected ? "#415A77" : "white"
+                    pushUpColor: isConnected ? "#F6F6F6" : "#415A77"
+                    pushDownColor: isConnected ? "#B9B9B9" : "#004075"
+                    onClicked: {
+                        console.log("[Connect2printer.qml]\t" + (isConnected ? "disconnect" : "connect")+ " printer with dns: " + dns)
+                        if (isConnected) {
+                            root.openDisconnectPrinterDialog()
+                        } else {
+                            openPage("qrc:/qml/pages/subpages/ConnectPrinter.qml")
+                        }
                     }
                 }
             }
