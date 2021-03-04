@@ -61,7 +61,7 @@ Page {
 
         contentData: Repeater {
             id: tabs
-            model: ["ВВОД ЦЕНЫ", "ОВОЩИ", "ФРУКТЫ", "МОЛОКО", "АЛКОГОЛЬ"]
+            model: ["ВВОД ЦЕНЫ", "ПЛИТКИ", "ОВОЩИ", "ФРУКТЫ", "МОЛОКО", "АЛКОГОЛЬ"]
 
             TabButton {
                 height: parent.height
@@ -97,8 +97,9 @@ Page {
         currentIndex: tabBar.currentIndex
 
         Subpages.EnterCost {id: enterCost}
-        Subpages.Favorites {pageTitle: "ОВОЩИ"}
-        Subpages.Favorites {pageTitle: "ФРУКТЫ"}
+        Subpages.SectionGoods { tilesInRow: 2 }
+        Subpages.SectionGoods { tilesInRow: 3 }
+        Subpages.SectionGoods { tilesInRow: 4 }
         Subpages.Favorites {pageTitle: "МОЛОКО"}
         Subpages.Favorites {pageTitle: "АЛКОГОЛЬ"}
     }
