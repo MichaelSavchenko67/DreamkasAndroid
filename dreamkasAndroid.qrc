@@ -128,5 +128,19 @@
         <file>ico/tiles/tileGoods9.png</file>
         <file>ico/tiles/tileGoods10.png</file>
         <file>ico/tiles/tileGoods11.png</file>
+        <file>ico/tiles/addTile.png</file>
+        <file>ico/tiles/tileSubstrate.png</file>
+        <file>ico/tiles/tileCheckOff.png</file>
+        <file>ico/tiles/tileCheckOn.png</file>
+        <file>qml/components/sale/PopupEnterSectionName.qml</file>
+        <file>ico/settings/girl.png</file>
+        <file>ico/settings/edit.png</file>
+        <file>qml/components/settings/ContextMenu.qml</file>
+        <file>ico/settings/text_size.png</file>
+        <file>ico/settings/2_tiles_in_row.png</file>
+        <file>ico/settings/3_tiles_in_row.png</file>
+        <file>ico/settings/4_tiles_in_row.png</file>
+        <file>ico/settings/delete_all.png</file>
+        <file>ico/settings/delete_selection.png</file>
     </qresource>
 </RCC>

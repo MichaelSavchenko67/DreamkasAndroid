@@ -167,6 +167,11 @@ ApplicationWindow {
         addRightButton.visible = visible
     }
 
+    function setRightMenuButtonIco(icon) {
+        rightButton.icon.source = icon
+        rightButton.visible = true
+    }
+
     function setRightMenuButtonVisible(visible) {
         rightButton.visible = visible
     }

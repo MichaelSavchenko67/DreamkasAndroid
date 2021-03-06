@@ -9,7 +9,6 @@ Rectangle {
     height: 0.3 * width
     anchors.bottom: parent.bottom
     color: "#F6F6F6"
-    opacity: 0.5
 
     DropShadow {
         visible: true
