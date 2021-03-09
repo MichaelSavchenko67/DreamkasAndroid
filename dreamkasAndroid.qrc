@@ -142,5 +142,6 @@
         <file>ico/settings/4_tiles_in_row.png</file>
         <file>ico/settings/delete_all.png</file>
         <file>ico/settings/delete_selection.png</file>
+        <file>qml/components/settings/FilterProxyModel.qml</file>
     </qresource>
 </RCC>

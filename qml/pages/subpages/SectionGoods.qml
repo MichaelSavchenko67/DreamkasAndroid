@@ -1,8 +1,11 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.3
+import QtQml.Models 2.12
+
 
 import "qrc:/qml/components/sale" as SaleComponents
+import "qrc:/qml/components/settings" as SettingsComponents
 
 Page {
     id: sectionGoods
@@ -35,84 +38,98 @@ Page {
         id: tilesModel
 
         ListElement {
+            tileSectionId: 1
             tileName: "Баклажан"
             tileCost: 10
             tileMeasure: "кг"
             tileImg: "qrc:/ico/tiles/tileGoods1.png"
         }
         ListElement {
+            tileSectionId: 1
             tileName: "Свекла"
             tileCost: 20
             tileMeasure: "кг"
             tileImg: "qrc:/ico/tiles/tileGoods2.png"
         }
         ListElement {
+            tileSectionId: 1
             tileName: "Кабачок"
             tileCost: 30
             tileMeasure: "кг"
             tileImg: "qrc:/ico/tiles/tileGoods3.png"
         }
         ListElement {
+            tileSectionId: 1
             tileName: "Тыква"
             tileCost: 40
             tileMeasure: "кг"
             tileImg: "qrc:/ico/tiles/tileGoods4.png"
         }
         ListElement {
+            tileSectionId: 1
             tileName: "Салат айсберг"
             tileCost: 50
             tileMeasure: "г"
             tileImg: "qrc:/ico/tiles/tileGoods5.png"
         }
         ListElement {
+            tileSectionId: 0
             tileName: "Морковь"
             tileCost: 60
             tileMeasure: "кг"
             tileImg: "qrc:/ico/tiles/tileGoods6.png"
         }
         ListElement {
+            tileSectionId: 1
             tileName: "Картофель"
             tileCost: 70
             tileMeasure: "кг"
             tileImg: "qrc:/ico/tiles/tileGoods7.png"
         }
         ListElement {
+            tileSectionId: 1
             tileName: "Лук красный"
             tileCost: 80
             tileMeasure: "кг"
             tileImg: "qrc:/ico/tiles/tileGoods8.png"
         }
         ListElement {
+            tileSectionId: 1
             tileName: "Чеснок"
             tileCost: 90
             tileMeasure: "г"
             tileImg: "qrc:/ico/tiles/tileGoods9.png"
         }
         ListElement {
+            tileSectionId: 1
             tileName: "Роллы"
             tileCost: 100
             tileMeasure: "шт"
             tileImg: "qrc:/ico/tiles/tileGoods10.png"
         }
         ListElement {
+            tileSectionId: 1
             tileName: "Конфеты"
             tileCost: 110
             tileMeasure: "шт"
             tileImg: "qrc:/ico/tiles/tileGoods11.png"
         }
         ListElement {
+            tileSectionId: 1
             tileName: "Баклажан"
             tileCost: 10
             tileMeasure: "кг"
             tileImg: "qrc:/ico/tiles/tileGoods1.png"
         }
         ListElement {
+            tileSectionId: 1
             tileName: "Товар без картинки на плитке"
             tileCost: 10
             tileMeasure: "кг"
             tileImg: ""
         }
         ListElement {
+            tileSectionId: 1
             tileName: ""
             tileCost: 0
             tileMeasure: ""
@@ -120,11 +137,8 @@ Page {
         }
     }
 
-    contentData: GridView {
-        id: tileGridView
-        anchors.fill: parent
-        cellWidth: parent.width / tilesInRow
-        cellHeight: cellWidth
+    SettingsComponents.FilterProxyModel {
+        id: filterProxyModel
         model: tilesModel
         delegate: SaleComponents.TileGoods {
             id: tile
@@ -136,6 +150,18 @@ Page {
             img: tileImg
             checkMode: sectionCheckMode
         }
+
+        filterAccepts: function(item) {
+              return item.tileSectionId === 1
+        }
+    }
+
+    contentData: GridView
+    {
+        anchors.fill: parent
+        model: filterProxyModel
+        cellWidth: parent.width / tilesInRow
+        cellHeight: cellWidth
     }
 
     footer: SaleComponents.FooterMain {
