@@ -115,5 +115,33 @@
         <file>qml/components/settings/EnterPasswordPopup.qml</file>
         <file>ico/settings/eye.png</file>
         <file>ico/settings/eye_off.png</file>
+        <file>qml/components/sale/TileGoods.qml</file>
+        <file>qml/pages/subpages/SectionGoods.qml</file>
+        <file>ico/tiles/tileGoods1.png</file>
+        <file>ico/tiles/tileGoods2.png</file>
+        <file>ico/tiles/tileGoods3.png</file>
+        <file>ico/tiles/tileGoods4.png</file>
+        <file>ico/tiles/tileGoods5.png</file>
+        <file>ico/tiles/tileGoods6.png</file>
+        <file>ico/tiles/tileGoods7.png</file>
+        <file>ico/tiles/tileGoods8.png</file>
+        <file>ico/tiles/tileGoods9.png</file>
+        <file>ico/tiles/tileGoods10.png</file>
+        <file>ico/tiles/tileGoods11.png</file>
+        <file>ico/tiles/addTile.png</file>
+        <file>ico/tiles/tileSubstrate.png</file>
+        <file>ico/tiles/tileCheckOff.png</file>
+        <file>ico/tiles/tileCheckOn.png</file>
+        <file>qml/components/sale/PopupEnterSectionName.qml</file>
+        <file>ico/settings/girl.png</file>
+        <file>ico/settings/edit.png</file>
+        <file>qml/components/settings/ContextMenu.qml</file>
+        <file>ico/settings/text_size.png</file>
+        <file>ico/settings/2_tiles_in_row.png</file>
+        <file>ico/settings/3_tiles_in_row.png</file>
+        <file>ico/settings/4_tiles_in_row.png</file>
+        <file>ico/settings/delete_all.png</file>
+        <file>ico/settings/delete_selection.png</file>
+        <file>qml/components/settings/FilterProxyModel.qml</file>
     </qresource>
 </RCC>

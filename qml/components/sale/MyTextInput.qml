@@ -48,11 +48,13 @@ Rectangle {
                 visible: true
                 anchors.fill: parent
                 cached: true
-                verticalOffset: 8
-                radius: verticalOffset
                 samples: 1 + 2 * radius
+                horizontalOffset: 0
+                verticalOffset: 2
+                radius: 8
+                color: "#D6D6D6"
                 source: parent
-                color: "#d1d1d1"
+
             }
         }
 

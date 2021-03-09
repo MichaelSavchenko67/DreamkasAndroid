@@ -5,6 +5,8 @@ import QtGraphicalEffects 1.0
 
 import "qrc:/qml/pages/" as Pages
 import "qrc:/qml/pages/subpages" as Subpages
+import "qrc:/qml/components/sale" as SaleComponents
+import "qrc:/qml/components/settings" as SettingsComponents
 
 Page {
     onFocusChanged: {
@@ -20,7 +22,14 @@ Page {
             setAddRightMenuButtonIco("qrc:/ico/menu/search.png")
             setAddRightMenuButtonAction(searchGoods)
             setAddRightMenuButtonVisible(true)
-            setRightMenuButtonVisible(false)
+
+            setRightMenuButtonAction(openSectionMenu)
+            setRightMenuButtonIco("qrc:/ico/settings/edit.png")
+            sectionMenu.addAction(renameSection)
+            sectionMenu.addAction(delSection)
+            sectionMenu.addAction(tilesInRow)
+            sectionMenu.addAction(delTiles)
+
             enterCost.isOpenShiftBannerEnable = !isShiftOpened
 //            popupTimer.running = isShiftOpened
         } else {
@@ -35,6 +44,49 @@ Page {
         onTriggered: {
             root.openPage("qrc:/qml/pages/subpages/PurchaseParams.qml")
         }
+    }
+
+    Action {
+        id: openSectionMenu
+        onTriggered: {
+            sectionMenu.open()
+        }
+    }
+
+    Action {
+        id: renameSection
+        text: qsTr("Переименовать")
+        icon.source: "qrc:/ico/settings/text_size.png"
+        onTriggered: {
+            console.log("renameSection")
+        }
+    }
+
+    Action {
+        id: delSection
+        text: qsTr("Удалить весь раздел")
+        icon.source: "qrc:/ico/settings/delete_all.png"
+        onTriggered: {
+            console.log("delSection")
+        }
+    }
+
+    Action {
+        id: tilesInRow
+        text: qsTr("Масштаб")
+        icon.source: "qrc:/ico/settings/2_tiles_in_row.png"
+    }
+
+    Action {
+        id: delTiles
+        text: qsTr("Удалить выборочно")
+        icon.source: "qrc:/ico/settings/delete_selection.png"
+    }
+
+    SettingsComponents.ContextMenu {
+        id: sectionMenu
+        width: parent.width / 2
+        x: parent.width - width
     }
 
     Timer {
@@ -61,7 +113,7 @@ Page {
 
         contentData: Repeater {
             id: tabs
-            model: ["ВВОД ЦЕНЫ", "ОВОЩИ", "ФРУКТЫ", "МОЛОКО", "АЛКОГОЛЬ"]
+            model: ["ВВОД ЦЕНЫ", "ПЛИТКИ", "ОВОЩИ", "ФРУКТЫ", "+ РАЗДЕЛ"]
 
             TabButton {
                 height: parent.height
@@ -96,10 +148,20 @@ Page {
         anchors.fill: parent
         currentIndex: tabBar.currentIndex
 
+        SaleComponents.PopupEnterSectionName {
+            id: popupEnterSectionName
+        }
+
+        onCurrentIndexChanged: {
+            if (currentIndex === 4) {
+                popupEnterSectionName.open()
+            }
+        }
+
         Subpages.EnterCost {id: enterCost}
-        Subpages.Favorites {pageTitle: "ОВОЩИ"}
-        Subpages.Favorites {pageTitle: "ФРУКТЫ"}
-        Subpages.Favorites {pageTitle: "МОЛОКО"}
-        Subpages.Favorites {pageTitle: "АЛКОГОЛЬ"}
+        Subpages.SectionGoods { tilesInRow: 2 }
+        Subpages.SectionGoods { tilesInRow: 3 }
+        Subpages.SectionGoods { tilesInRow: 4 }
+        Subpages.Favorites { pageTitle: "+ РАЗДЕЛ"}
     }
 }

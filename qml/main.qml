@@ -16,7 +16,7 @@ ApplicationWindow {
 //    height: 1920
     visible: true
 
-    property bool isPrinterConnected: false
+    property bool isPrinterConnected: true
     property bool isShiftOpened: true
     property bool isCabinetEnable: false
     property var cashInDrawer: "100,00"
@@ -165,6 +165,11 @@ ApplicationWindow {
 
     function setAddRightMenuButtonVisible(visible) {
         addRightButton.visible = visible
+    }
+
+    function setRightMenuButtonIco(icon) {
+        rightButton.icon.source = icon
+        rightButton.visible = true
     }
 
     function setRightMenuButtonVisible(visible) {
@@ -549,11 +554,12 @@ ApplicationWindow {
                 visible: true
                 anchors.fill: parent
                 cached: true
-                verticalOffset: 8
-                radius: 8
                 samples: 1 + 2 * radius
+                horizontalOffset: 0
+                verticalOffset: 2
+                radius: 8
+                color: "#D6D6D6"
                 source: parent
-                color: "#d1d1d1"
             }
         }
     }
