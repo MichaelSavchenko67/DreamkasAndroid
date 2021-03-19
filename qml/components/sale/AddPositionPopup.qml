@@ -9,26 +9,42 @@ Popup {
     id: addPositionPopup
 
     property var goodsName: "Картофель свежий урожай 2021, Россия"
-    property var unitPrice: "0"
-    property var totalPrice: "0"
-    property var quantity: "0"
+    property var unitPrice: ""
+    property var totalPrice: "0,00"
+    property var quantity: ""
     property var measure: "шт"
     property bool isCostEdit: true
     property bool isQuantityEdit: true
 
     property var costMask: RegExpValidator { regExp: /^(0|[1-9]\d*)([.]|[,]\d{1,2})?$/ }
-    property var countMask: RegExpValidator { regExp: /[1-9]{1,}/ }
+    property var countMask: RegExpValidator { regExp: /[1-9]\d*/ }
     property var scaleMask: RegExpValidator { regExp: /^(0|[1-9]\d*)([.]|[,]\d{1,3})?$/ }
 
     onOpened: {
         costField.focus = false
         quantityField.focus = false
 
+        isCostEdit = (CalcEngine.getNumber(unitPrice) === 0)
+        isQuantityEdit = (isQuantityEdit || (CalcEngine.getNumber(quantity) === 0))
+
         if (isCostEdit) {
+            unitPrice = ""
             costField.focus = true
         } else if (isQuantityEdit) {
             quantityField.focus = true
         }
+
+        calcTotalPrice()
+    }
+
+    function calcTotalPrice() {
+        if ((unitPrice.length > 0) && (quantity.length > 0)) {
+            totalPrice = CalcEngine.calc(unitPrice.replace(',', '.') + " * " + quantity.replace(',', '.'))
+        } else {
+            totalPrice = "0,00"
+        }
+        console.log("totalPrice changed: " + totalPrice)
+        add2purchaseButton.enabled = (CalcEngine.getNumber(totalPrice) > 0)
     }
 
     width: 0.9 * parent.width
@@ -132,6 +148,9 @@ Popup {
                         }
                         color: "#0064B4"
                         onTextChanged: {
+                            unitPrice = text
+                            console.log("unitPrice changed: " + unitPrice)
+                            calcTotalPrice()
                             text = text.replace('.', ',')
                         }
                     }
@@ -185,6 +204,9 @@ Popup {
                         font: costField.font
                         color: costField.color
                         onTextChanged: {
+                            quantity = text
+                            console.log("quantity changed: " + quantity)
+                            calcTotalPrice()
                             text = text.replace('.', ',')
                         }
                     }
@@ -210,7 +232,7 @@ Popup {
 
                 Label {
                     width: parent.width
-                    text: qsTr("Сумма за товар <b>" + CalcEngine.formatResult(totalPrice) + " \u20BD</b>")
+                    text: qsTr("Сумма за товар <b>" + CalcEngine.formatCommaResult(totalPrice.replace('.', ',')) + " \u20BD</b>")
                     font: costTitle.font
                     color: add2purchaseButton.enabled ? "black" : "#979797"
                     clip: costTitle.clip
@@ -223,7 +245,7 @@ Popup {
                     id: add2purchaseButton
                     width: parent.width
                     height: 0.2 * width
-                    enabled: (Number(totalPrice.replace(',', '.')) > 0)
+                    enabled: false
                     opacity: enabled ? 1 : 0.6
                     borderWidth: 0
                     backRadius: 8
@@ -234,6 +256,7 @@ Popup {
                     pushDownColor: "#004075"
                     onClicked: {
                         addPositionPopup.close()
+                        console.log(CalcEngine.getNumber(unitPrice) + " x " + CalcEngine.getNumber(quantity) + " = " + CalcEngine.getNumber(totalPrice))
                     }
                 }
             }
