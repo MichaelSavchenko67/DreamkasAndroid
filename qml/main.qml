@@ -107,6 +107,10 @@ ApplicationWindow {
         }
     }
 
+    SaleComponents.AddPositionPopup {
+        visible: true
+    }
+
     SaleComponents.PopupMain {
         id: popup
     }
