@@ -13,6 +13,7 @@ ApplicationWindow {
     width: 540
     height: 960
     visible: true
+    visibility: "FullScreen"
 
     property bool isPrinterConnected: true
     property bool isShiftOpened: true
