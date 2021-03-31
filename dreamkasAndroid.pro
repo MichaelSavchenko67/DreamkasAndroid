@@ -8,11 +8,13 @@ HEADERS += \
         src/include/launcher.h \
         src/include/menu.h \
         src/include/searchGoods.h \
-        src/include/toolbar.h
+        src/include/toolbar.h \
+        src/include/menumodel.h
 
 SOURCES += \
         src/guiThread.cpp \
         src/main.cpp \
+        src/menumodel.cpp \
         src/qui.cpp \
         src/searchGoods.cpp
 
