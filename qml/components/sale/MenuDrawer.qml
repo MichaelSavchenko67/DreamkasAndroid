@@ -64,9 +64,22 @@ Drawer {
 //            alternatingRowColors: false
             model: menuModel
 
-//            style: TreeViewStyle {
-//                backgroundColor: "#2B2F33"
-//            }
+            style: TreeViewStyle {
+                branchDelegate: Rectangle {
+//                    width: 15; height: 15
+//                    color: "#00000000"
+//                    anchors.right: menuTreeView.right
+
+//                    Image {
+//                        id: expandArrow
+//                        source: styleData.isExpanded ? "qrc:/img/icn_arrow_top.svg" : "qrc:/img/icn_arrow_bottom.svg"
+//                        sourceSize.width: parent.width
+//                        sourceSize.height: parent.height
+//                    }
+
+                }
+
+            }
 
 //            selectionMode: selectionMode.MultiSelection
 //            selection: ItemSelectionModel {
