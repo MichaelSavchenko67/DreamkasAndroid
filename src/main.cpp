@@ -9,7 +9,9 @@
 
 #include <QFile>
 #include <QDir>
-#include "include/menumodel.h"
+#include "include/treemodel.h"
+#include "treemodelstandard.h"
+#include "menumodel.h"
 
 int main(int argc, char *argv[])
 {
@@ -26,7 +28,7 @@ int main(int argc, char *argv[])
 
     qDebug() << qApp->applicationDirPath();
 
-    QString pathFile(qApp->applicationDirPath() + "/default.txt");
+    QString pathFile(qApp->applicationDirPath() + "/default_2.txt");
 
     qDebug() << pathFile;
 
@@ -39,11 +41,17 @@ int main(int argc, char *argv[])
     {
         qDebug() << "File open";
     }
-    MenuModel menuModel(file.readAll());
+    TreeModel treeModel(file.readAll());
 
-    qDebug() << "Row count: " << menuModel.rowCount(QModelIndex());
+    qDebug() << "Row count: " << treeModel.rowCount(QModelIndex());
 
-    engine.rootContext()->setContextProperty("menuModel", &menuModel);
+    TreeModelStandard treeModelStandard;
+
+    MenuModel menuModel;
+    qDebug() << "Initialize";
+    qDebug() << menuModel.rowCount(QModelIndex());
+
+    engine.rootContext()->setContextProperty("menuModel", &treeModel);
 
     return app.exec();
 }

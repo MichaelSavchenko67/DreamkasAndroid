@@ -1,4 +1,4 @@
-#include "include/menumodel.h"
+#include "include/treemodel.h"
 
 TreeItem::TreeItem(const QVector<QVariant> &data, TreeItem *parentItem) :
     m_itemData(data),
@@ -58,18 +58,18 @@ TreeItem *TreeItem::parentItem()
 
 
 
-MenuModel::MenuModel(const QString &data, QObject *parent) : QAbstractItemModel(parent)
+TreeModel::TreeModel(const QString &data, QObject *parent) : QAbstractItemModel(parent)
 {
     m_rootItem = new TreeItem( {tr("Title"), tr("Summary")} );
     setupModelData(data.split('\n'), m_rootItem);
 }
 
-MenuModel::~MenuModel()
+TreeModel::~TreeModel()
 {
     delete m_rootItem;
 }
 
-QModelIndex MenuModel::index(int row, int column, const QModelIndex &parent) const
+QModelIndex TreeModel::index(int row, int column, const QModelIndex &parent) const
 {
     if ( !hasIndex(row, column, parent) )
         return QModelIndex();
@@ -89,7 +89,7 @@ QModelIndex MenuModel::index(int row, int column, const QModelIndex &parent) con
     return QModelIndex();
 }
 
-QModelIndex MenuModel::parent(const QModelIndex &child) const
+QModelIndex TreeModel::parent(const QModelIndex &child) const
 {
     if ( !child.isValid() )
         return QModelIndex();
@@ -103,7 +103,7 @@ QModelIndex MenuModel::parent(const QModelIndex &child) const
     return createIndex(parentItem->row(), 0, parentItem);
 }
 
-int MenuModel::rowCount(const QModelIndex &parent) const
+int TreeModel::rowCount(const QModelIndex &parent) const
 {
     TreeItem *parentItem;
 
@@ -118,14 +118,14 @@ int MenuModel::rowCount(const QModelIndex &parent) const
     return parentItem->childCount();
 }
 
-int MenuModel::columnCount(const QModelIndex &parent) const
+int TreeModel::columnCount(const QModelIndex &parent) const
 {
     if (parent.isValid())
         return static_cast<TreeItem*>(parent.internalPointer())->columnCount();
     return m_rootItem->columnCount();
 }
 
-QVariant MenuModel::data(const QModelIndex &index, int role) const
+QVariant TreeModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid())
         return QVariant();
@@ -138,7 +138,7 @@ QVariant MenuModel::data(const QModelIndex &index, int role) const
     return item->data(index.column());
 }
 
-QVariant MenuModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant TreeModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
         return m_rootItem->data(section);
@@ -146,7 +146,7 @@ QVariant MenuModel::headerData(int section, Qt::Orientation orientation, int rol
     return QVariant();
 }
 
-Qt::ItemFlags MenuModel::flags(const QModelIndex &index) const
+Qt::ItemFlags TreeModel::flags(const QModelIndex &index) const
 {
     if (!index.isValid())
         return Qt::NoItemFlags;
@@ -154,7 +154,7 @@ Qt::ItemFlags MenuModel::flags(const QModelIndex &index) const
     return QAbstractItemModel::flags(index);
 }
 
-void MenuModel::setupModelData(const QStringList &lines, TreeItem *parent)
+void TreeModel::setupModelData(const QStringList &lines, TreeItem *parent)
 {
     QVector<TreeItem*> parents;
     QVector<int> indentations;

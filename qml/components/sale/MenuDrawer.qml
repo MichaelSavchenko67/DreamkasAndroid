@@ -1,6 +1,8 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
-import QtQuick.Controls 1.4
+import QtQuick.Controls 1.5
+import QtQuick.Controls.Styles 1.4
+import QtQml.Models 2.11
 
 Drawer {
     id: drawer
@@ -56,21 +58,87 @@ Drawer {
         {
             id: menuTreeView
             anchors.fill: parent
-            clip: true            
+//            anchors.leftMargin: -13
+            clip: true
+            headerVisible: false
+//            alternatingRowColors: false
             model: menuModel
 
-            TableViewColumn {
-                title: "Name"
-                role: "type"
-                width: 30
-            }
-            TableViewColumn {
-                title: "Size"
-                role: "size"
-                width: 20
+//            style: TreeViewStyle {
+//                backgroundColor: "#2B2F33"
+//            }
+
+//            selectionMode: selectionMode.MultiSelection
+//            selection: ItemSelectionModel {
+
+//            }
+
+            onClicked: {
+                console.log( "Index: " + (index) )
+                console.log("Childer: " + menuModel.hasChildren(index))
+
+                if(menuModel.hasChildren(index))
+                {
+                    console.log("Show child")
+                    if(menuTreeView.isExpanded(index))
+                        menuTreeView.collapse(index)
+                    else
+                        menuTreeView.expand(index)
+                }
+                else
+                {
+                    console.log("Call window")
+                }
+
+//                console.log("[MenuDrawer.qml]\t" + (index + 1) + ". "+ menuItemName.text)
+//                ListView.currentIndex = index
+//                drawer.close()
+//                menuItems.actions[item]();
             }
 
+            function showChildren() {
+                console.log("Hello show Children")
+            }
 
+            TableViewColumn {
+                role: "display"
+//                delegate: Text {
+//                    text: styleData.value
+//                }
+            }
+
+            itemDelegate: Row {
+                id: content
+                width: parent.width
+                spacing: itemName.font.pixelSize
+
+                Image {
+                    height: 1.5 * itemName.font.pixelSize
+                    width: height
+                    anchors.verticalCenter: content.verticalCenter
+                    source: "qrc:/ico/settings/edit.png"
+                }
+//                styleData.hasChildren
+                Text {
+                    id: itemName
+                    anchors.verticalCenter: content.verticalCenter
+                    text: styleData.value
+                    font {
+                        family: "Roboto"
+                        styleName: "normal"
+                        weight: Font.Normal
+                    }
+                    horizontalAlignment: Text.AlignLeft
+                    verticalAlignment: Text.AlignVCenter
+                    elide: Text.ElideRight
+                }
+            }
+
+//            ScrollBar.vertical: ScrollBar {
+//                id: scroll
+//                policy: ScrollBar.AsNeeded
+//                width: 8
+//            }
 
 //            {
 //                id: menuItems

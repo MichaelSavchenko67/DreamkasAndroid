@@ -2,35 +2,39 @@
 #define MENUMODEL_H
 
 #include <QAbstractItemModel>
-//#include <QStandardItemModel>
 
-class TreeItem
+class MenuItem
 {
 public:
-    explicit TreeItem(const QVector<QVariant> &data, TreeItem *parentItem = nullptr);
-    ~TreeItem();
+    explicit MenuItem(const QString &name_ = "UNKNOWN",
+                      const bool visible_ = true,
+                      const bool applied_ = false,
+                      MenuItem *parentItem = nullptr) : m_parentItem(parentItem), name(name_), visible(visible_), applied(applied_) {}
+    ~MenuItem();
 
-    void appendChild(TreeItem *child);
+    void appendChild(MenuItem *child);
 
-    TreeItem *child(int row);
+    MenuItem *child(int row);
     int childCount() const;
     int columnCount() const;
-    QVariant data(int column) const;
+    QVariant data() const;
     int row() const;
-    TreeItem *parentItem();
+    MenuItem *parentItem();
 
 private:
-    QVector<TreeItem*> m_childItems;
-    QVector<QVariant> m_itemData;
-    TreeItem *m_parentItem;
-};
+    QVector<MenuItem*> m_childItems;
+    MenuItem *m_parentItem;
 
+    QString name;   // наименование пункта меню
+    bool visible;       // флаг видимости пункта меню
+    bool applied;       // флаг применения
+};
 
 class MenuModel : public QAbstractItemModel
 {
     Q_OBJECT
 public:
-    explicit MenuModel(const QString &data, QObject *parent = nullptr);
+    explicit MenuModel(QObject *parent = nullptr);
     ~MenuModel();
 
     QModelIndex index(int row, int column, const QModelIndex &parent) const override;
@@ -41,14 +45,10 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
     Qt::ItemFlags flags(const QModelIndex &index) const override;
 
+signals:
+
 private:
-    void setupModelData(const QStringList &lines, TreeItem *parent);
-
-    TreeItem *m_rootItem;
-
-    // QAbstractItemModel interface
-public:
-//    QHash<int, QByteArray> roleNames() const override;
+    MenuItem *m_rootItem;
 };
 
 #endif // MENUMODEL_H

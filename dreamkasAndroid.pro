@@ -3,20 +3,24 @@ TARGET = dreamkasAndroid
 QT += quick quickcontrols2 widgets
 
 HEADERS += \
+        menumodel.h \
         src/include/gui.h \
         src/include/guiThread.h \
         src/include/launcher.h \
         src/include/menu.h \
         src/include/searchGoods.h \
         src/include/toolbar.h \
-        src/include/menumodel.h
+        src/include/treemodel.h \
+        src/treemodelstandard.h
 
 SOURCES += \
+        menumodel.cpp \
         src/guiThread.cpp \
         src/main.cpp \
-        src/menumodel.cpp \
         src/qui.cpp \
-        src/searchGoods.cpp
+        src/searchGoods.cpp \
+        src/treemodel.cpp \
+        src/treemodelstandard.cpp
 
 #OTHER_FILES = qml/main.qml \
 #              qml/components/sale/Button_1.qml \
