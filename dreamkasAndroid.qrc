@@ -144,5 +144,11 @@
         <file>ico/settings/delete_selection.png</file>
         <file>qml/components/settings/FilterProxyModel.qml</file>
         <file>qml/components/sale/AddPositionPopup.qml</file>
+        <file>qml/pages/subpages/settings/Multipos.qml</file>
+        <file>ico/settings/bluetooth.png</file>
+        <file>ico/settings/usb.png</file>
+        <file>ico/settings/calculator.png</file>
+        <file>ico/settings/responsive.png</file>
+        <file>qml/components/settings/ParagraphMessage.qml</file>
     </qresource>
 </RCC>
