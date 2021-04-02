@@ -21,17 +21,14 @@ int main(int argc, char *argv[])
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);   
     QQmlApplicationEngine engine;
-    GUI::AppView appView(&engine);
+
 //    GUI::FoundGoods foundGoods(&engine);
 //    GUI::GuiThread guiThread(&appView);
 //    emit guiThread.run();
 
-    qDebug() << qApp->applicationDirPath();
-
+//    qDebug() << qApp->applicationDirPath();
     QString pathFile(qApp->applicationDirPath() + "/default_2.txt");
-
-    qDebug() << pathFile;
-
+//    qDebug() << pathFile;
     QFile file(pathFile);
 
 //    QDir dir;
@@ -41,17 +38,17 @@ int main(int argc, char *argv[])
     {
         qDebug() << "File open";
     }
-    TreeModel treeModel(file.readAll());
-
-    qDebug() << "Row count: " << treeModel.rowCount(QModelIndex());
-
-    TreeModelStandard treeModelStandard;
+//    TreeModel treeModel(file.readAll());
+//    qDebug() << "Row count: " << treeModel.rowCount(QModelIndex());
+//    TreeModelStandard treeModelStandard;
 
     MenuModel menuModel;
-    qDebug() << "Initialize";
-    qDebug() << menuModel.rowCount(QModelIndex());
+//    qDebug() << "Initialize";
+//    qDebug() << menuModel.rowCount(QModelIndex());
 
-    engine.rootContext()->setContextProperty("menuModel", &treeModel);
+    engine.rootContext()->setContextProperty("menuModel", &menuModel);
+
+    GUI::AppView appView(&engine);
 
     return app.exec();
 }

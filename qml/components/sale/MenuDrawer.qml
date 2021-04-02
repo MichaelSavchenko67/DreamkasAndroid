@@ -58,36 +58,44 @@ Drawer {
         {
             id: menuTreeView
             anchors.fill: parent
-//            anchors.leftMargin: -13
             clip: true
             headerVisible: false
-//            alternatingRowColors: false
+            selectionMode: SelectionMode.NoSelection
+            alternatingRowColors: false
+
             model: menuModel
 
-            style: TreeViewStyle {
-                branchDelegate: Rectangle {
-//                    width: 15; height: 15
-//                    color: "#00000000"
-//                    anchors.right: menuTreeView.right
+            style: TreeViewStyle
+            {
+                backgroundColor: "#00000000"
+                branchDelegate: Rectangle
+                {
+                    width: 15; height: 15
+                    color: "#00000000"
+                    x: menuTreeView.width - (width + 5)
 
-//                    Image {
-//                        id: expandArrow
-//                        source: styleData.isExpanded ? "qrc:/img/icn_arrow_top.svg" : "qrc:/img/icn_arrow_bottom.svg"
-//                        sourceSize.width: parent.width
-//                        sourceSize.height: parent.height
-//                    }
+                    Image
+                    {
+                        id: expandArrow
+                        source: styleData.isExpanded ? "qrc:/ico/menu/up.png" : "qrc:/ico/menu/down.png"
+                        sourceSize.width: parent.width
+                        sourceSize.height: parent.height
+                    }
+                }
+
+                rowDelegate: Row {
+                    height: (0.1 * menuTreeView.height)
 
                 }
 
+//                Row {
+//                    height: 100
+//                }
             }
 
-//            selectionMode: selectionMode.MultiSelection
-//            selection: ItemSelectionModel {
-
-//            }
-
-            onClicked: {
-                console.log( "Index: " + (index) )
+            onClicked:
+            {
+                console.log("Index: " + (index) )
                 console.log("Childer: " + menuModel.hasChildren(index))
 
                 if(menuModel.hasChildren(index))
@@ -109,41 +117,64 @@ Drawer {
 //                menuItems.actions[item]();
             }
 
-            function showChildren() {
-                console.log("Hello show Children")
-            }
-
-            TableViewColumn {
+            TableViewColumn
+            {
                 role: "display"
 //                delegate: Text {
 //                    text: styleData.value
 //                }
             }
 
-            itemDelegate: Row {
-                id: content
-                width: parent.width
-                spacing: itemName.font.pixelSize
+//            itemDelegate: Component {
+//            }
 
-                Image {
-                    height: 1.5 * itemName.font.pixelSize
+            itemDelegate: Row
+            {
+                id: menuItem
+                width: menuTreeView.width
+                spacing: /*menuItemName.font.pixelSize*/(statusIco.visible ? 0.8 * (logo.anchors.leftMargin - statusIco.width) : logo.anchors.leftMargin)
+
+                Image
+                {
+                    id: statusIco
+                    height: menuItemName.font.pixelSize
                     width: height
-                    anchors.verticalCenter: content.verticalCenter
-                    source: "qrc:/ico/settings/edit.png"
+                    visible: menuItemName.visible /*&& modelApplied_*/
+                    anchors.verticalCenter: menuItem.verticalCenter
+                    source: "qrc:/ico/menu/operation_success.png"
                 }
-//                styleData.hasChildren
-                Text {
-                    id: itemName
-                    anchors.verticalCenter: content.verticalCenter
+
+                Text
+                {
+//                    id: menuItemName
+//                    anchors.verticalCenter: menuItem.verticalCenter
+//                    text: styleData.value
+//                    font
+//                    {
+//                        family: "Roboto"
+//                        styleName: "normal"
+//                        weight: Font.Normal
+//                    }
+//                    horizontalAlignment: Text.AlignLeft
+//                    verticalAlignment: Text.AlignVCenter
+//                    elide: Text.ElideRight
+                    id: menuItemName
+                    width: parent.width - statusIco.width
+                    anchors.verticalCenter: parent.verticalCenter
                     text: styleData.value
-                    font {
+                    visible: (menuItem.height > 0)
+                    font
+                    {
+                        pixelSize: 0.83 * userName.font.pixelSize
                         family: "Roboto"
                         styleName: "normal"
                         weight: Font.Normal
                     }
-                    horizontalAlignment: Text.AlignLeft
-                    verticalAlignment: Text.AlignVCenter
+                    clip: true
+                    color: "black"
                     elide: Text.ElideRight
+                    horizontalAlignment: Qt.AlignLeft
+                    verticalAlignment: Qt.AlignVCenter
                 }
             }
 

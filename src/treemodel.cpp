@@ -1,4 +1,5 @@
 #include "include/treemodel.h"
+#include <QDebug>
 
 TreeItem::TreeItem(const QVector<QVariant> &data, TreeItem *parentItem) :
     m_itemData(data),
@@ -62,6 +63,13 @@ TreeModel::TreeModel(const QString &data, QObject *parent) : QAbstractItemModel(
 {
     m_rootItem = new TreeItem( {tr("Title"), tr("Summary")} );
     setupModelData(data.split('\n'), m_rootItem);
+
+
+//    QVector<TreeItem*> parents =
+
+//    m_rootItem->appendChild(new TreeItem(QVector<QVariant>{"Формирование чека"}, m_rootItem));
+
+//    parents.last()->appendChild(new TreeItem(columnData, parents.last()));
 }
 
 TreeModel::~TreeModel()
@@ -156,6 +164,8 @@ Qt::ItemFlags TreeModel::flags(const QModelIndex &index) const
 
 void TreeModel::setupModelData(const QStringList &lines, TreeItem *parent)
 {
+    qDebug() << "Parent: " << parent;
+
     QVector<TreeItem*> parents;
     QVector<int> indentations;
     parents << parent;
@@ -165,6 +175,8 @@ void TreeModel::setupModelData(const QStringList &lines, TreeItem *parent)
 
     while (number < lines.count())
     {
+        qDebug() << "Vector Parents: " << parents;
+
         int position = 0;
         while (position < lines[number].length()) {
             if (lines[number].at(position) != ' ')
@@ -173,6 +185,8 @@ void TreeModel::setupModelData(const QStringList &lines, TreeItem *parent)
         }
 
         const QString lineData = lines[number].mid(position).trimmed();
+
+        qDebug() << "LineData: " << lineData;
 
         if (!lineData.isEmpty()) {
             // Read the column data from the rest of the line.
@@ -186,22 +200,29 @@ void TreeModel::setupModelData(const QStringList &lines, TreeItem *parent)
 
             if (position > indentations.last())
             {
+                qDebug() << "1.";
                 // The last child of the current parent is now the new parent
                 // unless the current parent has no children.
 
                 if (parents.last()->childCount() > 0)
                 {
+                    qDebug() << "2.";
+                    qDebug() << "That << to parents: " << parents.last()->child(parents.last()->childCount()-1);
                     parents << parents.last()->child(parents.last()->childCount()-1);
                     indentations << position;
                 }
-            } else
+            }
+            else
             {
+                qDebug() << "3.";
                 while ( (position < indentations.last()) && (parents.count() > 0) )
                 {
                     parents.pop_back();
                     indentations.pop_back();
                 }
             }
+
+            qDebug() << "That append: 1) columnData: " << columnData << ", parents.last: " << parents.last();
 
             // Append a new item to the current parent's list of children.
             parents.last()->appendChild(new TreeItem(columnData, parents.last()));
