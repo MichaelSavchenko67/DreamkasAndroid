@@ -13,6 +13,12 @@ Page {
     Layout.fillWidth: true
 
     property bool isExternalPinpad: true
+    property var connectedDeviceName: ""
+
+    function setDiscovery(discover) {
+        console.log("[Multipos.qml]\t\tsetDiscovery: " + discover)
+        loaderSwitch.running = discover
+    }
 
     onFocusChanged: {
         clearContextMenu()
@@ -22,7 +28,62 @@ Page {
             setLeftMenuButtonAction(openMenu)
             setRightMenuButtonVisible(false)
             setToolbarVisible(true)
+            setDiscovery(integratedPinpadSwitch.checked)
+        } else {
+            setDiscovery(false)
         }
+    }
+
+    Action {
+        id: connectMultipos
+        onTriggered: {
+            console.log("[Multipos.qml]\t\tconnecting...")
+            popupReset()
+        }
+    }
+
+    Action {
+        id: disconnectMultipos
+        onTriggered: {
+            console.log("[Multipos.qml]\t\tdisconnecting...")
+            popupReset()
+        }
+    }
+
+    function openConnectMultiposDialog(deviceName) {
+        popupReset()
+        root.popupSetTitle("Подключение терминала")
+        root.popupSetAddMsg("Вы подключаете интегрированный терминал " + deviceName)
+        root.popupSetSecondActionName("ОТМЕНА")
+        root.popupSetSecondAction(popupCancel)
+        root.popupSetFirstActionName("ПОДКЛЮЧИТЬ")
+        root.popupSetFirstAction(connectMultipos)
+        root.popupSetClosePolicy(Popup.NoAutoClose)
+        root.popupOpen()
+    }
+
+    function openDisconnectMultiposDialog(deviceName) {
+        popupReset()
+        root.popupSetTitle("Отключение терминала")
+        root.popupSetAddMsg("Отключить интегрированный терминал " + deviceName + "?")
+        root.popupSetSecondActionName("ОТМЕНА")
+        root.popupSetSecondAction(popupCancel)
+        root.popupSetFirstActionName("ДА, ОТКЛЮЧИТЬ")
+        root.popupSetFirstAction(disconnectMultipos)
+        root.popupSetClosePolicy(Popup.NoAutoClose)
+        root.popupOpen()
+    }
+
+    function openChangeMultiposDialog(deviceName) {
+        popupReset()
+        root.popupSetTitle("Смена терминала")
+        root.popupSetAddMsg("Вы хотите подключить интегрированный терминал " + deviceName + ".\nТерминал " + connectedDeviceName + " будет отключен.")
+        root.popupSetSecondActionName("ОТМЕНА")
+        root.popupSetSecondAction(popupCancel)
+        root.popupSetFirstActionName("ПОДКЛЮЧИТЬ")
+        root.popupSetFirstAction(connectMultipos)
+        root.popupSetClosePolicy(Popup.NoAutoClose)
+        root.popupOpen()
     }
 
     function getInterfaceIco(deviceInterface) {
@@ -145,13 +206,13 @@ Page {
 
                 Row {
                     id: loaderRow
-                    width: 3 * loader.implicitWidth
+                    width: loader.implicitWidth
                     anchors.verticalCenter: parent.verticalCenter
 
                     BusyIndicator {
                         id: loader
                         anchors.verticalCenter: parent.verticalCenter
-                        implicitWidth: integratedPinpadTitle.font.pixelSize
+                        implicitWidth: integratedPinpadIco.height
                         implicitHeight: implicitWidth
                         running: false
                         Material.accent: "#5C7490"
@@ -165,7 +226,7 @@ Page {
                     anchors.verticalCenter: parent.verticalCenter
                     onCheckedChanged: {
                         externalPinpadSwitch.checked = !checked
-                        loaderSwitch.running = checked
+                        setDiscovery(checked)
                     }
                 }
             }
@@ -180,35 +241,35 @@ Page {
                 model: ListModel {
                     id: pinpadsList
 
-//                    ListElement {
-//                        deviceName: "SkyPos MP200"
-//                        deviceInterface: "Bluetooth"
-//                        isConnected: true
-//                    }
+                    ListElement {
+                        deviceName: "SkyPos MP200"
+                        deviceInterface: "Bluetooth"
+                        isConnected: true
+                    }
 
-//                    ListElement {
-//                        deviceName: "SkyPos MP200"
-//                        deviceInterface: "USB"
-//                        isConnected: false
-//                    }
+                    ListElement {
+                        deviceName: "SkyPos MP200"
+                        deviceInterface: "USB"
+                        isConnected: false
+                    }
 
-//                    ListElement {
-//                        deviceName: "Ingenico"
-//                        deviceInterface: "USB"
-//                        isConnected: false
-//                    }
+                    ListElement {
+                        deviceName: "Ingenico"
+                        deviceInterface: "USB"
+                        isConnected: false
+                    }
 
-//                    ListElement {
-//                        deviceName: "Sberbank"
-//                        deviceInterface: "USB"
-//                        isConnected: false
-//                    }
+                    ListElement {
+                        deviceName: "Sberbank"
+                        deviceInterface: "USB"
+                        isConnected: false
+                    }
 
-//                    ListElement {
-//                        deviceName: "SkyPos MP200"
-//                        deviceInterface: "Bluetooth"
-//                        isConnected: false
-//                    }
+                    ListElement {
+                        deviceName: "SkyPos MP200"
+                        deviceInterface: "Bluetooth"
+                        isConnected: false
+                    }
                 }
                 delegate: ItemDelegate {
                     width: parent.width
@@ -291,6 +352,13 @@ Page {
                     onClicked: {
                         ListView.currentIndex = index
                         console.log("[multipos.qml]\tChoosen pinpad with index: " + index)
+                        if (isConnected) {
+                            openDisconnectMultiposDialog(deviceName)
+                        } else if (connectedDeviceName.length > 0) {
+                            openChangeMultiposDialog(deviceName)
+                        } else {
+                            openConnectMultiposDialog(deviceName)
+                        }
                     }
                 }
                 ScrollBar.vertical: ScrollBar {
@@ -313,7 +381,7 @@ Page {
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: qsTr("Терминалы не найдены")
                 font {
-                    pixelSize: 0.7 * title.font.pixelSize
+                    pixelSize: externalPinpadTitle.font.pixelSize
                     family: "Roboto"
                     styleName: "normal"
                     weight: Font.Bold

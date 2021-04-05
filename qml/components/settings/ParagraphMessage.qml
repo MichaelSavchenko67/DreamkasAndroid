@@ -3,7 +3,7 @@ import QtQuick.Controls 2.3
 
 Row {
     property var message: ""
-    property var customWidth: 0.7 * parent.width
+    property var customWidth: 0.9 * parent.width
 
     anchors.horizontalCenter: parent.horizontalCenter
 
