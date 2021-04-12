@@ -70,7 +70,8 @@ Drawer {
                     "Ввод количества товара": function() { root.openEnterAmountDialog("Яблоки красные", "Количество, кг", "Неправильное значение, введите снова") },
                     "Ввод суммы платежа": function() { root.openPage("qrc:/qml/pages/subpages/Pay.qml") },
                     "Изъять или внести": function() { root.openPage("qrc:/qml/pages/subpages/InsRes.qml") },
-                    "Чек коррекции": function() { root.openPage("qrc:/qml/pages/subpages/PurchaseCorrection.qml") }
+                    "Чек коррекции": function() { root.openPage("qrc:/qml/pages/subpages/PurchaseCorrection.qml") },
+                    "УТМ": function() { root.openPage("qrc:/qml/pages/subpages/Utm.qml") }
                 }
 
                 ListElement {item: "Формирование чека"}
@@ -86,6 +87,7 @@ Drawer {
                 ListElement {item: "Ввод суммы платежа"}
                 ListElement {item: "Изъять или внести"}
                 ListElement {item: "Чек коррекции"}
+                ListElement {item: "УТМ"}
                 ListElement {item: "Example 5"}
                 ListElement {item: "Example 6"}
                 ListElement {item: "Example 7"}

@@ -144,5 +144,6 @@
         <file>ico/settings/delete_selection.png</file>
         <file>qml/components/settings/FilterProxyModel.qml</file>
         <file>qml/components/sale/AddPositionPopup.qml</file>
+        <file>qml/pages/subpages/Utm.qml</file>
     </qresource>
 </RCC>
