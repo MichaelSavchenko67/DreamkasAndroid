@@ -88,12 +88,6 @@ Drawer {
                 ListElement {item: "Изъять или внести"}
                 ListElement {item: "Чек коррекции"}
                 ListElement {item: "УТМ"}
-                ListElement {item: "Example 5"}
-                ListElement {item: "Example 6"}
-                ListElement {item: "Example 7"}
-                ListElement {item: "Example 8"}
-                ListElement {item: "Example 9"}
-                ListElement {item: "Example 10"}
             }
             delegate: ItemDelegate {
                 id: menuItem

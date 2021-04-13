@@ -108,9 +108,9 @@ ApplicationWindow {
         }
     }
 
-    SaleComponents.AddPositionPopup {
-        visible: true
-    }
+//    SaleComponents.AddPositionPopup {
+//        visible: true
+//    }
 
     SaleComponents.PopupMain {
         id: popup
@@ -428,6 +428,18 @@ ApplicationWindow {
         popupReset()
         openPage("qrc:/qml/pages/subpages/DisconnectPrinter.qml")
     }
+
+
+    Timer { id: connectToUtmDelay; interval: 300; repeat: false; onTriggered: { /*model.connect2utm()*/ } }
+
+    function connectToUtm() {
+        popupReset()
+        root.popupSetTitle("Подключение к УТМ")
+        root.popupOpen()
+        root.popupSetLoader(true)
+        connectToUtmDelay.running = true
+    }
+
     // ---
     SaleComponents.MenuDrawer {
         id: drawer
