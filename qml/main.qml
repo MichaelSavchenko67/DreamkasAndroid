@@ -22,6 +22,10 @@ ApplicationWindow {
     property bool isCabinetEnable: false
     property var cashInDrawer: "100,00"
 
+    SaleComponents.PopupCashlessPay {
+        visible: true
+    }
+
     Action {
         id: openMenu
         onTriggered: {
