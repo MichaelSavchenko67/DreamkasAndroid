@@ -145,5 +145,12 @@
         <file>qml/components/settings/FilterProxyModel.qml</file>
         <file>qml/components/sale/AddPositionPopup.qml</file>
         <file>qml/pages/subpages/Utm.qml</file>
+        <file>ico/utm/check_age.png</file>
+        <file>ico/utm/clock.png</file>
+        <file>ico/utm/ip.png</file>
+        <file>ico/utm/port.png</file>
+        <file>ico/utm/print_slip.png</file>
+        <file>ico/utm/connect.png</file>
+        <file>ico/utm/disconnect.png</file>
     </qresource>
 </RCC>
