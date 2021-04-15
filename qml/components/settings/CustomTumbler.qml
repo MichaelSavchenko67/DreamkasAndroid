@@ -36,7 +36,7 @@ Tumbler {
         y: control.height * 0.4
         width: 40
         height: 1
-        color: "#415A77"
+        color: "#0064B4"
     }
 
     Rectangle {
@@ -44,6 +44,6 @@ Tumbler {
         y: control.height * 0.6
         width: 40
         height: 1
-        color: "#415A77"
+        color: "#0064B4"
     }
 }
