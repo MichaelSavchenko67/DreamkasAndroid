@@ -152,5 +152,8 @@
         <file>ico/utm/print_slip.png</file>
         <file>ico/utm/connect.png</file>
         <file>ico/utm/disconnect.png</file>
+        <file>qml/components/settings/CustomTumbler.qml</file>
+        <file>qml/components/settings/ClockSale.qml</file>
+        <file>qml/components/settings/PopupTumbler.qml</file>
     </qresource>
 </RCC>

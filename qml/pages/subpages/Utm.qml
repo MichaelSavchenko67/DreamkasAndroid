@@ -5,6 +5,7 @@ import QtQuick.Controls.Material 2.12
 //import QtQuick.Extras 1.4
 
 import "qrc:/qml/components/sale" as SaleComponents
+import "qrc:/qml/components/settings" as SettingsComponents
 
 Page {
     property var utmIp: "" //utmModel.getIp()
@@ -47,8 +48,6 @@ Page {
         id: inputIpPortUTM
         anchors.fill: parent
         visible: !isUtmSet
-//        Layout.fillHeight: true
-//        Layout.fillWidth: true
 
         Column {
             id: titleInputIpPortUTM
@@ -167,7 +166,6 @@ Page {
         anchors.fill: parent
         visible: !inputIpPortUTM.visible
 
-
         Column {
             id: titleInfoUTM
             width: parent.width
@@ -179,13 +177,7 @@ Page {
                 id: titleLabelInfo
                 width: parent.width
                 text: qsTr("Настройки")
-                font {
-                    pixelSize: 0.06 * parent.width
-                    family: "Roboto"
-                    styleName: "normal"
-                    weight: Font.Bold
-                    bold: true
-                }
+                font: titleLabelInput.font
                 clip: true
                 elide: "ElideRight"
                 horizontalAlignment: Label.AlignLeft
@@ -195,82 +187,152 @@ Page {
             Rectangle {
                 id: infoIpPort
                 width: parent.width - 2 * parent.leftPadding
-                height: 100
+                height: 0.46 * width
                 color: "#F6F6F6"
                 radius: 16
 
                 Column {
                     id: ipColumnInfo
                     width: parent.width
-                    spacing: 0.15 * titleInfoUTM.spacing
+                    height: parent.height
+                    topPadding: 0.5 * titleInfoUTM.leftPadding
 
-//                    Row {
-//                        width: parent.width
-//                        leftPadding: titleLabelInfo.leftPadding
-//                        spacing: 0.25 * connectedMsg.font.pixelSize
+                    Rectangle {
+                        width: parent.width
+                        height: 0.15 * parent.height
+                        color: "transparent"
 
-//                        Image {
-//                            anchors.verticalCenter: parent.verticalCenter
-//                            width: connectedMsg.font.pixelSize
-//                            height: width
-//                            source: isConnectedUtm ? "qrc:/ico/utm/connect.png" : "qrc:/ico/utm/disconnect.png"
-//                        }
+                        Row {
+                            anchors.fill: parent
+                            leftPadding: 0.75 * titleInfoUTM.leftPadding
+                            spacing: 0.25 * connectedMsg.font.pixelSize
 
-//                        Label {
-//                            id: connectedMsg
-//                            text: qsTr((isConnectedUtm) ? "Подключено" : "Отключено")
-//                            font {
-//                                pixelSize: 0.83 * infoIpLabel.font.pixelSize
-//                                family: "Roboto"
-//                                styleName: "normal"
-//                                weight: Font.Normal
-//                            }
-//                            color: "#979797"
-//                            clip: true
-//                            elide: "ElideRight"
-//                            verticalAlignment: Label.AlignBottom
-//                        }
-//                    }
+                            Image {
+                                anchors.verticalCenter: parent.verticalCenter
+                                width: connectedMsg.font.pixelSize
+                                height: width
+                                source: isConnectedUtm ? "qrc:/ico/utm/connect.png" : "qrc:/ico/utm/disconnect.png"
+                            }
 
+                            Label {
+                                id: connectedMsg
+                                anchors.verticalCenter: parent.verticalCenter
+                                text: qsTr((isConnectedUtm) ? "Подключено" : "Отключено")
+                                font {
+                                    pixelSize: 0.83 * infoIpLabel.font.pixelSize
+                                    family: "Roboto"
+                                    styleName: "normal"
+                                    weight: Font.Normal
+                                }
+                                color: "#979797"
+                                clip: true
+                                elide: "ElideRight"
+                                verticalAlignment: Label.AlignBottom
+                            }
+                        }
+                    }
 
-//                    Row {
-//                        id: infoIp
-//                        width: parent.width
-//                        height: 2.56 * infoIpIco.height
-//                        leftPadding: 0.7 * title.topPadding
+                    Rectangle {
+                        id: rectIpPort
+                        width: parent.width
+                        height: 0.4 * parent.height
+                        color: "transparent"
 
-//                        Image {
-//                            id: infoIpIco
-//                            anchors.verticalCenter: parent.verticalCenter
-//                            width: 0.09 * parent.width
-//                            height: width
-//                            source: "qrc:/ico/utm/ip.png"
-//                        }
+                        Row {
+                            id: infoIp
+                            anchors.fill: parent
+                            leftPadding: titleInfoUTM.leftPadding
 
-//                        Column {
-//                            width: parent.width - infoIpIco.width - 2 * parent.leftPadding
-//                            height: infoIpIco.height
-//                            anchors.verticalCenter: parent.verticalCenter
+                            Image {
+                                id: infoIpIco
+                                anchors.verticalCenter: parent.verticalCenter
+                                width: imagePrintSlip.width
+                                height: width
+                                source: "qrc:/ico/utm/ip.png"
+                            }
 
-//                            Label {
-//                                id: infoIpLabel
-//                                width: parent.width
-//                                text: qsTr("IP-адрес устройства")
-//                                font {
-//                                    pixelSize: 0.5 * infoIpIco.height
-//                                    family: "Roboto"
-//                                    styleName: "normal"
-//                                    weight: Font.Normal
-//                                }
-//                                color: "black"
-//                                clip: true
-//                                elide: "ElideRight"
-//                                verticalAlignment: Label.AlignTop
-//                                leftPadding: font.pixelSize
-//                            }
-//                        }
-//                    }
+                            Column {
+                                width: parent.width - infoIpIco.width - 2 * parent.leftPadding
+                                spacing: 0.1 * titleInfoUTM.spacing
+                                anchors.verticalCenter: parent.verticalCenter
 
+                                Label {
+                                    id: infoIpLabel
+                                    width: parent.width
+                                    text: qsTr("IP-адрес устройства")
+                                    font {
+                                        pixelSize: 0.6 * infoIpIco.height
+                                        family: "Roboto"
+                                        styleName: "normal"
+                                        weight: Font.Normal
+                                    }
+                                    color: "black"
+                                    clip: true
+                                    elide: "ElideRight"
+                                    leftPadding: font.pixelSize
+                                    verticalAlignment: Label.AlignTop
+                                }
+
+                                Label {
+                                    width: parent.width
+                                    text: qsTr(utmIp)
+                                    font: connectedMsg.font
+                                    color: connectedMsg.color
+                                    clip: true
+                                    elide: "ElideRight"
+                                    leftPadding: infoIpLabel.leftPadding
+                                    verticalAlignment: Label.AlignBottom
+                                }
+                            }
+                        }
+                    }
+
+                    Rectangle {
+                        width: parent.width
+                        height: 0.4 * parent.height
+                        color: "transparent"
+
+                        Row {
+                            id: infoPort
+                            anchors.fill: parent
+                            leftPadding: infoIp.leftPadding
+                            spacing: infoIp.spacing
+
+                            Image {
+                                anchors.verticalCenter: parent.verticalCenter
+                                width: infoIpIco.width
+                                height: width
+                                source: "qrc:/ico/utm/port.png"
+                            }
+
+                            Column {
+                                width: parent.width - infoIpIco.width - 2 * parent.leftPadding
+                                anchors.verticalCenter: parent.verticalCenter
+
+                                Label {
+                                    width: parent.width
+                                    text: qsTr("Порт")
+                                    font: infoIpLabel.font
+                                    color: "black"
+                                    clip: true
+                                    elide: "ElideRight"
+                                    leftPadding: font.pixelSize
+                                    verticalAlignment: Label.AlignTop
+                                }
+
+                                Label {
+                                    width: parent.width
+                                    text: qsTr(utmPort.toString())
+                                    font: connectedMsg.font
+                                    color: connectedMsg.color
+                                    clip: true
+                                    elide: "ElideRight"
+                                    leftPadding: infoIpLabel.leftPadding
+                                    verticalAlignment: Label.AlignBottom
+                                }
+                            }
+                        }
+                    }
                 }
             }
 
@@ -299,8 +361,6 @@ Page {
                     color: "black"
                     clip: true
                     elide: "ElideRight"
-//                    horizontalAlignment: Label.AlignLeft
-//                    verticalAlignment: Label.AlignVCenter
                     anchors.verticalCenter: parent.verticalCenter
                     leftPadding: font.pixelSize
                 }
@@ -339,7 +399,6 @@ Page {
                     color: "black"
                     clip: true
                     elide: "ElideRight"
-//                    verticalAlignment: Label.AlignTop
                     anchors.verticalCenter: parent.verticalCenter
                     leftPadding: font.pixelSize
                 }
@@ -353,62 +412,91 @@ Page {
                 }
             }
 
+//            Popup {
+//                id: pop
+
+//                //onClosed: {
+//                //onButtonClicked
+//                    //! Вызвать сеттер
+//                //}
+//            }
+
+            SettingsComponents.PopupTumbler {
+                id: popupEnterTime
+            }
+
             Row {
-                id: tumblerClock
                 anchors.horizontalCenter: parent.horizontalCenter
-                width: labelClockSale.width
+                width: parent.width
+                height: clockSaleSet.height
                 visible: isSetClock
-                spacing: 10//titleInputIpPortUTM.spacing //ipColumn.spacing
 
+                SettingsComponents.ClockSale {
+                    id: clockSaleSet
+                    width: 0.6 * parent.width
+                    height: 0.54 * width
+                    anchors.horizontalCenter: parent.horizontalCenter
 
-                TextMetrics {
-                    id: textMetric
-                    font: startTimeField.font
-                    text: "00:00"
+                    startTime: "11:00"//utmmodel.getStartTime()
+                    finishTime: "23:00"//utmmodel.getFinishTime()
+
+                    onClicked: {
+                        popupEnterTime.open()
+                    }
                 }
 
-                TextField {
-                    id: startTimeField
-                    width: textMetric.tightBoundingRect.width + 2
 
-                    placeholderTextColor: "#000000"
-                    horizontalAlignment: TextInput.AlignHCenter
-                    inputMethodHints: Qt.ImhFormattedNumbersOnly
-                    validator: RegExpValidator {regExp:  /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/ }
-                    font: labelClockSale.font
-                    color: "#0064B4"
-                }
 
-                Label {
-//                    width: textMetric.tightBoundingRect.width
-                    text: qsTr("–")
-                    font: startTimeField.font
-                    color: "black"
-                    clip: true
-                    elide: "ElideRight"
-                    anchors.verticalCenter: parent.verticalCenter
-                    leftPadding: font.pixelSize
-                }
 
-                TextField {
-                    id: endTimeField
-                    width: textMetric.tightBoundingRect.width + 2
 
-                    placeholderTextColor: "#000000"
-                    horizontalAlignment: TextInput.AlignHCenter
-                    inputMethodHints: Qt.ImhFormattedNumbersOnly
-                    validator: RegExpValidator {regExp:  /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/ }
-                    font: labelClockSale.font
-                    color: "#0064B4"
-                }
 
-//                Tumbler {
-//                    id: startTumblerHours
-//                    height: imageClockSale.height * 2
-//                    font: labelClockSale.font
-//                    visibleItemCount: 3
+
+
+
+
+
+
+
+                //                spacing: 10//titleInputIpPortUTM.spacing //ipColumn.spacing
+                //                TextMetrics {
+                //                    id: textMetric
+                //                    font: startTimeField.font
+                //                    text: "00:00"
+                //                }
+
+//                SettingsComponents.CustomTumbler {
+//                    id: startSaleHour
+//                    elementsCnt: 24
+//                    height: parent.width * 0.5
+//                    onCurrentIndexChanged: {
+//                        console.log("TUMBLER: " + currentIndex)
+//                    }
 //                }
 
+//                SettingsComponents.CustomTumbler {
+//                    elementsCnt: 60
+//                    height: parent.width * 0.5
+//                    onCurrentIndexChanged: {
+//                        console.log("TUMBLER: " + currentIndex)
+//                    }
+//                }
+
+
+//                SettingsComponents.CustomTumbler {
+//                    elementsCnt: 24
+//                    height: parent.width * 0.5
+//                    onCurrentIndexChanged: {
+//                        console.log("TUMBLER: " + currentIndex)
+//                    }
+//                }
+
+//                SettingsComponents.CustomTumbler {
+//                    elementsCnt: 60
+//                    height: parent.width * 0.5
+//                    onCurrentIndexChanged: {
+//                        console.log("TUMBLER: " + currentIndex)
+//                    }
+//                }
             }
 
         }
