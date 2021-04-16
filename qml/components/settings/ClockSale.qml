@@ -3,8 +3,8 @@ import QtQuick.Controls 2.12
 
 ItemDelegate {
 
-    property var startTime
-    property var finishTime
+    property int startTime
+    property int finishTime
 
     contentItem: Row {
         spacing: 2 * delimiter.width
@@ -14,7 +14,7 @@ ItemDelegate {
             anchors.verticalCenter: parent.verticalCenter
 
             Label {
-                text: startTime
+                text: ((startTime < 10 ? "0%1" : "%1") + ":00").arg(startTime)
                 font {
                     pixelSize: 1.2 * titleLabelInfo.font.pixelSize
                 }
@@ -40,7 +40,7 @@ ItemDelegate {
             anchors.verticalCenter: parent.verticalCenter
 
             Label {
-                text: finishTime
+                text: ((finishTime < 10 ? "0%1" : "%1") + ":00").arg(finishTime)
                 font {
                     pixelSize: 1.2 * titleLabelInfo.font.pixelSize
                 }

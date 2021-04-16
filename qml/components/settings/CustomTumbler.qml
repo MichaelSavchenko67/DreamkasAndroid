@@ -24,7 +24,8 @@ Tumbler {
     }
 
     delegate: Text {
-        text: qsTr("%1").arg(modelData)
+        id: delegateText
+        text: qsTr(modelData < 10 ? "0%1" : "%1").arg(modelData)
         font: control.font
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
