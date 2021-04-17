@@ -138,6 +138,8 @@ Page {
 
         }
 
+        Timer { id: connectToUtmDelay; interval: 300; repeat: false; onTriggered: { console.log("HELLO")/*model.connect2utm()*/ } }
+
         SaleComponents.Button_1 {
             id: buttonConnectUtm
             anchors.horizontalCenter: parent.horizontalCenter
@@ -152,7 +154,12 @@ Page {
             pushUpColor: enabled ? "#415A77" : "#BDC3C7"
             pushDownColor: "#004075"
             onClicked: {
-                root.connectToUtm()
+                //root.connectToUtm()
+                root.popupReset()
+                root.popupSetTitle("Подключение к УТМ")
+                root.popupOpen()
+                root.popupSetLoader(true)
+                connectToUtmDelay.running = true
             }
         }
     }

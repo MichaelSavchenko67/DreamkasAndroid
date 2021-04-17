@@ -430,15 +430,15 @@ ApplicationWindow {
     }
 
 
-    Timer { id: connectToUtmDelay; interval: 300; repeat: false; onTriggered: { /*model.connect2utm()*/ } }
+//    Timer { id: connectToUtmDelay; interval: 300; repeat: false; onTriggered: { /*model.connect2utm()*/ } }
 
-    function connectToUtm() {
-        popupReset()
-        root.popupSetTitle("Подключение к УТМ")
-        root.popupOpen()
-        root.popupSetLoader(true)
-        connectToUtmDelay.running = true
-    }
+//    function connectToUtm() {
+//        popupReset()
+//        root.popupSetTitle("Подключение к УТМ")
+//        root.popupOpen()
+//        root.popupSetLoader(true)
+//        connectToUtmDelay.running = true
+//    }
 
     // ---
     SaleComponents.MenuDrawer {
