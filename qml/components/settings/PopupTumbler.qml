@@ -64,6 +64,7 @@ Popup {
 //                        anchors.centerIn: parent
                         anchors {
                             right: parent.right
+                            verticalCenter: parent.verticalCenter
                         }
 
                         SettingsComponents.CustomTumbler {
@@ -96,10 +97,10 @@ Popup {
                     height: parent.height
 
                     Row {
-//                        anchors.centerIn: parent
                         anchors {
                             left: parent.left
                             leftMargin: 0.15 * parent.width
+                            verticalCenter: parent.verticalCenter
                         }
                         SettingsComponents.CustomTumbler {
                             id: tumblerFinish

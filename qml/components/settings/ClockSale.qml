@@ -7,7 +7,7 @@ ItemDelegate {
     property int finishTime
 
     contentItem: Row {
-        spacing: 2 * delimiter.width
+        spacing: 1.5 * delimiter.width
 
         Column {
             id: firstDateTime

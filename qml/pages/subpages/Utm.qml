@@ -30,6 +30,8 @@ Page {
             setLeftMenuButtonAction(openMenu)
             setRightMenuButtonVisible(false)
             setToolbarVisible(true)
+            switchPrintSlip.checked = isSetPrintSlip
+            switchClockSale.checked = isSetClock
         }
     }
 
@@ -155,24 +157,25 @@ Page {
     }
 
     Column {
-        id: titleInfoUTM
         anchors.fill: parent
         visible: !titleInputIpPortUTM.visible
 
         ScrollView {
-            width: rootFrame.width
-            height: rootFrame.height
+            id: scroll
+            width: parent.width
+            height: parent.height
             clip: true
             ScrollBar.vertical.policy: ScrollBar.AlwaysOn
             ScrollBar.vertical.width: 8
+            leftPadding: 0.7 * columnContentInfoUTM.spacing
+            rightPadding: 0.7 * columnContentInfoUTM.spacing
 
             Column {
-                id: column1
+                id: columnContentInfoUTM
                 width: parent.width
-                topPadding: titleLabelInfo.font.pixelSize
                 spacing: titleLabelInfo.font.pixelSize
-//                anchors.horizontalCenter: titleInfoUTM.horizontalCenter
-                leftPadding: 0.7 * titleLabelInfo.font.pixelSize
+                topPadding: spacing
+                bottomPadding: spacing
 
                 Label {
                     id: titleLabelInfo
@@ -183,12 +186,11 @@ Page {
                     elide: "ElideRight"
                     horizontalAlignment: Label.AlignLeft
                     verticalAlignment: Label.AlignVCenter
-                    leftPadding: 0.7 * titleLabelInfo.font.pixelSize
                 }
 
                 Rectangle {
                     id: infoIpPort
-                    width: parent.width - 2 * column1.leftPadding
+                    width: parent.width
                     height: 0.46 * width
                     color: "#F6F6F6"
                     radius: 16
@@ -197,7 +199,7 @@ Page {
                         id: ipColumnInfo
                         width: parent.width
                         height: parent.height
-                        topPadding: 0.5 * column1.leftPadding
+                        topPadding: 0.5 * scroll.leftPadding
 
                         Rectangle {
                             width: parent.width
@@ -206,7 +208,7 @@ Page {
 
                             Row {
                                 anchors.fill: parent
-//                                leftPadding: 0.75 * titleLabelInfo.leftPadding
+                                leftPadding: 0.75 * scroll.leftPadding
                                 spacing: 0.25 * connectedMsg.font.pixelSize
 
                                 Image {
@@ -243,7 +245,7 @@ Page {
                             Row {
                                 id: infoIp
                                 anchors.fill: parent
-//                                leftPadding: titleLabelInfo.leftPadding
+                                leftPadding: scroll.leftPadding
 
                                 Image {
                                     id: infoIpIco
@@ -338,9 +340,10 @@ Page {
                     }
                 }
 
+
                 Row {
                     id: printSlip
-                    width: parent.width - 2 * parent.leftPadding
+                    width: parent.width
 
                     Image {
                         id: imagePrintSlip
@@ -390,7 +393,7 @@ Page {
 
                     Label {
                         id: labelClockSale
-                        width: parent.width - imageClockSale.width - switchClockSale.width
+                        width: labelPrintSlip.width
                         text: qsTr("Указать время продажи")
                         font {
                             pixelSize: labelPrintSlip.font.pixelSize
@@ -462,7 +465,7 @@ Page {
 
                     Label {
                         id: labelCheckAge
-                        width: parent.width - imageClockSale.width - switchClockSale.width
+                        width: labelPrintSlip.width
                         text: qsTr("Проверять возраст")
                         font {
                             pixelSize: labelPrintSlip.font.pixelSize
@@ -489,7 +492,7 @@ Page {
                 SaleComponents.Button_1 {
                     id: buttonDisconnectUtm
                     anchors.horizontalCenter: parent.horizontalCenter
-                    width: ipColumn.width
+                    width: parent.width
                     height: 0.16 * width
                     borderWidth: 0
                     backRadius: 8
