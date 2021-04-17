@@ -12,6 +12,26 @@ Popup {
 
     signal entered(int start, int finish)
 
+    function verifyTimeSet() {
+        if (startTime === 0 && finishTime === 0)
+            return
+
+        if (finishTime >= 0 && finishTime < 10)
+            finishTime = 23
+
+        if (startTime >= finishTime) {
+
+            if (finishTime === 0 ) {
+                startTime = 23
+            }
+            else {
+                startTime = (finishTime - 1)
+            }
+
+            tumblerStart.currentIndex = startTime
+        }
+    }
+
     id: popupTumbler
     width: 0.963 * parent.width
     height: width
@@ -71,17 +91,11 @@ Popup {
                             id: tumblerStart
                             model: 24
                             currentIndex: startTime
+
                             onCurrentIndexChanged: {
                                 console.log("RECEIVE INDEX: " + currentIndex)
-//                                if (currentIndex >= tumblerFinish.currentIndex )
-//                                {
-//                                    console.log("SET current index")
-//                                    currentIndex = tumblerFinish.currentIndex - 1
-//                                }
-
                                 startTime = currentIndex
-
-//                                console.log("SET INDEX: " + currentIndex)
+                                verifyTimeSet()
                             }
                         }
 
@@ -108,6 +122,7 @@ Popup {
                             currentIndex: finishTime
                             onCurrentIndexChanged: {
                                 finishTime = currentIndex
+                                verifyTimeSet()
                             }
                         }
 

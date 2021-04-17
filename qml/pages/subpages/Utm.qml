@@ -32,6 +32,7 @@ Page {
             setToolbarVisible(true)
             switchPrintSlip.checked = isSetPrintSlip
             switchClockSale.checked = isSetClock
+            switchCheckAge.checked  = isSetCheckAge
         }
     }
 
@@ -441,11 +442,11 @@ Page {
                         anchors.horizontalCenter: parent.horizontalCenter
 
                         startTime: 11   //utmmodel.getStartTime()
-                        finishTime: 23  //utmmodel.getFinishTime()
+                        finishTime: 22  //utmmodel.getFinishTime()
 
                         onClicked: {
-                            popupEnterTime.startTime = clockSaleSet.startTime
                             popupEnterTime.finishTime = clockSaleSet.finishTime
+                            popupEnterTime.startTime = clockSaleSet.startTime
                             popupEnterTime.open()
                         }
                     }
