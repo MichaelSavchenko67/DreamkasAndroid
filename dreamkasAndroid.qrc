@@ -155,5 +155,9 @@
         <file>qml/components/settings/CustomTumbler.qml</file>
         <file>qml/components/settings/ClockSale.qml</file>
         <file>qml/components/settings/PopupTumbler.qml</file>
+        <file>qml/components/sale/PopupAlcoholSale.qml</file>
+        <file>img/sale/check_alco_code.png</file>
+        <file>img/sale/clock_sale.png</file>
+        <file>img/sale/check_age.png</file>
     </qresource>
 </RCC>

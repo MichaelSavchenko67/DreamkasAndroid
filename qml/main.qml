@@ -112,6 +112,19 @@ ApplicationWindow {
 //        visible: true
 //    }
 
+//    QtObject {
+//        id: obj
+//        property var locale: Qt.locale()
+//        property date currentDate: new Date()
+//        property string dateString
+
+//        Component.onCompleted: {
+//            dateString = currentDate.toLocaleDateString();
+//            print(Date.fromLocaleDateString(dateString));
+//        }
+//    }
+
+
     SaleComponents.PopupMain {
         id: popup
     }
