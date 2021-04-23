@@ -44,7 +44,7 @@ Page {
     Action {
         id: confirmDelPositions
         onTriggered: {
-            console.log("[Login.qml]\Delete selected position")
+            console.log("[Purchase.qml]\Delete selected position")
             delCheckedPos()
             setAddRightMenuButtonVisible(false)
             root.popupClose()

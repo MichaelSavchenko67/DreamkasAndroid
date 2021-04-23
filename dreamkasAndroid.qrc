@@ -159,5 +159,14 @@
         <file>img/sale/check_alco_code.png</file>
         <file>img/sale/clock_sale.png</file>
         <file>img/sale/check_age.png</file>
+        <file>qml/pages/DemoSwipeView.qml</file>
+        <file>img/demo/eighth.png</file>
+        <file>img/demo/fifth.png</file>
+        <file>img/demo/first.png</file>
+        <file>img/demo/fourth.png</file>
+        <file>img/demo/second.png</file>
+        <file>img/demo/seventh.png</file>
+        <file>img/demo/sixth.png</file>
+        <file>img/demo/third.png</file>
     </qresource>
 </RCC>

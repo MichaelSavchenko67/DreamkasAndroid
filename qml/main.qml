@@ -172,6 +172,10 @@ ApplicationWindow {
         leftButton.action = action
     }
 
+    function setLeftMenuButtonIco(ico) {
+        leftButton.icon.source = ico
+    }
+
     function setAddRightMenuButtonAction(action) {
         addRightButton.action = action
     }
