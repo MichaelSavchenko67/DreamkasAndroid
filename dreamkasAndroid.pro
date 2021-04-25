@@ -3,6 +3,7 @@ TARGET = dreamkasAndroid
 QT += quick quickcontrols2 widgets
 
 HEADERS += \
+        src/include/modelDemoSwipe.h \
         src/include/gui.h \
         src/include/guiThread.h \
         src/include/launcher.h \
@@ -11,6 +12,7 @@ HEADERS += \
         src/include/toolbar.h
 
 SOURCES += \
+        src/modelDemoSwipe.cpp \
         src/guiThread.cpp \
         src/main.cpp \
         src/qui.cpp \

@@ -7,6 +7,8 @@
 #include "include/gui.h"
 #include "include/guiThread.h"
 
+#include "include/modelDemoSwipe.h"
+
 int main(int argc, char *argv[])
 {
     QGuiApplication::setApplicationName("Dreamkas");
@@ -15,6 +17,10 @@ int main(int argc, char *argv[])
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);   
     QQmlApplicationEngine engine;
+
+    ModelDemoSwipe modelDemoSwipe;
+    engine.rootContext()->setContextProperty("modelDemoSwipe", &modelDemoSwipe);
+
     GUI::AppView appView(&engine);
 //    GUI::FoundGoods foundGoods(&engine);
 //    GUI::GuiThread guiThread(&appView);

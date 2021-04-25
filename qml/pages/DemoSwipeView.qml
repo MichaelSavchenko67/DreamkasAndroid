@@ -52,7 +52,7 @@ Page {
                 currentIndex: 0
 
                 Repeater {
-                    model: 3
+                    model: modelDemoSwipe
 
                     Rectangle {
                         border.width: 0.02 * width
@@ -64,28 +64,28 @@ Page {
                             width: 0.9 * parent.width
                             height: 0.9 * parent.height
                             anchors.centerIn: parent
-                            spacing: 0.8 * titlePromo.font.pixelSize
+                            spacing: 0.8 * textNotePromo.font.pixelSize
 
                             Image {
                                 id: imagePromo
-                                source: "qrc:/img/demo/first.png"
+                                source: pathImage_
                                 transformOrigin: Item.Center
                                 height: 0.375 * parent.height
-                                width: 0.876 * height
+//                                width: 0.876 * height
                                 fillMode: Image.PreserveAspectFit
                                 anchors.horizontalCenter: parent.horizontalCenter
                             }
 
                             Label {
-                                id: titlePromo
+                                id: textNotePromo
 
                                 onContentHeightChanged: {
-                                    console.log("titlePromo height: " + titlePromo.contentHeight + ", font: " + titlePromo.font.pixelSize + ", count: " + titlePromo.contentHeight / titlePromo.font.pixelSize)
+                                    console.log("textNotePromo height: " + textNotePromo.contentHeight + ", font: " + textNotePromo.font.pixelSize + ", count: " + textNotePromo.contentHeight / textNotePromo.font.pixelSize)
                                 }
 
                                 width: 0.95 * parent.width
                                 anchors.horizontalCenter: imagePromo.horizontalCenter
-                                text: qsTr("В демо-режиме вы можете: ")
+                                text: textNote_
                                 font {
                                     pixelSize: 0.07 * width
                                     family: "Roboto"
@@ -99,17 +99,17 @@ Page {
                             }
 
                             Label {
-                                id: addPromoMsg
+                                id: textInfoPromo
 
                                 onContentHeightChanged: {
-                                    console.log("addPromoMsg height: " + addPromoMsg.contentHeight + ", font: " + addPromoMsg.font.pixelSize + ", count: " + addPromoMsg.contentHeight / addPromoMsg.font.pixelSize)
+                                    console.log("textInfoPromo height: " + textInfoPromo.contentHeight + ", font: " + textInfoPromo.font.pixelSize + ", count: " + textInfoPromo.contentHeight / textInfoPromo.font.pixelSize)
                                 }
 
                                 width: parent.width
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                text: qsTr("Добавлять товары в чек по поиску в общей базе, при сканировании штрихкода, по свободной цене;\n\nВыбирать товары в тематических разделах;\n\nПроводить тестовые продажи.")
+                                text: textInfo_
                                 font {
-                                    pixelSize: 0.8 * titlePromo.font.pixelSize
+                                    pixelSize: 0.8 * textNotePromo.font.pixelSize
                                     family: "Roboto"
                                     styleName: "normal"
                                     weight: Font.Normal
@@ -128,7 +128,7 @@ Page {
                                 height: 0.2 * width
                                 borderWidth: 0
                                 backRadius: 5
-                                buttonTxt: qsTr("НАЧАТЬ")
+                                buttonTxt: textButton_.toUpperCase()
                                 fontSize: 0.27 * height
                                 fontBold: false
                                 buttonTxtColor: "white"
