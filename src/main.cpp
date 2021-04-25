@@ -18,6 +18,10 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);   
     QQmlApplicationEngine engine;
 
+    Demo demo;
+
+    engine.rootContext()->setContextProperty("demo", &demo);
+
     ModelDemoSwipe modelDemoSwipe;
     engine.rootContext()->setContextProperty("modelDemoSwipe", &modelDemoSwipe);
 

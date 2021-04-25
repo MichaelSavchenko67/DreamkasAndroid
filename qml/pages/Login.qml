@@ -9,7 +9,7 @@ Page {
     Layout.fillHeight: true
     Layout.fillWidth: true
 
-    property bool isFirstConnectToPrinter: false
+    property bool isFirstConnectToPrinter: demo.isFirstConnectionPrinter()
 
     onFocusChanged: {
         if (focus) {

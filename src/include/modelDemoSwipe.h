@@ -40,11 +40,25 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
 signals:
-
+    void closeDemoSwipeFromFront();
 
 private:
     static const QList<PagePromo_t> m_pagesPromo;
+};
 
+
+class Demo : public QObject
+{
+    Q_OBJECT
+public:
+    explicit Demo(QObject *parent = nullptr);
+
+    Q_INVOKABLE bool isFirstConnectionPrinter() const { return m_isFirstConnectionPrinter; }
+
+
+private:
+
+    bool m_isFirstConnectionPrinter {false};
 };
 
 #endif // MODELDEMOSWIPE_H

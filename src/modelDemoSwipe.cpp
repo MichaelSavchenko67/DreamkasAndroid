@@ -17,25 +17,11 @@ ModelDemoSwipe::ModelDemoSwipe(QObject *parent) : QAbstractListModel(parent)
 
 }
 
-//QModelIndex ModelDemoSwipe::index(int row, int column, const QModelIndex &parent) const
-//{
-
-//}
-
-//QModelIndex ModelDemoSwipe::parent(const QModelIndex &child) const
-//{
-
-//}
-
 int ModelDemoSwipe::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
     return m_pagesPromo.count();
 }
-
-//int ModelDemoSwipe::columnCount(const QModelIndex &parent) const
-//{
-//}
 
 QVariant ModelDemoSwipe::data(const QModelIndex &index, int role) const
 {
@@ -60,4 +46,9 @@ QHash<int, QByteArray> ModelDemoSwipe::roleNames() const
     roles[PagePromoRole::TextInfo]      = "textInfo_";
     roles[PagePromoRole::TextButton]    = "textButton_";
     return roles;
+}
+
+Demo::Demo(QObject *parent) : QObject(parent)
+{
+
 }

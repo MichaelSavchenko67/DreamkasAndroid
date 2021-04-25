@@ -12,11 +12,6 @@ Page {
         if (focus) {
             console.log("DEMOSWIPEVIEW FOCUS")
             setToolbarVisible(false)
-            setMainPageTitle("")
-            setLeftMenuButtonAction(close)
-            setLeftMenuButtonIco("qrc:/ico/menu/close.png")
-            resetAddRightMenuButton()
-            setRightMenuButtonVisible(false)
             clearContextMenu()
         }
     }
@@ -78,11 +73,6 @@ Page {
 
                             Label {
                                 id: textNotePromo
-
-                                onContentHeightChanged: {
-                                    console.log("textNotePromo height: " + textNotePromo.contentHeight + ", font: " + textNotePromo.font.pixelSize + ", count: " + textNotePromo.contentHeight / textNotePromo.font.pixelSize)
-                                }
-
                                 width: 0.95 * parent.width
                                 anchors.horizontalCenter: imagePromo.horizontalCenter
                                 text: textNote_
@@ -102,7 +92,7 @@ Page {
                                 id: textInfoPromo
 
                                 onContentHeightChanged: {
-                                    console.log("textInfoPromo height: " + textInfoPromo.contentHeight + ", font: " + textInfoPromo.font.pixelSize + ", count: " + textInfoPromo.contentHeight / textInfoPromo.font.pixelSize)
+//                                    console.log("textInfoPromo height: " + textInfoPromo.contentHeight + ", font: " + textInfoPromo.font.pixelSize + ", count: " + textInfoPromo.contentHeight / textInfoPromo.font.pixelSize)
                                 }
 
                                 width: parent.width
@@ -135,7 +125,12 @@ Page {
                                 pushUpColor: "#415A77"
                                 pushDownColor: "#004075"
                                 onClicked: {
-                                    console.log("[PromoSwipeView.qml]\tSkip promo messages")
+                                    if (promoSwipeView.currentIndex === (modelDemoSwipe.rowCount() - 1) )
+                                    {
+                                        closePage()
+                                        modelDemoSwipe.closeDemoSwipeFromFront()
+                                    }
+
                                     promoSwipeView.incrementCurrentIndex()
                                 }
                             }
