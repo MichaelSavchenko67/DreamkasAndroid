@@ -25,16 +25,51 @@ Page {
             anchors.fill: parent
             spacing: exitButton.icon.height * 0.5
 
-            ToolButton {
-                id: exitButton
-                icon {
-                    color: "transparent"
-                    height: 0.025 * parent.height
-                    width: height
-                    source: "qrc:/ico/menu/close.png"
+            Row {
+                width: parent.width
+                spacing: parent.width * 0.5 - exitButton.width - (textDemoMode.width * 0.5)
+
+                ToolButton {
+                    id: exitButton
+                    icon {
+                        color: "transparent"
+                        height: 0.025 * frame.height
+                        width: height
+                        source: "qrc:/ico/menu/close.png"
+                    }
+                    onClicked: {
+                        closePage()
+                    }
                 }
-                onClicked: {
-                    closePage()
+
+                Column {
+                    topPadding: exitButton.icon.height
+
+                    Rectangle {
+                        id: textDemoMode
+                        width: frame.width * 0.3
+                        height: exitButton.height * 0.5
+                        border.color: "white"
+                        color: "transparent"
+                        radius: 20
+
+                        Text {
+                            width: parent.width
+                            text: qsTr("ДЕМО-РЕЖИМ")
+                            anchors.horizontalCenter: textDemoMode.horizontalCenter
+                            anchors.verticalCenter: textDemoMode.verticalCenter
+                            font {
+                                pixelSize: 0.1 * width
+                                family: "Roboto"
+                                styleName: "normal"
+                                weight: Font.Normal
+                            }
+                            color: "white"
+                            elide: Label.ElideRight
+                            horizontalAlignment: Qt.AlignHCenter
+                            verticalAlignment: Qt.AlignVCenter
+                        }
+                    }
                 }
             }
 
@@ -104,7 +139,7 @@ Page {
                                     styleName: "normal"
                                     weight: Font.Normal
                                 }
-                                color: "#555555"
+                                color: "#444444"
                                 elide: Label.ElideRight
                                 maximumLineCount: 8
                                 wrapMode: Text.WordWrap
