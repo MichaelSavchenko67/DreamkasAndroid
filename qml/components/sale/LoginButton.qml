@@ -14,7 +14,7 @@ Button {
     }
 
     states: State {
-        name: "pushDown"; when: (pressed || pressAndHold)
+        name: "pushDown"; when: pressed
         PropertyChanges {
             target: loginButton;
             scale: 2
