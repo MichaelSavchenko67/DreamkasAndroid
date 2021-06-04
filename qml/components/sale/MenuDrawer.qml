@@ -53,7 +53,7 @@ Drawer {
         contentData: ListView {
             id: menuListView
             anchors.fill: parent
-            clip: true            
+            clip: true
             model: ListModel {
                 id: menuItems
 
@@ -89,6 +89,7 @@ Drawer {
                 ListElement {item: "Чек коррекции"}
                 ListElement {item: "УТМ"}
             }
+
             delegate: ItemDelegate {
                 id: menuItem
                 width: menuListView.width

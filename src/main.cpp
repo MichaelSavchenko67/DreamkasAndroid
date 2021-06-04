@@ -8,6 +8,8 @@
 #include "include/guiThread.h"
 
 #include "include/modelDemoSwipe.h"
+#include <QFile>
+#include <QDir>
 
 int main(int argc, char *argv[])
 {
@@ -19,7 +21,6 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
 
     Demo demo;
-
     engine.rootContext()->setContextProperty("demo", &demo);
 
     ModelDemoSwipe modelDemoSwipe;
