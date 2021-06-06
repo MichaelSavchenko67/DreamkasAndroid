@@ -150,6 +150,8 @@ ApplicationWindow {
         } else {
             rootStack.pop()
         }
+
+        openPopupCheckAge()
     }
 
     function getButtonIco(action) {
@@ -448,7 +450,6 @@ ApplicationWindow {
 
 
 //    Timer { id: connectToUtmDelay; interval: 300; repeat: false; onTriggered: { /*model.connect2utm()*/ } }
-
 //    function connectToUtm() {
 //        popupReset()
 //        root.popupSetTitle("Подключение к УТМ")
@@ -456,6 +457,31 @@ ApplicationWindow {
 //        root.popupSetLoader(true)
 //        connectToUtmDelay.running = true
 //    }
+
+    function openPopupCheckAge() {
+        popupCheckAlcSale.imageSource = "qrc:/img/sale/check_age.png"
+        popupCheckAlcSale.textInfo = "Убедитесь, что дата рождения\nпокупателя не позднее"
+        popupCheckAlcSale.textNote = "15.04.2003"
+        popupCheckAlcSale.open()
+    }
+
+    function openPopupClockSale() {
+        popupCheckAlcSale.imageSource = "qrc:/img/sale/clock_sale.png"
+        popupCheckAlcSale.textInfo = "Продажа алкоголя запрещена"
+        popupCheckAlcSale.textNote = ("с %1 до %2 часов").arg(clockSaleSet.finishTime).arg(clockSaleSet.startTime)
+        popupCheckAlcSale.open()
+    }
+
+    function openPopupCheckAlcoCode() {
+        popupCheckAlcSale.imageSource = "qrc:/img/sale/check_alco_code.png"
+        popupCheckAlcSale.textInfo = "Отсканируйте"
+        popupCheckAlcSale.textNote = "Акцизную марку товара водка очень вкусная и дорогая"
+        popupCheckAlcSale.open()
+    }
+
+    SaleComponents.PopupAlcoholSale {
+        id: popupCheckAlcSale
+    }
 
     // ---
     SaleComponents.MenuDrawer {

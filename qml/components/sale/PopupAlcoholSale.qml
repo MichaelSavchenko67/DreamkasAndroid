@@ -3,22 +3,34 @@ import QtQuick.Controls 2.3
 import QtQuick.Controls.Material 2.12
 
 import "qrc:/qml/components/sale" as SaleComponents
-import "qrc:/qml/components/settings" as SettingsComponents
 
 Popup {
+    property url imageSource
+    property string textInfo
+    property string textNote
+    property bool alcoCode: false
 
-    property var imageSource
-    property var textInfo
-    property var textNote
+    onOpened: {
+//        setChangeStateScaner(true)
+//        setActiveScaner(alcoCode)
+//        setAddPosition(false)
+    }
+
+    onAboutToHide: {
+//        setChangeStateScaner(false)
+//        setAddPosition(true)
+//        modelUtm.closePopupFromFront()
+    }
 
     id: popupAlcSale
-    width: 0.963 * parent.width
-    height: 1.2 * width
+    width: 0.9 * parent.width
+    height: 1.3 * width
     x: 0.5 * (parent.width - width)
     y: 0.5 * (parent.height - height)
     modal: true
     focus: true
     closePolicy: Popup.NoAutoClose
+
     background: Rectangle {
         anchors.fill: parent
         radius: 8
@@ -32,18 +44,20 @@ Popup {
                 right: parent.right
                 rightMargin: 0.5 *  0.038 * parent.height
             }
+
             icon {
                 color: "#979797"
-                height: 0.05 * parent.height
+                height: 0.03 * parent.height
                 source: "qrc:/ico/menu/close.png"
             }
+
             onClicked: {
-                popupTumbler.close()
+                popupAlcSale.close()
             }
         }
 
         Column {
-            width: parent.width
+            width: parent.width - spacing
             height: parent.height - exitButton.icon.height
             anchors {
                 top: exitButton.bottom
@@ -54,7 +68,6 @@ Popup {
 
             Image {
                 id: image
-//                anchors.verticalCenter: parent.verticalCenter
                 anchors.horizontalCenter: parent.horizontalCenter
                 width: parent.width * 0.5
                 height: width
@@ -63,23 +76,41 @@ Popup {
             }
 
             Label {
-                text: textInfo
+                id: labelTextInfo
                 anchors.horizontalCenter: parent.horizontalCenter
+                text: (textInfo !== "undefined") ? qsTr(textInfo) : ""
+                width: parent.width - (2 * parent.spacing)
                 font {
-                    pixelSize: 0.67 * titleLabelInfo.font.pixelSize
+                    pixelSize: buttonEnter.fontSize * 1.05
+                    family: "Roboto"
+                    styleName: "normal"
+                    weight: Font.Normal
                 }
+                elide: Label.ElideRight
+                maximumLineCount: 2
+                wrapMode: Text.WordWrap
                 horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
                 color: "#555555"
 
             }
 
             Label {
-                text: textNote
+                id: labelTextNote
                 anchors.horizontalCenter: parent.horizontalCenter
+                text: (textNote !== "undefined") ? qsTr(textNote) : ""
+                width: parent.width - (2 * parent.spacing)
                 font {
-                    pixelSize: 1.2 * titleLabelInfo.font.pixelSize
+                    pixelSize: buttonEnter.fontSize * 1.2
+                    family: "Roboto"
+                    styleName: "normal"
+                    weight: Font.Normal
                 }
+                elide: Label.ElideRight
+                maximumLineCount: 3
+                wrapMode: Text.WordWrap
                 horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
                 color: "#0064B4"
 
             }
@@ -92,7 +123,7 @@ Popup {
                 borderWidth: 0
                 backRadius: 5
                 buttonTxt: "Продолжить"
-                fontSize: 0.2 * height
+                fontSize: 0.3 * height
                 buttonTxtColor: "white"
                 pushUpColor: "#415A77"
                 pushDownColor: "#004075"

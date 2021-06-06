@@ -51,7 +51,8 @@ Page {
             console.log("[Login.qml]\tPassword by user: " + pswd)
             if (pswd === "3552") {
                 console.log("[Login.qml]\tSuccess")
-                rootStack.replace("qrc:/qml/pages/PromoSwipeView.qml")
+//                rootStack.replace("qrc:/qml/pages/PromoSwipeView.qml")
+                closePage()
             } else {
                 console.log("[Login.qml]\tFailed!")
                 setLoginIndShake(true)

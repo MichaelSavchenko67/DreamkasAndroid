@@ -18,27 +18,6 @@ Page {
     property bool isSetClock: false
     property bool isSetCheckAge: false
 
-    function openPopupCheckAge() {
-        popupCheckAlcSale.imageSource = "qrc:/img/sale/check_age.png"
-        popupCheckAlcSale.textInfo = "Убедитесь, что дата рождения\nпокупателя не позднее"
-        popupCheckAlcSale.textNote = "15.04.2003"
-        popupCheckAlcSale.open()
-    }
-
-    function openPopupClockSale() {
-        popupCheckAlcSale.imageSource = "qrc:/img/sale/clock_sale.png"
-        popupCheckAlcSale.textInfo = "Продажа алкоголя запрещена"
-        popupCheckAlcSale.textNote = ("с %1 до %2 часов").arg(clockSaleSet.finishTime).arg(clockSaleSet.startTime)
-        popupCheckAlcSale.open()
-    }
-
-    function openPopupCheckAlcoCode() {
-        popupCheckAlcSale.imageSource = "qrc:/img/sale/check_alco_code.png"
-        popupCheckAlcSale.textInfo = "Отсканируйте"
-        popupCheckAlcSale.textNote = "Акцизную марку"
-        popupCheckAlcSale.open()
-    }
-
     Layout.fillHeight: true
     Layout.fillWidth: true
 
@@ -215,10 +194,6 @@ Page {
                     elide: "ElideRight"
                     horizontalAlignment: Label.AlignLeft
                     verticalAlignment: Label.AlignVCenter
-                }
-
-                SaleComponents.PopupAlcoholSale {
-                    id: popupCheckAlcSale
                 }
 
                 Rectangle {
