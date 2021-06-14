@@ -134,6 +134,10 @@ ApplicationWindow {
         closePolicy: Popup.NoAutoClose
     }
 
+    SaleComponents.PopupCashlessPay {
+        id: popupCashlessPay
+    }
+
     function setMainPageTitle(title) {
         headerTitle.text = qsTr(title)
     }

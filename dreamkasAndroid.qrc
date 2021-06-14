@@ -168,5 +168,7 @@
         <file>img/demo/seventh.png</file>
         <file>img/demo/sixth.png</file>
         <file>img/demo/third.png</file>
+        <file>qml/components/settings/PopupEnterText.qml</file>
+        <file>qml/components/sale/PopupCashlessPay.qml</file>
     </qresource>
 </RCC>
