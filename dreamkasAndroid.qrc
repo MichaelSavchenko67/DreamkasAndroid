@@ -156,5 +156,15 @@
         <file>ico/settings/cash-multiple_blue.png</file>
         <file>ico/settings/tie_blue.png</file>
         <file>qml/pages/subpages/users/UsersPage.qml</file>
+        <file>qml/pages/subpages/settings/Multipos.qml</file>
+        <file>ico/settings/bluetooth.png</file>
+        <file>ico/settings/usb.png</file>
+        <file>ico/settings/calculator.png</file>
+        <file>ico/settings/responsive.png</file>
+        <file>qml/components/settings/ParagraphMessage.qml</file>
+        <file>qml/pages/subpages/settings/MultiposService.qml</file>
+        <file>qml/components/settings/ServiceItemDelegate.qml</file>
+        <file>qml/components/sale/PopupCashlessPay.qml</file>
+        <file>ico/settings/check_blue.png</file>
     </qresource>
 </RCC>

@@ -15,12 +15,15 @@ ApplicationWindow {
 //    width: 1080
 //    height: 1920
     visible: true
-    visibility: "FullScreen"
+//    visibility: "FullScreen"
 
     property bool isPrinterConnected: true
     property bool isShiftOpened: true
     property bool isCabinetEnable: false
     property var cashInDrawer: "100,00"
+
+    SaleComponents.PopupCashlessPay {
+    }
 
     Action {
         id: openMenu

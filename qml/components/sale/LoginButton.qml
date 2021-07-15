@@ -1,10 +1,12 @@
 import QtQuick 2.12
-import QtQuick.Controls 2.3
+import QtQuick.Controls 2.12
+import QtQuick.Layouts 1.3
+import QtGraphicalEffects 1.0
 
 Button {
     id: loginButton
     width: parent.width / 3
-    height: parent.height / 3
+    height: parent.height / 4
     transformOrigin: Item.Center
     font {
         pixelSize: 0.5 * height
@@ -34,6 +36,6 @@ Button {
 
     background: Rectangle {
         border.width: 0
-        color: "#00FFFFFF"
+        color: "transparent"
     }
 }

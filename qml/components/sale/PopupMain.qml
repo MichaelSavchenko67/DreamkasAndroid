@@ -15,7 +15,7 @@ Popup {
     property var resMsg
 
     function setFirstButtonAction(action) {
-        fisrtButton.action = action
+        firstButton.action = action
     }
 
     function setSecondButtonAction(action) {
@@ -62,7 +62,7 @@ Popup {
             Text {
                 id: msg
                 width: title.width
-                height: 0.4 * parent.height
+                height: 0.6 * parent.height
                 visible: !loader.visible
                 clip: title.clip
                 text: (addMsg !== "undefined") ? qsTr(addMsg) : ""
@@ -74,7 +74,7 @@ Popup {
                 }
                 color: "#AA000000"
                 elide: title.elide
-                maximumLineCount: 3
+                maximumLineCount: 4
                 wrapMode: Text.WordWrap
                 horizontalAlignment: title.horizontalAlignment
                 verticalAlignment: Qt.AlignTop
@@ -92,18 +92,18 @@ Popup {
         }
 
         Row {
-            width: 0.9 * parent.width
+            width: parent.width
             height: 0.17 * parent.height
             visible: !loader.visible && !compliteMsg.visible
             anchors {
                 bottom: popupFrame.bottom
-                bottomMargin: 0.183 * popupFrame.height
+                bottomMargin: 0.05 * popupFrame.height
                 right: parent.right
                 rightMargin: parent.width - width
             }
 
             SaleComponents.ButtonPopup {
-                id: fisrtButton
+                id: firstButton
                 width: 0.5 * parent.width
                 height: parent.height
                 visible: (txt !== "undefined") && (txt.length > 0)
@@ -113,10 +113,10 @@ Popup {
 
             SaleComponents.ButtonPopup {
                 id: secondButton
-                width: fisrtButton.width
-                height: fisrtButton.height
+                width: firstButton.width
+                height: firstButton.height
                 visible: (txt !== "undefined") && (txt.length > 0)
-                anchors.right: fisrtButton.visible ? fisrtButton.left : parent.right
+                anchors.right: firstButton.visible ? firstButton.left : parent.right
                 txt: secondButtonName
             }
         }
