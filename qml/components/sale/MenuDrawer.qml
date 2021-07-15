@@ -64,6 +64,8 @@ Drawer {
                     "Открыть смену": function() { root.openShiftDialog() },
                     "Закрыть смену": function() { root.closeShiftDialog() },
                     "Кабинет Дримкас": function() { root.openPage("qrc:/qml/pages/subpages/CabinetConnection.qml") },
+                    "Банковский терминал": function() { root.openPage("qrc:/qml/pages/subpages/settings/Multipos.qml") },
+                    "Сервисные операции": function() { root.openPage("qrc:/qml/pages/subpages/settings/MultiposService.qml") },
                     "Система налогооблажения": function() { root.openPage("qrc:/qml/pages/subpages/DefaultSno.qml") },
                     "X-отчёт": function() { root.openXReportDialog() },
                     "Ввод цены товара": function() { root.openEnterCostDialog("Яблоки красные", "Цена, \u20BD/кг", "Неправильное значение, введите снова") },
@@ -79,6 +81,8 @@ Drawer {
                 ListElement {item: "Открыть смену"}
                 ListElement {item: "Закрыть смену"}
                 ListElement {item: "Кабинет Дримкас"}
+                ListElement {item: "Банковский терминал"}
+                ListElement {item: "Сервисные операции"}
                 ListElement {item: "Система налогооблажения"}
                 ListElement {item: "X-отчёт"}
                 ListElement {item: "Ввод цены товара"}

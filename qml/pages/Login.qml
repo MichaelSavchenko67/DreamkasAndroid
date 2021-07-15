@@ -176,7 +176,7 @@ Page {
             Grid {
                 id: grid
                 width: 0.69 * frame.width
-                height: 0.77 * width
+                height: 0.82 * width
                 anchors.horizontalCenter: loginIndicators.horizontalCenter
                 columns: 3
                 spacing: 0
