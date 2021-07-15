@@ -15,19 +15,13 @@ Button {
         weight: Font.DemiBold
     }
 
-    Component.onCompleted: {
-        console.log("onPressedChanged" + pressed)
-    }
-
-    states: [
-        State {
-            name: "pushDown"; when: pressed
-            PropertyChanges {
-                target: loginButton;
-                scale: 2
-            }
+    states: State {
+        name: "pushDown"; when: pressed
+        PropertyChanges {
+            target: loginButton;
+            scale: 2
         }
-    ]
+    }
 
     transitions: Transition {
         to: "pushDown"

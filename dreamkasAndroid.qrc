@@ -144,6 +144,18 @@
         <file>ico/settings/delete_selection.png</file>
         <file>qml/components/settings/FilterProxyModel.qml</file>
         <file>qml/components/sale/AddPositionPopup.qml</file>
+        <file>qml/pages/subpages/users/UserPage.qml</file>
+        <file>qml/components/settings/CustomComboBox.qml</file>
+        <file>qml/components/settings/CreateAvatarPopup.qml</file>
+        <file>qml/components/settings/AvatarFrame.qml</file>
+        <file>ico/settings/autorenew.png</file>
+        <file>ico/settings/take_photo.png</file>
+        <file>qml/components/settings/Avatar.qml</file>
+        <file>ico/settings/cash-multiple.png</file>
+        <file>ico/settings/tie.png</file>
+        <file>ico/settings/cash-multiple_blue.png</file>
+        <file>ico/settings/tie_blue.png</file>
+        <file>qml/pages/subpages/users/UsersPage.qml</file>
         <file>qml/pages/subpages/settings/Multipos.qml</file>
         <file>ico/settings/bluetooth.png</file>
         <file>ico/settings/usb.png</file>

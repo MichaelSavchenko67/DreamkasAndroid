@@ -4,6 +4,7 @@ import QtQuick.Controls.Material 2.12
 import QtQuick.Layouts 1.12
 
 import "qrc:/qml/components/sale" as SaleComponents
+import "qrc:/qml/components/settings" as SettingsComponents
 
 Page {
     Layout.fillHeight: true
@@ -17,6 +18,7 @@ Page {
     }
 
     property bool loaded: false
+    property bool isLoggedIn: false
     property var pswd: ""
 
     function enterDigit(digit) {
@@ -44,12 +46,23 @@ Page {
         fourth.shake = shake
     }
 
+    Timer { id: loggedInDelay; interval: 3000; repeat: false; onTriggered: { rootStack.replace("qrc:/qml/pages/PromoSwipeView.qml") } }
+
+    Action {
+        id: loggedIn
+        onTriggered: {
+            loginField.visible = false
+            isLoggedIn = true
+            loggedInDelay.running = true
+        }
+    }
+
     onPswdChanged: {
         if (pswd.length >= 4) {
             console.log("[Login.qml]\tPassword by user: " + pswd)
             if (pswd === "3552") {
                 console.log("[Login.qml]\tSuccess")
-                rootStack.replace("qrc:/qml/pages/PromoSwipeView.qml")
+                loggedIn.triggered()
             } else {
                 console.log("[Login.qml]\tFailed!")
                 setLoginIndShake(true)
@@ -225,6 +238,64 @@ Page {
                         properties: "opacity"
                         easing.type: Easing.InOutQuad
                         duration: 1500
+                    }
+                }
+            }
+        }
+
+        Column {
+            id: helloUser
+            visible: false
+            opacity: 0
+            width: parent.width
+            topPadding: avatar.height
+
+            SettingsComponents.Avatar {
+                id: avatar
+                width: 0.5 * parent.width
+                anchors.horizontalCenter: parent.horizontalCenter
+                avatarSrc: "qrc:/ico/tiles/tileGoods8.png"
+                userNameFull: "Савченко Михаил Андреевич"
+            }
+
+            Label {
+                width: parent.width
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: qsTr("Савченко Михаил Андреевич\nДобро пожаловать!")
+                font {
+                    pixelSize: 0.05 * parent.height
+                    family: "Roboto"
+                    styleName: "normal"
+                    weight: Font.Normal
+                }
+                color: "black"
+                elide: Label.ElideRight
+                maximumLineCount: 3
+                wrapMode: Label.WordWrap
+                lineHeight: 1.5
+                horizontalAlignment: Qt.AlignHCenter
+                verticalAlignment: Qt.AlignVCenter
+            }
+
+            states: State {
+                name: "enable"; when: isLoggedIn
+                PropertyChanges {
+                    target: helloUser;
+                    visible: true
+                    opacity: 1
+                }
+            }
+
+            transitions: Transition {
+                to: "enable"
+                reversible: true
+
+                SequentialAnimation {
+                    PropertyAnimation { property: "visible" }
+                    PropertyAnimation {
+                        properties: "opacity"
+                        easing.type: Easing.InOutQuad
+                        duration: 1600
                     }
                 }
             }

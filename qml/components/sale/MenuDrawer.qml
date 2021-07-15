@@ -1,53 +1,115 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 
+import "qrc:/qml/components/settings" as SettingsComponents
+
 Drawer {
     id: drawer
+
+    property var avatarSource: ""
 
     contentData: Page {
         id: menuBar
         anchors.fill: parent
         header: Rectangle {
-            height: 0.214 * menuBar.height
+            height: 0.25 * menuBar.height
             width: menuBar.width
             color: "#5C7490"
 
-            Image {
-                id: logo
-                height: 0.3 * parent.height
-                width: height
-                anchors {
-                    top: parent.top
-                    left: parent.left
-                    leftMargin: 0.08 * parent.width
-                    topMargin: 0.07 * parent.width
-                }
-                source: "qrc:/ico/menu/ico_short.png"
-            }
+            Column {
+                id: menuBarColumn
+                anchors.fill: parent
+                topPadding: 0.07 * parent.width
+                leftPadding: 0.08 * parent.width
+                spacing: 0.5 * topPadding
 
-            Text {
-                id: userName
-                height: 0.18 * parent.height
-                width:  parent.width - 2 * leftPadding
-                anchors {
-                    bottom: parent.bottom
-                    left: parent.left
-                    leftMargin: 0.08 * parent.width
-                    bottomMargin: 0.07 * parent.width
+                Image {
+                    id: logo
+                    height: 0.3 * parent.height
+                    width: height
+                    source: "qrc:/ico/menu/ico_short.png"
                 }
-                text: qsTr("Савченко Михаил")
-                font {
-                    pixelSize: 0.8 * height
-                    family: "Roboto"
-                    styleName: "normal"
-                    weight: Font.Bold
-                    bold: true
+
+                Row {
+                    width: parent.width - 2 * parent.leftPadding
+
+                    Column {
+                        width: parent.width - avatar.width
+                        height: menuBarColumn.height - logo.height - menuBarColumn.spacing - 2 * menuBarColumn.topPadding
+                        anchors.verticalCenter: menuBarColumn.verticalCenter
+
+                        Label {
+                            id: userName
+                            height: 0.3 * menuBarColumn.height
+                            width: parent.width
+                            text: qsTr("Савченко Михаил Андреевич")
+                            font {
+                                pixelSize: 0.38 * height
+                                family: "Roboto"
+                                styleName: "normal"
+                                weight: Font.Bold
+                                bold: true
+                            }
+                            clip: true
+                            color: "white"
+                            maximumLineCount: 2
+                            wrapMode: Label.WordWrap
+                            elide: Label.ElideRight
+                            horizontalAlignment: Qt.AlignLeft
+                            verticalAlignment: Qt.AlignVCenter
+                        }
+
+                        Row {
+                            width: parent.width
+                            spacing: 0.5 * ruleName.font.pixelSize
+
+                            Image {
+                                id: ruleIco
+                                height: ruleName.font.pixelSize
+                                anchors.verticalCenter: ruleName.verticalCenter
+                                source: "qrc:/ico/settings/tie.png"
+                                fillMode: Image.PreserveAspectFit
+                            }
+
+                            Label {
+                                id: ruleName
+                                width: parent.width - ruleIco.width - parent.spacing
+                                text: qsTr("Администратор")
+                                font {
+                                    pixelSize: 0.83 * userName.font.pixelSize
+                                    family: "Roboto"
+                                    styleName: "normal"
+                                    weight: Font.Bold
+                                    bold: true
+                                }
+                                clip: true
+                                color: "white"
+                                opacity: 0.75
+                                horizontalAlignment: Qt.AlignLeft
+                                verticalAlignment: Qt.AlignVCenter
+                            }
+                        }
+                    }
+
+                    Rectangle {
+                        id: activeFrame
+                        border.width: 3
+                        border.color: "#4DA03F"
+                        color: "transparent"
+                        width: 0.3 * parent.width
+                        height: width
+                        radius: width
+                        anchors.verticalCenter: userName.verticalCenter
+
+                        SettingsComponents.Avatar {
+                            id: avatar
+                            width: parent.width - 2 * parent.border.width
+                            anchors.centerIn: parent
+                            avatarSrc: ""
+                            userNameFull: "Савченко Михаил Андреевич"
+                        }
+                    }
                 }
-                clip: true
-                color: "white"
-                elide: Text.ElideRight
-                horizontalAlignment: Qt.AlignLeft
-                verticalAlignment: Qt.AlignVCenter
             }
         }
         contentData: ListView {
@@ -64,6 +126,7 @@ Drawer {
                     "Открыть смену": function() { root.openShiftDialog() },
                     "Закрыть смену": function() { root.closeShiftDialog() },
                     "Кабинет Дримкас": function() { root.openPage("qrc:/qml/pages/subpages/CabinetConnection.qml") },
+                    "Пользователи": function() { root.openPage("qrc:/qml/pages/subpages/users/UsersPage.qml") },
                     "Банковский терминал": function() { root.openPage("qrc:/qml/pages/subpages/settings/Multipos.qml") },
                     "Сервисные операции": function() { root.openPage("qrc:/qml/pages/subpages/settings/MultiposService.qml") },
                     "Система налогооблажения": function() { root.openPage("qrc:/qml/pages/subpages/DefaultSno.qml") },
@@ -81,6 +144,7 @@ Drawer {
                 ListElement {item: "Открыть смену"}
                 ListElement {item: "Закрыть смену"}
                 ListElement {item: "Кабинет Дримкас"}
+                ListElement {item: "Пользователи"}
                 ListElement {item: "Банковский терминал"}
                 ListElement {item: "Сервисные операции"}
                 ListElement {item: "Система налогооблажения"}
@@ -104,7 +168,7 @@ Drawer {
 
                 Row {
                     anchors.fill: parent
-                    spacing: (statusIco.visible ? 0.5 * (logo.anchors.leftMargin - statusIco.width) : logo.anchors.leftMargin)
+                    spacing: (statusIco.visible ? 0.5 * (menuBarColumn.leftPadding - statusIco.width) : menuBarColumn.leftPadding)
                     leftPadding: spacing
 
                     Image {
