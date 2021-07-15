@@ -23,7 +23,6 @@ ApplicationWindow {
     property var cashInDrawer: "100,00"
 
     SaleComponents.PopupCashlessPay {
-        visible: true
     }
 
     Action {

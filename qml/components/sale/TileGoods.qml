@@ -85,7 +85,7 @@ Button {
                 width: 0.9 * parent.width
                 height: width
                 states: State {
-                    name: "pushDown"; when: (pressed || pressAndHold)
+                    name: "pushDown"; when: pressed
                     PropertyChanges {
                         target: tile;
                         width: 0.95 * rect.width
