@@ -10,8 +10,8 @@ ApplicationWindow {
     id: root
 //    width: Screen.width
 //    height: Screen.height
-    width: 720
-    height: 1280
+    width: 360
+    height: 640
 //    width: 1080
 //    height: 1920
     visible: true
