@@ -121,7 +121,7 @@ Drawer {
 
                 property var actions : {
                     "Формирование чека": function() { rootStack.pop(null) },
-                    "Подключить ККТ": function() { root.openPage("qrc:/qml/pages/subpages/ScanWiFiNetworks.qml") },
+                    "Подключить ККТ": function() { root.openPage("qrc:/qml/pages/subpages/printer/ChoosePrinterType.qml") },
                     "Отключить ККТ": function() { root.openDisconnectPrinterDialog() },
                     "Открыть смену": function() { root.openShiftDialog() },
                     "Закрыть смену": function() { root.closeShiftDialog() },
