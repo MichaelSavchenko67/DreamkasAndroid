@@ -176,5 +176,6 @@
         <file>ico/settings/manual.png</file>
         <file>ico/settings/cast.png</file>
         <file>qml/pages/subpages/printer/ConnectionByIp.qml</file>
+        <file>qml/pages/subpages/printer/ManualConnection.qml</file>
     </qresource>
 </RCC>

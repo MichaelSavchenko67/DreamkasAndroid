@@ -73,6 +73,8 @@ Page {
             itemSubscription: "Мы поможем вам произвести ручную настройку принтера для подключения к приложению. Следуйте, пожалуйста, инструкциям на экране"
 
             onClicked: {
+                root.openPage("qrc:/qml/pages/subpages/printer/ManualConnection.qml")
+                rootStack.currentItem.stepValue = 1
             }
         }
 

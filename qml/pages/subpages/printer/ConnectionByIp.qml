@@ -33,7 +33,7 @@ Page {
 
         Label {
             id: titleLabelInput
-            width: parent.width
+            width: parent.width - 2 * parent.leftPadding
             text: qsTr("Введите настройки устройства")
             font {
                 pixelSize: 0.06 * parent.width
@@ -44,6 +44,9 @@ Page {
             }
             clip: true
             elide: "ElideRight"
+            maximumLineCount: 2
+            wrapMode: Label.WordWrap
+            lineHeight: 1.4
             horizontalAlignment: Label.AlignLeft
             verticalAlignment: Label.AlignVCenter
         }

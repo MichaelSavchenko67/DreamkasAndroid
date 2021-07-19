@@ -159,6 +159,12 @@ ApplicationWindow {
 
     function setLeftMenuButtonAction(action) {
         leftButton.action = action
+        leftButton.icon.source = getButtonIco(action)
+    }
+
+    function setLeftButtonIco(icon) {
+        leftButton.icon.source = icon
+        leftButton.visible = true
     }
 
     function setAddRightMenuButtonAction(action) {
