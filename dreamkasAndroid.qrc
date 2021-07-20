@@ -62,7 +62,6 @@
         <file>ico/menu/operation_failed.png</file>
         <file>qml/components/sale/PopupMain.qml</file>
         <file>qml/pages/subpages/OpenShift.qml</file>
-        <file>qml/pages/subpages/Connect2printer.qml</file>
         <file>qml/pages/subpages/ConnectPrinter.qml</file>
         <file>qml/pages/subpages/DisconnectPrinter.qml</file>
         <file>qml/pages/subpages/Connect2printerBanner.qml</file>
@@ -166,5 +165,17 @@
         <file>qml/components/settings/ServiceItemDelegate.qml</file>
         <file>qml/components/sale/PopupCashlessPay.qml</file>
         <file>ico/settings/check_blue.png</file>
+        <file>qml/pages/subpages/printer/ChoosePrinterType.qml</file>
+        <file>ico/printer/atol.png</file>
+        <file>ico/printer/Dreamkas.png</file>
+        <file>ico/printer/dreamkas.png</file>
+        <file>qml/components/settings/ChoosenItemDelegate.qml</file>
+        <file>qml/components/settings/InfoButton.qml</file>
+        <file>qml/pages/subpages/printer/ChooseConnectionType.qml</file>
+        <file>ico/settings/ip.png</file>
+        <file>ico/settings/manual.png</file>
+        <file>ico/settings/cast.png</file>
+        <file>qml/pages/subpages/printer/ConnectionByIp.qml</file>
+        <file>qml/pages/subpages/printer/ManualConnection.qml</file>
     </qresource>
 </RCC>

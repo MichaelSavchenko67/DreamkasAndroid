@@ -10,8 +10,8 @@ ApplicationWindow {
     id: root
 //    width: Screen.width
 //    height: Screen.height
-    width: 720
-    height: 1280
+    width: 360
+    height: 640
 //    width: 1080
 //    height: 1920
     visible: true
@@ -159,6 +159,12 @@ ApplicationWindow {
 
     function setLeftMenuButtonAction(action) {
         leftButton.action = action
+        leftButton.icon.source = getButtonIco(action)
+    }
+
+    function setLeftButtonIco(icon) {
+        leftButton.icon.source = icon
+        leftButton.visible = true
     }
 
     function setAddRightMenuButtonAction(action) {
