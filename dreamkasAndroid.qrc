@@ -32,7 +32,7 @@
         <file>qml/pages/subpages/SearchGoods.qml</file>
         <file>qml/components/sale/MyTextInput.qml</file>
         <file>ico/menu/back.png</file>
-        <file>qml/pages/subpages/Purchase.qml</file>
+        <file>qml/pages/subpages/PurchaseOld.qml</file>
         <file>ico/menu/context_menu.png</file>
         <file>ico/menu/check.png</file>
         <file>ico/menu/delete.png</file>
@@ -177,5 +177,8 @@
         <file>ico/settings/cast.png</file>
         <file>qml/pages/subpages/printer/ConnectionByIp.qml</file>
         <file>qml/pages/subpages/printer/ManualConnection.qml</file>
+        <file>qml/pages/subpages/Purchase.qml</file>
+        <file>ico/menu/close_grey.png</file>
+        <file>ico/sale/discount.png</file>
     </qresource>
 </RCC>
