@@ -93,10 +93,9 @@ Page {
             id: position
             height: positionColumn.topPadding +
                     4 * positionColumn.spacing +
-                    goodsNameLabel.contentHeight +
+                    positionTitleColumn.height +
                     positionCostQtyTotalRow.height +
                     (discountRow.visible ? (discountRow.height + positionColumn.spacing) : 0) +
-                    (markedRow.visible ? (markedRow.height + positionColumn.spacing) : 0) +
                     positionSeparator.height
             width: purchaseView.width
 
@@ -113,26 +112,6 @@ Page {
 
             transformOrigin: Item.Center
 
-            ListView.onRemove: SequentialAnimation {
-                PropertyAction {
-                    target: position
-                    property: "ListView.delayRemove"
-                    value: true
-                }
-                NumberAnimation {
-                    target: position
-                    property: "scale"
-                    to: 0
-                    duration: 350
-                    easing.type: Easing.InOutQuad
-                }
-                PropertyAction {
-                    target: position
-                    property: "ListView.delayRemove"
-                    value: false
-                }
-            }
-
             Column {
                 id: positionColumn
                 width: parent.width
@@ -141,36 +120,70 @@ Page {
                 topPadding: ((model.index === 0) ? 1.7 * rightPadding : 0)
                 spacing: 0.5 * rightPadding
 
-                Row {
-                    id: positionTitleRow
+                Column {
+                    id: positionTitleColumn
                     width: parent.width - 2 * parent.leftPadding
-                    spacing: delPosButton.width
+                    height: goodsNameLabel.contentHeight + (markedRow.visible ? (markedRow.height + spacing) : 0)
+                    spacing: parent.spacing
 
-                    Label {
-                        id: goodsNameLabel
-                        width: parent.width - parent.spacing - delPosButton.width
-                        text: qsTr(goodsName)
-                        font {
-                            pixelSize: 0.025 * purchasePage.height
-                            family: "Roboto"
-                            styleName: "bold"
-                            weight: Font.Bold
-                            bold: true
+                    Row {
+                        id: positionTitleRow
+                        width: parent.width
+                        spacing: delPosButton.width
+
+                        Label {
+                            id: goodsNameLabel
+                            width: parent.width - parent.spacing - delPosButton.width
+                            text: qsTr(goodsName)
+                            font {
+                                pixelSize: 0.025 * purchasePage.height
+                                family: "Roboto"
+                                styleName: "bold"
+                                weight: Font.Bold
+                                bold: true
+                            }
+                            color: "black"
+                            elide: Label.ElideRight
+                            maximumLineCount: 4
+                            wrapMode: Label.WordWrap
+                            lineHeight: 1.2
+                            horizontalAlignment: Qt.AlignLeft
+                            verticalAlignment: Qt.AlignTop
                         }
-                        color: "black"
-                        elide: Label.ElideRight
-                        maximumLineCount: 4
-                        wrapMode: Label.WordWrap
-                        lineHeight: 1.2
-                        horizontalAlignment: Qt.AlignLeft
-                        verticalAlignment: Qt.AlignTop
+
+                        ToolButton {
+                            id: delPosButton
+                            width: 1.5 * goodsNameLabel.font.pixelSize
+                            height: width
+                            icon.source: "qrc:/ico/menu/close_grey.png"
+                        }
                     }
 
-                    ToolButton {
-                        id: delPosButton
-                        width: 1.5 * goodsNameLabel.font.pixelSize
-                        height: width
-                        icon.source: "qrc:/ico/menu/close_grey.png"
+                    Row {
+                        id: markedRow
+                        width: parent.width
+                        height: markedIco.height
+                        visible: isMarked
+                        spacing: discountRow.spacing
+
+                        Image {
+                            id: markedIco
+                            width: discountIco.width
+                            height: width
+                            source: "qrc:/ico/sale/marked.png"
+                        }
+
+                        Label {
+                            id: markedLabel
+                            width: parent.width - markedIco.width - parent.spacing
+                            anchors.verticalCenter: markedIco.verticalCenter
+                            text: qsTr("Маркированный товар")
+                            font: discountLabel.font
+                            color: discountLabel.color
+                            elide: discountLabel.elide
+                            horizontalAlignment: discountLabel.horizontalAlignment
+                            verticalAlignment: discountLabel.verticalAlignment
+                        }
                     }
                 }
 
@@ -338,33 +351,6 @@ Page {
                         elide: Label.ElideRight
                         horizontalAlignment: Qt.AlignLeft
                         verticalAlignment: Qt.AlignVCenter
-                    }
-                }
-
-                Row {
-                    id: markedRow
-                    width: discountRow.width
-                    height: discountRow.height
-                    visible: isMarked
-                    spacing: discountRow.spacing
-
-                    Image {
-                        id: markedIco
-                        width: discountIco.width
-                        height: width
-                        source: "qrc:/ico/sale/discount.png"
-                    }
-
-                    Label {
-                        id: markedLabel
-                        width: discountLabel.width
-                        anchors.verticalCenter: markedIco.verticalCenter
-                        text: "марка"
-                        font: discountLabel.font
-                        color: discountLabel.color
-                        elide: discountLabel.elide
-                        horizontalAlignment: discountLabel.horizontalAlignment
-                        verticalAlignment: discountLabel.verticalAlignment
                     }
                 }
 

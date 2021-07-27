@@ -179,5 +179,6 @@
         <file>qml/pages/subpages/Purchase.qml</file>
         <file>ico/menu/close_grey.png</file>
         <file>ico/sale/discount.png</file>
+        <file>ico/sale/marked.png</file>
     </qresource>
 </RCC>
