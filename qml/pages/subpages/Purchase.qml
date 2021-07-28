@@ -88,6 +88,16 @@ Page {
                 measure: "кг"
                 isMarked: true
             }
+
+            ListElement {
+                goodsName: "Шоколад Милка с лесным орехом очень очень очень очень очень очень очень очень очень очень вкусный"
+                cost: "100 000 000 000,00"
+                discount: "0,00"
+                total: "1 000 000 000 000,00"
+                quantity: 3.456
+                measure: "кг"
+                isMarked: true
+            }
         }
         delegate: ItemDelegate {
             id: position
@@ -203,7 +213,8 @@ Page {
                             id: positionUnitPrice
                             width: parent.width - 2 * parent.spacing
                             anchors.verticalCenter: parent.verticalCenter
-                            text: cost + " \u20BD / " + measure
+                            text: cost + "&nbsp;\u20BD&nbsp;/&nbsp;" + measure
+                            textFormat: Label.RichText
                             font {
                                 pixelSize: 0.9 * goodsNameLabel.font.pixelSize
                                 family: "Roboto"
@@ -212,6 +223,8 @@ Page {
                             }
                             color: "black"
                             elide: Label.ElideRight
+                            maximumLineCount: 2
+                            wrapMode: Label.WordWrap
                             horizontalAlignment: Qt.AlignLeft
                             verticalAlignment: Qt.AlignVCenter
                         }
@@ -305,7 +318,8 @@ Page {
                         Label {
                             id: totalLabel
                             width: parent.width - equalsLabel.contentWidth
-                            text: total + " \u20BD"
+                            text: total + "&nbsp;\u20BD"
+                            textFormat: Label.RichText
                             anchors.verticalCenter: parent.verticalCenter
                             font {
                                 pixelSize: 0.9 * goodsNameLabel.font.pixelSize
@@ -316,6 +330,8 @@ Page {
                             color: "black"
                             clip: true
                             elide: Label.ElideRight
+                            maximumLineCount: 2
+                            wrapMode: Label.WordWrap
                             horizontalAlignment: Label.AlignRight
                             verticalAlignment: Label.AlignVCenter
                         }
