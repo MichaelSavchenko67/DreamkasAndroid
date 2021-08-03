@@ -115,7 +115,7 @@ Drawer {
         contentData: ListView {
             id: menuListView
             anchors.fill: parent
-            clip: true            
+            clip: true
             model: ListModel {
                 id: menuItems
 
@@ -135,7 +135,9 @@ Drawer {
                     "Ввод количества товара": function() { root.openEnterAmountDialog("Яблоки красные", "Количество, кг", "Неправильное значение, введите снова") },
                     "Ввод суммы платежа": function() { root.openPage("qrc:/qml/pages/subpages/Pay.qml") },
                     "Изъять или внести": function() { root.openPage("qrc:/qml/pages/subpages/InsRes.qml") },
-                    "Чек коррекции": function() { root.openPage("qrc:/qml/pages/subpages/PurchaseCorrection.qml") }
+                    "Чек коррекции": function() { root.openPage("qrc:/qml/pages/subpages/PurchaseCorrection.qml") },
+                    "УТМ": function() { root.openPage("qrc:/qml/pages/subpages/Utm.qml") },
+                    "Test Popup": function() { root.openPage("qrc:/qml/components/sale/PopupCashlessPay.qml") }
                 }
 
                 ListElement {item: "Формирование чека"}
@@ -154,13 +156,10 @@ Drawer {
                 ListElement {item: "Ввод суммы платежа"}
                 ListElement {item: "Изъять или внести"}
                 ListElement {item: "Чек коррекции"}
-                ListElement {item: "Example 5"}
-                ListElement {item: "Example 6"}
-                ListElement {item: "Example 7"}
-                ListElement {item: "Example 8"}
-                ListElement {item: "Example 9"}
-                ListElement {item: "Example 10"}
+                ListElement {item: "УТМ"}
+                ListElement {item: "Test Popup"}
             }
+
             delegate: ItemDelegate {
                 id: menuItem
                 width: menuListView.width

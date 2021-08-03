@@ -123,6 +123,10 @@ ApplicationWindow {
         closePolicy: Popup.NoAutoClose
     }
 
+    SaleComponents.PopupCashlessPay {
+        id: popupCashlessPay
+    }
+
     function setMainPageTitle(title) {
         headerTitle.text = qsTr(title)
     }
@@ -165,6 +169,10 @@ ApplicationWindow {
     function setLeftButtonIco(icon) {
         leftButton.icon.source = icon
         leftButton.visible = true
+    }
+
+    function setLeftMenuButtonIco(ico) {
+        leftButton.icon.source = ico
     }
 
     function setAddRightMenuButtonAction(action) {
@@ -436,6 +444,32 @@ ApplicationWindow {
         popupReset()
         openPage("qrc:/qml/pages/subpages/DisconnectPrinter.qml")
     }
+
+    function openPopupCheckAge() {
+        popupCheckAlcSale.imageSource = "qrc:/img/sale/check_age.png"
+        popupCheckAlcSale.textInfo = "Убедитесь, что дата рождения\nпокупателя не позднее"
+        popupCheckAlcSale.textNote = "15.04.2003"
+        popupCheckAlcSale.open()
+    }
+
+    function openPopupClockSale() {
+        popupCheckAlcSale.imageSource = "qrc:/img/sale/clock_sale.png"
+        popupCheckAlcSale.textInfo = "Продажа алкоголя запрещена"
+        popupCheckAlcSale.textNote = ("с %1 до %2 часов").arg(clockSaleSet.finishTime).arg(clockSaleSet.startTime)
+        popupCheckAlcSale.open()
+    }
+
+    function openPopupCheckAlcoCode() {
+        popupCheckAlcSale.imageSource = "qrc:/img/sale/check_alco_code.png"
+        popupCheckAlcSale.textInfo = "Отсканируйте"
+        popupCheckAlcSale.textNote = "Акцизную марку товара водка очень вкусная и дорогая"
+        popupCheckAlcSale.open()
+    }
+
+    SaleComponents.PopupAlcoholSale {
+        id: popupCheckAlcSale
+    }
+
     // ---
     SaleComponents.MenuDrawer {
         id: drawer

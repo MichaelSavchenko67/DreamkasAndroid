@@ -95,7 +95,6 @@ Popup {
                     ComboBox {
                         id: control
                         width: parent.width
-
                         font: {
                             pixelSize: 0.09 * width
                             family: "Roboto"

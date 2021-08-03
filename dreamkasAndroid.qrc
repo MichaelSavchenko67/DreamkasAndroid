@@ -142,6 +142,32 @@
         <file>ico/settings/delete_selection.png</file>
         <file>qml/components/settings/FilterProxyModel.qml</file>
         <file>qml/components/sale/AddPositionPopup.qml</file>
+        <file>qml/pages/subpages/Utm.qml</file>
+        <file>ico/utm/check_age.png</file>
+        <file>ico/utm/clock.png</file>
+        <file>ico/utm/ip.png</file>
+        <file>ico/utm/port.png</file>
+        <file>ico/utm/print_slip.png</file>
+        <file>ico/utm/connect.png</file>
+        <file>ico/utm/disconnect.png</file>
+        <file>qml/components/settings/CustomTumbler.qml</file>
+        <file>qml/components/settings/ClockSale.qml</file>
+        <file>qml/components/settings/PopupTumbler.qml</file>
+        <file>qml/components/sale/PopupAlcoholSale.qml</file>
+        <file>img/sale/check_alco_code.png</file>
+        <file>img/sale/clock_sale.png</file>
+        <file>img/sale/check_age.png</file>
+        <file>qml/pages/DemoSwipeView.qml</file>
+        <file>img/demo/eighth.png</file>
+        <file>img/demo/fifth.png</file>
+        <file>img/demo/first.png</file>
+        <file>img/demo/fourth.png</file>
+        <file>img/demo/second.png</file>
+        <file>img/demo/seventh.png</file>
+        <file>img/demo/sixth.png</file>
+        <file>img/demo/third.png</file>
+        <file>qml/components/settings/PopupEnterText.qml</file>
+        <file>qml/components/sale/PopupCashlessPay.qml</file>
         <file>qml/pages/subpages/users/UserPage.qml</file>
         <file>qml/components/settings/CustomComboBox.qml</file>
         <file>qml/components/settings/CreateAvatarPopup.qml</file>
