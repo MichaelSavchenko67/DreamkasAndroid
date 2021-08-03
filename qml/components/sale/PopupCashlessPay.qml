@@ -2,40 +2,11 @@ import QtQuick 2.12
 import QtQuick.Controls 2.3
 import QtQuick.Controls.Material 2.12
 
+import "qrc:/content/calculator.js" as CalcEngine
 import "qrc:/qml/components/sale" as SaleComponents
-import "qrc:/qml/components/settings" as SettingsComponents
 
 Popup {
     id: popupCashlessPay
-
-//    onOpened:
-//    {
-//        setChangeStateScaner(true)
-//    }
-//    onAboutToHide:
-//    {
-//        setChangeStateScaner(false)
-//    }
-
-    property var total: "0,00"
-
-    function openRRNnotFoundMsg(RRN) {
-        popupReset()
-        root.popupSetTitle("Оплата с RRN: " + RRN + " не найдена!")
-        root.popupSetAddMsg("Проверьте номер ссылки RRN на банковском чеке и введите его заново для отмены банковской оплаты.")
-        root.popupSetSecondActionName("ПРОДОЛЖИТЬ")
-        root.popupSetSecondAction(popupCancel)
-        root.popupSetClosePolicy(Popup.NoAutoClose)
-        root.popupOpen()
-    }
-
-    function pay() {
-        recieptModel.setPaymentType(ReceiptEnums.PAYMENT_CASHLESS)
-        root.openPage("qrc:/qml/pages/subpages/FiscalPurchase.qml")
-        rootStack.currentItem.paymentSum = CalcEngine.formatCommaResult(total)
-        rootStack.currentItem.paymentSumDot = recTotalSum.replace(',', '.')
-    }
-
     width: 0.9 * parent.width
     height: 0.69 * width + 2 * exitButton.height
     x: 0.5 * (parent.width - width)
@@ -124,15 +95,13 @@ Popup {
                     ComboBox {
                         id: control
                         width: parent.width
-                        enabled: false
-
-//                        font: {
-//                            pixelSize: 0.09 * width
-//                            family: "Roboto"
-//                            styleName: "medium"
-//                            weight: Font.Medium
-//                            bold: true
-//                        }
+                        font: {
+                            pixelSize: 0.09 * width
+                            family: "Roboto"
+                            styleName: "medium"
+                            weight: Font.Medium
+                            bold: true
+                        }
 
                         model: ListModel {
                             id: model
@@ -168,7 +137,6 @@ Popup {
                             id: canvas
                             x: control.width - width - control.rightPadding
                             y: control.topPadding + (control.availableHeight - height) / 2
-                            visible: false
                             width: 12
                             height: 8
                             contextType: "2d"
@@ -237,26 +205,7 @@ Popup {
             }
         }
 
-        SettingsComponents.PopupEnterText {
-            id: enterRrnPopup
-            popupTitle: "Номер ссылки"
-            enteredTextTitle: "Введите RRN"
-            enteredTextPlaceholder: "RRN"
-            enteredValidator: RegExpValidator { regExp: /[0-9]\d*/ }
-            enteredImh: Qt.ImhDigitsOnly
-
-            onEntered: {
-                if (slipsDb.isExists(textEntered)) {
-                    multiposModel.setUserRrn(textEntered)
-                    pay()
-                } else {
-                    openRRNnotFoundMsg(textEntered)
-                }
-            }
-        }
-
         SaleComponents.Button_1 {
-            id: getPayment
             width: rootColumn.width
             height: 0.2 * width
             anchors {
@@ -273,15 +222,6 @@ Popup {
             pushDownColor: "#004075"
             onClicked: {
                 popupCashlessPay.close()
-
-                if ((multiposModel.getTerminalMode() === MultiposModelEnums.TERMINAL_MODE_INTEGRATED) &&
-                    ((recieptModel.getPurchaseType() === ReceiptEnums.RETURN) ||
-                     (recieptModel.getPurchaseType() === ReceiptEnums.RETURN_PURHASE))) {
-                    // need enter RRN
-                    enterRrnPopup.open()
-                } else {
-                    pay()
-                }
             }
         }
     }

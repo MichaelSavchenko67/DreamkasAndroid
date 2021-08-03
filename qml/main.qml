@@ -22,6 +22,9 @@ ApplicationWindow {
     property bool isCabinetEnable: false
     property var cashInDrawer: "100,00"
 
+    SaleComponents.PopupCashlessPay {
+    }
+
     Action {
         id: openMenu
         onTriggered: {
@@ -108,22 +111,8 @@ ApplicationWindow {
         }
     }
 
-//    SaleComponents.AddPositionPopup {
-//        visible: true
-//    }
-
-//    QtObject {
-//        id: obj
-//        property var locale: Qt.locale()
-//        property date currentDate: new Date()
-//        property string dateString
-
-//        Component.onCompleted: {
-//            dateString = currentDate.toLocaleDateString();
-//            print(Date.fromLocaleDateString(dateString));
-//        }
-//    }
-
+    SaleComponents.AddPositionPopup {
+    }
 
     SaleComponents.PopupMain {
         id: popup
@@ -154,8 +143,6 @@ ApplicationWindow {
         } else {
             rootStack.pop()
         }
-
-        openPopupCheckAge()
     }
 
     function getButtonIco(action) {
@@ -176,6 +163,12 @@ ApplicationWindow {
 
     function setLeftMenuButtonAction(action) {
         leftButton.action = action
+        leftButton.icon.source = getButtonIco(action)
+    }
+
+    function setLeftButtonIco(icon) {
+        leftButton.icon.source = icon
+        leftButton.visible = true
     }
 
     function setLeftMenuButtonIco(ico) {
@@ -451,16 +444,6 @@ ApplicationWindow {
         popupReset()
         openPage("qrc:/qml/pages/subpages/DisconnectPrinter.qml")
     }
-
-
-//    Timer { id: connectToUtmDelay; interval: 300; repeat: false; onTriggered: { /*model.connect2utm()*/ } }
-//    function connectToUtm() {
-//        popupReset()
-//        root.popupSetTitle("Подключение к УТМ")
-//        root.popupOpen()
-//        root.popupSetLoader(true)
-//        connectToUtmDelay.running = true
-//    }
 
     function openPopupCheckAge() {
         popupCheckAlcSale.imageSource = "qrc:/img/sale/check_age.png"

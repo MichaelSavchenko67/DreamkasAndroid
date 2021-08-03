@@ -18,7 +18,7 @@ Page {
         if (focus) {
             setMainPageTitle("Подключение ККТ")
             resetAddRightMenuButton()
-            setLeftMenuButtonAction(openMenu)
+            setLeftMenuButtonAction(back)
             setRightMenuButtonVisible(false)
             setToolbarVisible(true)
             enterPasswordPopup.open()
@@ -354,7 +354,7 @@ Page {
                 pushUpColor: "#415A77"
                 pushDownColor: "#004075"
                 onClicked: {
-                    root.openPage("qrc:/qml/pages/subpages/Connect2printer.qml")
+                    root.openPage("qrc:/qml/pages/subpages/printer/ConnectionByIp.qml")
                 }
             }
         }

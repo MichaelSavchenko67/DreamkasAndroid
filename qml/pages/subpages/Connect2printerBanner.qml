@@ -91,7 +91,7 @@ Page {
             pushDownColor: "#004075"
 
             onClicked: {
-                openPage("qrc:/qml/pages/subpages/ScanWiFiNetworks.qml")
+                openPage("qrc:/qml/pages/subpages/printer/ChoosePrinterType.qml")
             }
         }
     }

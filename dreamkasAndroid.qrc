@@ -32,7 +32,6 @@
         <file>qml/pages/subpages/SearchGoods.qml</file>
         <file>qml/components/sale/MyTextInput.qml</file>
         <file>ico/menu/back.png</file>
-        <file>qml/pages/subpages/Purchase.qml</file>
         <file>ico/menu/context_menu.png</file>
         <file>ico/menu/check.png</file>
         <file>ico/menu/delete.png</file>
@@ -62,7 +61,6 @@
         <file>ico/menu/operation_failed.png</file>
         <file>qml/components/sale/PopupMain.qml</file>
         <file>qml/pages/subpages/OpenShift.qml</file>
-        <file>qml/pages/subpages/Connect2printer.qml</file>
         <file>qml/pages/subpages/ConnectPrinter.qml</file>
         <file>qml/pages/subpages/DisconnectPrinter.qml</file>
         <file>qml/pages/subpages/Connect2printerBanner.qml</file>
@@ -170,5 +168,43 @@
         <file>img/demo/third.png</file>
         <file>qml/components/settings/PopupEnterText.qml</file>
         <file>qml/components/sale/PopupCashlessPay.qml</file>
+        <file>qml/pages/subpages/users/UserPage.qml</file>
+        <file>qml/components/settings/CustomComboBox.qml</file>
+        <file>qml/components/settings/CreateAvatarPopup.qml</file>
+        <file>qml/components/settings/AvatarFrame.qml</file>
+        <file>ico/settings/autorenew.png</file>
+        <file>ico/settings/take_photo.png</file>
+        <file>qml/components/settings/Avatar.qml</file>
+        <file>ico/settings/cash-multiple.png</file>
+        <file>ico/settings/tie.png</file>
+        <file>ico/settings/cash-multiple_blue.png</file>
+        <file>ico/settings/tie_blue.png</file>
+        <file>qml/pages/subpages/users/UsersPage.qml</file>
+        <file>qml/pages/subpages/settings/Multipos.qml</file>
+        <file>ico/settings/bluetooth.png</file>
+        <file>ico/settings/usb.png</file>
+        <file>ico/settings/calculator.png</file>
+        <file>ico/settings/responsive.png</file>
+        <file>qml/components/settings/ParagraphMessage.qml</file>
+        <file>qml/pages/subpages/settings/MultiposService.qml</file>
+        <file>qml/components/settings/ServiceItemDelegate.qml</file>
+        <file>qml/components/sale/PopupCashlessPay.qml</file>
+        <file>ico/settings/check_blue.png</file>
+        <file>qml/pages/subpages/printer/ChoosePrinterType.qml</file>
+        <file>ico/printer/atol.png</file>
+        <file>ico/printer/Dreamkas.png</file>
+        <file>ico/printer/dreamkas.png</file>
+        <file>qml/components/settings/ChoosenItemDelegate.qml</file>
+        <file>qml/components/settings/InfoButton.qml</file>
+        <file>qml/pages/subpages/printer/ChooseConnectionType.qml</file>
+        <file>ico/settings/ip.png</file>
+        <file>ico/settings/manual.png</file>
+        <file>ico/settings/cast.png</file>
+        <file>qml/pages/subpages/printer/ConnectionByIp.qml</file>
+        <file>qml/pages/subpages/printer/ManualConnection.qml</file>
+        <file>qml/pages/subpages/Purchase.qml</file>
+        <file>ico/menu/close_grey.png</file>
+        <file>ico/sale/discount.png</file>
+        <file>ico/sale/marked.png</file>
     </qresource>
 </RCC>
