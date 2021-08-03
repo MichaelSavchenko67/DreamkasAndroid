@@ -100,8 +100,8 @@ Page {
                                 id: imagePromo
                                 source: pathImage_
                                 transformOrigin: Item.Center
-                                height: 0.375 * parent.height
-//                                width: 0.876 * height
+                                height: 0.4 * parent.height
+                                width: parent.width
                                 fillMode: Image.PreserveAspectFit
                                 anchors.horizontalCenter: parent.horizontalCenter
                             }
@@ -123,50 +123,81 @@ Page {
                                 verticalAlignment: Qt.AlignVCenter
                             }
 
-                            Label {
-                                id: textInfoPromo
-
-                                onContentHeightChanged: {
-//                                    console.log("textInfoPromo height: " + textInfoPromo.contentHeight + ", font: " + textInfoPromo.font.pixelSize + ", count: " + textInfoPromo.contentHeight / textInfoPromo.font.pixelSize)
-                                }
-
+                            Column {
                                 width: parent.width
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                text: textInfo_
-                                font {
-                                    pixelSize: 0.8 * textNotePromo.font.pixelSize
-                                    family: "Roboto"
-                                    styleName: "normal"
-                                    weight: Font.Normal
-                                }
-                                color: "#444444"
-                                elide: Label.ElideRight
-                                maximumLineCount: 8
-                                wrapMode: Text.WordWrap
-                                horizontalAlignment: Qt.AlignHCenter
-                                verticalAlignment: Qt.AlignVCenter
-                            }
+                                height: parent.height - imagePromo.height - textNotePromo.height - 2 * parent.spacing
+                                spacing: height - textInfoPromo.height - buttonNext.height
 
-                            SaleComponents.Button_1 {
-                                anchors.horizontalCenter:  parent.horizontalCenter
-                                width: parent.width * 0.95
-                                height: 0.2 * width
-                                borderWidth: 0
-                                backRadius: 5
-                                buttonTxt: textButton_.toUpperCase()
-                                fontSize: 0.27 * height
-                                fontBold: false
-                                buttonTxtColor: "white"
-                                pushUpColor: "#415A77"
-                                pushDownColor: "#004075"
-                                onClicked: {
-                                    if (promoSwipeView.currentIndex === (modelDemoSwipe.rowCount() - 1) )
-                                    {
-                                        closePage()
-                                        modelDemoSwipe.closeDemoSwipeFromFront()
+                                Label {
+                                    id: textInfoPromo
+
+                                    onTextChanged: {
+                                        console.log("TEXT: " + text.toString().search("\n\n"))
+                                        if (text.toString().search("\n\n"))
+                                        {
+                                            console.log("SEARCH!!!")
+                                        }
                                     }
 
-                                    promoSwipeView.incrementCurrentIndex()
+                                    onContentHeightChanged: {
+                                        console.log("textInfoPromo height: " + textInfoPromo.contentHeight + ", font: " + textInfoPromo.font.pixelSize + ", count: " + textInfoPromo.contentHeight / textInfoPromo.font.pixelSize)
+                                        if (textInfoPromo.contentHeight / textInfoPromo.font.pixelSize >= 5)
+                                        {
+                                            font.pixelSize = 0.8 * textNotePromo.font.pixelSize
+                                        }
+                                        else
+                                        {
+                                            font.pixelSize = 1.2 * textNotePromo.font.pixelSize
+                                        }
+                                    }
+
+                                    width: parent.width
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    text: textInfo_
+                                    font {
+//                                        pixelSize: 0.8 * textNotePromo.font.pixelSize
+                                        family: "Roboto"
+                                        styleName: "normal"
+                                        weight: Font.Normal
+                                    }
+                                    color: "#444444"
+                                    elide: Label.ElideRight
+                                    maximumLineCount: 8
+                                    wrapMode: Text.WordWrap
+                                    horizontalAlignment: Qt.AlignLeft
+                                    verticalAlignment: Qt.AlignVCenter
+
+                                    onLineLaidOut: {
+                                        if (horizontalAlignment === Qt.AlignLeft)
+                                        {
+                                            line.width = line.width - 50
+                                            line.x = line.x + 20
+                                        }
+                                    }
+                                }
+
+                                SaleComponents.Button_1 {
+                                    id: buttonNext
+                                    anchors.horizontalCenter:  parent.horizontalCenter
+                                    width: parent.width * 0.95
+                                    height: 0.2 * width
+                                    borderWidth: 0
+                                    backRadius: 5
+                                    buttonTxt: textButton_.toUpperCase()
+                                    fontSize: 0.27 * height
+                                    fontBold: false
+                                    buttonTxtColor: "white"
+                                    pushUpColor: "#415A77"
+                                    pushDownColor: "#004075"
+                                    onClicked: {
+                                        if (promoSwipeView.currentIndex === (modelDemoSwipe.rowCount() - 1) )
+                                        {
+                                            closePage()
+                                            modelDemoSwipe.closeDemoSwipeFromFront()
+                                        }
+
+                                        promoSwipeView.incrementCurrentIndex()
+                                    }
                                 }
                             }
                         }
