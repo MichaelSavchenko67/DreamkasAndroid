@@ -180,5 +180,8 @@
         <file>ico/menu/close_grey.png</file>
         <file>ico/sale/discount.png</file>
         <file>ico/sale/marked.png</file>
+        <file>qml/components/settings/ButtonHyperlink.qml</file>
+        <file>ico/settings/download.png</file>
+        <file>ico/settings/youtube.png</file>
     </qresource>
 </RCC>
