@@ -31,6 +31,46 @@ Page {
         leftPadding: 0.7 * spacing
         topPadding: spacing
 
+        Rectangle {
+            width: 0.92 * parent.width
+            height: 0.21 * rootFrame.height
+            clip: true
+            color: "#F6F6F6"
+            radius: 8
+
+            Column {
+                width: parent.width - titleInputIpPort.spacing
+                height: 0.8 * parent.height
+                anchors.centerIn: parent
+                topPadding: (height - 2 * installAtolDriver.height) / 3
+                spacing: 2 * topPadding
+
+                SettingsComponents.ButtonHyperlink {
+                    id: installAtolDriver
+                    width: parent.width
+                    height: 0.45 * parent.height
+                    title: "Установите «‎‎Драйвер АТОЛ»"
+                    icoTitle: "Скачать файл"
+                    icoPath: "qrc:/ico/settings/download"
+                    onGo: {
+                        console.info("installAtolDriver onGo")
+                    }
+                }
+
+                SettingsComponents.ButtonHyperlink {
+                    id: youtubeAtolDriver
+                    width: installAtolDriver.width
+                    height: installAtolDriver.height
+                    title: "Посмотрите видеоинструкцию"
+                    icoTitle: "Открыть в YouTube"
+                    icoPath: "qrc:/ico/settings/youtube"
+                    onGo: {
+                        console.info("youtubeAtolDriver onGo")
+                    }
+                }
+            }
+        }
+
         Label {
             id: titleLabelInput
             width: parent.width - 2 * parent.leftPadding

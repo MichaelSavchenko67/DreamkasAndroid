@@ -247,7 +247,7 @@ Page {
 
                         Rectangle {
                             id: quantityFieldFrame
-                            width: parent.width - positionUnitPrice.font.pixelSize - parent.spacing
+                            width: parent.width
                             height: 3.5 * positionUnitPrice.font.pixelSize
                             border.width: 0
                             color: "transparent"
@@ -287,15 +287,6 @@ Page {
                                     prevContentLength = text.length
                                 }
                             }
-                        }
-
-                        Label {
-                            text: measure
-                            anchors.verticalCenter: parent.verticalCenter
-                            font: positionUnitPrice.font
-                            color: "black"
-                            horizontalAlignment: Qt.AlignLeft
-                            verticalAlignment: Qt.AlignVCenter
                         }
                     }
 
