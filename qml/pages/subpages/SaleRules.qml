@@ -31,7 +31,6 @@ Page {
         Row {
             id: fiscalCloud
             width: parent.width
-            topPadding: 30
 
             Label {
                 id: labelFiscalCloud
