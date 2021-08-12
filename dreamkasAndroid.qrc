@@ -206,5 +206,6 @@
         <file>ico/menu/close_grey.png</file>
         <file>ico/sale/discount.png</file>
         <file>ico/sale/marked.png</file>
+        <file>qml/pages/subpages/SaleRules.qml</file>
     </qresource>
 </RCC>

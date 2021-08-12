@@ -137,6 +137,7 @@ Drawer {
                     "Изъять или внести": function() { root.openPage("qrc:/qml/pages/subpages/InsRes.qml") },
                     "Чек коррекции": function() { root.openPage("qrc:/qml/pages/subpages/PurchaseCorrection.qml") },
                     "УТМ": function() { root.openPage("qrc:/qml/pages/subpages/Utm.qml") },
+                    "Правила торговли": function() { root.openPage("qrc:/qml/pages/subpages/SaleRules.qml") },
                     "Test Popup": function() { root.openPage("qrc:/qml/components/sale/PopupCashlessPay.qml") }
                 }
 
@@ -157,6 +158,7 @@ Drawer {
                 ListElement {item: "Изъять или внести"}
                 ListElement {item: "Чек коррекции"}
                 ListElement {item: "УТМ"}
+                ListElement {item: "Правила торговли"}
                 ListElement {item: "Test Popup"}
             }
 
