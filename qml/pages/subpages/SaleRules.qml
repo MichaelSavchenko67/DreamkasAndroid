@@ -19,34 +19,61 @@ Page {
 //            resetAddRightButton2()
             setToolbarVisible(true)
 //            footerMainModel.setState("Off")
+
+            switchFiscalCloud.checked = root.isFiscalCloud
         }
     }
 
     Column {
+        id: columnItemsSaleRules
         anchors.fill: parent
         spacing: labelFiscalCloud.font.pixelSize
         leftPadding: 0.7 * spacing
-        topPadding: spacing
+        topPadding: 1.5 * spacing
 
         Row {
             id: fiscalCloud
             width: parent.width
+            spacing: 0.5 * parent.spacing
 
-            Label {
-                id: labelFiscalCloud
-                width: parent.width
-                text: qsTr("Облачная касса")
-                font {
-                    pixelSize: 0.0498 * parent.width
-                    family: "Roboto"
-                    styleName: "normal"
-                    weight: Font.Normal
+            Column {
+                width: parent.width - switchFiscalCloud.width - 2 * parent.spacing
+
+                Label {
+                    id: labelFiscalCloud
+                    text: qsTr("Облачная касса")
+                    font {
+                        pixelSize: 0.0498 * fiscalCloud.width
+                        family: "Roboto"
+                        styleName: "normal"
+                        weight: Font.Normal
+                    }
+                    color: "black"
+                    clip: true
+                    elide: "ElideRight"
                 }
-                color: "black"
-                clip: true
-                elide: "ElideRight"
-                //                    anchors.verticalCenter: parent.verticalCenter
-                //                    leftPadding: font.pixelSize
+
+                Label {
+                    id: labelFiscalCloudInfo
+                    text: qsTr("Фискализация чеков будет происходить\nна облачной кассе, подключенной к\nвашему Кабинету Дримкас")
+                    font {
+                        pixelSize: 0.83 * labelFiscalCloud.font.pixelSize
+                        family: "Roboto"
+                        styleName: "normal"
+                        weight: Font.Normal
+                    }
+                    color: "#979797"
+                    clip: true
+                    elide: "ElideRight"
+                }
+            }
+
+            Switch {
+                id: switchFiscalCloud
+                anchors.verticalCenter: labelFiscalCloud.verticalCenter
+                onCheckedChanged: {
+                    root.isFiscalCloud = checked
+                }
             }
         }
     }
