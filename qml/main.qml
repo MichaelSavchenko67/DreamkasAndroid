@@ -22,12 +22,6 @@ ApplicationWindow {
     property bool isCabinetEnable: false
     property var cashInDrawer: "100,00"
 
-    property bool isFiscalCloud: false
-
-    onIsFiscalCloudChanged: {
-        console.log("onIsFiscalCloudChanged: " + isFiscalCloud)
-    }
-
     SaleComponents.PopupCashlessPay {
     }
 

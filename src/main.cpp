@@ -8,6 +8,7 @@
 #include "include/guiThread.h"
 
 #include "include/modelDemoSwipe.h"
+#include "include/modelSaleRules.h"
 #include <QFile>
 #include <QDir>
 
@@ -25,6 +26,9 @@ int main(int argc, char *argv[])
 
     ModelDemoSwipe modelDemoSwipe;
     engine.rootContext()->setContextProperty("modelDemoSwipe", &modelDemoSwipe);
+
+    ModelSaleRules modelSaleRules;
+    engine.rootContext()->setContextProperty("modelSaleRules", &modelSaleRules);
 
     GUI::AppView appView(&engine);
 //    GUI::FoundGoods foundGoods(&engine);

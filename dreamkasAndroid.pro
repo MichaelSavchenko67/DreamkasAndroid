@@ -9,12 +9,14 @@ HEADERS += \
         src/include/launcher.h \
         src/include/menu.h \
         src/include/searchGoods.h \
-        src/include/toolbar.h
+        src/include/toolbar.h \
+        src/include/modelSaleRules.h
 
 SOURCES += \
         src/modelDemoSwipe.cpp \
         src/guiThread.cpp \
         src/main.cpp \
+        src/modelSaleRules.cpp \
         src/qui.cpp \
         src/searchGoods.cpp
 
