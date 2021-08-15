@@ -32,9 +32,10 @@ Page {
             spacing: labelName.font.pixelSize
             leftPadding: 1.5 * spacing
             topPadding: 1.5 * spacing
+            rightPadding: 1.5 * spacing
 
             Column {
-                width: parent.width - 3 * parent.spacing - switchState.width
+                width: parent.width - switchState.width - parent.leftPadding - parent.rightPadding
 
                 Label {
                     id: labelName                    
