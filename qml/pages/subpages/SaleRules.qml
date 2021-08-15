@@ -34,10 +34,10 @@ Page {
             topPadding: 1.5 * spacing
 
             Column {
-                width: parent.width - labelName.width - 2 * parent.spacing
+                width: parent.width - 3 * parent.spacing - switchState.width
 
                 Label {
-                    id: labelName
+                    id: labelName                    
                     text: textName_
                     font {
                         pixelSize: 0.0498 * fiscalCloud.width
