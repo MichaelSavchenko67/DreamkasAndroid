@@ -209,5 +209,7 @@
         <file>qml/components/settings/ButtonHyperlink.qml</file>
         <file>ico/settings/download.png</file>
         <file>ico/settings/youtube.png</file>
+        <file>ico/purchase/triangle.svg</file>
+        <file>qml/components/sale/PrintedPurchase.qml</file>
     </qresource>
 </RCC>
