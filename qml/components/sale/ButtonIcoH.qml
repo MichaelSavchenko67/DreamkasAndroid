@@ -11,6 +11,7 @@ Button {
     property color pushUpColor: "#415A77"
     property color pushDownColor: "#004075"
     property var iconPath: ""
+    property var iconHeight: 1.5 * fontSize
     property var fontSize: 0.23 * height
 
     contentItem: Row {
@@ -20,7 +21,7 @@ Button {
         Image {
             id: ico
             source: iconPath
-            height: 1.5 * fontSize
+            height: iconHeight
             width: height
             anchors {
                 verticalCenter: parent.verticalCenter

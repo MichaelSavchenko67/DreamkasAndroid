@@ -134,7 +134,7 @@ Drawer {
                     "Ввод цены товара": function() { root.openEnterCostDialog("Яблоки красные", "Цена, \u20BD/кг", "Неправильное значение, введите снова") },
                     "Ввод количества товара": function() { root.openEnterAmountDialog("Яблоки красные", "Количество, кг", "Неправильное значение, введите снова") },
                     "Ввод суммы платежа": function() { root.openPage("qrc:/qml/pages/subpages/Pay.qml") },
-                    "Изъять или внести": function() { root.openPage("qrc:/qml/pages/subpages/InsRes.qml") },
+                    "Изъять или внести": function() { root.openPage("qrc:/qml/pages/subpages/InsResTabs.qml") },
                     "Чек коррекции": function() { root.openPage("qrc:/qml/pages/subpages/PurchaseCorrection.qml") },
                     "УТМ": function() { root.openPage("qrc:/qml/pages/subpages/Utm.qml") },
                     "Test Popup": function() { root.openPage("qrc:/qml/components/sale/PopupCashlessPay.qml") }

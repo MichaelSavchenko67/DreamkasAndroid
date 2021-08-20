@@ -10,12 +10,12 @@ ApplicationWindow {
     id: root
 //    width: Screen.width
 //    height: Screen.height
-//    width: 360
-//    height: 640
-    width: 1080
-    height: 1920
+    width: 360
+    height: 640
+//    width: 1080
+//    height: 1920
     visible: true
-    visibility: "FullScreen"
+//    visibility: "FullScreen"
 
     property bool isPrinterConnected: true
     property bool isShiftOpened: true

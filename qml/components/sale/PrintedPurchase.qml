@@ -17,14 +17,31 @@ Popup {
         radius: 8
         color: "#FFFFFF"
 
+        ToolButton {
+            id: exitButton
+            anchors {
+                top: parent.top
+                right: parent.right
+            }
+            icon {
+                color: "#979797"
+                height: 0.049 * parent.width
+                source: "qrc:/ico/menu/close.png"
+            }
+            onClicked: {
+                popup.close()
+            }
+        }
+
         Column {
-            anchors.fill: parent
-            spacing: purchaseTitleColumn.topPadding
+            width: parent.width
+            height: parent.height
+            spacing: purchaseTitleColumn.topPadding - 2 * exitButton.icon.height
 
             Column {
                 id: purchaseTitleColumn
                 width: parent.width
-                topPadding: 3 * purchaseTitleLabel.font.pixelSize
+                topPadding: 1.5 * purchaseTitleLabel.font.pixelSize + 2 * exitButton.icon.height
                 spacing: purchaseTitleLabel.font.pixelSize
                 leftPadding: spacing
 
@@ -217,22 +234,23 @@ Popup {
                         }
                     }
 
-                    delegate: ItemDelegate {
+                    delegate: Rectangle {
                         id: position
                         width: purchaseView.width
-                        height:  (goodsNameLabel.contentHeight +
-                                       costQuantityRow.height +
-                                       ndsLabel.height +
-                                       goodsClcTypeRow.height +
-                                       goodsTypeRow.height +
-                                       positionSeparator.height +
-                                       3 * goodsParamColumn.spacing +
-                                       (totalRow.visible ? (totalRow.height + goodsColumn.spacing) : 0) +
-                                       3 * goodsColumn.spacing)
+                        height: (goodsNameLabel.contentHeight +
+                                 costQuantityRow.height +
+                                 ndsLabel.height +
+                                 goodsClcTypeRow.height +
+                                 goodsTypeRow.height +
+                                 positionSeparator.height +
+                                 3 * goodsParamColumn.spacing +
+                                 (purchaseTotalColumn.visible ? (purchaseTotalColumn.height + goodsColumn.spacing) : 0) +
+                                 3 * goodsColumn.spacing)
+                        color: "transparent"
 
                         Column {
                             id: goodsColumn
-                            width: parent.width
+                            width: parent.width - scroll.width
                             anchors.verticalCenter: parent.verticalCenter
                             spacing: 0.8 * goodsNameLabel.font.pixelSize
 
@@ -370,42 +388,516 @@ Popup {
                                 color: "#E0E0E0"
                             }
 
-                            Row {
-                                id: totalRow
+                            Column {
+                                id: purchaseTotalColumn
                                 width: parent.width
-                                anchors.horizontalCenter: parent.horizontalCenter
                                 visible: (model.index === (purchaseView.count - 1))
+                                spacing: 0.5 * (purchaseTitleColumn.topPadding - 2 * exitButton.icon.height)
+                                topPadding: spacing
 
-                                Label {
-                                    id: totalLabel
-                                    text: "ИТОГО:"
-                                    width: 0.5 * parent.width
-                                    anchors.verticalCenter: totalPurchaseLabel.verticalCenter
-                                    font {
-                                        pixelSize: 0.03 * popup.height
-                                        family: "Roboto"
-                                        styleName: "bold"
-                                        weight: Font.Bold
-                                        bold: true
+                                Row {
+                                    id: totalRow
+                                    width: parent.width
+
+                                    Label {
+                                        id: totalLabel
+                                        text: "ИТОГО:"
+                                        width: 0.5 * parent.width
+                                        anchors.verticalCenter: totalPurchaseLabel.verticalCenter
+                                        font {
+                                            pixelSize: 0.03 * popup.height
+                                            family: "Roboto"
+                                            styleName: "bold"
+                                            weight: Font.Bold
+                                            bold: true
+                                        }
+                                        color: "#0064B4"
+                                        elide: Label.ElideRight
+                                        horizontalAlignment: Qt.AlignLeft
+                                        verticalAlignment: Qt.AlignVCenter
                                     }
-                                    color: "#0064B4"
-                                    elide: Label.ElideRight
-                                    horizontalAlignment: Qt.AlignLeft
-                                    verticalAlignment: Qt.AlignVCenter
+
+                                    Label {
+                                        id: totalPurchaseLabel
+                                        text: "100 000,00" + "&nbsp;\u20BD"
+                                        width: parent.width - totalLabel.width
+                                        textFormat: Label.RichText
+                                        font: totalLabel.font
+                                        color: totalLabel.color
+                                        elide: Label.ElideRight
+                                        horizontalAlignment: Qt.AlignRight
+                                        verticalAlignment: Qt.AlignVCenter
+                                        maximumLineCount: 2
+                                        wrapMode: Label.WordWrap
+                                    }
                                 }
 
-                                Label {
-                                    id: totalPurchaseLabel
-                                    text: total + "&nbsp;\u20BD"
-                                    width: parent.width - totalLabel.width
-                                    textFormat: Label.RichText
-                                    font: totalLabel.font
-                                    color: totalLabel.color
-                                    elide: Label.ElideRight
-                                    horizontalAlignment: Qt.AlignRight
-                                    verticalAlignment: Qt.AlignVCenter
-                                    maximumLineCount: 2
-                                    wrapMode: Label.WordWrap
+                                Column {
+                                    width: parent.width
+                                    spacing: 0.5 * parent.spacing
+
+                                    Row {
+                                        width: parent.width
+
+                                        Label {
+                                            id: cashLabel
+                                            text: "НАЛИЧНЫМИ"
+                                            width: 0.5 * parent.width
+                                            anchors.verticalCenter: cashValueLabel.verticalCenter
+                                            font: costQoantityLabel.font
+                                            color: costQoantityLabel.color
+                                            elide: Label.ElideRight
+                                            horizontalAlignment: Qt.AlignLeft
+                                            verticalAlignment: Qt.AlignVCenter
+                                        }
+
+                                        Label {
+                                            id: cashValueLabel
+                                            text: "1 000,00" + "&nbsp;\u20BD"
+                                            width: parent.width - cashLabel.width
+                                            textFormat: Label.RichText
+                                            font: costQoantityLabel.font
+                                            color: costQoantityLabel.color
+                                            elide: Label.ElideRight
+                                            maximumLineCount: 2
+                                            wrapMode: Label.WordWrap
+                                            horizontalAlignment: Qt.AlignRight
+                                            verticalAlignment: Qt.AlignVCenter
+                                        }
+                                    }
+
+                                    Row {
+                                        width: parent.width
+
+                                        Label {
+                                            id: cashlessLabel
+                                            text: "БЕЗНАЛИЧНЫМИ"
+                                            width: 0.5 * parent.width
+                                            anchors.verticalCenter: cashlessValueLabel.verticalCenter
+                                            font: costQoantityLabel.font
+                                            color: costQoantityLabel.color
+                                            elide: Label.ElideRight
+                                            horizontalAlignment: Qt.AlignLeft
+                                            verticalAlignment: Qt.AlignVCenter
+                                        }
+
+                                        Label {
+                                            id: cashlessValueLabel
+                                            text: "1 000,00" + "&nbsp;\u20BD"
+                                            width: parent.width - cashlessLabel.width
+                                            textFormat: Label.RichText
+                                            font: costQoantityLabel.font
+                                            color: costQoantityLabel.color
+                                            elide: Label.ElideRight
+                                            maximumLineCount: 2
+                                            wrapMode: Label.WordWrap
+                                            horizontalAlignment: Qt.AlignRight
+                                            verticalAlignment: Qt.AlignVCenter
+                                        }
+                                    }
+
+                                    Row {
+                                        width: parent.width
+
+                                        Label {
+                                            id: advanceLabel
+                                            text: "АВАНС"
+                                            width: 0.5 * parent.width
+                                            anchors.verticalCenter: advanceValueLabel.verticalCenter
+                                            font: costQoantityLabel.font
+                                            color: costQoantityLabel.color
+                                            elide: Label.ElideRight
+                                            horizontalAlignment: Qt.AlignLeft
+                                            verticalAlignment: Qt.AlignVCenter
+                                        }
+
+                                        Label {
+                                            id: advanceValueLabel
+                                            text: "1 000,00" + "&nbsp;\u20BD"
+                                            width: parent.width - advanceLabel.width
+                                            textFormat: Label.RichText
+                                            font: costQoantityLabel.font
+                                            color: costQoantityLabel.color
+                                            elide: Label.ElideRight
+                                            maximumLineCount: 2
+                                            wrapMode: Label.WordWrap
+                                            horizontalAlignment: Qt.AlignRight
+                                            verticalAlignment: Qt.AlignVCenter
+                                        }
+                                    }
+
+                                    Row {
+                                        width: parent.width
+
+                                        Label {
+                                            id: creditLabel
+                                            text: "КРЕДИТ"
+                                            width: 0.5 * parent.width
+                                            anchors.verticalCenter: creditValueLabel.verticalCenter
+                                            font: costQoantityLabel.font
+                                            color: costQoantityLabel.color
+                                            elide: Label.ElideRight
+                                            horizontalAlignment: Qt.AlignLeft
+                                            verticalAlignment: Qt.AlignVCenter
+                                        }
+
+                                        Label {
+                                            id: creditValueLabel
+                                            text: "1 000,00" + "&nbsp;\u20BD"
+                                            width: parent.width - creditLabel.width
+                                            textFormat: Label.RichText
+                                            font: costQoantityLabel.font
+                                            color: costQoantityLabel.color
+                                            elide: Label.ElideRight
+                                            maximumLineCount: 2
+                                            wrapMode: Label.WordWrap
+                                            horizontalAlignment: Qt.AlignRight
+                                            verticalAlignment: Qt.AlignVCenter
+                                        }
+                                    }
+
+                                    Row {
+                                        width: parent.width
+
+                                        Label {
+                                            id: exchangeLabel
+                                            text: "ИНАЯ ФОРМА"
+                                            width: 0.5 * parent.width
+                                            anchors.verticalCenter: exchangeValueLabel.verticalCenter
+                                            font: costQoantityLabel.font
+                                            color: costQoantityLabel.color
+                                            elide: Label.ElideRight
+                                            horizontalAlignment: Qt.AlignLeft
+                                            verticalAlignment: Qt.AlignVCenter
+                                        }
+
+                                        Label {
+                                            id: exchangeValueLabel
+                                            text: "1 000,00" + "&nbsp;\u20BD"
+                                            width: parent.width - exchangeLabel.width
+                                            textFormat: Label.RichText
+                                            font: costQoantityLabel.font
+                                            color: costQoantityLabel.color
+                                            elide: Label.ElideRight
+                                            maximumLineCount: 2
+                                            wrapMode: Label.WordWrap
+                                            horizontalAlignment: Qt.AlignRight
+                                            verticalAlignment: Qt.AlignVCenter
+                                        }
+                                    }
+
+                                    Row {
+                                        width: parent.width
+
+                                        Label {
+                                            text: "НДС 10%"
+                                            width: 0.5 * parent.width
+                                            anchors.verticalCenter: nds10.verticalCenter
+                                            font: costQoantityLabel.font
+                                            color: costQoantityLabel.color
+                                            elide: Label.ElideRight
+                                            horizontalAlignment: Qt.AlignLeft
+                                            verticalAlignment: Qt.AlignVCenter
+                                        }
+
+                                        Label {
+                                            id: nds10
+                                            text: "1 000,00" + "&nbsp;\u20BD"
+                                            width: parent.width - exchangeLabel.width
+                                            textFormat: Label.RichText
+                                            font: costQoantityLabel.font
+                                            color: costQoantityLabel.color
+                                            elide: Label.ElideRight
+                                            maximumLineCount: 2
+                                            wrapMode: Label.WordWrap
+                                            horizontalAlignment: Qt.AlignRight
+                                            verticalAlignment: Qt.AlignVCenter
+                                        }
+                                    }
+
+                                    Row {
+                                        width: parent.width
+
+                                        Label {
+                                            text: "НДС 10/110"
+                                            width: 0.5 * parent.width
+                                            anchors.verticalCenter: nds10_110.verticalCenter
+                                            font: costQoantityLabel.font
+                                            color: costQoantityLabel.color
+                                            elide: Label.ElideRight
+                                            horizontalAlignment: Qt.AlignLeft
+                                            verticalAlignment: Qt.AlignVCenter
+                                        }
+
+                                        Label {
+                                            id: nds10_110
+                                            text: "1 000,00" + "&nbsp;\u20BD"
+                                            width: parent.width - exchangeLabel.width
+                                            textFormat: Label.RichText
+                                            font: costQoantityLabel.font
+                                            color: costQoantityLabel.color
+                                            elide: Label.ElideRight
+                                            maximumLineCount: 2
+                                            wrapMode: Label.WordWrap
+                                            horizontalAlignment: Qt.AlignRight
+                                            verticalAlignment: Qt.AlignVCenter
+                                        }
+                                    }
+
+                                    Row {
+                                        width: parent.width
+
+                                        Label {
+                                            text: "НДС 20%"
+                                            width: 0.5 * parent.width
+                                            anchors.verticalCenter: nds20.verticalCenter
+                                            font: costQoantityLabel.font
+                                            color: costQoantityLabel.color
+                                            elide: Label.ElideRight
+                                            horizontalAlignment: Qt.AlignLeft
+                                            verticalAlignment: Qt.AlignVCenter
+                                        }
+
+                                        Label {
+                                            id: nds20
+                                            text: "1 000,00" + "&nbsp;\u20BD"
+                                            width: parent.width - exchangeLabel.width
+                                            textFormat: Label.RichText
+                                            font: costQoantityLabel.font
+                                            color: costQoantityLabel.color
+                                            elide: Label.ElideRight
+                                            maximumLineCount: 2
+                                            wrapMode: Label.WordWrap
+                                            horizontalAlignment: Qt.AlignRight
+                                            verticalAlignment: Qt.AlignVCenter
+                                        }
+                                    }
+
+                                    Row {
+                                        width: parent.width
+
+                                        Label {
+                                            text: "НДС 20/120"
+                                            width: 0.5 * parent.width
+                                            anchors.verticalCenter: nds20_120.verticalCenter
+                                            font: costQoantityLabel.font
+                                            color: costQoantityLabel.color
+                                            elide: Label.ElideRight
+                                            horizontalAlignment: Qt.AlignLeft
+                                            verticalAlignment: Qt.AlignVCenter
+                                        }
+
+                                        Label {
+                                            id: nds20_120
+                                            text: "1 000,00" + "&nbsp;\u20BD"
+                                            width: parent.width - exchangeLabel.width
+                                            textFormat: Label.RichText
+                                            font: costQoantityLabel.font
+                                            color: costQoantityLabel.color
+                                            elide: Label.ElideRight
+                                            maximumLineCount: 2
+                                            wrapMode: Label.WordWrap
+                                            horizontalAlignment: Qt.AlignRight
+                                            verticalAlignment: Qt.AlignVCenter
+                                        }
+                                    }
+
+                                    Row {
+                                        width: parent.width
+
+                                        Label {
+                                            text: "НДС 0%"
+                                            width: 0.5 * parent.width
+                                            anchors.verticalCenter: nds0.verticalCenter
+                                            font: costQoantityLabel.font
+                                            color: costQoantityLabel.color
+                                            elide: Label.ElideRight
+                                            horizontalAlignment: Qt.AlignLeft
+                                            verticalAlignment: Qt.AlignVCenter
+                                        }
+
+                                        Label {
+                                            id: nds0
+                                            text: "1 000,00" + "&nbsp;\u20BD"
+                                            width: parent.width - exchangeLabel.width
+                                            textFormat: Label.RichText
+                                            font: costQoantityLabel.font
+                                            color: costQoantityLabel.color
+                                            elide: Label.ElideRight
+                                            maximumLineCount: 2
+                                            wrapMode: Label.WordWrap
+                                            horizontalAlignment: Qt.AlignRight
+                                            verticalAlignment: Qt.AlignVCenter
+                                        }
+                                    }
+
+                                    Row {
+                                        width: parent.width
+
+                                        Label {
+                                            text: "БЕЗ НДС"
+                                            width: 0.5 * parent.width
+                                            anchors.verticalCenter: nds_no.verticalCenter
+                                            font: costQoantityLabel.font
+                                            color: costQoantityLabel.color
+                                            elide: Label.ElideRight
+                                            horizontalAlignment: Qt.AlignLeft
+                                            verticalAlignment: Qt.AlignVCenter
+                                        }
+
+                                        Label {
+                                            id: nds_no
+                                            text: "1 000 000 000,00" + "&nbsp;\u20BD"
+                                            width: parent.width - exchangeLabel.width
+                                            textFormat: Label.RichText
+                                            font: costQoantityLabel.font
+                                            color: costQoantityLabel.color
+                                            elide: Label.ElideRight
+                                            maximumLineCount: 2
+                                            wrapMode: Label.WordWrap
+                                            horizontalAlignment: Qt.AlignRight
+                                            verticalAlignment: Qt.AlignVCenter
+                                        }
+                                    }
+                                }
+
+                                SaleComponents.Line {
+                                    width: parent.width
+                                    color: "#E0E0E0"
+                                }
+
+                                Column {
+                                    width: parent.width
+                                    spacing: 0.5 * parent.spacing
+
+                                    Row {
+                                        width: parent.width
+
+                                        Label {
+                                            text: "СНО"
+                                            width: 0.5 * parent.width
+                                            font: costQoantityLabel.font
+                                            color: costQoantityLabel.color
+                                            elide: Label.ElideRight
+                                            horizontalAlignment: Qt.AlignLeft
+                                            verticalAlignment: Qt.AlignVCenter
+                                        }
+
+                                        Label {
+                                            text: "ОСН"
+                                            width: parent.width - cashLabel.width
+                                            font: costQoantityLabel.font
+                                            color: costQoantityLabel.color
+                                            elide: Label.ElideRight
+                                            horizontalAlignment: Qt.AlignRight
+                                            verticalAlignment: Qt.AlignVCenter
+                                        }
+                                    }
+
+                                    Row {
+                                        width: parent.width
+
+                                        Label {
+                                            text: "ЗН ККТ"
+                                            width: 0.5 * parent.width
+                                            font: costQoantityLabel.font
+                                            color: costQoantityLabel.color
+                                            elide: Label.ElideRight
+                                            horizontalAlignment: Qt.AlignLeft
+                                            verticalAlignment: Qt.AlignVCenter
+                                        }
+
+                                        Label {
+                                            text: "0005079043032132"
+                                            width: parent.width - cashLabel.width
+                                            font: costQoantityLabel.font
+                                            color: costQoantityLabel.color
+                                            elide: Label.ElideRight
+                                            horizontalAlignment: Qt.AlignRight
+                                            verticalAlignment: Qt.AlignVCenter
+                                        }
+                                    }
+
+                                    Row {
+                                        width: parent.width
+
+                                        Label {
+                                            text: "ФН"
+                                            width: 0.5 * parent.width
+                                            font: costQoantityLabel.font
+                                            color: costQoantityLabel.color
+                                            elide: Label.ElideRight
+                                            horizontalAlignment: Qt.AlignLeft
+                                            verticalAlignment: Qt.AlignVCenter
+                                        }
+
+                                        Label {
+                                            text: "9280440301302574"
+                                            width: parent.width - cashLabel.width
+                                            font: costQoantityLabel.font
+                                            color: costQoantityLabel.color
+                                            elide: Label.ElideRight
+                                            horizontalAlignment: Qt.AlignRight
+                                            verticalAlignment: Qt.AlignVCenter
+                                        }
+                                    }
+
+                                    Row {
+                                        width: parent.width
+
+                                        Label {
+                                            text: "ФД"
+                                            width: 0.5 * parent.width
+                                            font: costQoantityLabel.font
+                                            color: costQoantityLabel.color
+                                            elide: Label.ElideRight
+                                            horizontalAlignment: Qt.AlignLeft
+                                            verticalAlignment: Qt.AlignVCenter
+                                        }
+
+                                        Label {
+                                            text: "35208"
+                                            width: parent.width - cashLabel.width
+                                            font: costQoantityLabel.font
+                                            color: costQoantityLabel.color
+                                            elide: Label.ElideRight
+                                            horizontalAlignment: Qt.AlignRight
+                                            verticalAlignment: Qt.AlignVCenter
+                                        }
+                                    }
+
+                                    Row {
+                                        width: parent.width
+
+                                        Label {
+                                            text: "ФП"
+                                            width: 0.5 * parent.width
+                                            font: costQoantityLabel.font
+                                            color: costQoantityLabel.color
+                                            elide: Label.ElideRight
+                                            horizontalAlignment: Qt.AlignLeft
+                                            verticalAlignment: Qt.AlignVCenter
+                                        }
+
+                                        Label {
+                                            text: "1845609902"
+                                            width: parent.width - cashLabel.width
+                                            font: costQoantityLabel.font
+                                            color: costQoantityLabel.color
+                                            elide: Label.ElideRight
+                                            horizontalAlignment: Qt.AlignRight
+                                            verticalAlignment: Qt.AlignVCenter
+                                        }
+                                    }
+                                }
+
+                                Image {
+                                    id: qrCode
+                                    width: 0.5 * parent.width
+                                    height: width
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    source: "qrc:/ico/purchase/qr_code_example.png"
+                                    fillMode: Image.PreserveAspectFit
                                 }
                             }
                         }
@@ -414,20 +906,12 @@ Popup {
                     ScrollBar.vertical: ScrollBar {
                         id: scroll
                         policy: ScrollBar.AsNeeded
-                        width: 8
+                        width: 4
                         onVisualPositionChanged: {
                         }
                     }
                 }
             }
-
-
-
-
         }
-
-
-
-
     }
 }

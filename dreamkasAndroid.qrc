@@ -211,5 +211,9 @@
         <file>ico/settings/youtube.png</file>
         <file>ico/purchase/triangle.svg</file>
         <file>qml/components/sale/PrintedPurchase.qml</file>
+        <file>ico/purchase/qr_code_example.png</file>
+        <file>ico/sale/upload.png</file>
+        <file>ico/sale/download.png</file>
+        <file>qml/pages/subpages/InsResTabs.qml</file>
     </qresource>
 </RCC>

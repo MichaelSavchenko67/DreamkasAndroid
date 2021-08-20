@@ -16,18 +16,17 @@ Page {
     property real cashInt: 0.00
     property real cashPastInt: 0.00
     property bool isReserveDisabled: false
+    property bool isInsert: false
 
     onFocusChanged: {
         if (focus) {
             console.log("[InsRes.qml]\tfocus changed: " + focus)
-            setMainPageTitle("Изъять или внести")
-            setLeftMenuButtonAction(back)
-            resetAddRightMenuButton()
-            setRightMenuButtonVisible(false)
-            clearContextMenu()
-            setToolbarVisible(true)
-            calcInsRes(insert.checked)
+            calcInsRes(isInsert)
         }
+    }
+
+    onIsInsertChanged: {
+        calcInsRes(isInsert)
     }
 
     function calcInsRes(isInsertion) {
@@ -39,10 +38,10 @@ Page {
         console.log("cashPasInt: " + cashPastInt)
         isReserveAvailable = ((cashInt > 0) && (cashPastInt >= 0))
         console.log("isReserveAvailable: " + isReserveAvailable)
-        isReserveDisabled = !insert.checked && (cashPastInt < 0)
+        isReserveDisabled = !isInsert && (cashPastInt < 0)
         console.log("isReserveDisabled: " + isReserveDisabled)
 
-        if (insert.checked) {
+        if (isInsert) {
             insResButton.enabled = (cashInt > 0)
         } else {
             insResButton.enabled = isReserveAvailable
@@ -60,130 +59,110 @@ Page {
                 topMargin: 2 * spacing
             }
 
-            spacing: 0.5 * (height - cashSums.height - calculator.height)
+            spacing: 0.5 * (height - 0.4 * calculator.getKeyboardWidth() - calculator.height)
 
-            Row {
-                id: cashSums
-                width: calculator.getKeyboardWidth()
-                height: 0.4 * width
+            Rectangle {
+                width: 0.92 * parent.width
+                height: 0.12 * width
                 anchors.horizontalCenter: parent.horizontalCenter
+                color: "#F6F6F6"
+                border.width: 0
+                radius: 16
 
-                Column {
-                    width: 0.5 * parent.width
-                    height: parent.height
+                Label {
+                    id: cashInDrawerLabel
+                    text: qsTr("Наличных в кассе " + '<b>' + CalcEngine.formatCommaResult(root.cashInDrawer) + " \u20BD" + '<b>')
+                    height: 2 * font.pixelSize
+                    width: parent.width
+                    anchors.verticalCenter: parent.verticalCenter
+                    font {
+                        pixelSize: totalTitle.font.pixelSize
+                        family: "Roboto"
+                        styleName: "normal"
+                        weight: Font.Normal
+                    }
+                    color: "black"
+                    elide: Label.ElideRight
+                    horizontalAlignment: Qt.AlignLeft
+                    verticalAlignment: Qt.AlignVCenter
+                    leftPadding: totalTitle.font.pixelSize
+                }
+            }
 
-                    Text {
-                        id: cashTitle
-                        width: parent.width
-                        height: parent.height / 3
-                        text: "Сумма"
-                        font {
-                            pixelSize: 0.13 * cashSums.height
-                            family: "Roboto"
-                            styleName: "normal"
-                            weight: Font.DemiBold
-                        }
-                        clip: true
-                        color: "black"
-                        elide: Text.ElideRight
-                        horizontalAlignment: Qt.AlignLeft
-                        verticalAlignment: Qt.AlignVCenter
+            Column {
+                width: parent.width
+                spacing: 0.5 * parent.spacing
+
+                Label {
+                    id: totalTitle
+                    width: cashInDrawerLabel.width
+                    text: qsTr("Сумма " + (isInsert ? "внесения" : "изъятия"))
+                    height: 2 * font.pixelSize
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    font {
+                        pixelSize: 0.13 * 0.4 * calculator.getKeyboardWidth()
+                        family: "Roboto"
+                        styleName: "normal"
+                        weight: Font.Normal
+                    }
+                    color: "black"
+                    elide: Label.ElideRight
+                    horizontalAlignment: Qt.AlignHCenter
+                    verticalAlignment: Qt.AlignVCenter
+                }
+
+                Label {
+                    id: enterPaymentSum
+                    width: parent.width
+                    height: totalTitle.height
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    text:  CalcEngine.formatCommaResult(calculator.formulaStr) + " \u20BD"
+                    font {
+                        pixelSize: 1.3 * totalTitle.font.pixelSize
+                        family: "Roboto"
+                        styleName: "normal"
+                        weight: Font.Bold
+                        bold: true
+                    }
+                    clip: totalTitle.clip
+                    color: "#0064B4"
+                    elide: totalTitle.elide
+                    horizontalAlignment: totalTitle.horizontalAlignment
+                    verticalAlignment: totalTitle.verticalAlignment
+                    background: Rectangle {
+                        color: "#00FFFFFF"
+                        border.width: 0
                     }
 
-                    Label {
-                        id: enterCashSum
-                        width: cashTitle.width
-                        height: cashTitle.height
-
-                        text:  CalcEngine.formatCommaResult(calculator.formulaStr) + " \u20BD"
-
-                        font {
-                            pixelSize: 1.3 * cashTitle.font.pixelSize
-                            family: "Roboto"
-                            styleName: "normal"
-                            weight: Font.Bold
-                            bold: true
-                        }
-                        clip: cashTitle.clip
-                        color: cashTitle.color
-                        elide: cashTitle.elide
-                        horizontalAlignment: cashTitle.horizontalAlignment
-                        verticalAlignment: cashTitle.verticalAlignment
-                        leftPadding: font.pixelSize
-                        background: Rectangle {
-                            border {
-                                color: "#5C7490"
-                                width: 2
-                            }
-                            radius: 5
-                        }
-
-                        onTextChanged: {
-                            calcInsRes(insert.checked)
-                        }
-                    }
-
-                    Text {
-                        id: cashPastSum
-                        width: 1.1 * cashTitle.width
-                        height: cashTitle.height
-                        text: isReserveDisabled ? "Сумма превышена" : "Наличных будет"
-                        lineHeight: 1.5
-                        font: cashTitle.font
-                        clip: cashTitle.clip
-                        color: isReserveDisabled ? "red" : cashTitle.color
-                        elide: cashTitle.elide
-                        horizontalAlignment: cashTitle.horizontalAlignment
-                        verticalAlignment: cashTitle.verticalAlignment
+                    onTextChanged: {
+                        calcInsRes(isInsert)
                     }
                 }
 
-                Column {
-                    width: 0.5 * parent.width
-                    height: parent.height
-
-                    Text {
-                        id: cashCurrentTitle
-                        width: cashTitle.width
-                        height: cashTitle.height
-                        anchors.verticalCenter: cashTitle.verticalCenter
-                        text: "Наличных сейчас"
-                        font: cashTitle.font
-                        clip: cashTitle.clip
-                        color: cashTitle.color
-                        elide: cashTitle.elide
-                        horizontalAlignment: Qt.AlignRight
-                        verticalAlignment: Qt.AlignVCenter
-                        topPadding: cashTitle.topPadding
-                    }
-
-                    Text {
-                        width: cashCurrentTitle.width
-                        height: cashCurrentTitle.height
-                        text: CalcEngine.formatCommaResult(root.cashInDrawer) + " \u20BD"
-                        font: enterCashSum.font
-                        clip: cashCurrentTitle.clip
-                        color: cashCurrentTitle.color
-                        elide: cashCurrentTitle.elide
-                        horizontalAlignment: cashCurrentTitle.horizontalAlignment
-                        verticalAlignment: cashCurrentTitle.verticalAlignment
-                        leftPadding: cashCurrentTitle.leftPadding
-                    }
-
-                    Text {
-                        width: cashCurrentTitle.width
-                        height: cashCurrentTitle.height
-                        text: CalcEngine.formatCommaResult(((cashPastInt >= 0) ? cashPast : cashPast.substring(1))) + " \u20BD"
-                        font: enterCashSum.font
-                        clip: cashCurrentTitle.clip
-                        color: cashPastSum.color
-                        elide: cashCurrentTitle.elide
-                        horizontalAlignment: cashCurrentTitle.horizontalAlignment
-                        verticalAlignment: cashCurrentTitle.verticalAlignment
-                        leftPadding: cashCurrentTitle.leftPadding
-                    }
+                Rectangle {
+                    height: 2
+                    width: enterPaymentSum.contentWidth + 2 * enterPaymentSum.font.pixelSize
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    color: "#00FFFFFF"
+                    border.width: 1
+                    border.color: "#E0E0E0"
                 }
 
+                Text {
+                    id: excessDeliverySum
+                    width: totalTitle.width
+                    height: totalTitle.height
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    text: isReserveDisabled ? "Сумма превышена на " + '<b>' + cashPast.substring(1) + " \u20BD</b>" :
+                                              "В кассе станет " + '<b>' + cashPast + " \u20BD</b>"
+
+                    font: totalTitle.font
+                    clip: totalTitle.clip
+                    color: isReserveDisabled ? "#C62828" : "black"
+                    elide: totalTitle.elide
+                    horizontalAlignment: totalTitle.horizontalAlignment
+                    verticalAlignment: totalTitle.verticalAlignment
+                }
             }
 
             SaleComponents.Calculator {
@@ -193,6 +172,7 @@ Page {
                     reset()
                     setKeyboard("keyboardShortest")
                     setPrecDigits(2)
+                    setEnable(isGetCash)
                 }
             }
         }
@@ -209,57 +189,27 @@ Page {
             Row {
                 id: btnRow
                 width: parent.width
-                height: 0.2 * width
+                height: 0.16 * width
                 anchors {
                     bottom: parent.bottom
-                    bottomMargin:  0.125 * height
+                    bottomMargin: 0.125 * height
                 }
-                spacing: 0.044 * width
+                spacing: 0.03 * width
                 leftPadding: spacing
                 rightPadding: spacing
 
-                SaleComponents.Button_1 {
+                SaleComponents.ButtonIcoH {
                     id: insResButton
-                    width: 2 / 3 * (parent.width - 3 * parent.spacing)
-                    height: btnRow.height
-                    anchors.verticalCenter: parent.verticalCenter
-                    borderWidth: 1
-                    backRadius: 5
-                    buttonTxt: qsTr(insert.checked ? "ВНЕСТИ" : "ИЗЪЯТЬ")
-                    fontSize: 0.23 * height
-                    buttonTxtColor: "#FFFFFF"
-                    pushUpColor: "#415A77"
-                    pushDownColor: "#004075"
-                    enabled: false
-
-                    onClicked: {
-                        if (insert.checked) {
-                            console.log("[InsRes.qml]\t insertion: " + cashInt + " RUB")
-                        } else {
-                            console.log("[InsRes.qml]\t reserve: " + cashInt + " RUB")
-                        }
-                    }
-                }
-
-                Column {
-                    anchors.verticalCenter: parent.verticalCenter
-
-                    SaleComponents.RadioButtonCursor {
-                        id: reserve
-                        checked: true
-                        text: qsTr("Изъять")
-                        font: cashTitle.font
-                    }
-
-                    SaleComponents.RadioButtonCursor {
-                        id: insert
-                        text: qsTr("Внести")
-                        font: reserve.font
-
-                        onCheckedChanged: {
-                            calcInsRes(checked)
-                        }
-                    }
+                    width: parent.width - 2 * parent.spacing
+                    height: parent.height
+                    anchors.centerIn: parent
+                    iconPath: isInsert ? "qrc:/ico/sale/download.png" : "qrc:/ico/sale/upload.png"
+                    iconHeight: 0.8 * fontSize
+                    buttonTxt: isInsert ? "ВНЕСТИ НАЛИЧНЫЕ" : "ИЗЪЯТЬ НАЛИЧНЫЕ"
+                    buttonTxtColor: enabled ? "white" : "#415A77"
+                    pushUpColor: enabled ? "#415A77" : "#FFFFFF"
+                    pushDownColor: enabled ? "#004075" : "#F2F2F2"
+                    enabled: (enterPaymentSum.total !== "0,00")
                 }
             }
         }
