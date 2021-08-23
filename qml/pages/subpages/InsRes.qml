@@ -8,6 +8,7 @@ import "qrc:/content/calculator.js" as CalcEngine
 
 Page {
     id: payPage
+    anchors.fill: parent
 
     property var cash
     property var cashPast: root.cashInDrawer

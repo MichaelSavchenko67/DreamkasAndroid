@@ -9,7 +9,7 @@ import "qrc:/qml/pages/subpages" as Subpages
 Page {
     onFocusChanged: {
         if (focus) {
-            console.log("[InsResChoose.qml]\tfocus changed: " + focus)
+            console.log("[InsResTabs.qml]\tfocus changed: " + focus)
             setMainPageTitle("Изъятие")
             setLeftMenuButtonAction(back)
             resetAddRightMenuButton()
@@ -63,7 +63,6 @@ Page {
 
     contentData: Subpages.InsRes {
         id: insResPage
-        anchors.fill: parent
         isInsert: false
     }
 }

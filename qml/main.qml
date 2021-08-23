@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 
 import "qrc:/qml/components/sale" as SaleComponents
+import "qrc:/qml/components/settings" as SettingsComponents
 
 ApplicationWindow {
     id: root
@@ -525,7 +526,7 @@ ApplicationWindow {
                     Menu {
                         id: headerTitleContextMenu
                         width: headerTitle.width
-                        height: toolBar.height
+                        height: count * toolBar.height
                         x: -headerTitle.width
                         y: toolBar.y
                         transformOrigin: Menu.TopRight
@@ -616,6 +617,4 @@ ApplicationWindow {
         initialItem: "qrc:/qml/pages/Login.qml"
         anchors.fill: parent
     }
-
-    SaleComponents.PrintedPurchase {}
 }

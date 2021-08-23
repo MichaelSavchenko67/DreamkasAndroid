@@ -127,6 +127,7 @@ Drawer {
                     "Закрыть смену": function() { root.closeShiftDialog() },
                     "Кабинет Дримкас": function() { root.openPage("qrc:/qml/pages/subpages/CabinetConnection.qml") },
                     "Пользователи": function() { root.openPage("qrc:/qml/pages/subpages/users/UsersPage.qml") },
+                    "Заказы": function() { root.openPage("qrc:/qml/pages/subpages/Orders.qml") },
                     "Банковский терминал": function() { root.openPage("qrc:/qml/pages/subpages/settings/Multipos.qml") },
                     "Сервисные операции": function() { root.openPage("qrc:/qml/pages/subpages/settings/MultiposService.qml") },
                     "Система налогооблажения": function() { root.openPage("qrc:/qml/pages/subpages/DefaultSno.qml") },
@@ -147,6 +148,7 @@ Drawer {
                 ListElement {item: "Закрыть смену"}
                 ListElement {item: "Кабинет Дримкас"}
                 ListElement {item: "Пользователи"}
+                ListElement {item: "Заказы"}
                 ListElement {item: "Банковский терминал"}
                 ListElement {item: "Сервисные операции"}
                 ListElement {item: "Система налогооблажения"}

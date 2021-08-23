@@ -209,11 +209,14 @@
         <file>qml/components/settings/ButtonHyperlink.qml</file>
         <file>ico/settings/download.png</file>
         <file>ico/settings/youtube.png</file>
-        <file>ico/purchase/triangle.svg</file>
         <file>qml/components/sale/PrintedPurchase.qml</file>
         <file>ico/purchase/qr_code_example.png</file>
         <file>ico/sale/upload.png</file>
         <file>ico/sale/download.png</file>
         <file>qml/pages/subpages/InsResTabs.qml</file>
+        <file>qml/pages/subpages/Orders.qml</file>
+        <file>ico/menu/operation_pending.png</file>
+        <file>ico/settings/update_blue.png</file>
+        <file>ico/purchase/purchase_layout.jpeg</file>
     </qresource>
 </RCC>
