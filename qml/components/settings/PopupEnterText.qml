@@ -7,23 +7,15 @@ import "qrc:/qml/components/sale" as SaleComponents
 Popup {
     id: enterTextPopup
 
-    property string popupTitle: ""
-    property string enteredTextTitle: ""
-    property string enteredTextPlaceholder: ""
-    property string buttonText: "ПРОДОЛЖИТЬ"
-    property int enteredImh: Qt.ImhNone
+    property var popupTitle: ""
+    property var enteredTextTitle: ""
+    property var enteredTextPlaceholder: ""
+    property var buttonText: "ПРОДОЛЖИТЬ"
+    property var enteredImh: Qt.ImhNone
     property var enteredValidator: RegExpValidator { }
     property bool isStayLastEntered: false
 
     onOpened: {
-        console.debug("enterTextPopup Width: " + width + ", parent width: " + parent.width)
-        console.debug("enterTextPopup Height: " + height + ", parent height: " + parent.height)
-        console.debug("enterTextPopup x: " + x)
-        console.debug("enterTextPopup y: " + y)
-
-        console.debug("enterTextPopup root width: " + root.width)
-        console.debug("enterTextPopup root height: " + root.height)
-
         title.text = popupTitle
         if (!isStayLastEntered)
         {
@@ -33,17 +25,11 @@ Popup {
 
     signal entered(string textEntered)
 
-    width: 0.9 * parent.width
+    width: 0.9 * root.width
     height: 0.9 * width
-
     parent: Overlay.overlay
-
-    x: Math.round((parent.width - width) / 2)
-    y: Math.round((parent.height - 2 * height) / 2)
-
-    onXChanged: {
-        console.debug("enterTextPopup onXChanged: " + x)
-    }
+    x: Math.round((root.width - width) / 2)
+    y: Math.round(0.3 * (root.height - height))
 
     modal: true
     focus: true
@@ -164,7 +150,7 @@ Popup {
                 opacity: enabled ? 1 : 0.6
                 borderWidth: 0
                 backRadius: 8
-                buttonTxt: buttonText
+                buttonTxt: buttonText.toUpperCase()
                 fontSize: 0.27 * height
                 buttonTxtColor: "white"
                 pushUpColor: enabled ? "#415A77" : "#BDC3C7"

@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.3
 Button {
     property var buttonTitle: ""
     property var connectedMsgTitle: ""
+    property var modelIcoPath: ""
 
     background: Rectangle {
         anchors.fill: parent
@@ -19,9 +20,9 @@ Button {
             Image {
                 id: levelIco
                 anchors.verticalCenter: parent.verticalCenter
-                width: 0.09 * parent.width
-                height: width
-                source: "qrc:/ico/settings/signal_100_percent.png"
+                height: 0.8 * parent.height
+                fillMode: Image.PreserveAspectFit
+                source: (modelIcoPath.length > 0) ? modelIcoPath : "qrc:/ico/settings/signal_100_percent.png"
             }
 
             Column {
@@ -34,7 +35,7 @@ Button {
                     width: parent.width
                     text: qsTr(buttonTitle)
                     font {
-                        pixelSize: 0.5 * levelIco.height
+                        pixelSize: 0.5 * 0.09 * printerTypeRow.width
                         family: "Roboto"
                         styleName: "normal"
                         weight: Font.Normal
@@ -52,6 +53,7 @@ Button {
                     spacing: 0.25 * connectedMsg.font.pixelSize
 
                     Image {
+                        id: connectedIco
                         anchors.verticalCenter: parent.verticalCenter
                         width: connectedMsg.font.pixelSize
                         height: width
@@ -72,13 +74,21 @@ Button {
                         elide: "ElideRight"
                         verticalAlignment: Label.AlignBottom
                     }
+
+                    Image {
+                        visible: (modelIcoPath.length > 0)
+                        anchors.verticalCenter: parent.verticalCenter
+                        width: connectedIco.width
+                        height: width
+                        source: "qrc:/ico/settings/signal_100_percent.png"
+                    }
                 }
             }
 
             Image {
                 id: chooseIco
                 anchors.verticalCenter: parent.verticalCenter
-                width: levelIco.width
+                width: 0.09 * printerTypeRow.width
                 height: width
                 source: "qrc:/ico/menu/choose_right.png"
             }
@@ -89,7 +99,7 @@ Button {
         console.log("[ScanWiFiNetworks.qml]\tChoosen network with index: ")
         root.openPage("qrc:/qml/pages/subpages/ConnectedPrinterInfo.qml")
         rootStack.currentItem.deviceName = networkName.text
-        rootStack.currentItem.level = levelIco.source
+        rootStack.currentItem.level = "qrc:/ico/settings/signal_100_percent.png"
         rootStack.currentItem.levelName = getLevelName("Отличный")
         rootStack.currentItem.plantNum = "57283733"
         rootStack.currentItem.macAddress = "00:26:57:00:1f:02"
