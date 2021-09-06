@@ -57,6 +57,7 @@ Page {
                 anchors.horizontalCenter: parent.horizontalCenter
                 buttonTitle: "VIKI PRINT 57 283733"
                 connectedMsgTitle: "Подключено"
+                modelIcoPath: "qrc:/ico/printer/atol.png"
             }
         }
 
