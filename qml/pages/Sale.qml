@@ -16,6 +16,7 @@ Page {
             setToolBarShadow(false)
             setMainPageTitle("Приход" + " • " + "Патент")
             add2HeaderTitleContextMenu(purchaseParams)
+            add2HeaderTitleContextMenu(buyersData)
             setHeaderTitleButtonVisible(true)
             setLeftMenuButtonAction(openMenu)
             resetAddRightMenuButton()
@@ -37,13 +38,28 @@ Page {
         }
     }
 
+    SettingsComponents.PopupEnterText {
+        id: buyersContactsPopup
+        popupTitle: "Контакты покупателя"
+        enteredTextTitle: "Телефон или эл. почта"
+        enteredValidator: RegExpValidator {regExp: /^(?:\d{11}|\S+@\w+\.\w{2,3})$/ }
+        buttonText: "Сохранить"
+//        ico: "qrc:/ico/sale/rrn.png"
+        onEntered: {
+            console.info("[Sale.qml]\t\tbuyers contacts: " + textEntered)
+        }
+    }
+
     Action {
         id: purchaseParams
         text: qsTr("Параметры оплаты")
+        onTriggered: { root.openPage("qrc:/qml/pages/subpages/PurchaseParams.qml") }
+    }
 
-        onTriggered: {
-            root.openPage("qrc:/qml/pages/subpages/PurchaseParams.qml")
-        }
+    Action {
+        id: buyersData
+        text: qsTr("Контакты покупателя")
+        onTriggered: { buyersContactsPopup.open() }
     }
 
     Action {

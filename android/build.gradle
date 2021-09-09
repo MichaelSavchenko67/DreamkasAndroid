@@ -34,16 +34,16 @@ android {
      * Changing them manually might break the compilation!
      *******************************************************/
 
-    compileSdkVersion androidCompileSdkVersion.toInteger()
+//    compileSdkVersion androidCompileSdkVersion.toInteger()
 
     buildToolsVersion '28.0.3'
 
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
-            java.srcDirs = [qt5AndroidDir + '/src', 'src', 'java']
-            aidl.srcDirs = [qt5AndroidDir + '/src', 'src', 'aidl']
-            res.srcDirs = [qt5AndroidDir + '/res', 'res']
+//            java.srcDirs = [qt5AndroidDir + '/src', 'src', 'java']
+//            aidl.srcDirs = [qt5AndroidDir + '/src', 'src', 'aidl']
+//            res.srcDirs = [qt5AndroidDir + '/res', 'res']
             resources.srcDirs = ['src']
             renderscript.srcDirs = ['src']
             assets.srcDirs = ['assets']

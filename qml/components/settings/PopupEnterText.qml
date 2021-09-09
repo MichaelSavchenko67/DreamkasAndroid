@@ -7,23 +7,16 @@ import "qrc:/qml/components/sale" as SaleComponents
 Popup {
     id: enterTextPopup
 
-    property string popupTitle: ""
-    property string enteredTextTitle: ""
-    property string enteredTextPlaceholder: ""
-    property string buttonText: "ПРОДОЛЖИТЬ"
-    property int enteredImh: Qt.ImhNone
+    property var popupTitle: ""
+    property var enteredTextTitle: ""
+    property var enteredTextPlaceholder: ""
+    property var buttonText: "ПРОДОЛЖИТЬ"
+    property var enteredImh: Qt.ImhNone
     property var enteredValidator: RegExpValidator { }
     property bool isStayLastEntered: false
+    property var ico: ""
 
     onOpened: {
-        console.debug("enterTextPopup Width: " + width + ", parent width: " + parent.width)
-        console.debug("enterTextPopup Height: " + height + ", parent height: " + parent.height)
-        console.debug("enterTextPopup x: " + x)
-        console.debug("enterTextPopup y: " + y)
-
-        console.debug("enterTextPopup root width: " + root.width)
-        console.debug("enterTextPopup root height: " + root.height)
-
         title.text = popupTitle
         if (!isStayLastEntered)
         {
@@ -34,17 +27,10 @@ Popup {
     signal entered(string textEntered)
 
     width: 0.9 * parent.width
-    height: 0.9 * width
-
+    height: (ico.length > 0) ? parent.height : 0.9 * width
     parent: Overlay.overlay
-
-    x: Math.round((parent.width - width) / 2)
-    y: Math.round((parent.height - 2 * height) / 2)
-
-    onXChanged: {
-        console.debug("enterTextPopup onXChanged: " + x)
-    }
-
+    x: Math.round((root.width - width) / 2)
+    y: Math.round(0.3 * (root.height - height))
     modal: true
     focus: true
     closePolicy: Popup.NoAutoClose
@@ -65,7 +51,7 @@ Popup {
             }
             icon {
                 color: "#979797"
-                height: 0.038 * parent.height
+                height: 0.038 * 0.9 * parent.width
                 source: "qrc:/ico/menu/close.png"
             }
             onClicked: {
@@ -75,22 +61,22 @@ Popup {
 
         Column {
             id: rootColumn
-            width: parent.width - exitButton.width
-            height: parent.height - exitButton.height
-            anchors.top: exitButton.bottom
+            width: parent.width - 2 * title.font.pixelSize
+            anchors {
+                top: exitButton.bottom
+                horizontalCenter: parent.horizontalCenter
+            }
             spacing: 2 * title.font.pixelSize
-            leftPadding: 0.5 * spacing
 
             Column {
                 width: parent.width
-                height: parent.height - connectionButton.height - 2 * parent.spacing
                 spacing: title.font.pixelSize
 
                 Label {
                     id: title
                     width: parent.width
                     font {
-                        pixelSize: 0.08 * enterTextPopup.height
+                        pixelSize: 0.08 * 0.9 * enterTextPopup.width
                         family: "Roboto"
                         styleName: "normal"
                         weight: Font.Bold
@@ -102,10 +88,25 @@ Popup {
                     verticalAlignment: Label.AlignVCenter
                 }
 
+                Image {
+                    id: icoImage
+                    height: enterTextPopup.height -
+                            exitButton.height -
+                            exitButton.anchors.topMargin -
+                            connectionButton.height -
+                            rootColumn.spacing -
+                            title.contentHeight -
+                            enterTextFrame.height -
+                            2 * parent.spacing
+                    width: 0.75 * height
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    source: ico
+                    fillMode: Image.PreserveAspectFit
+                }
+
                 Column {
                     id: enterTextFrame
                     width: parent.width
-                    height: parent.height - title.contentHeight - parent.spacing
                     spacing: 0.25 * parent.spacing
 
                     Label {
@@ -164,7 +165,7 @@ Popup {
                 opacity: enabled ? 1 : 0.6
                 borderWidth: 0
                 backRadius: 8
-                buttonTxt: buttonText
+                buttonTxt: buttonText.toUpperCase()
                 fontSize: 0.27 * height
                 buttonTxtColor: "white"
                 pushUpColor: enabled ? "#415A77" : "#BDC3C7"

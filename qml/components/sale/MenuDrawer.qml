@@ -127,6 +127,7 @@ Drawer {
                     "Закрыть смену": function() { root.closeShiftDialog() },
                     "Кабинет Дримкас": function() { root.openPage("qrc:/qml/pages/subpages/CabinetConnection.qml") },
                     "Пользователи": function() { root.openPage("qrc:/qml/pages/subpages/users/UsersPage.qml") },
+                    "Заказы": function() { root.openPage("qrc:/qml/pages/subpages/Orders.qml") },
                     "Банковский терминал": function() { root.openPage("qrc:/qml/pages/subpages/settings/Multipos.qml") },
                     "Сервисные операции": function() { root.openPage("qrc:/qml/pages/subpages/settings/MultiposService.qml") },
                     "Система налогооблажения": function() { root.openPage("qrc:/qml/pages/subpages/DefaultSno.qml") },
@@ -134,7 +135,7 @@ Drawer {
                     "Ввод цены товара": function() { root.openEnterCostDialog("Яблоки красные", "Цена, \u20BD/кг", "Неправильное значение, введите снова") },
                     "Ввод количества товара": function() { root.openEnterAmountDialog("Яблоки красные", "Количество, кг", "Неправильное значение, введите снова") },
                     "Ввод суммы платежа": function() { root.openPage("qrc:/qml/pages/subpages/Pay.qml") },
-                    "Изъять или внести": function() { root.openPage("qrc:/qml/pages/subpages/InsRes.qml") },
+                    "Изъять или внести": function() { root.openPage("qrc:/qml/pages/subpages/InsResTabs.qml") },
                     "Чек коррекции": function() { root.openPage("qrc:/qml/pages/subpages/PurchaseCorrection.qml") },
                     "УТМ": function() { root.openPage("qrc:/qml/pages/subpages/Utm.qml") },
                     "Test Popup": function() { root.openPage("qrc:/qml/components/sale/PopupCashlessPay.qml") }
@@ -147,6 +148,7 @@ Drawer {
                 ListElement {item: "Закрыть смену"}
                 ListElement {item: "Кабинет Дримкас"}
                 ListElement {item: "Пользователи"}
+                ListElement {item: "Заказы"}
                 ListElement {item: "Банковский терминал"}
                 ListElement {item: "Сервисные операции"}
                 ListElement {item: "Система налогооблажения"}
