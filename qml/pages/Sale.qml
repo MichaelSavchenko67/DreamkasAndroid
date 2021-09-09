@@ -44,7 +44,7 @@ Page {
         enteredTextTitle: "Телефон или эл. почта"
         enteredValidator: RegExpValidator {regExp: /^(?:\d{11}|\S+@\w+\.\w{2,3})$/ }
         buttonText: "Сохранить"
-//        ico: "qrc:/ico/sale/rrn.png"
+//        ico: "qrc:/img/sale/rrn.png"
         onEntered: {
             console.info("[Sale.qml]\t\tbuyers contacts: " + textEntered)
         }
