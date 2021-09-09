@@ -209,6 +209,9 @@
         <file>qml/components/settings/ButtonHyperlink.qml</file>
         <file>ico/settings/download.png</file>
         <file>ico/settings/youtube.png</file>
+        <file>qml/components/settings/InfoToggle.qml</file>
+        <file>ico/settings/cellphone_wireless.png</file>
+        <file>ico/settings/pdf.png</file>
         <file>qml/components/sale/PrintedPurchase.qml</file>
         <file>ico/purchase/qr_code_example.png</file>
         <file>ico/sale/upload.png</file>
