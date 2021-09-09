@@ -221,5 +221,6 @@
         <file>ico/menu/operation_pending.png</file>
         <file>ico/settings/update_blue.png</file>
         <file>ico/purchase/purchase_layout.jpeg</file>
+        <file>ico/sale/rrn.png</file>
     </qresource>
 </RCC>
