@@ -5,24 +5,16 @@ import QtQuick.Controls.Material 2.12
 import "qrc:/qml/components/sale" as SaleComponents
 
 Popup {
-    property url imageSource
-    property string textInfo
-    property string textNote
-    property bool alcoCode: false
+    id: popupImageInfo
 
-    onOpened: {
-//        setChangeStateScaner(true)
-//        setActiveScaner(alcoCode)
-//        setAddPosition(false)
-    }
+    property url imageSource: ""
+    property string textInfo: ""
+    property string textNote: ""
+    property color titleColor: "#555555"
+    property var isTitleBold: false
+    property color subtitleColor: "#0064B4"
+    property real subtitleOpacity: 0.0
 
-    onAboutToHide: {
-//        setChangeStateScaner(false)
-//        setAddPosition(true)
-//        modelUtm.closePopupFromFront()
-    }
-
-    id: popupAlcSale
     width: 0.9 * parent.width
     height: 1.3 * width
     x: 0.5 * (parent.width - width)
@@ -47,23 +39,24 @@ Popup {
 
             icon {
                 color: "#979797"
-                height: 0.03 * parent.height
+                height: 0.038 * 0.9 * parent.width
                 source: "qrc:/ico/menu/close.png"
             }
 
             onClicked: {
-                popupAlcSale.close()
+                popupImageInfo.close()
             }
         }
 
         Column {
-            width: parent.width - spacing
+            width: parent.width - 2 * spacing
             height: parent.height - exitButton.icon.height
             anchors {
                 top: exitButton.bottom
                 topMargin: 0.5 * exitButton.icon.height
+                horizontalCenter: parent.horizontalCenter
             }
-            spacing: 0.6 * exitButton.icon.height
+            spacing: labelTextInfo.font.pixelSize
 
 
             Image {
@@ -79,19 +72,20 @@ Popup {
                 id: labelTextInfo
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: (textInfo !== "undefined") ? qsTr(textInfo) : ""
-                width: parent.width - (2 * parent.spacing)
+                width: parent.width - 2 * parent.spacing
                 font {
-                    pixelSize: buttonEnter.fontSize * 1.05
+                    pixelSize: 1.25 * buttonEnter.fontSize
                     family: "Roboto"
-                    styleName: "normal"
+                    styleName: isTitleBold ? "bold" : "normal"
                     weight: Font.Normal
+                    bold: isTitleBold
                 }
                 elide: Label.ElideRight
                 maximumLineCount: 2
                 wrapMode: Text.WordWrap
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                color: "#555555"
+                color: titleColor
 
             }
 
@@ -101,7 +95,7 @@ Popup {
                 text: (textNote !== "undefined") ? qsTr(textNote) : ""
                 width: parent.width - (2 * parent.spacing)
                 font {
-                    pixelSize: buttonEnter.fontSize * 1.2
+                    pixelSize: 0.9 * labelTextInfo.font.pixelSize
                     family: "Roboto"
                     styleName: "normal"
                     weight: Font.Normal
@@ -111,8 +105,8 @@ Popup {
                 wrapMode: Text.WordWrap
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                color: "#0064B4"
-
+                color: subtitleColor
+                opacity: subtitleOpacity
             }
 
             SaleComponents.Button_1 {
@@ -128,7 +122,7 @@ Popup {
                 pushUpColor: "#415A77"
                 pushDownColor: "#004075"
                 onClicked: {
-                    popupAlcSale.close()
+                    popupImageInfo.close()
                 }
             }
         }

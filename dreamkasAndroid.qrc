@@ -153,7 +153,7 @@
         <file>qml/components/settings/CustomTumbler.qml</file>
         <file>qml/components/settings/ClockSale.qml</file>
         <file>qml/components/settings/PopupTumbler.qml</file>
-        <file>qml/components/sale/PopupAlcoholSale.qml</file>
+        <file>qml/components/sale/PopupImageInfo.qml</file>
         <file>img/sale/check_alco_code.png</file>
         <file>img/sale/clock_sale.png</file>
         <file>img/sale/check_age.png</file>
@@ -221,6 +221,9 @@
         <file>ico/menu/operation_pending.png</file>
         <file>ico/settings/update_blue.png</file>
         <file>ico/purchase/purchase_layout.jpeg</file>
-        <file>ico/sale/rrn.png</file>
+        <file>qml/components/settings/PopupUsersForm.qml</file>
+        <file>qml/components/settings/EnterParam.qml</file>
+        <file>img/sale/michael.png</file>
+        <file>img/sale/rrn.png</file>
     </qresource>
 </RCC>

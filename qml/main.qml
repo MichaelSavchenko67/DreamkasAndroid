@@ -447,28 +447,39 @@ ApplicationWindow {
     }
 
     function openPopupCheckAge() {
-        popupCheckAlcSale.imageSource = "qrc:/img/sale/check_age.png"
-        popupCheckAlcSale.textInfo = "Убедитесь, что дата рождения\nпокупателя не позднее"
-        popupCheckAlcSale.textNote = "15.04.2003"
-        popupCheckAlcSale.open()
+        popupImageInfo.imageSource = "qrc:/img/sale/check_age.png"
+        popupImageInfo.textInfo = "Убедитесь, что дата рождения\nпокупателя не позднее"
+        popupImageInfo.textNote = "15.04.2003"
+        popupImageInfo.open()
     }
 
     function openPopupClockSale() {
-        popupCheckAlcSale.imageSource = "qrc:/img/sale/clock_sale.png"
-        popupCheckAlcSale.textInfo = "Продажа алкоголя запрещена"
-        popupCheckAlcSale.textNote = ("с %1 до %2 часов").arg(clockSaleSet.finishTime).arg(clockSaleSet.startTime)
-        popupCheckAlcSale.open()
+        popupImageInfo.imageSource = "qrc:/img/sale/clock_sale.png"
+        popupImageInfo.textInfo = "Продажа алкоголя запрещена"
+        popupImageInfo.textNote = ("с %1 до %2 часов").arg(clockSaleSet.finishTime).arg(clockSaleSet.startTime)
+        popupImageInfo.open()
     }
 
     function openPopupCheckAlcoCode() {
-        popupCheckAlcSale.imageSource = "qrc:/img/sale/check_alco_code.png"
-        popupCheckAlcSale.textInfo = "Отсканируйте"
-        popupCheckAlcSale.textNote = "Акцизную марку товара водка очень вкусная и дорогая"
-        popupCheckAlcSale.open()
+        popupImageInfo.imageSource = "qrc:/img/sale/check_alco_code.png"
+        popupImageInfo.textInfo = "Отсканируйте"
+        popupImageInfo.textNote = "Акцизную марку товара водка очень вкусная и дорогая"
+        popupImageInfo.open()
     }
 
-    SaleComponents.PopupAlcoholSale {
-        id: popupCheckAlcSale
+    function openPopupUsersFormSended() {
+        popupImageInfo.imageSource = "qrc:/img/sale/michael.png"
+        popupImageInfo.textInfo = "Спасибо"
+        popupImageInfo.textNote = "Мы свяжемся с вами в рабочее время с 09:00 до 18:00"
+        popupImageInfo.titleColor = "black"
+        popupImageInfo.isTitleBold = true
+        popupImageInfo.subtitleColor = "black"
+        popupImageInfo.subtitleOpacity = 0.6
+        popupImageInfo.open()
+    }
+
+    SaleComponents.PopupImageInfo {
+        id: popupImageInfo
     }
 
     // ---
@@ -611,6 +622,8 @@ ApplicationWindow {
             }
         }
     }
+
+    SettingsComponents.PopupUsersForm { onSave: {  openPopupUsersFormSended() } }
 
     contentData: StackView {
         id: rootStack
