@@ -18,6 +18,7 @@ ApplicationWindow {
     visible: true
 //    visibility: "FullScreen"
 
+    property int statusBarHeight: 47
     property bool isPrinterConnected: true
     property bool isShiftOpened: true
     property bool isCabinetEnable: false
@@ -493,113 +494,127 @@ ApplicationWindow {
     menuBar: ToolBar {
         id: toolBar
         width: root.width
-        height: 0.133 * width
+        height: 0.133 * width + statusBarHeight
         visible: false
 
-        RowLayout {
+        Column {
             anchors.fill: parent
+            spacing: 0
 
-            ToolButton {
-                id: leftButton
-                action: openMenu
-                icon {
-                    color: "white"
-                    height: 0.3 * parent.height
-                    source: root.getButtonIco(action)
-                }
+            Rectangle {
+                width: parent.width
+                height: statusBarHeight
+                color: "transparent"
             }
 
             Row {
-                id: titleFrame
-                Layout.fillWidth: true
-                anchors.verticalCenter: toolBar.verticalCenter
+                id: frame
+                width: parent.width
+                height: parent.height - statusBarHeight
 
-                Label {
-                    id: headerTitle
-                    anchors.verticalCenter: parent.verticalCenter
-                    font {
-                        pixelSize: 0.375 * toolBar.height
-                        family: "Roboto"
-                        styleName: "normal"
-                        weight: Font.DemiBold
+                ToolButton {
+                    id: leftButton
+                    action: openMenu
+                    icon {
+                        color: "white"
+                        height: 0.3 * parent.height
+                        source: root.getButtonIco(action)
                     }
-                    color: "white"
-                    elide: Label.ElideRight
-                    horizontalAlignment: Qt.AlignLeft
-                    verticalAlignment: Qt.AlignVCenter
+                }
+
+                Row {
+                    id: titleFrame
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    anchors.verticalCenter: frame.verticalCenter
+
+                    Label {
+                        id: headerTitle
+                        anchors.verticalCenter: parent.verticalCenter
+                        font {
+                            pixelSize: 0.375 * (toolBar.height - statusBarHeight)
+                            family: "Roboto"
+                            styleName: "normal"
+                            weight: Font.DemiBold
+                        }
+                        color: "white"
+                        elide: Label.ElideRight
+                        horizontalAlignment: Qt.AlignLeft
+                        verticalAlignment: Qt.AlignVCenter
+                    }
+
+                    ToolButton {
+                        id: headerTitleButton
+                        property bool openContext: false
+                        visible: false
+
+                        Menu {
+                            id: headerTitleContextMenu
+                            width: headerTitle.width
+                            height: count * (toolBar.height - statusBarHeight)
+                            x: -headerTitle.width
+                            y: toolBar.y
+                            transformOrigin: Menu.TopRight
+
+                            onClosed: {
+                                itemAt(currentIndex).highlighted = false
+                            }
+                        }
+
+                        icon {
+                            source: "qrc:/ico/menu/down.png"
+                            color: "white"
+                            height: 0.18 * parent.height
+                        }
+
+                        onPressed: {
+                            openContext = !openContext
+                        }
+
+                        onOpenContextChanged: {
+                            if (openContext) {
+                                headerTitleContextMenu.open()
+                            }
+                        }
+
+                        states: State {
+                            name: "toPressed"; when: headerTitleContextMenu.opened
+                            PropertyChanges {
+                                target: headerTitleButton
+                                rotation: 180
+                            }
+                        }
+
+                        transitions: Transition {
+                            to: "toPressed"
+                            reversible: true
+
+                            PropertyAnimation {
+                                properties: "rotation"
+                                easing.type: Easing.InOutQuad
+                                duration: 100
+                            }
+                        }
+                    }
                 }
 
                 ToolButton {
-                    id: headerTitleButton
-                    property bool openContext: false
+                    id: addRightButton
                     visible: false
-
-                    Menu {
-                        id: headerTitleContextMenu
-                        width: headerTitle.width
-                        height: count * toolBar.height
-                        x: -headerTitle.width
-                        y: toolBar.y
-                        transformOrigin: Menu.TopRight
-
-                        onClosed: {
-                            itemAt(currentIndex).highlighted = false
-                        }
-                    }
-
                     icon {
-                        source: "qrc:/ico/menu/down.png"
                         color: "white"
-                        height: 0.18 * parent.height
-                    }
-
-                    onPressed: {
-                        openContext = !openContext
-                    }
-
-                    onOpenContextChanged: {
-                        if (openContext) {
-                            headerTitleContextMenu.open()
-                        }
-                    }
-
-                    states: State {
-                        name: "toPressed"; when: headerTitleContextMenu.opened
-                        PropertyChanges {
-                            target: headerTitleButton
-                            rotation: 180
-                        }
-                    }
-
-                    transitions: Transition {
-                        to: "toPressed"
-                        reversible: true
-
-                        PropertyAnimation {
-                            properties: "rotation"
-                            easing.type: Easing.InOutQuad
-                            duration: 100
-                        }
+                        height: 0.35 * parent.height
                     }
                 }
-            }
 
-            ToolButton {
-                id: addRightButton
-                visible: false
-                icon {
-                    color: "white"
-                    height: 0.35 * parent.height
-                }
-            }
-
-            ToolButton {
-                id: rightButton
-                action: searchGoods
-                icon {
-                    source: root.getButtonIco(action)
-                    color: "white"
-                    height: 0.35 * parent.height
+                ToolButton {
+                    id: rightButton
+                    action: searchGoods
+                    icon {
+                        source: root.getButtonIco(action)
+                        color: "white"
+                        height: 0.35 * parent.height
+                    }
                 }
             }
         }
