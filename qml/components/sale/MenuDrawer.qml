@@ -7,25 +7,26 @@ Drawer {
     id: drawer
 
     property var avatarSource: ""
+    property var topSpace: 0.25 * root.statusBarHeight
 
     contentData: Page {
         id: menuBar
         anchors.fill: parent
         header: Rectangle {
-            height: 0.25 * menuBar.height
+            height: 0.25 * menuBar.height + topSpace
             width: menuBar.width
             color: "#5C7490"
 
             Column {
                 id: menuBarColumn
                 anchors.fill: parent
-                topPadding: 0.07 * parent.width
+                topPadding: 0.07 * parent.width + topSpace
                 leftPadding: 0.08 * parent.width
                 spacing: 0.5 * topPadding
 
                 Image {
                     id: logo
-                    height: 0.3 * parent.height
+                    height: 0.3 * (parent.height - topSpace)
                     width: height
                     source: "qrc:/ico/menu/ico_short.png"
                 }
@@ -35,12 +36,12 @@ Drawer {
 
                     Column {
                         width: parent.width - avatar.width
-                        height: menuBarColumn.height - logo.height - menuBarColumn.spacing - 2 * menuBarColumn.topPadding
+                        height: menuBarColumn.height - topSpace - logo.height - menuBarColumn.spacing - 2 * menuBarColumn.topPadding
                         anchors.verticalCenter: menuBarColumn.verticalCenter
 
                         Label {
                             id: userName
-                            height: 0.3 * menuBarColumn.height
+                            height: 0.3 * (menuBarColumn.height - topSpace)
                             width: parent.width
                             text: qsTr("Савченко Михаил Андреевич")
                             font {
