@@ -24,8 +24,14 @@ ApplicationWindow {
     property bool isCabinetEnable: false
     property var cashInDrawer: "100,00"
 
-    SaleComponents.PopupCashlessPay {
-    }
+//    SettingsComponents.WiFiConnectPopup {
+//        visible: true
+//        ssid: "FisGoWIFI"
+//        pswd: "123456780"
+//        onConnect: {
+//            console.log("Connect to ssid: " + ssid + " pswd: " + pswd)
+//        }
+//    }
 
     Action {
         id: openMenu
