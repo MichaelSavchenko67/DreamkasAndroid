@@ -225,5 +225,6 @@
         <file>qml/components/settings/EnterParam.qml</file>
         <file>img/sale/michael.png</file>
         <file>img/sale/rrn.png</file>
+        <file>qml/components/settings/WiFiConnectPopup.qml</file>
     </qresource>
 </RCC>
