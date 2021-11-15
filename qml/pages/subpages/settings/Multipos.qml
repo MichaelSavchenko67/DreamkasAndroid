@@ -226,8 +226,39 @@ Page {
                             icoPath: "qrc:/ico/settings/pdf"
                             onGo: {
                                 console.info("inpasSoftPosManual onGo")
-                                // https://drive.google.com/file/d/1S8EPZDIvR282iK3zIV76JJDA0L9NokeU/view?usp=sharing
                             }
+                        }
+                    }
+                }
+
+                Column {
+                    width: parent.width
+                    spacing: parent.spacing
+
+                    SettingsComponents.InfoToggle {
+                        id: payQrPinpad
+                        width: externalPinpad.width
+                        height: externalPinpad.height
+                        itemLogo: "qrc:/ico/settings/pay_qr.png"
+                        itemTitle: qsTr("Оплата по QR")
+                        itemSubscription: qsTr("Приём безналичной оплаты")
+                        onSwitched: {
+                            payQrSberbank.visible = getChecked()
+                        }
+                    }
+
+                    SettingsComponents.ChoosenItemDelegate {
+                        id: payQrSberbank
+                        visible: payQrPinpad.getChecked()
+                        leftPadding: 0.042 * parent.width
+                        width: parent.width - 2 * parent.spacing
+                        height: 1.6 * payQrPinpad.height
+                        anchors.horizontalCenter: payQrPinpad.horizontalCenter
+                        buttonTitle: "Плати QR от Сбер"
+                        connectedMsgTitle: "Подключено"
+                        modelIcoPath: "qrc:/ico/settings/sberbank_logo.png"
+                        onClicked: {
+                            root.openPage("qrc:/qml/pages/subpages/settings/PayQrSberbankSettings.qml")
                         }
                     }
                 }

@@ -58,6 +58,16 @@ Page {
                 buttonTitle: "VIKI PRINT 57 283733"
                 connectedMsgTitle: "Подключено"
                 modelIcoPath: "qrc:/ico/printer/atol.png"
+                onClicked: {
+                    console.log("[ScanWiFiNetworks.qml]\tChoosen network with index: ")
+                    root.openPage("qrc:/qml/pages/subpages/ConnectedPrinterInfo.qml")
+                    rootStack.currentItem.deviceName = networkName.text
+                    rootStack.currentItem.level = "qrc:/ico/settings/signal_100_percent.png"
+                    rootStack.currentItem.levelName = getLevelName("Отличный")
+                    rootStack.currentItem.plantNum = "57283733"
+                    rootStack.currentItem.macAddress = "00:26:57:00:1f:02"
+                    rootStack.currentItem.isConnected = true
+                }
             }
         }
 
