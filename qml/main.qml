@@ -494,7 +494,7 @@ ApplicationWindow {
         id: drawer
         width: 0.776 * root.width
         height: root.height
-        interactive: (toolBar.visible && (leftButton.action === openMenu))  
+        interactive: (toolBar.visible && (leftButton.action === openMenu))
     }
 
     menuBar: ToolBar {
@@ -530,13 +530,14 @@ ApplicationWindow {
 
                 Row {
                     id: titleFrame
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
+                    height: parent.height
                     anchors.verticalCenter: frame.verticalCenter
+                    width: parent.width - (leftButton.visible + addRightButton.visible + rightButton.visible) * leftButton.width
 
                     Label {
                         id: headerTitle
                         anchors.verticalCenter: parent.verticalCenter
+                        width: parent.width - headerTitleButton.visible * headerTitleButton.width
                         font {
                             pixelSize: 0.375 * (toolBar.height - statusBarHeight)
                             family: "Roboto"
@@ -553,19 +554,6 @@ ApplicationWindow {
                         id: headerTitleButton
                         property bool openContext: false
                         visible: false
-
-                        Menu {
-                            id: headerTitleContextMenu
-                            width: headerTitle.width
-                            height: count * (toolBar.height - statusBarHeight)
-                            x: -headerTitle.width
-                            y: toolBar.y
-                            transformOrigin: Menu.TopRight
-
-                            onClosed: {
-                                itemAt(currentIndex).highlighted = false
-                            }
-                        }
 
                         icon {
                             source: "qrc:/ico/menu/down.png"
@@ -601,6 +589,19 @@ ApplicationWindow {
                                 duration: 100
                             }
                         }
+                    }
+                }
+
+                Menu {
+                    id: headerTitleContextMenu
+                    width: leftButton.width + headerTitle.width
+                    height: count * (toolBar.height - statusBarHeight)
+                    x: -headerTitle.width
+                    y: -toolBar.y
+                    transformOrigin: Menu.TopRight
+
+                    onClosed: {
+                        itemAt(currentIndex).highlighted = false
                     }
                 }
 
