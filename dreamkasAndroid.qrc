@@ -226,5 +226,7 @@
         <file>img/sale/michael.png</file>
         <file>img/sale/rrn.png</file>
         <file>qml/components/settings/CustomProgressBar.qml</file>
+        <file>qml/components/settings/WiFiConnectPopup.qml</file>
+        <file>qml/components/sale/DemoButton.qml</file>
     </qresource>
 </RCC>

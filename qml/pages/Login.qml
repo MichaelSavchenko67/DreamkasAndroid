@@ -226,18 +226,13 @@ Page {
                 width: parent.width
                 padding: parent.spacing
 
-                SaleComponents.Button_1 {
+                SaleComponents.DemoButton {
                     id: buttonDemoMode
                     visible: !isFirstConnectToPrinter
                     anchors.horizontalCenter: parent.horizontalCenter
                     width: 0.72 * parent.width
                     height: 0.2 * width
-                    borderWidth: 0
-                    backRadius: 8
                     buttonTxt: qsTr("ПЕРЕЙТИ В ДЕМО-РЕЖИМ")
-                    fontSize: 0.23 * height
-                    buttonTxtColor: "#415A77"
-                    pushUpColor: "#F6F6F6"
                     onClicked: {
                         rootStack.replace("qrc:/qml/pages/DemoSwipeView.qml")
                     }
