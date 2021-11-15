@@ -254,7 +254,7 @@ Page {
                         width: parent.width - 2 * parent.spacing
                         height: 1.6 * payQrPinpad.height
                         anchors.horizontalCenter: payQrPinpad.horizontalCenter
-                        buttonTitle: "Плати QR от Сбер"
+                        buttonTitle: "Плати QR от Сбербанк"
                         connectedMsgTitle: "Подключено"
                         modelIcoPath: "qrc:/ico/settings/sberbank_logo.png"
                         onClicked: {
