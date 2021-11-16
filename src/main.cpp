@@ -8,6 +8,7 @@
 #include "include/guiThread.h"
 
 #include "include/modelDemoSwipe.h"
+#include "include/cashlessPayModel.h"
 #include <QFile>
 #include <QDir>
 
@@ -22,6 +23,10 @@ int main(int argc, char *argv[])
 
     Demo demo;
     engine.rootContext()->setContextProperty("demo", &demo);
+
+    CashlessPayModel cashlessPayModel;
+    CashlessPayModel::declareQML();
+    engine.rootContext()->setContextProperty("cashlessPayModel", &cashlessPayModel);
 
     ModelDemoSwipe modelDemoSwipe;
     engine.rootContext()->setContextProperty("modelDemoSwipe", &modelDemoSwipe);

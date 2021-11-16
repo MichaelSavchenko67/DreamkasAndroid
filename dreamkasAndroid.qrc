@@ -231,5 +231,6 @@
         <file>qml/pages/subpages/settings/PayQrSberbankSettings.qml</file>
         <file>ico/settings/pay_qr.png</file>
         <file>ico/settings/sberbank_logo.png</file>
+        <file>ico/settings/polygon.png</file>
     </qresource>
 </RCC>

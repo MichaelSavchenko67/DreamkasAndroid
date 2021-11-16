@@ -230,7 +230,8 @@ Page {
                     enabled: openPurchase.enabled
 
                     onClicked: {
-                        popupCashlessPaymentChoose.open()
+//                        popupCashlessPaymentChoose.open()
+                        popupCashlessPay.open()
                     }
                 }
 

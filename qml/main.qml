@@ -18,8 +18,8 @@ ApplicationWindow {
     visible: true
 //    visibility: "FullScreen"
 
-    property int statusBarHeight: /*47*/0
-    property bool isPrinterConnected: false
+    property int statusBarHeight: 47
+    property bool isPrinterConnected: true
     property bool isShiftOpened: true
     property bool isCabinetEnable: false
     property var cashInDrawer: "100,00"
