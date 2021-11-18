@@ -18,7 +18,7 @@ ApplicationWindow {
     visible: true
 //    visibility: "FullScreen"
 
-    property int statusBarHeight: 47
+    property int statusBarHeight: /*47*/0
     property bool isPrinterConnected: true
     property bool isShiftOpened: true
     property bool isCabinetEnable: false

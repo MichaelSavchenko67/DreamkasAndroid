@@ -228,22 +228,23 @@ Popup {
             pushUpColor: "#415A77"
             pushDownColor: "#004075"
             onClicked: {
+                popupCashlessPay.close()
+
                 switch (control.currentIndex) {
                     case CashlessPayModelEnums.CASHLESS_TYPE_PINPAD:
                         console.log("CashlessPayModelEnums.CASHLESS_TYPE_PINPAD")
+                        root.openPage("qrc:/qml/pages/subpages/FiscalPurchase.qml")
+                        rootStack.currentItem.isCashPay = false
+                        rootStack.currentItem.cashlessPaymentName = "Картой"
+                        rootStack.currentItem.paymentSum = CalcEngine.formatResult(total)
                         break
                     case CashlessPayModelEnums.CASHLESS_TYPE_PAY_QR_SBERBANK:
                         console.log("CashlessPayModelEnums.CASHLESS_TYPE_PAY_QR_SBERBANK")
+                        root.openPage("qrc:/qml/pages/subpages/PayQrSberbank.qml")
                         break
                     default:
                         break
                 }
-
-                popupCashlessPay.close()
-                root.openPage("qrc:/qml/pages/subpages/FiscalPurchase.qml")
-                rootStack.currentItem.isCashPay = false
-                rootStack.currentItem.cashlessPaymentName = cashlessPaymentChoose.cashlessPaymentChoosen
-                rootStack.currentItem.paymentSum = CalcEngine.formatResult(total)
             }
         }
     }
