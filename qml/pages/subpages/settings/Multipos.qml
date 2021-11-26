@@ -247,16 +247,16 @@ Page {
                         }
                     }
 
-                    SettingsComponents.ChoosenItemDelegate {
+                    SettingsComponents.ChoosenItemSimple {
                         id: payQrSberbank
                         visible: payQrPinpad.getChecked()
                         leftPadding: 0.042 * parent.width
                         width: parent.width - 2 * parent.spacing
                         height: 1.6 * payQrPinpad.height
                         anchors.horizontalCenter: payQrPinpad.horizontalCenter
-                        buttonTitle: "Плати QR от Сбербанк"
-                        connectedMsgTitle: "Подключено"
-                        modelIcoPath: "qrc:/ico/settings/sberbank_logo.png"
+                        title: "Плати QR от Сбербанк"
+                        fontPixelSize: 0.045 * payQrPinpad.width
+                        icoPath: "qrc:/ico/settings/sberbank_logo.png"
                         onClicked: {
                             root.openPage("qrc:/qml/pages/subpages/settings/PayQrSberbankSettings.qml")
                         }

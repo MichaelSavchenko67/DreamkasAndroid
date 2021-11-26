@@ -10,8 +10,18 @@ Page {
     id: page
 
     Timer {
-        id: create
+        id:initDelay
         running: true
+        repeat: false
+        interval: 100
+        onTriggered: {
+            page.state = "creating"
+            create.running = true
+        }
+    }
+
+    Timer {
+        id: create
         interval: 3000
         onTriggered: {
             page.state = "created"
@@ -20,44 +30,54 @@ Page {
 
     states: [
         State {
+            name: "initial"
+            PropertyChanges { target: loader; running: false }
+            PropertyChanges { target: qrCode; opacity: 0.0 }
+            PropertyChanges { target: qrCodeBackgroundFrame; opacity: 0.0 }
+            PropertyChanges { target: title; opacity: 0.0 }
+            PropertyChanges { target: total; opacity: 0.0 }
+            PropertyChanges { target: description; opacity: 0.0 }
+            PropertyChanges { target: actionButton; state: "disable" }
+        },
+        State {
             name: "creating"
-            PropertyChanges { target: loader; visible: true }
-            PropertyChanges { target: title; visible: true }
+            PropertyChanges { target: loader; running: true }
+            PropertyChanges { target: qrCode; opacity: 0.0 }
+            PropertyChanges { target: qrCodeBackgroundFrame; opacity: 0.0 }
+            PropertyChanges { target: title; opacity: 1.0 }
             PropertyChanges { target: title; text: qsTr("QR-код\nформируется") }
-            PropertyChanges { target: total; visible: false }
-            PropertyChanges { target: description; visible: false }
-            PropertyChanges { target: qrCode; visible: false }
-            PropertyChanges { target: qrCodeBackgroundFrame; visible: false }
+            PropertyChanges { target: total; opacity: 0.0 }
+            PropertyChanges { target: description; opacity: 0.0 }
             PropertyChanges { target: actionButton; state: "disable" }
         },
         State {
             name: "created"
-            PropertyChanges { target: loader; visible: false }
-            PropertyChanges { target: title; visible: false }
-            PropertyChanges { target: total; visible: true }
-            PropertyChanges { target: total; text: qsTr("15 374 123 456 789 012" + "&nbsp;\u20BD") }
-            PropertyChanges { target: description; visible: true }
-            PropertyChanges { target: description; text: qsTr("Отсканируйте QR-код\nв мобильном приложении «Сбербанк»") }
-            PropertyChanges { target: qrCode; visible: true }
+            PropertyChanges { target: loader; running: false }
             PropertyChanges { target: qrCode; source: "qrc:/ico/purchase/qr_code_example.png" }
-            PropertyChanges { target: qrCodeBackgroundFrame; visible: true }
+            PropertyChanges { target: qrCode; opacity: 1.0 }
+            PropertyChanges { target: qrCodeBackgroundFrame; opacity: 1.0 }
+            PropertyChanges { target: title; opacity: 0.0 }
+            PropertyChanges { target: total; opacity: 1.0 }
+            PropertyChanges { target: total; text: qsTr("15 374 123 456 789 012" + "&nbsp;\u20BD") }
+            PropertyChanges { target: description; opacity: 1.0 }
+            PropertyChanges { target: description; text: qsTr("Отсканируйте QR-код\nв мобильном приложении «Сбербанк»") }
             PropertyChanges { target: actionButton; state: "cancel" }
         },
         State {
             name: "failed"
-            PropertyChanges { target: loader; visible: false }
-            PropertyChanges { target: title; visible: true }
-            PropertyChanges { target: title; text: qsTr("Не удалось создать QR-код") }
-            PropertyChanges { target: total; visible: false }
-            PropertyChanges { target: description; visible: true }
-            PropertyChanges { target: description; text: qsTr("Попробуйте ещё раз или выберите\nдругой способ оплаты") }
-            PropertyChanges { target: qrCode; visible: true }
+            PropertyChanges { target: loader; running: false }
             PropertyChanges { target: qrCode; source: "qrc:/img/sale/warning.png" }
-            PropertyChanges { target: qrCodeBackgroundFrame; visible: false }
+            PropertyChanges { target: qrCode; opacity: 1.0 }
+            PropertyChanges { target: qrCodeBackgroundFrame; opacity: 0.0 }
+            PropertyChanges { target: title; opacity: 1.0 }
+            PropertyChanges { target: title; text: qsTr("Не удалось создать QR-код") }
+            PropertyChanges { target: total; opacity: 0.0 }
+            PropertyChanges { target: description; opacity: 1.0 }
+            PropertyChanges { target: description; text: qsTr("Попробуйте ещё раз или выберите\nдругой способ оплаты") }
             PropertyChanges { target: actionButton; state: "repeat" }
         }
     ]
-    state: "creating"
+    state: "initial"
 
     Column {
         width: parent.width
@@ -84,6 +104,13 @@ Page {
                     source: "qrc:/img/sale/blot.png"
                     fillMode: Image.PreserveAspectFit
                 }
+
+                Behavior on opacity {
+                    SequentialAnimation {
+                        PauseAnimation { duration: 100 }
+                        NumberAnimation { duration: 2000 }
+                    }
+                }
             }
 
             Rectangle {
@@ -98,11 +125,7 @@ Page {
                     implicitWidth: 0.1 * page.width
                     implicitHeight: implicitWidth
                     anchors.centerIn: parent
-                    running: true
                     Material.accent: "#5C7490"
-                    onVisibleChanged: {
-                        running = visible
-                    }
                 }
 
                 Image {
@@ -110,6 +133,13 @@ Page {
                     anchors.fill: parent
                     source: "qrc:/ico/purchase/qr_code_example.png"
                     fillMode: Image.PreserveAspectFit
+
+                    Behavior on opacity {
+                        SequentialAnimation {
+                            PauseAnimation { duration: 100 }
+                            NumberAnimation { duration: 2000 }
+                        }
+                    }
                 }
             }
         }
@@ -122,6 +152,7 @@ Page {
             Label {
                 id: title
                 width: parent.width
+                state: "off"
                 font {
                     pixelSize: 0.5 * loader.height
                     family: "Roboto"
@@ -136,6 +167,13 @@ Page {
                 wrapMode: Label.WordWrap
                 horizontalAlignment: Label.AlignHCenter
                 verticalAlignment: Label.AlignVCenter
+
+                Behavior on opacity {
+                    SequentialAnimation {
+                        PauseAnimation { duration: 500 }
+                        NumberAnimation { duration: 2000 }
+                    }
+                }
             }
 
             Label {
@@ -156,6 +194,13 @@ Page {
                 wrapMode: title.wrapMode
                 horizontalAlignment: title.horizontalAlignment
                 verticalAlignment: title.verticalAlignment
+
+                Behavior on opacity {
+                    SequentialAnimation {
+                        PauseAnimation { duration: 1000 }
+                        NumberAnimation { duration: 1500 }
+                    }
+                }
             }
 
             Label {
@@ -176,6 +221,13 @@ Page {
                 wrapMode: title.wrapMode
                 horizontalAlignment: title.horizontalAlignment
                 verticalAlignment: title.verticalAlignment
+
+                Behavior on opacity {
+                    SequentialAnimation {
+                        PauseAnimation { duration: (page.state !== "failed") ? 1500 : 0 }
+                        NumberAnimation { duration: 1500 }
+                    }
+                }
             }
         }
     }
@@ -201,25 +253,25 @@ Page {
         states: [
             State {
                 name: "disable"
-                PropertyChanges { target: actionButton; visible: false }
+                PropertyChanges { target: actionButton; opacity: 0.0 }
             },
             State {
                 name: "repeat"
-                PropertyChanges { target: actionButton; visible: true }
                 PropertyChanges { target: actionButton; buttonTxt: qsTr("ПОПРОБОВАТЬ ЕЩЁ РАЗ") }
                 PropertyChanges { target: actionButton; buttonTxtColor: "white" }
                 PropertyChanges { target: actionButton; pushUpColor: "#415A77" }
                 PropertyChanges { target: actionButton; pushDownColor: "#004075" }
                 PropertyChanges { target: actionButton; action: repeat }
+                PropertyChanges { target: actionButton; opacity: 1.0 }
             },
             State {
                 name: "cancel"
-                PropertyChanges { target: actionButton; visible: true }
                 PropertyChanges { target: actionButton; buttonTxt: qsTr("ОТМЕНИТЬ ОПЛАТУ ПО QR-КОДУ") }
                 PropertyChanges { target: actionButton; buttonTxtColor: "#0064B4" }
                 PropertyChanges { target: actionButton; pushUpColor: "#FFFFFF" }
                 PropertyChanges { target: actionButton; pushDownColor: "#F2F2F2" }
                 PropertyChanges { target: actionButton; action: cancel }
+                PropertyChanges { target: actionButton; opacity: 1.0 }
             }
         ]
         state: "disable"
@@ -232,5 +284,12 @@ Page {
         backRadius: 8
         fontSize: 0.27 * height
         fontBold: false
+
+        Behavior on opacity {
+            SequentialAnimation {
+                PauseAnimation { duration: (page.state !== "failed") ? 2000 : 0 }
+                NumberAnimation { duration: 1500 }
+            }
+        }
     }
 }

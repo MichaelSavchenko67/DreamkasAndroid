@@ -21,6 +21,25 @@ Page {
         }
     }
 
+    Timer {
+        id: connectingTimer
+        interval: 3000
+        repeat: false
+        onTriggered: {
+            root.popupReset()
+            root.closePage()
+        }
+    }
+
+    function openConnectingDialog() {
+        popupReset()
+        root.popupSetTitle("Подключение")
+        root.popupSetClosePolicy(Popup.CloseOnPressOutside | Popup.CloseOnEscape)
+        root.popupSetLoader(true)
+        root.popupOpen()
+        connectingTimer.running = true
+    }
+
     ScrollView {
         width: parent.width
         height: parent.height - saveData.height - dataColumn.topPadding
@@ -63,7 +82,6 @@ Page {
                 TextField {
                     id: cientIdField
                     width: parent.width
-//                    text:
                     placeholderText: (text.length === 0) ? "Client ID" : text
                     placeholderTextColor: "#979797"
                     font {
@@ -105,7 +123,6 @@ Page {
                         TextField {
                             id: passwordField
                             width: parent.width - eyeButton.width
-//                            text: userPassword
                             placeholderText: (text.length === 0) ? "Client Secret" : text
                             placeholderTextColor: cientIdField.placeholderTextColor
                             font: cientIdField.font
@@ -153,7 +170,6 @@ Page {
                 TextField {
                     id: idQrField
                     width: cientIdField.width
-//                    text:
                     placeholderText: (text.length === 0) ? "idQR устройства" : text
                     placeholderTextColor: cientIdField.placeholderTextColor
                     font: cientIdField.font
@@ -185,7 +201,6 @@ Page {
                 TextField {
                     id: memberIdField
                     width: cientIdField.width
-//                    text:
                     placeholderText: (text.length === 0) ? "Member ID" : text
                     placeholderTextColor: cientIdField.placeholderTextColor
                     font: cientIdField.font
@@ -216,6 +231,7 @@ Page {
         pushUpColor: "#415A77"
         pushDownColor: "#004075"
         onClicked: {
+            openConnectingDialog()
         }
     }
 }
