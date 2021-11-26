@@ -9,15 +9,16 @@ import "qrc:/qml/pages/subpages" as Subpages
 Page {
     onFocusChanged: {
         if (focus) {
-            console.log("[InsResTabs.qml]\tfocus changed: " + focus)
-            setMainPageTitle("Изъятие")
+            setMainPageTitle("Плати QR от Сбера")
             setLeftMenuButtonAction(back)
             resetAddRightMenuButton()
             setRightMenuButtonVisible(false)
             clearContextMenu()
             setToolbarVisible(true)
+            footerMainModel.setState("Off")
         }
     }
+
     header: TabBar {
         id: tabBar
         width: root.width
@@ -26,7 +27,7 @@ Page {
 
         contentData: Repeater {
             id: tabs
-            model: ["ИЗЪЯТИЕ", "ВНЕСЕНИЕ"]
+            model: ["ПОКАЗАТЬ QR", "СЧИТАТЬ QR КЛИЕНТА"]
 
             TabButton {
                 height: parent.height
@@ -54,8 +55,6 @@ Page {
             color: "#FFFFFF"
         }
         onCurrentIndexChanged: {
-            let isInsert = (currentIndex != 0)
-            setMainPageTitle(isInsert ? "Внесение" : "Изъятие")
         }
     }
     contentData: SwipeView {
@@ -66,28 +65,41 @@ Page {
             tabBar.currentIndex = currentIndex
         }
 
-        Subpages.InsRes {
-            id: insPage
-            onFocusChanged: {
-                if (focus) {
-                    setFormulaStr(resPage.getFormulaStr())
-                }
-            }
-            isInsert: false
-            Layout.fillWidth: true
-            Layout.fillHeight: true
+        Subpages.PayQrSberbankCreate {
+
         }
 
-        Subpages.InsRes {
-            id: resPage
-            onFocusChanged: {
-                if (focus) {
-                    setFormulaStr(insPage.getFormulaStr())
+        Page {
+            Label {
+                anchors.centerIn: parent
+                text: "СЧИТАТЬ QR КЛИЕНТА"
+            }
+        }
+    }
+
+    PageIndicator {
+        id: indicator
+        anchors {
+            horizontalCenter: parent.horizontalCenter
+            bottom: parent.bottom
+            bottomMargin: 0.5 * height
+        }
+        count: swipeView.count
+        currentIndex: swipeView.currentIndex
+        delegate: Rectangle {
+            id: delegateRect
+            implicitWidth: (index === swipeView.currentIndex) ? 10 : 6
+            implicitHeight: implicitWidth
+            anchors.verticalCenter: parent.verticalCenter
+            radius: width / 2
+            color: "#0064B4"
+            opacity: (index === swipeView.currentIndex) ? 0.95 : pressed ? 0.7 : 0.45
+
+            Behavior on opacity {
+                OpacityAnimator {
+                    duration: 100
                 }
             }
-            isInsert: true
-            Layout.fillWidth: true
-            Layout.fillHeight: true
         }
     }
 }

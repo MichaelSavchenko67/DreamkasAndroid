@@ -8,7 +8,6 @@ import "qrc:/content/calculator.js" as CalcEngine
 
 Page {
     id: payPage
-    anchors.fill: parent
 
     property var cash
     property var cashPast: root.cashInDrawer
@@ -28,6 +27,14 @@ Page {
 
     onIsInsertChanged: {
         calcInsRes(isInsert)
+    }
+
+    function setFormulaStr(formulaStr) {
+        calculator.formulaStr = formulaStr
+    }
+
+    function getFormulaStr() {
+        return calculator.formulaStr
     }
 
     function calcInsRes(isInsertion) {

@@ -3,6 +3,7 @@ TARGET = dreamkasAndroid
 QT += quick quickcontrols2 widgets
 
 HEADERS += \
+        src/include/cashlessPayModel.h \
         src/include/modelDemoSwipe.h \
         src/include/gui.h \
         src/include/guiThread.h \
@@ -12,6 +13,7 @@ HEADERS += \
         src/include/toolbar.h
 
 SOURCES += \
+        src/cashlessPayModel.cpp \
         src/modelDemoSwipe.cpp \
         src/guiThread.cpp \
         src/main.cpp \

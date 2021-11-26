@@ -18,20 +18,11 @@ ApplicationWindow {
     visible: true
 //    visibility: "FullScreen"
 
-    property int statusBarHeight: 47
+    property int statusBarHeight: /*47*/0
     property bool isPrinterConnected: true
     property bool isShiftOpened: true
     property bool isCabinetEnable: false
     property var cashInDrawer: "100,00"
-
-//    SettingsComponents.WiFiConnectPopup {
-//        visible: true
-//        ssid: "FisGoWIFI"
-//        pswd: "123456780"
-//        onConnect: {
-//            console.log("Connect to ssid: " + ssid + " pswd: " + pswd)
-//        }
-//    }
 
     Action {
         id: openMenu

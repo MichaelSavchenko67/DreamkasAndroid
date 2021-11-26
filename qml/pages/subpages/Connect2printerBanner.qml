@@ -57,7 +57,6 @@ Page {
                 topMargin: 0.5 * title.anchors.topMargin
                 horizontalCenter: title.horizontalCenter
             }
-
             text: qsTr("Для продолжения работы вам\nнеобходимо подключить ККТ")
             font {
                 pixelSize: 0.56 * title.font.pixelSize
@@ -75,8 +74,9 @@ Page {
         }
 
         SaleComponents.Button_1 {
-            width: 0.5 * parent.width
-            height: 0.25 * width
+            id: connectButton
+            width: 0.7 * parent.width
+            height: 0.2 * width
             anchors {
                 top: msg2user.bottom
                 topMargin: msg2user.anchors.topMargin
@@ -85,13 +85,30 @@ Page {
             borderWidth: 0
             backRadius: 5
             buttonTxt: qsTr("ПОДКЛЮЧИТЬ ККТ")
-            fontSize: 0.33 * height
+            fontSize: 0.25 * height
             buttonTxtColor: "white"
             pushUpColor: "#415A77"
             pushDownColor: "#004075"
 
             onClicked: {
                 openPage("qrc:/qml/pages/subpages/printer/ChoosePrinterType.qml")
+            }
+        }
+
+        SaleComponents.DemoButton {
+            id: buttonDemoMode
+            visible: !demo.isFirstConnectionPrinter()
+            anchors {
+                top: connectButton.bottom
+                topMargin: msg2user.anchors.topMargin
+                horizontalCenter: title.horizontalCenter
+            }
+            width: connectButton.width
+            height: connectButton.height
+            buttonTxt: qsTr("ПЕРЕЙТИ В ДЕМО-РЕЖИМ")
+            fontPixelSize: connectButton.fontSize
+            onClicked: {
+                rootStack.replace("qrc:/qml/pages/DemoSwipeView.qml")
             }
         }
     }

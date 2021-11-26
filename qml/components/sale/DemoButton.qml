@@ -5,7 +5,13 @@ import QtGraphicalEffects 1.0
 
 Button {
     id: button
-    property var buttonTxt
+    property var buttonTxt: ""
+    property real fontPixelSize: 0.25 * height
+
+    onFontPixelSizeChanged: {
+        txt.font.pixelSize = fontPixelSize
+    }
+
     scale: pressed ? 1.05 : 1.0
     background: Rectangle {
         id: rect

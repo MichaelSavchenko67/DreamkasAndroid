@@ -228,5 +228,14 @@
         <file>qml/components/settings/CustomProgressBar.qml</file>
         <file>qml/components/settings/WiFiConnectPopup.qml</file>
         <file>qml/components/sale/DemoButton.qml</file>
+        <file>qml/pages/subpages/settings/PayQrSberbankSettings.qml</file>
+        <file>ico/settings/pay_qr.png</file>
+        <file>ico/settings/sberbank_logo.png</file>
+        <file>ico/settings/polygon.png</file>
+        <file>qml/pages/subpages/PayQrSberbank.qml</file>
+        <file>qml/pages/subpages/PayQrSberbankCreate.qml</file>
+        <file>img/sale/blot.png</file>
+        <file>img/sale/warning.png</file>
+        <file>qml/components/settings/ChoosenItemSimple.qml</file>
     </qresource>
 </RCC>
