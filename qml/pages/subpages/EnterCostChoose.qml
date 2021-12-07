@@ -44,7 +44,7 @@ Page {
         id: snoMenu
         width: 0.35 * footerMain.width
         x: parent.width - width
-        y: footerMain.height + height
+        y: footerMain.y - height
 
         Action { text: qsTr("УСН"); checkable: true; checked: true; enabled: true }
         Action { text: qsTr("СНО"); checkable: true; checked: false; enabled: true }
