@@ -16,10 +16,12 @@ ToolButton {
     Image {
         id: ico
         height: 0.5 * control.width
+        width: height
         anchors.centerIn: parent
         source: ""
         fillMode: Image.PreserveAspectFit
     }
+
     background: Rectangle {
         anchors.fill: parent
         radius: width
