@@ -10,7 +10,6 @@ Page {
     Layout.fillWidth: true
 
     onFocusChanged: {
-        clearContextMenu()
         if (focus) {
             setMainPageTitle("Подключение ККТ")
             resetAddRightMenuButton()

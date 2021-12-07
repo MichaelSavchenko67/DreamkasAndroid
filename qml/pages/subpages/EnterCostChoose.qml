@@ -5,6 +5,7 @@ import QtGraphicalEffects 1.0
 
 import "qrc:/qml/components/sale" as SaleComponents
 import "qrc:/content/calculator.js" as CalcEngine
+import "qrc:/qml/components/settings" as SettingsComponents
 
 Page {
     id: enterCostChoose
@@ -38,7 +39,21 @@ Page {
         }
     }
 
+
+    SettingsComponents.CustomMenu {
+        id: snoMenu
+        width: 0.35 * footerMain.width
+        x: parent.width - width
+        y: footerMain.height + height
+
+        Action { text: qsTr("УСН"); checkable: true; checked: true; enabled: true }
+        Action { text: qsTr("СНО"); checkable: true; checked: false; enabled: true }
+        Action { text: qsTr("ПСН"); checkable: true; checked: false; enabled: true }
+        Action { text: qsTr("ЕСХН"); checkable: true; checked: false; enabled: true }
+    }
+
     footer: SaleComponents.FooterMain {
+        id: footerMain
         height: btnRow.height + totalMsg.height + 3 * 0.125 * btnRow.height
 
         Component.onCompleted: {
@@ -49,25 +64,95 @@ Page {
             anchors.fill: parent
             color: "#F6F6F6"
 
-            Label {
-                id: totalMsg
-                text: qsTr("К оплате <b>" + openPurchase.total + " \u20BD</b>")
+            Row {
+                id: frame
                 width: parent.width
                 anchors {
                     bottom: btnRow.top
                     bottomMargin: 0.125 * btnRow.height
                 }
-                leftPadding: btnRow.spacing
-                font {
-                    pixelSize: 1.5 * openPurchase.fontSize
-                    family: "Roboto"
-                    styleName: "normal"
-                    weight: Font.Normal
+
+                Label {
+                    id: totalMsg
+                    text: qsTr("К оплате <b>" + openPurchase.total + " \u20BD</b>")
+                    width: parent.width -
+                           chooseSno.width -
+                           leftPadding
+                    anchors.verticalCenter: parent.verticalCenter
+                    leftPadding: btnRow.spacing
+                    font {
+                        pixelSize: 1.5 * openPurchase.fontSize
+                        family: "Roboto"
+                        styleName: "normal"
+                        weight: Font.Normal
+                    }
+                    color: "black"
+                    elide: Label.ElideRight
+                    horizontalAlignment: Qt.AlignLeft
+                    verticalAlignment: Qt.AlignBottom
                 }
-                color: "black"
-                elide: Label.ElideRight
-                horizontalAlignment: Qt.AlignLeft
-                verticalAlignment: Qt.AlignBottom
+
+                Button {
+                    id: chooseSno
+                    width: 0.25 * frame.width
+                    height: frame.height
+                    anchors.verticalCenter: totalMsg.verticalCenter
+                    enabled: !snoMenu.opened
+                    background: Row {
+                        spacing: snoMenuIco.width
+                        anchors.verticalCenter: totalMsg.verticalCenter
+
+                        Label {
+                            id: snoTitle
+                            width: parent.width - snoMenuIco.width - parent.spacing
+                            height: frame.height
+                            anchors.verticalCenter: parent.verticalCenter
+                            text: qsTr("УСН")
+                            font: totalMsg.font
+                            color: "#979797"
+                            elide: totalMsg.elide
+                            horizontalAlignment: Qt.AlignRight
+                            verticalAlignment: totalMsg.verticalAlignment
+                        }
+
+                        Image {
+                            id: snoMenuIco
+                            width: 0.5 * snoTitle.font.pixelSize
+                            height: width
+                            anchors.verticalCenter: parent.verticalCenter
+                            source: "qrc:/ico/menu/down.png"
+                            fillMode: Image.PreserveAspectFit
+
+                            ColorOverlay {
+                                anchors.fill: snoMenuIco
+                                source: snoMenuIco
+                                color: snoTitle.color
+                            }
+
+                            states: State {
+                                name: "toPressed"; when: snoMenu.opened
+                                PropertyChanges {
+                                    target: snoMenuIco
+                                    rotation: 180
+                                }
+                            }
+
+                            transitions: Transition {
+                                to: "toPressed"
+                                reversible: true
+
+                                PropertyAnimation {
+                                    properties: "rotation"
+                                    easing.type: Easing.InOutQuad
+                                    duration: 100
+                                }
+                            }
+                        }
+                    }
+                    onClicked: {
+                        snoMenu.open()
+                    }
+                }
             }
 
             Row {

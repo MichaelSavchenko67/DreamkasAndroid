@@ -13,7 +13,6 @@ Page {
             setLeftMenuButtonAction(openMenu)
             resetAddRightMenuButton()
             setRightMenuButtonVisible(false)
-            clearContextMenu()
             setToolbarVisible(true)
         }
     }

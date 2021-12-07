@@ -22,7 +22,6 @@ Page {
     }
 
     onFocusChanged: {
-        clearContextMenu()
         if (focus) {
             setMainPageTitle(deviceName)
             resetAddRightMenuButton()

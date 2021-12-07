@@ -17,7 +17,6 @@ Page {
             setLeftMenuButtonAction(close)
             resetAddRightMenuButton()
             setRightMenuButtonVisible(false)
-            clearContextMenu()
         }
     }
 

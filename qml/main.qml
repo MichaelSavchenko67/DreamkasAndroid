@@ -54,14 +54,6 @@ ApplicationWindow {
     }
 
     Action {
-        id: openContextMenu
-        onTriggered: {
-            console.log("[main.qml]\tOpen context menu")
-            rootContextMenu.open()
-        }
-    }
-
-    Action {
         id: openShift
         onTriggered: {
             root.openShift()
@@ -95,18 +87,6 @@ ApplicationWindow {
         id: printXReport
         onTriggered: {
             popupSetLoader(true)
-        }
-    }
-
-    Menu {
-        id: rootContextMenu
-        height: toolBar.height
-        x: parent.width - width
-        y: toolBar.y
-        transformOrigin: Menu.TopRight
-
-        onClosed: {
-            itemAt(currentIndex).highlighted = false
         }
     }
 
@@ -153,8 +133,6 @@ ApplicationWindow {
             return "qrc:/ico/menu/search.png"
         } else if (action === close) {
             return "qrc:/ico/menu/close.png"
-        } else if (action === openContextMenu) {
-            return "qrc:/ico/menu/context_menu.png"
         }
 
         return "qrc:/ico/menu/context_menu.png"
@@ -206,33 +184,12 @@ ApplicationWindow {
         rightButton.action = action
     }
 
-    function clearContextMenu() {
-        while(rootContextMenu.count) {
-            rootContextMenu.removeItem(rootContextMenu.takeAction(0));
-        }
-    }
-
-    function add2contextMenu(menuAction) {
-        rootContextMenu.addAction(menuAction)
-    }
-
     function setHeaderTitleButtonVisible(visible) {
-        headerTitleButton.visible = visible
-    }
-
-    function add2HeaderTitleContextMenu(menuAction) {
-        headerTitleContextMenu.addAction(menuAction)
-    }
-
-    function reseHeaderTitleContextMenu() {
-        while(headerTitleContextMenu.count) {
-            headerTitleContextMenu.removeItem(headerTitleContextMenu.takeAction(0));
-        }
+        contextButton.visible = visible
     }
 
     function resetHeaderTitleButton() {
-        reseHeaderTitleContextMenu()
-        headerTitleButton.visible = false
+        contextButton.visible = false
     }
 
 
@@ -488,6 +445,17 @@ ApplicationWindow {
         interactive: (toolBar.visible && (leftButton.action === openMenu))
     }
 
+    SettingsComponents.PopupEnterText {
+        id: buyersContactsPopup
+        popupTitle: "Контакты покупателя"
+        enteredTextTitle: "Телефон или эл. почта"
+        enteredValidator: RegExpValidator {regExp: /^(?:\d{11}|\S+@\w+\.\w{2,3})$/ }
+        buttonText: "Сохранить"
+        onEntered: {
+            console.info("[Sale.qml]\t\tbuyers contacts: " + textEntered)
+        }
+    }
+
     menuBar: ToolBar {
         id: toolBar
         width: root.width
@@ -496,122 +464,78 @@ ApplicationWindow {
 
         Column {
             anchors.fill: parent
-            spacing: 0
-
-            Rectangle {
-                width: parent.width
-                height: statusBarHeight
-                color: "transparent"
-            }
 
             Row {
                 id: frame
                 width: parent.width
                 height: parent.height - statusBarHeight
+                leftPadding: 0.15 * leftButton.width
 
-                ToolButton {
+                SettingsComponents.ToolButtonCustom {
                     id: leftButton
+                    visible: true
                     action: openMenu
-                    icon {
-                        color: "white"
-                        height: 0.3 * parent.height
-                        source: root.getButtonIco(action)
-                    }
+                    icon.source: root.getButtonIco(action)
                 }
 
-                Row {
-                    id: titleFrame
-                    height: parent.height
+                Label {
+                    id: headerTitle
                     anchors.verticalCenter: frame.verticalCenter
-                    width: parent.width - (leftButton.visible + addRightButton.visible + rightButton.visible) * leftButton.width
-
-                    Label {
-                        id: headerTitle
-                        anchors.verticalCenter: parent.verticalCenter
-                        width: parent.width - headerTitleButton.visible * headerTitleButton.width
-                        font {
-                            pixelSize: 0.375 * (toolBar.height - statusBarHeight)
-                            family: "Roboto"
-                            styleName: "normal"
-                            weight: Font.DemiBold
-                        }
-                        color: "white"
-                        elide: Label.ElideRight
-                        horizontalAlignment: Qt.AlignLeft
-                        verticalAlignment: Qt.AlignVCenter
+                    leftPadding: parent.leftPadding
+                    width: parent.width -
+                           (leftButton.visible + addRightButton2.visible + addRightButton.visible + rightButton.visible + contextButton.visible) * leftButton.width -
+                           parent.leftPadding -
+                           leftPadding
+                    font {
+                        pixelSize: 0.375 * (toolBar.height - statusBarHeight)
+                        family: "Roboto"
+                        styleName: "normal"
+                        weight: Font.DemiBold
                     }
-
-                    ToolButton {
-                        id: headerTitleButton
-                        property bool openContext: false
-                        visible: false
-
-                        icon {
-                            source: "qrc:/ico/menu/down.png"
-                            color: "white"
-                            height: 0.18 * parent.height
-                        }
-
-                        onPressed: {
-                            openContext = !openContext
-                        }
-
-                        onOpenContextChanged: {
-                            if (openContext) {
-                                headerTitleContextMenu.open()
-                            }
-                        }
-
-                        states: State {
-                            name: "toPressed"; when: headerTitleContextMenu.opened
-                            PropertyChanges {
-                                target: headerTitleButton
-                                rotation: 180
-                            }
-                        }
-
-                        transitions: Transition {
-                            to: "toPressed"
-                            reversible: true
-
-                            PropertyAnimation {
-                                properties: "rotation"
-                                easing.type: Easing.InOutQuad
-                                duration: 100
-                            }
-                        }
-                    }
+                    color: "white"
+                    elide: Label.ElideRight
+                    horizontalAlignment: Qt.AlignLeft
+                    verticalAlignment: Qt.AlignVCenter
                 }
 
-                Menu {
-                    id: headerTitleContextMenu
-                    width: leftButton.width + headerTitle.width
-                    height: count * (toolBar.height - statusBarHeight)
-                    x: -headerTitle.width
+                SettingsComponents.CustomMenu {
+                    id: contextMenu
+                    width: 2 / 3 * toolBar.width
+                    x: parent.width - width
                     y: -toolBar.y
-                    transformOrigin: Menu.TopRight
 
-                    onClosed: {
-                        itemAt(currentIndex).highlighted = false
+                    Action { text: qsTr("Продажа"); checkable: true; checked: true; }
+                    Action { text: qsTr("Возврат"); checkable: true; checked: false; enabled: true }
+                    Action { text: qsTr("Расход"); checkable: true; checked: false; enabled: true }
+                    Action { text: qsTr("Возврат расхода"); checkable: true; checked: false; enabled: true }
+
+                    MenuSeparator {
+                        contentItem: Rectangle {
+                            implicitWidth: contextMenu.width - contextMenu.leftPadding
+                            implicitHeight: 1
+                            color: "#ECECEC"
+                        }
                     }
+
+                    Action { text: qsTr("Контакты покупателя"); checkable: false; onTriggered: { buyersContactsPopup.open() } }
                 }
 
-                ToolButton {
-                    id: addRightButton
+                SettingsComponents.ToolButtonCustom {
+                    id: addRightButton2
+                    icon.source: "qrc:/ico/menu/close.png"
+                }
+
+                SettingsComponents.ToolButtonCustom { id: addRightButton; visible: false }
+
+                SettingsComponents.ToolButtonCustom { id: rightButton; visible: false }
+
+                SettingsComponents.ToolButtonCustom {
+                    id: contextButton
                     visible: false
-                    icon {
-                        color: "white"
-                        height: 0.35 * parent.height
-                    }
-                }
-
-                ToolButton {
-                    id: rightButton
-                    action: searchGoods
-                    icon {
-                        source: root.getButtonIco(action)
-                        color: "white"
-                        height: 0.35 * parent.height
+                    enabled: !contextMenu.opened
+                    icon.source: "qrc:/ico/menu/context_menu.png"
+                    onClicked: {
+                        contextMenu.open()
                     }
                 }
             }

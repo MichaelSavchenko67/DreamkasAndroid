@@ -13,7 +13,6 @@ Page {
     property int curPos: -1
 
     onFocusChanged: {
-        clearContextMenu()
         if (focus) {
             console.log("[Purchase.qml]\tfocus changed: " + focus)
             setMainPageTitle("Чек")

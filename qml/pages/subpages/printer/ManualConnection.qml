@@ -108,8 +108,6 @@ Page {
     }
 
     onFocusChanged: {
-        clearContextMenu()
-
         if (focus) {
             setMainPageTitle("Подключение вручную")
             resetAddRightMenuButton()
