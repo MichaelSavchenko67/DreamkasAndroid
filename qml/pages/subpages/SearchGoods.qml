@@ -20,7 +20,6 @@ Page {
             setToolBarShadow(false)
             setRightMenuButtonVisible(false)
             resetAddRightMenuButton()
-            clearContextMenu()
         }
     }
 

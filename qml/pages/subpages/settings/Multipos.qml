@@ -23,7 +23,6 @@ Page {
     }
 
     onFocusChanged: {
-        clearContextMenu()
         if (focus) {
             setMainPageTitle("Банковский терминал")
             resetAddRightMenuButton()

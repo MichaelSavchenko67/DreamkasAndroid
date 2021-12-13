@@ -237,5 +237,8 @@
         <file>img/sale/blot.png</file>
         <file>img/sale/warning.png</file>
         <file>qml/components/settings/ChoosenItemSimple.qml</file>
+        <file>qml/components/settings/ToolButtonCustom.qml</file>
+        <file>qml/components/settings/CustomMenuItem.qml</file>
+        <file>qml/components/settings/CustomMenu.qml</file>
     </qresource>
 </RCC>

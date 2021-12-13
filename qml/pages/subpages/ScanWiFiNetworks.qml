@@ -14,7 +14,6 @@ Page {
     property var connectedSSID: "VIKI PRINT WIFI 0493099329"
 
     onFocusChanged: {
-        clearContextMenu()
         if (focus) {
             setMainPageTitle("Подключение ККТ")
             resetAddRightMenuButton()

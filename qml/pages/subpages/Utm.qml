@@ -22,7 +22,6 @@ Page {
     Layout.fillWidth: true
 
     onFocusChanged: {
-        clearContextMenu()
         if (focus) {
             console.log("[Connect2printer.qml]\tfocus changed: " + focus)
             setMainPageTitle("ЕГАИС")

@@ -12,7 +12,6 @@ Page {
     property var printerTypeName: ""
 
     onFocusChanged: {
-        clearContextMenu()
         if (focus) {
             setMainPageTitle(printerTypeName)
             resetAddRightMenuButton()

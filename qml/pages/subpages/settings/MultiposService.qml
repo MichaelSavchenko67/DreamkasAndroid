@@ -12,7 +12,6 @@ Page {
     Layout.fillWidth: true
 
     onFocusChanged: {
-        clearContextMenu()
         if (focus) {
             setMainPageTitle("Банковский терминал")
             resetAddRightMenuButton()

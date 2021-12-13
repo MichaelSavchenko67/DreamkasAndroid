@@ -12,7 +12,6 @@ Page {
         if (focus) {
             console.log("DEMOSWIPEVIEW FOCUS")
             setToolbarVisible(false)
-            clearContextMenu()
         }
     }
 
