@@ -184,6 +184,20 @@ ApplicationWindow {
         rightButton.action = action
     }
 
+    function resetAddRightMenuButton2() {
+        addRightButton2.action = null
+        addRightButton2.visible = false
+        addRightButton2.icon.source = ""
+    }
+
+    function setAddRightMenuButton2Action(action) {
+        addRightButton2.action = action
+    }
+
+    function setAddRightMenuButton2ico(icoPath) {
+        addRightButton2.icon.source = icoPath
+    }
+
     function setHeaderTitleButtonVisible(visible) {
         contextButton.visible = visible
     }
