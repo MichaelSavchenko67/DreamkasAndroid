@@ -24,6 +24,7 @@ Flickable {
     SettingsComponents.PopupDate {
         id: popupDate
         anchors.centerIn: parent
+        minDate: new Date(curDate.getFullYear(), curDate.getMonth() - 3, curDate.getDate())
     }
 
     Pane {
