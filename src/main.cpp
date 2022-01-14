@@ -4,6 +4,7 @@
 #include <QSettings>
 #include <QQuickStyle>
 #include <QQmlComponent>
+#include <QFontDatabase>
 #include "include/gui.h"
 #include "include/guiThread.h"
 
@@ -30,6 +31,9 @@ int main(int argc, char *argv[])
 
     ModelDemoSwipe modelDemoSwipe;
     engine.rootContext()->setContextProperty("modelDemoSwipe", &modelDemoSwipe);
+
+    const QFont fixedFont = QFontDatabase::systemFont(QFontDatabase::FixedFont);
+    engine.rootContext()->setContextProperty("fixedFont", fixedFont);
 
     GUI::AppView appView(&engine);
 //    GUI::FoundGoods foundGoods(&engine);

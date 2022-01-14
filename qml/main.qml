@@ -578,14 +578,15 @@ ApplicationWindow {
 
     SettingsComponents.PopupText {
         id: popupText
+        visible: true
         titleStr: "ЗАГОЛОВОК"
         textStr: "ТЕКСТ"
         confirmButtonAction: Action {
-            text: "ПЕЧАТЬ"
             onTriggered: {
                 popupText.close()
             }
         }
+        confirmButtonName: "ПЕЧАТЬ"
     }
 
     contentData: StackView {
