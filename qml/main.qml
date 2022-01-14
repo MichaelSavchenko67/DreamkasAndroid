@@ -574,7 +574,7 @@ ApplicationWindow {
         }
     }
 
-    SettingsComponents.PopupUsersForm { onSave: {  openPopupUsersFormSended() } }
+    SettingsComponents.PopupUsersForm { onSave: { openPopupUsersFormSended() } }
 
     SettingsComponents.PopupText {
         id: popupText
