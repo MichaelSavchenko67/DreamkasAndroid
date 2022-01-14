@@ -105,7 +105,6 @@ Page {
                             pushDownColor: "#004075"
                             onClicked: {
                                 root.openPage("qrc:/qml/pages/subpages/PrintPurchaseCorrection.qml")
-//                                rootStack.currentItem.go2root = true
                             }
                         }
                     }
