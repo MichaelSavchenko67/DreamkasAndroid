@@ -576,6 +576,18 @@ ApplicationWindow {
 
     SettingsComponents.PopupUsersForm { onSave: {  openPopupUsersFormSended() } }
 
+    SettingsComponents.PopupText {
+        id: popupText
+        titleStr: "ЗАГОЛОВОК"
+        textStr: "ТЕКСТ"
+        confirmButtonAction: Action {
+            text: "ПЕЧАТЬ"
+            onTriggered: {
+                popupText.close()
+            }
+        }
+    }
+
     contentData: StackView {
         id: rootStack
         initialItem: "qrc:/qml/pages/Login.qml"
