@@ -8,11 +8,24 @@ Popup {
     id: popupDate
 
     property date curDate: new Date()
+    property date minDate: new Date(curDate.getFullYear() - 1, curDate.getMonth(), curDate.getDate())
     property date choosenDate: curDate
+    property date beginDate: undefined
+    property date endDate: undefined
+    property bool isIntervalEnable: false
 
     onOpened: {
-        calendar.minimumDate = new Date(curDate.getFullYear(), curDate.getMonth() - 3, curDate.getDate())
+        calendar.minimumDate = minDate
         calendar.maximumDate = curDate
+    }
+
+    function getConfirmButtonTxt() {
+        if (isIntervalEnable) {
+            console.log("beginDate: " + beginDate.toJSON())
+            console.log("endDate: " + endDate.toJSON())
+            return beginDate.toLocaleDateString('ru_RU') + " - " + endDate.toLocaleDateString('ru_RU')
+        }
+        return choosenDate.toLocaleDateString(Qt.locale("ru_RU"))
     }
 
     width: 0.963 * parent.width
@@ -35,22 +48,29 @@ Popup {
 
             SaleComponents.EnterDate {
                 id: calendar
+                isIntervalEnable: popupDate.isIntervalEnable
                 width: 0.9 * parent.width
                 height: width
                 anchors.horizontalCenter: parent.horizontalCenter
-
                 onSelectedDateChanged: {
-                    choosenDate = selectedDate
+                    if (isIntervalEnable) {
+                        beginDate = startDate
+                        endDate = stopDate
+                    } else {
+                        choosenDate = selectedDate
+                    }
+                    confirmButton.buttonTxt = getConfirmButtonTxt()
                 }
             }
 
             SaleComponents.Button_1 {
+                id: confirmButton
                 anchors.horizontalCenter: parent.horizontalCenter
                 width: 0.7 * parent.width
                 height: 0.2 * width
                 borderWidth: 0
                 backRadius: 5
-                buttonTxt: choosenDate.toLocaleDateString(Qt.locale("ru_RU"))
+                buttonTxt: getConfirmButtonTxt()
                 fontSize: 0.27 * height
                 buttonTxtColor: "white"
                 pushUpColor: "#415A77"
