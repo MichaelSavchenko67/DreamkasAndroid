@@ -574,18 +574,18 @@ ApplicationWindow {
         }
     }
 
-    SettingsComponents.PopupUsersForm { onSave: {  openPopupUsersFormSended() } }
+    SettingsComponents.PopupUsersForm { onSave: { openPopupUsersFormSended() } }
 
     SettingsComponents.PopupText {
         id: popupText
         titleStr: "ЗАГОЛОВОК"
         textStr: "ТЕКСТ"
         confirmButtonAction: Action {
-            text: "ПЕЧАТЬ"
             onTriggered: {
                 popupText.close()
             }
         }
+        confirmButtonName: "ПЕЧАТЬ"
     }
 
     contentData: StackView {
