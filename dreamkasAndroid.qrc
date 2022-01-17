@@ -244,5 +244,6 @@
         <file>ico/settings/help.png</file>
         <file>qml/components/settings/ToolTipButton.qml</file>
         <file>qml/components/settings/ToolTipPopup.qml</file>
+        <file>qml/components/settings/PopupText.qml</file>
     </qresource>
 </RCC>

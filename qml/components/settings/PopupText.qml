@@ -13,7 +13,7 @@ Popup {
     property var confirmButtonName: ""
 
     width: 0.963 * parent.width
-    height: 1.5 * width + 2 * exitButton.height
+    height: 1.5 * width
     x: 0.5 * (parent.width - width)
     y: 0.5 * (parent.height - height)
     closePolicy: Popup.NoAutoClose
@@ -49,7 +49,7 @@ Popup {
                 top: exitButton.bottom
                 horizontalCenter: parent.horizontalCenter
             }
-            height: parent.height - exitButton.height
+            height: parent.height - exitButton.height - 2 * 0.019 * parent.width
             spacing: 0.25 * exitButton.height
 
             Label {
@@ -71,13 +71,8 @@ Popup {
                 }
             }
 
-            FontMetrics {
-                id: fontMetrics
-                font: fixedFont
-            }
-
             ScrollView {
-                width: 42 * fontMetrics.averageCharacterWidth
+                width: textLabel.contentWidth
                 contentWidth: width
                 height: popupText.height -
                         titleLabel.contentHeight -
@@ -90,12 +85,11 @@ Popup {
 
                 Label {
                     id: textLabel
-                    width: parent.width
                     topPadding: font.pixelSize
-                    text: qsTr(textStr)
+                    text: "<pre>" + qsTr(textStr) + "</pre>"
                     font {
                         family: fixedFont
-                        pixelSize: 0.8 * confirmButton.fontSize
+                        pixelSize: 0.75 * confirmButton.fontSize
                         weight: Font.Normal
                     }
                     elide: Label.ElideRight

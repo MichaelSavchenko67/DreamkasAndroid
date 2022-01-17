@@ -579,7 +579,7 @@ ApplicationWindow {
     SettingsComponents.PopupText {
         id: popupText
         titleStr: "ЗАГОЛОВОК"
-        textStr: "ТЕКСТ"
+        textStr: "     ТЕКСТ     \nПОЛЕ   ЗНАЧЕНИЕ\nПОЛЕ   ЗНАЧЕНИЕ\nПОЛЕ   ЗНАЧЕНИЕ\nПОЛЕ   ЗНАЧЕНИЕ\nПОЛЕ   ЗНАЧЕНИЕ\n"
         confirmButtonAction: Action {
             onTriggered: {
                 popupText.close()
