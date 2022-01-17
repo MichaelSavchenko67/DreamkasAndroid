@@ -245,5 +245,7 @@
         <file>qml/components/settings/ToolTipButton.qml</file>
         <file>qml/components/settings/ToolTipPopup.qml</file>
         <file>qml/components/settings/PopupText.qml</file>
+        <file>qml/components/sale/PopupEnterPosName.qml</file>
+        <file>qml/components/settings/ButtonSet.qml</file>
     </qresource>
 </RCC>
