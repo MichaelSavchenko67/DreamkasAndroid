@@ -588,6 +588,14 @@ ApplicationWindow {
         confirmButtonName: "ПЕЧАТЬ"
     }
 
+    SaleComponents.PopupEnterPosName {
+        id: popupEnterPosName
+        popupTitle: "Введите название"
+        enteredTextTitle: "Наименование товара"
+        enteredTextPlaceholder: "Введите название"
+        isStayLastEntered: true
+    }
+
     contentData: StackView {
         id: rootStack
         initialItem: "qrc:/qml/pages/Login.qml"
