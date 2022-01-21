@@ -10,7 +10,7 @@ Column {
 
     property int snoChoosen
 
-    SettingsComponents.ParamTitle { text: "Система налогооблажения" }
+    SettingsComponents.ParamTitle { id: title; text: "Система налогооблажения" }
 
     Column {
         width: parent.width
@@ -21,7 +21,7 @@ Column {
             checked: true
             text: qsTr("ОСН")
             font {
-                pixelSize: cashTitle.font.pixelSize
+                pixelSize: 0.67 * title.font.pixelSize
                 family: "Roboto"
                 styleName: "normal"
                 weight: Font.Normal

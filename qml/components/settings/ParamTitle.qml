@@ -7,8 +7,7 @@ Text {
         pixelSize: 0.06 * width
         family: "Roboto"
         styleName: "normal"
-        weight: Font.Bold
-        bold: true
+        weight: Font.Normal
     }
     color: "black"
     elide: Label.ElideRight
