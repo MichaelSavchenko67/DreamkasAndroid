@@ -131,7 +131,7 @@ Drawer {
                     "Заказы": function() { root.openPage("qrc:/qml/pages/subpages/Orders.qml") },
                     "Банковский терминал": function() { root.openPage("qrc:/qml/pages/subpages/settings/Multipos.qml") },
                     "Сервисные операции": function() { root.openPage("qrc:/qml/pages/subpages/settings/MultiposService.qml") },
-                    "Система налогооблажения": function() { root.openPage("qrc:/qml/pages/subpages/DefaultSno.qml") },
+                    "СНО и НДС": function() { root.openPage("qrc:/qml/pages/subpages/DefaultSno.qml") },
                     "X-отчёт": function() { root.openXReportDialog() },
                     "Ввод цены товара": function() { root.openEnterCostDialog("Яблоки красные", "Цена, \u20BD/кг", "Неправильное значение, введите снова") },
                     "Ввод количества товара": function() { root.openEnterAmountDialog("Яблоки красные", "Количество, кг", "Неправильное значение, введите снова") },
@@ -152,7 +152,7 @@ Drawer {
                 ListElement {item: "Заказы"}
                 ListElement {item: "Банковский терминал"}
                 ListElement {item: "Сервисные операции"}
-                ListElement {item: "Система налогооблажения"}
+                ListElement {item: "СНО и НДС"}
                 ListElement {item: "X-отчёт"}
                 ListElement {item: "Ввод цены товара"}
                 ListElement {item: "Ввод количества товара"}
