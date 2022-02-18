@@ -248,5 +248,6 @@
         <file>qml/components/sale/PopupEnterPosName.qml</file>
         <file>qml/components/settings/ButtonSet.qml</file>
         <file>qml/components/settings/NdsChoose.qml</file>
+        <file>qml/components/settings/CustomMenuSubtitle.qml</file>
     </qresource>
 </RCC>

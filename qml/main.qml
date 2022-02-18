@@ -536,6 +536,7 @@ ApplicationWindow {
 
                 SettingsComponents.ToolButtonCustom {
                     id: addRightButton2
+                    visible: false
                     icon.source: "qrc:/ico/menu/close.png"
                 }
 

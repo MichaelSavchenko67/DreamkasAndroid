@@ -1,18 +1,22 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Controls.Material 2.15
 
 import "qrc:/qml/components/sale" as SaleComponents
+import "qrc:/qml/components/settings" as SettingsComponents
 
 Page {
+    id: purchasesPage
     anchors.fill: parent
 
     onFocusChanged: {
         if (focus) {
             console.log("[Orders.qml]\tfocus changed: " + focus)
-            setMainPageTitle("Заказы")
+            setMainPageTitle("Чеки и заказы")
             setLeftMenuButtonAction(openMenu)
             resetAddRightMenuButton()
-            setRightMenuButtonVisible(false)
+            setRightMenuButtonIco("qrc:/ico/menu/delete.png")
+            setRightMenuButtonAction(openDeleteMenu)
             setToolbarVisible(true)
         }
     }
@@ -37,56 +41,257 @@ Page {
         }
     }
 
+    function resetCheckedPurchases() {
+        for (var i = 0; i <= purchasesParamsListView.count; i++) {
+            purchasesParamsListView.contentItem.children[i].isChecked = false;
+        }
+    }
+
+    function delCheckedPurchases() {
+        while (purchasesParamsListView.checkedPurchasesCnt > 0) {
+            for (var i = 0; i <= purchasesParamsListModel.rowCount(); i++) {
+                console.log("purchasesParamsListModel number " + purchasesParamsListModel.get(i)["number"])
+                console.log("purchasesParamsListModel isChecked " + purchasesParamsListModel.get(i)["isChecked"])
+
+                if (purchasesParamsListModel.get(i)["isChecked"]) {
+                    purchasesParamsListModel.remove(i)
+                    purchasesParamsListView.checkedPurchasesCnt--
+                    break
+                }
+            }
+        }
+        deleteMenu.checkedPurchasesCnt = purchasesParamsListView.checkedPurchasesCnt
+    }
+
+    SettingsComponents.CustomMenu {
+        id: deleteMenu
+        width: 2 / 3 * toolBar.width
+        x: parent.width - width
+        property int checkedPurchasesCnt: purchasesParamsListView.checkedPurchasesCnt
+
+        onCheckedPurchasesCntChanged: {
+            delPurchases.enabled = (checkedPurchasesCnt > 0)
+            delPurchases.text = delPurchases.enabled ? (checkedPurchasesCnt + " чеков") : ""
+        }
+
+        onOpened: {
+            delPurchases.enabled = (checkedPurchasesCnt > 0)
+            delPurchases.text = delPurchases.enabled ? (checkedPurchasesCnt + " чеков") : ""
+        }
+
+        SettingsComponents.CustomMenuSubtitle { subtitle: "УДАЛИТЬ" }
+
+        Action { text: qsTr("Выбрать чеки"); checkable: false; enabled: !purchasesParamsListView.checkMode; onTriggered: { purchasesParamsListView.checkMode = true; deleteMenu.close() } }
+        Action { id: delPurchases; checkable: false; enabled: (deleteMenu.checkedPurchasesCnt > 0); onTriggered: { openCheckedPurchasesDialog(deleteMenu.checkedPurchasesCnt) } }
+        Action { text: qsTr("Все чеки"); checkable: false; onTriggered: { openPurchasesDeleteAllDialog() } }
+
+        MenuSeparator {
+            visible: cancelDel.enabled
+            contentItem: Rectangle {
+                implicitWidth: deleteMenu.width - deleteMenu.leftPadding
+                implicitHeight: 1
+                color: "#ECECEC"
+            }
+        }
+
+        Action { id: cancelDel; text: qsTr("Отменить"); checkable: false; enabled: purchasesParamsListView.checkMode; onTriggered: { purchasesParamsListView.checkMode = false; deleteMenu.close() } }
+    }
+
+    Action {
+        id: openDeleteMenu
+        onTriggered: { deleteMenu.open() }
+    }
+
+    Action {
+        id: deletePurchase
+        property int index: -1
+        onTriggered: {
+            popupReset()
+            purchasesParamsListModel.remove(index)
+        }
+    }
+
+    Action {
+        id: deleteCheckedPurchases
+        onTriggered: {
+            popupReset()
+            delCheckedPurchases()
+        }
+    }
+
+    Action {
+        id: deleteAllPurchases
+        onTriggered: {
+            popupReset()
+            purchasesParamsListModel.clear()
+        }
+    }
+
+    Action {
+        id: cancelDeletePurchase
+        onTriggered: {
+            popupReset()
+            purchasesParamsListView.currentItem.swipe.close()
+            purchasesParamsListView.currentIndex = -1
+        }
+    }
+
+    function openPurchaseDeleteDialog(index, number, date) {
+        popupReset()
+        root.popupSetTitle("Удаление чека")
+        root.popupSetAddMsg("Вы уверены, что хотите удалить чек № " + number + " от " + date + "?")
+        root.popupSetFirstActionName("УДАЛИТЬ")
+        deletePurchase.index = index
+        root.popupSetFirstAction(deletePurchase)
+        root.popupSetSecondActionName("ОТМЕНА")
+        root.popupSetSecondAction(cancelDeletePurchase)
+        root.popupSetClosePolicy(Popup.NoAutoClose)
+        root.popupOpen()
+    }
+
+    function openCheckedPurchasesDialog(cnt) {
+        popupReset()
+        root.popupSetTitle("Удаление " + cnt + " чеков")
+        root.popupSetAddMsg("Вы уверены, что хотите удалить " + cnt + " чеков")
+        root.popupSetFirstActionName("УДАЛИТЬ")
+        root.popupSetFirstAction(deleteCheckedPurchases)
+        root.popupSetSecondActionName("ОТМЕНА")
+        root.popupSetSecondAction(cancelDeletePurchase)
+        root.popupSetClosePolicy(Popup.NoAutoClose)
+        root.popupOpen()
+    }
+
+    function openPurchasesDeleteAllDialog() {
+        popupReset()
+        root.popupSetTitle("Удаление всех чеков")
+        root.popupSetAddMsg("Вы уверены, что хотите удалить все чеки")
+        root.popupSetFirstActionName("УДАЛИТЬ")
+        root.popupSetFirstAction(deleteAllPurchases)
+        root.popupSetSecondActionName("ОТМЕНА")
+        root.popupSetSecondAction(cancelDeletePurchase)
+        root.popupSetClosePolicy(Popup.NoAutoClose)
+        root.popupOpen()
+    }
+
+    Timer {
+        interval: 250
+        repeat: true
+        running: true
+
+        property int cnt: 1
+
+        onTriggered: {
+            if (purchasesParamsListModel.count >= 3) {
+                running = false
+            } else {
+                console.log("purchasesParamsListModel.append")
+                purchasesParamsListModel.append({orderStatus: "pending", number: cnt++, date: "24.07.2021", total: "14 230,00", buyersContacts: "+7 921 383-29-39\nvictor_fedorov@gmail.com", isChecked: false})
+            }
+        }
+    }
+
     contentData: Column {
         anchors.fill: parent
         topPadding: 0.025 * parent.width
 
         ListView {
-            id: ordersView
-            width: parent.width
-            height: parent.height
-            visible: (orderModel.count > 0)
+            id: purchasesParamsListView
+
+            property bool checkMode: false
+            property int checkedPurchasesCnt: 0
+
+            onCheckModeChanged: {
+                if (!checkMode) {
+                    resetCheckedPurchases()
+                }
+            }
+
+            anchors.fill: parent
+            visible: (purchasesParamsListModel.count > 0)
             anchors.horizontalCenter: parent.horizontalCenter
             clip: true
-            cacheBuffer: 100 * 0.15 * ordersView.height
-            model: ListModel {
-                id: orderModel
+            cacheBuffer: 100 * 0.15 * purchasesParamsListView.height
+            add: Transition { NumberAnimation { properties: "scale"; from: 0; to: 1; easing.type: Easing.InOutQuad } }
+            model: ListModel { id: purchasesParamsListModel }
+            delegate: SwipeDelegate {
+                id: swipeDelegate
 
-                //                ListElement {
-                //                    orderStatus: "success"
-                //                    number: "3838-20"
-                //                    date: "25.07.2021"
-                //                    total: "15 230,00"
-                //                    buyersContacts: "+7 921 383-29-39"
-                //                }
+                property bool isChecked: false
 
-                //                ListElement {
-                //                    orderStatus: "pending"
-                //                    number: "3838-19"
-                //                    date: "24.07.2021"
-                //                    total: "14 230,00"
-                //                    buyersContacts: "victor_fedorov@gmail.com"
-                //                }
+                onIsCheckedChanged: {
+                    model.isChecked = isChecked
 
-                //                ListElement {
-                //                    orderStatus: "failed"
-                //                    number: "3838-18"
-                //                    date: "23.07.2021"
-                //                    total: "18 230 000 000 000,00"
-                //                    buyersContacts: "+7 921 383-29-39"
-                //                }
-            }
-            delegate: ItemDelegate {
-                id: position
+                    if (isChecked) {
+                        purchasesParamsListView.checkedPurchasesCnt++
+                    } else {
+                        purchasesParamsListView.checkedPurchasesCnt--
+                    }
+                    deleteMenu.checkedPurchasesCnt = purchasesParamsListView.checkedPurchasesCnt
+                }
+
                 width: parent.width
-                height: orderColumn.height
+                height: purchaseParamsColumn.height
+                ListView.onRemove: SequentialAnimation {
+                    PropertyAction {
+                        target: swipeDelegate
+                        property: "ListView.delayRemove"
+                        value: true
+                    }
+                    NumberAnimation {
+                        target: swipeDelegate
+                        property: "height"
+                        to: 0
+                        easing.type: Easing.InOutQuad
+                    }
+                    PropertyAction {
+                        target: swipeDelegate
+                        property: "ListView.delayRemove"
+                        value: false
+                    }
+                }
+                swipe.right: Rectangle {
+                    id: deleteFrame
+                    width: parent.width
+                    height: parent.height
+                    anchors.right: parent.right
+                    clip: true
+                    color: "red"
+
+                    Image {
+                        height: 0.3 * parent.height
+                        width: height
+                        anchors.centerIn: parent
+                        source: "qrc:/ico/menu/delete.png"
+                        fillMode: Image.PreserveAspectFit
+                    }
+                }
+                swipe.onCompleted: {
+                    purchasesParamsListView.currentIndex = index
+                    openPurchaseDeleteDialog(index, number, date)
+                }
+                onClicked: {
+                    if (purchasesParamsListView.checkMode) {
+                        purchasesParamsListView.currentIndex = index
+                        purchasesParamsListView.currentItem.isChecked = !purchasesParamsListView.currentItem.isChecked
+                    } else {
+                        printedPurchase.open()
+                    }
+                }
+
+                SaleComponents.Line {
+                    width: parent.width
+                    visible: (model.index === 0)
+                    color: "#E0E0E0"
+                }
 
                 Column {
-                    id: orderColumn
+                    id: purchaseParamsColumn
                     width: parent.width - 0.1 * parent.width
                     anchors.horizontalCenter: parent.horizontalCenter
-                    spacing: 0.5 * statusLabel.font.pixelSize
+                    spacing: 0.021 * width
                     topPadding: 2 * spacing
+                    clip: true
+                    opacity: 1 + swipeDelegate.swipe.position
 
                     Row {
                         width: parent.width
@@ -94,12 +299,12 @@ Page {
                         Row {
                             id: statusRow
                             width: 0.6 * parent.width
-                            spacing: 0.5 * statusLabel.font.pixelSize
+                            spacing: 0.5 * 0.021 * purchaseParamsColumn.width
 
                             Image {
                                 id: statusImage
-                                width: statusLabel.font.pixelSize
-                                height: width
+                                height: statusLabel.font.pixelSize
+                                width: height
                                 anchors.verticalCenter: parent.verticalCenter
                                 source: getStatusIco(orderStatus)
                                 fillMode: Image.PreserveAspectFit
@@ -111,7 +316,7 @@ Page {
                                 width: parent.width - statusImage.width - parent.spacing
                                 anchors.verticalCenter: parent.verticalCenter
                                 font {
-                                    pixelSize: 0.07 * parent.width
+                                    pixelSize: 0.055 * parent.width
                                     family: "Roboto"
                                     styleName: "normal"
                                 }
@@ -138,7 +343,7 @@ Page {
                                     Image {
                                         id: retryImage
                                         width: statusImage.width
-                                        height: statusImage.height
+                                        height: width
                                         anchors.verticalCenter: parent.verticalCenter
                                         source: "qrc:/ico/settings/update_blue.png"
                                         fillMode: Image.PreserveAspectFit
@@ -146,10 +351,10 @@ Page {
 
                                     Label {
                                         id: retryLabel
-                                        text: qsTr("ПОВТОРИТЬ")
+                                        text: qsTr("ПОВТОРИТЬ ПОПЫТКУ")
                                         anchors.verticalCenter: parent.verticalCenter
                                         font {
-                                            pixelSize: 0.8 * statusLabel.font.pixelSize
+                                            pixelSize: 0.0336 * purchaseParamsColumn.width
                                             family: "Roboto"
                                             styleName: "normal"
                                         }
@@ -171,7 +376,7 @@ Page {
 
                         Column {
                             width: 0.5 * parent.width
-                            spacing: 0.5 * orderColumn.spacing
+                            spacing: 0.5 * purchaseParamsColumn.spacing
                             anchors.verticalCenter: totalLabel
 
                             Row {
@@ -181,7 +386,7 @@ Page {
                                     id: numberLabel
                                     text: qsTr("№ " + number + " ")
                                     font {
-                                        pixelSize: 1.1 * statusLabel.font.pixelSize
+                                        pixelSize: 0.0462 * purchaseParamsColumn.width
                                         family: "Roboto"
                                         styleName: Font.DemiBold
                                     }
@@ -210,10 +415,11 @@ Page {
                                 text: qsTr(buyersContacts)
                                 width: parent.width
                                 font {
-                                    pixelSize: 0.8 * statusLabel.font.pixelSize
+                                    pixelSize: 0.0336 * purchaseParamsColumn.width
                                     family: "Roboto"
                                     styleName: "normal"
                                 }
+                                lineHeight: 1.3
                                 color: statusLabel.color
                                 horizontalAlignment: statusLabel.horizontalAlignment
                                 verticalAlignment: statusLabel.verticalAlignment
@@ -235,87 +441,145 @@ Page {
                         }
                     }
 
-                    Column {
+                    SaleComponents.Line {
                         width: parent.width
-                        topPadding: parent.topPadding
+                        color: "#E0E0E0"
+                    }
+                }
 
-                        SaleComponents.Line {
-                            id: positionSeparator
-                            width: parent.width
-                            visible: model.index < (ordersView.count - 1)
-                            color: "#E0E0E0"
+                Column {
+                    id: checkColumn
+                    width: swipeDelegate.width
+                    height: 0.95 * swipeDelegate.height
+                    anchors.centerIn: parent
+                    visible: purchasesParamsListView.checkMode
+
+                    Rectangle {
+                        id: checkRect
+                        anchors.fill: parent
+                        visible: swipeDelegate.isChecked
+                        color: "#C4C4C4"
+                        radius: 8
+                        opacity: 0
+                        states: State {
+                            name: "enable"; when: purchasesParamsListView.checkMode
+                            PropertyChanges {
+                                target: checkRect
+                                opacity: 0.4
+                            }
+                        }
+                        transitions: Transition {
+                            from: ""; to: "enable"
+                            reversible: true
+
+                            PropertyAnimation {
+                                properties: "opacity"
+                                easing.type: Easing.InOutQuad
+                                duration: 500
+                            }
+                        }
+                    }
+
+                    Image {
+                        id: tileCheckIco
+                        width: 0.075 * parent.width
+                        height: width
+                        transformOrigin: Item.Center
+                        scale: 0
+                        anchors {
+                            right: parent.right
+                            rightMargin: 0.5 * width
+                            top: parent.top
+                            topMargin: 0.15 * width
+                        }
+                        source: swipeDelegate.isChecked ? "qrc:/ico/tiles/tileCheckOn" : "qrc:/ico/tiles/tileCheckOff"
+                        states: State {
+                            name: "enable"; when: purchasesParamsListView.checkMode
+                            PropertyChanges {
+                                target: tileCheckIco
+                                scale: 1.0
+                            }
+                        }
+                        transitions: Transition {
+                            from: ""; to: "enable"
+                            reversible: true
+
+                            PropertyAnimation {
+                                properties: "scale"
+                                easing.type: Easing.InOutQuad
+                                duration: 500
+                            }
                         }
                     }
                 }
-                onClicked: {
-                    printedPurchase.open()
-                }
             }
+
             ScrollBar.vertical: ScrollBar {
                 id: scroll
                 policy: ScrollBar.AsNeeded
                 width: 4
             }
         }
+    }
 
-        Column {
-            anchors.fill: parent
-            visible: !ordersView.visible
-            topPadding: 0.21 * parent.height
-            spacing: 2 * infoMsg.font.pixelSize
+    Column {
+        anchors.fill: parent
+        visible: !purchasesParamsListView.visible
+        topPadding: 0.21 * parent.height
+        spacing: 2 * infoMsg.font.pixelSize
 
-            Label {
-                id: infoMsg
-                width: 0.72 * parent.width
-                anchors.horizontalCenter: parent.horizontalCenter
-                text: qsTr("Здесь будет список заказов отправленных на облачную кассу")
+        Label {
+            id: infoMsg
+            width: 0.72 * parent.width
+            anchors.horizontalCenter: parent.horizontalCenter
+            text: qsTr("Здесь будет список заказов отправленных на облачную кассу")
+            font {
+                pixelSize: 0.04 * parent.width
+                family: "Roboto"
+                styleName: "normal"
+            }
+            color: "#979797"
+            elide: Label.ElideRight
+            maximumLineCount: 3
+            wrapMode: Label.WordWrap
+            horizontalAlignment: Qt.AlignHCenter
+            verticalAlignment: Qt.AlignVCenter
+        }
+
+        Button {
+            id: go2saleButton
+            height: 2 * go2saleMsg.contentHeight
+            width: infoMsg.width
+            anchors.horizontalCenter: infoMsg.horizontalCenter
+            background: Label {
+                id: go2saleMsg
+                width: parent.width
+                text: qsTr("ПЕРЕЙТИ К ФОРМИРОВАНИЮ ЗАКАЗА")
                 font {
-                    pixelSize: 0.04 * parent.width
+                    pixelSize: 0.8 * infoMsg.font.pixelSize
                     family: "Roboto"
                     styleName: "normal"
                 }
-                color: "#979797"
+                color: "#0064B4"
                 elide: Label.ElideRight
-                maximumLineCount: 3
-                wrapMode: Label.WordWrap
                 horizontalAlignment: Qt.AlignHCenter
                 verticalAlignment: Qt.AlignVCenter
             }
-
-            Button {
-                id: go2saleButton
-                height: 2 * go2saleMsg.contentHeight
-                width: infoMsg.width
-                anchors.horizontalCenter: infoMsg.horizontalCenter
-                background: Label {
-                    id: go2saleMsg
-                    width: parent.width
-                    text: qsTr("ПЕРЕЙТИ К ФОРМИРОВАНИЮ ЗАКАЗА")
-                    font {
-                        pixelSize: 0.8 * infoMsg.font.pixelSize
-                        family: "Roboto"
-                        styleName: "normal"
-                    }
-                    color: "#0064B4"
-                    elide: Label.ElideRight
-                    horizontalAlignment: Qt.AlignHCenter
-                    verticalAlignment: Qt.AlignVCenter
-                }
-                onClicked: { rootStack.pop(null) }
-            }
+            onClicked: { rootStack.pop(null) }
         }
+    }
 
-        Image {
-            id: girl
-            width: 0.38 * parent.width
-            height: 1.45 * width
-            anchors {
-                bottom: parent.bottom
-                right: parent.right
-            }
-            source: "qrc:/ico/settings/girl.png"
-            fillMode: Image.PreserveAspectCrop
+    Image {
+        id: girl
+        visible: !purchasesParamsListView.visible
+        width: 0.38 * parent.width
+        height: 1.45 * width
+        anchors {
+            bottom: parent.bottom
+            right: parent.right
         }
+        source: "qrc:/ico/settings/girl.png"
+        fillMode: Image.PreserveAspectCrop
     }
 
     SaleComponents.PrintedPurchase { id: printedPurchase }
