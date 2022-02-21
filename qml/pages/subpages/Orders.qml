@@ -21,7 +21,7 @@ Page {
             setAddRightMenuButtonIco("qrc:/ico/menu/calendar.png")
 //            setAddRightMenuButton2Action()
 //            setAddRightMenuButton2ico()
-            setToolbarVisible(true)
+            setToolbarWithoutShadow(true)
         }
     }
 
@@ -208,7 +208,16 @@ Page {
         }
     }
 
+    header: SaleComponents.MyTextInput {
+        id: findPurchaseInput
+        visible: purchasesParamsListView.visible
+        defaultText: "ФД, ФПД чека или товар"
+        onChangeText: {
+        }
+    }
     contentData: Column {
+        width: parent.width
+        height: parent.height - parent.header.height
         anchors.fill: parent
         topPadding: 0.025 * parent.width
 
@@ -228,8 +237,11 @@ Page {
                 setRightMenuButtonVisible(visible)
                 setAddRightMenuButtonVisible(visible)
 
-                if (!visible) {
+                if (visible) {
+                    setToolbarWithoutShadow(true)
+                } else {
                     checkMode = false
+                    setToolbarVisible(true)
                 }
             }
 

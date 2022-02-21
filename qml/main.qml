@@ -210,9 +210,9 @@ ApplicationWindow {
         contextButton.visible = false
     }
 
-
-    function setToolBarShadow(visible) {
-        toolBarShadow.visible = visible
+    function setToolbarWithoutShadow(visible) {
+        toolBarShadow.visible = false
+        toolBar.visible = visible
     }
 
     function setToolbarVisible(visible) {
