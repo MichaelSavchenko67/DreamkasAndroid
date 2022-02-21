@@ -17,6 +17,10 @@ Page {
             resetAddRightMenuButton()
             setRightMenuButtonIco("qrc:/ico/menu/delete.png")
             setRightMenuButtonAction(openDeleteMenu)
+            setAddRightMenuButtonAction(openCalendar)
+            setAddRightMenuButtonIco("qrc:/ico/menu/calendar.png")
+//            setAddRightMenuButton2Action()
+//            setAddRightMenuButton2ico()
             setToolbarVisible(true)
         }
     }
@@ -45,6 +49,7 @@ Page {
         for (var i = 0; i <= purchasesParamsListView.count; i++) {
             purchasesParamsListView.contentItem.children[i].isChecked = false;
         }
+        purchasesParamsListView.checkedPurchasesCnt = 0
     }
 
     function delCheckedPurchases() {
@@ -61,6 +66,7 @@ Page {
             }
         }
         deleteMenu.checkedPurchasesCnt = purchasesParamsListView.checkedPurchasesCnt
+        purchasesParamsListView.checkMode = false
     }
 
     SettingsComponents.CustomMenu {
@@ -100,6 +106,18 @@ Page {
     Action {
         id: openDeleteMenu
         onTriggered: { deleteMenu.open() }
+    }
+
+    SettingsComponents.PopupDate {
+        id: popupDate
+        anchors.centerIn: parent
+        isIntervalEnable: true
+        minDate: new Date(curDate.getFullYear(), curDate.getMonth() - 3, curDate.getDate())
+    }
+
+    Action {
+        id: openCalendar
+        onTriggered: { popupDate.open() }
     }
 
     Action {
@@ -181,7 +199,7 @@ Page {
         property int cnt: 1
 
         onTriggered: {
-            if (purchasesParamsListModel.count >= 3) {
+            if (purchasesParamsListModel.count >= 5) {
                 running = false
             } else {
                 console.log("purchasesParamsListModel.append")
@@ -203,6 +221,15 @@ Page {
             onCheckModeChanged: {
                 if (!checkMode) {
                     resetCheckedPurchases()
+                }
+            }
+
+            onVisibleChanged: {
+                setRightMenuButtonVisible(visible)
+                setAddRightMenuButtonVisible(visible)
+
+                if (!visible) {
+                    checkMode = false
                 }
             }
 

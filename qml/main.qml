@@ -187,7 +187,7 @@ ApplicationWindow {
     function resetAddRightMenuButton2() {
         addRightButton2.action = null
         addRightButton2.visible = false
-        addRightButton2.icon.source = ""
+        setAddRightMenuButton2ico("")
     }
 
     function setAddRightMenuButton2Action(action) {
@@ -196,6 +196,10 @@ ApplicationWindow {
 
     function setAddRightMenuButton2ico(icoPath) {
         addRightButton2.icon.source = icoPath
+    }
+
+    function setAddRightMenuButton2visible(visible) {
+        addRightButton2.visible = visible
     }
 
     function setHeaderTitleButtonVisible(visible) {

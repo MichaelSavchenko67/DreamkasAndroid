@@ -249,5 +249,6 @@
         <file>qml/components/settings/ButtonSet.qml</file>
         <file>qml/components/settings/NdsChoose.qml</file>
         <file>qml/components/settings/CustomMenuSubtitle.qml</file>
+        <file>ico/menu/calendar.png</file>
     </qresource>
 </RCC>
