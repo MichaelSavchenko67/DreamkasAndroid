@@ -250,5 +250,7 @@
         <file>qml/components/settings/NdsChoose.qml</file>
         <file>qml/components/settings/CustomMenuSubtitle.qml</file>
         <file>ico/menu/calendar.png</file>
+        <file>qml/components/sale/QrCodePopup.qml</file>
+        <file>ico/menu/calendar_grey.png</file>
     </qresource>
 </RCC>

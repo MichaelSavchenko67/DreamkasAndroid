@@ -28,6 +28,14 @@ Popup {
         return choosenDate.toLocaleDateString(Qt.locale("ru_RU"))
     }
 
+    function reset() {
+        curDate = new Date()
+        minDate = new Date(curDate.getFullYear() - 1, curDate.getMonth(), curDate.getDate())
+        choosenDate = curDate
+        beginDate = undefined
+        endDate = undefined
+    }
+
     width: 0.963 * parent.width
     height: 1.386 * width
     x: 0.5 * (parent.width - width)

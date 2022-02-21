@@ -8,7 +8,33 @@ import "qrc:/qml/components/settings" as SettingsComponents
 Page {
     id: purchasesPage
     anchors.fill: parent
-
+    states: [
+        State {
+            name: "loading"
+            PropertyChanges { target: findPurchaseInput; visible: false }
+            PropertyChanges { target: purchasesParamsListView; visible: false }
+            PropertyChanges { target: purchasesNotFoundColumn; visible: false }
+            PropertyChanges { target: girl; visible: false }
+            PropertyChanges { target: loaderColumn; visible: true }
+        },
+        State {
+            name: "viewPurchases"
+            PropertyChanges { target: loaderColumn; visible: false }
+            PropertyChanges { target: purchasesNotFoundColumn; visible: false }
+            PropertyChanges { target: girl; visible: false }
+            PropertyChanges { target: findPurchaseInput; visible: true }
+            PropertyChanges { target: purchasesParamsListView; visible: true }
+        },
+        State {
+            name: "purchasesNotFound"
+            PropertyChanges { target: loaderColumn; visible: false }
+            PropertyChanges { target: findPurchaseInput; visible: false }
+            PropertyChanges { target: purchasesParamsListView; visible: false }
+            PropertyChanges { target: purchasesNotFoundColumn; visible: true }
+            PropertyChanges { target: girl; visible: true }
+        }
+    ]
+    state: "loading"
     onFocusChanged: {
         if (focus) {
             console.log("[Orders.qml]\tfocus changed: " + focus)
@@ -19,8 +45,8 @@ Page {
             setRightMenuButtonAction(openDeleteMenu)
             setAddRightMenuButtonAction(openCalendar)
             setAddRightMenuButtonIco("qrc:/ico/menu/calendar.png")
-//            setAddRightMenuButton2Action()
-//            setAddRightMenuButton2ico()
+            //            setAddRightMenuButton2Action()
+            //            setAddRightMenuButton2ico()
             setToolbarWithoutShadow(true)
         }
     }
@@ -113,6 +139,10 @@ Page {
         anchors.centerIn: parent
         isIntervalEnable: true
         minDate: new Date(curDate.getFullYear(), curDate.getMonth() - 3, curDate.getDate())
+        onClosed: {
+            periodLabelRow.visible = !(isNaN(popupDate.beginDate) || isNaN(popupDate.endDate))
+            periodLabel.text = (periodLabelRow.visible ? popupDate.getConfirmButtonTxt() : "")
+        }
     }
 
     Action {
@@ -192,14 +222,26 @@ Page {
     }
 
     Timer {
+        id: loadingTimer
+        interval: 2000
+        running: true
+        onTriggered: {
+            state = "viewPurchases"
+            appendPurchasesTimer.running = true
+//            state = "purchasesNotFound"
+        }
+    }
+
+    Timer {
+        id: appendPurchasesTimer
         interval: 250
         repeat: true
-        running: true
+        running: false
 
         property int cnt: 1
 
         onTriggered: {
-            if (purchasesParamsListModel.count >= 5) {
+            if (purchasesParamsListModel.count >= 3) {
                 running = false
             } else {
                 console.log("purchasesParamsListModel.append")
@@ -210,7 +252,7 @@ Page {
 
     header: SaleComponents.MyTextInput {
         id: findPurchaseInput
-        visible: purchasesParamsListView.visible
+        visible: false
         defaultText: "ФД, ФПД чека или товар"
         onChangeText: {
         }
@@ -219,7 +261,41 @@ Page {
         width: parent.width
         height: parent.height - parent.header.height
         anchors.fill: parent
-        topPadding: 0.025 * parent.width
+        topPadding: (periodLabelRow.visible ? 0 : 0.025 * parent.width)
+        spacing: 0
+
+        Row {
+            id: periodLabelRow
+            width: purchaseParamsColumn.width
+            height: periodLabel.contentHeight + 0.0756 * parent.width
+            leftPadding: 0.05 * parent.width
+            visible: false
+            spacing: 0.5 * periodLabel.font.pixelSize
+
+            onVisibleChanged: {
+                parent.topPadding = (periodLabelRow.visible ? 0 : 0.025 * parent.width)
+                purchasesParamsListView.height = parent.height - (periodLabelRow.visible ? periodLabelRow.height : 0)
+            }
+
+            Image {
+                anchors.verticalCenter: parent.verticalCenter
+                height: periodLabel.font.pixelSize
+                width: height
+                fillMode: Image.PreserveAspectFit
+                source: "qrc:/ico/menu/calendar_grey.png"
+            }
+
+            Label {
+                id: periodLabel
+                anchors.verticalCenter: parent.verticalCenter
+                font: numberLabel.font
+                color: "#000000"
+                opacity: 0.54
+                elide: Label.ElideRight
+                horizontalAlignment: Qt.AlignLeft
+                verticalAlignment: Qt.AlignVCenter
+            }
+        }
 
         ListView {
             id: purchasesParamsListView
@@ -234,24 +310,38 @@ Page {
             }
 
             onVisibleChanged: {
+                console.log("THIS onVisibleChanged: " + visible)
                 setRightMenuButtonVisible(visible)
                 setAddRightMenuButtonVisible(visible)
 
                 if (visible) {
                     setToolbarWithoutShadow(true)
+                    periodLabelRow.visible = !(isNaN(popupDate.beginDate) || isNaN(popupDate.endDate))
                 } else {
                     checkMode = false
                     setToolbarVisible(true)
+                    periodLabelRow.visible = false
+                    popupDate.reset()
                 }
             }
 
-            anchors.fill: parent
+            width: parent.width
+            height: parent.height -
+                    (periodLabelRow.visible ? periodLabelRow.height : 0) -
+                    parent.topPadding
             visible: (purchasesParamsListModel.count > 0)
             anchors.horizontalCenter: parent.horizontalCenter
             clip: true
             cacheBuffer: 100 * 0.15 * purchasesParamsListView.height
             add: Transition { NumberAnimation { properties: "scale"; from: 0; to: 1; easing.type: Easing.InOutQuad } }
-            model: ListModel { id: purchasesParamsListModel }
+            model: ListModel {
+                id: purchasesParamsListModel
+                onCountChanged: {
+                    if (count <= 0) {
+                        state = "purchasesNotFound"
+                    }
+                }
+            }
             delegate: SwipeDelegate {
                 id: swipeDelegate
 
@@ -288,6 +378,7 @@ Page {
                         value: false
                     }
                 }
+                swipe.enabled: !purchasesParamsListView.checkMode
                 swipe.right: Rectangle {
                     id: deleteFrame
                     width: parent.width
@@ -313,12 +404,13 @@ Page {
                         purchasesParamsListView.currentIndex = index
                         purchasesParamsListView.currentItem.isChecked = !purchasesParamsListView.currentItem.isChecked
                     } else {
-                        printedPurchase.open()
+                        qrCodePopup.open()
                     }
                 }
 
                 SaleComponents.Line {
-                    width: parent.width
+                    width: purchaseParamsColumn.width
+                    anchors.horizontalCenter: parent.horizontalCenter
                     visible: (model.index === 0)
                     color: "#E0E0E0"
                 }
@@ -562,8 +654,38 @@ Page {
     }
 
     Column {
+        id: loaderColumn
         anchors.fill: parent
-        visible: !purchasesParamsListView.visible
+        visible: false
+        spacing: loader.height
+        topPadding: (height - (loader.height + loaderMsg.contentHeight + spacing)) / 2
+
+        BusyIndicator {
+            id: loader
+            implicitWidth: 0.1 * parent.width
+            implicitHeight: implicitWidth
+            anchors.horizontalCenter: parent.horizontalCenter
+            running: loaderColumn.visible
+            Material.accent: "#5C7490"
+        }
+
+        Label {
+            id: loaderMsg
+            width: infoMsg.width
+            anchors.horizontalCenter: parent.horizontalCenter
+            text: qsTr("Загрузка чеков")
+            font: infoMsg.font
+            color: "black"
+            elide: infoMsg.elide
+            horizontalAlignment: Label.AlignHCenter
+            verticalAlignment: Label.AlignVCenter
+        }
+    }
+
+    Column {
+        id: purchasesNotFoundColumn
+        anchors.fill: parent
+        visible: false
         topPadding: 0.21 * parent.height
         spacing: 2 * infoMsg.font.pixelSize
 
@@ -571,7 +693,7 @@ Page {
             id: infoMsg
             width: 0.72 * parent.width
             anchors.horizontalCenter: parent.horizontalCenter
-            text: qsTr("Здесь будет список заказов отправленных на облачную кассу")
+            text: qsTr("Здесь будет список чеков")
             font {
                 pixelSize: 0.04 * parent.width
                 family: "Roboto"
@@ -593,7 +715,7 @@ Page {
             background: Label {
                 id: go2saleMsg
                 width: parent.width
-                text: qsTr("ПЕРЕЙТИ К ФОРМИРОВАНИЮ ЗАКАЗА")
+                text: qsTr("ПЕРЕЙТИ К ФОРМИРОВАНИЮ ЧЕКА")
                 font {
                     pixelSize: 0.8 * infoMsg.font.pixelSize
                     family: "Roboto"
@@ -610,7 +732,7 @@ Page {
 
     Image {
         id: girl
-        visible: !purchasesParamsListView.visible
+        visible: false
         width: 0.38 * parent.width
         height: 1.45 * width
         anchors {
@@ -619,6 +741,15 @@ Page {
         }
         source: "qrc:/ico/settings/girl.png"
         fillMode: Image.PreserveAspectCrop
+    }
+
+    SaleComponents.QrCodePopup {
+        id: qrCodePopup
+        src: "qrc:/ico/purchase/qr_code_example.png"
+        onOpenPrintedPurchase: {
+            close()
+            printedPurchase.open()
+        }
     }
 
     SaleComponents.PrintedPurchase { id: printedPurchase }
