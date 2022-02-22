@@ -250,7 +250,7 @@ Page {
         onTriggered: {
             state = "viewPurchases"
             appendPurchasesTimer.running = true
-//            state = "purchasesNotFound"
+            //            state = "purchasesNotFound"
             //            state = "emptyPurchasesDb"
         }
     }

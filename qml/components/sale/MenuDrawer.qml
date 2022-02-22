@@ -128,7 +128,7 @@ Drawer {
                     "Закрыть смену": function() { root.closeShiftDialog() },
                     "Кабинет Дримкас": function() { root.openPage("qrc:/qml/pages/subpages/CabinetConnection.qml") },
                     "Пользователи": function() { root.openPage("qrc:/qml/pages/subpages/users/UsersPage.qml") },
-                    "Чеки и заказы": function() { root.openPage("qrc:/qml/pages/subpages/Orders.qml") },
+                    "Чеки и заказы": function() { root.openPage("qrc:/qml/pages/subpages/PurchasesStorage.qml") },
                     "Банковский терминал": function() { root.openPage("qrc:/qml/pages/subpages/settings/Multipos.qml") },
                     "Сервисные операции": function() { root.openPage("qrc:/qml/pages/subpages/settings/MultiposService.qml") },
                     "СНО и НДС": function() { root.openPage("qrc:/qml/pages/subpages/DefaultSno.qml") },
