@@ -11,30 +11,51 @@ Page {
     states: [
         State {
             name: "loading"
+            PropertyChanges { target: progressBarFrame; visible: true }
+            PropertyChanges { target: progressBar; isRunning: true }
             PropertyChanges { target: findPurchaseInput; visible: false }
             PropertyChanges { target: purchasesParamsListView; visible: false }
             PropertyChanges { target: purchasesNotFoundColumn; visible: false }
             PropertyChanges { target: girl; visible: false }
-            PropertyChanges { target: loaderColumn; visible: true }
         },
         State {
             name: "viewPurchases"
-            PropertyChanges { target: loaderColumn; visible: false }
+            PropertyChanges { target: progressBarFrame; visible: true }
+            PropertyChanges { target: progressBar; isRunning: false }
             PropertyChanges { target: purchasesNotFoundColumn; visible: false }
             PropertyChanges { target: girl; visible: false }
             PropertyChanges { target: findPurchaseInput; visible: true }
             PropertyChanges { target: purchasesParamsListView; visible: true }
         },
         State {
-            name: "purchasesNotFound"
-            PropertyChanges { target: loaderColumn; visible: false }
+            name: "emptyPurchasesDb"
+            PropertyChanges { target: progressBar; isRunning: false }
+            PropertyChanges { target: progressBarFrame; visible: false }
             PropertyChanges { target: findPurchaseInput; visible: false }
             PropertyChanges { target: purchasesParamsListView; visible: false }
+            PropertyChanges { target: infoMsg; text: qsTr("Здесь будет список чеков") }
+            PropertyChanges { target: go2saleButton; visible: true }
             PropertyChanges { target: purchasesNotFoundColumn; visible: true }
             PropertyChanges { target: girl; visible: true }
+        },
+        State {
+            name: "purchasesNotFound"
+            PropertyChanges { target: progressBar; isRunning: false }
+            PropertyChanges { target: progressBarFrame; visible: false }
+            PropertyChanges { target: findPurchaseInput; visible: false }
+            PropertyChanges { target: purchasesParamsListView; visible: false }
+            PropertyChanges { target: infoMsg; text: qsTr("Чеки с заданными параметрами не найдены") }
+            PropertyChanges { target: go2saleButton; visible: false }
+            PropertyChanges { target: purchasesNotFoundColumn; visible: true }
+            PropertyChanges { target: girl; visible: false }
         }
     ]
     state: "loading"
+    onStateChanged: {
+        if (state === "emptyPurchasesDb") {
+            setToolbarShadow(true)
+        }
+    }
     onFocusChanged: {
         if (focus) {
             console.log("[Orders.qml]\tfocus changed: " + focus)
@@ -47,7 +68,8 @@ Page {
             setAddRightMenuButtonIco("qrc:/ico/menu/calendar.png")
             //            setAddRightMenuButton2Action()
             //            setAddRightMenuButton2ico()
-            setToolbarWithoutShadow(true)
+            setToolbarVisible(true)
+            setToolbarShadow(false)
         }
     }
 
@@ -229,6 +251,7 @@ Page {
             state = "viewPurchases"
             appendPurchasesTimer.running = true
 //            state = "purchasesNotFound"
+            //            state = "emptyPurchasesDb"
         }
     }
 
@@ -253,432 +276,419 @@ Page {
     header: SaleComponents.MyTextInput {
         id: findPurchaseInput
         visible: false
+        isUseShadow: false
         defaultText: "ФД, ФПД чека или товар"
         onChangeText: {
         }
     }
     contentData: Column {
         width: parent.width
-        height: parent.height - parent.header.height
-        anchors.fill: parent
-        topPadding: (periodLabelRow.visible ? 0 : 0.025 * parent.width)
+        height: parent.height - findPurchaseInput.height
         spacing: 0
 
-        Row {
-            id: periodLabelRow
-            width: purchaseParamsColumn.width
-            height: periodLabel.contentHeight + 0.0756 * parent.width
-            leftPadding: 0.05 * parent.width
-            visible: false
-            spacing: 0.5 * periodLabel.font.pixelSize
+        Rectangle {
+            id: progressBarFrame
+            color: "#5C7490"
+            implicitWidth: parent.width
+            implicitHeight: 12
 
-            onVisibleChanged: {
-                parent.topPadding = (periodLabelRow.visible ? 0 : 0.025 * parent.width)
-                purchasesParamsListView.height = parent.height - (periodLabelRow.visible ? periodLabelRow.height : 0)
-            }
-
-            Image {
-                anchors.verticalCenter: parent.verticalCenter
-                height: periodLabel.font.pixelSize
-                width: height
-                fillMode: Image.PreserveAspectFit
-                source: "qrc:/ico/menu/calendar_grey.png"
-            }
-
-            Label {
-                id: periodLabel
-                anchors.verticalCenter: parent.verticalCenter
-                font: numberLabel.font
-                color: "#000000"
-                opacity: 0.54
-                elide: Label.ElideRight
-                horizontalAlignment: Qt.AlignLeft
-                verticalAlignment: Qt.AlignVCenter
+            SettingsComponents.CustomProgressBar {
+                id: progressBar
+                isUseShadow: true
             }
         }
 
-        ListView {
-            id: purchasesParamsListView
-
-            property bool checkMode: false
-            property int checkedPurchasesCnt: 0
-
-            onCheckModeChanged: {
-                if (!checkMode) {
-                    resetCheckedPurchases()
-                }
-            }
-
-            onVisibleChanged: {
-                console.log("THIS onVisibleChanged: " + visible)
-                setRightMenuButtonVisible(visible)
-                setAddRightMenuButtonVisible(visible)
-
-                if (visible) {
-                    setToolbarWithoutShadow(true)
-                    periodLabelRow.visible = !(isNaN(popupDate.beginDate) || isNaN(popupDate.endDate))
-                } else {
-                    checkMode = false
-                    setToolbarVisible(true)
-                    periodLabelRow.visible = false
-                    popupDate.reset()
-                }
-            }
-
+        Column {
             width: parent.width
-            height: parent.height -
-                    (periodLabelRow.visible ? periodLabelRow.height : 0) -
-                    parent.topPadding
-            visible: (purchasesParamsListModel.count > 0)
-            anchors.horizontalCenter: parent.horizontalCenter
-            clip: true
-            cacheBuffer: 100 * 0.15 * purchasesParamsListView.height
-            add: Transition { NumberAnimation { properties: "scale"; from: 0; to: 1; easing.type: Easing.InOutQuad } }
-            model: ListModel {
-                id: purchasesParamsListModel
-                onCountChanged: {
-                    if (count <= 0) {
-                        state = "purchasesNotFound"
-                    }
+            height: parent.height - progressBar.height
+            spacing: 0
+            topPadding: (periodLabelRow.visible ? 0 : 0.025 * parent.width)
+
+            Row {
+                id: periodLabelRow
+                width: purchaseParamsColumn.width
+                height: periodLabel.contentHeight + 0.0756 * parent.width
+                leftPadding: 0.05 * parent.width
+                visible: false
+                spacing: 0.5 * periodLabel.font.pixelSize
+
+                onVisibleChanged: {
+                    parent.topPadding = (periodLabelRow.visible ? 0 : 0.025 * parent.width)
+                    purchasesParamsListView.height = parent.height - (periodLabelRow.visible ? periodLabelRow.height : 0)
+                }
+
+                Image {
+                    anchors.verticalCenter: parent.verticalCenter
+                    height: periodLabel.font.pixelSize
+                    width: height
+                    fillMode: Image.PreserveAspectFit
+                    source: "qrc:/ico/menu/calendar_grey.png"
+                }
+
+                Label {
+                    id: periodLabel
+                    anchors.verticalCenter: parent.verticalCenter
+                    font: numberLabel.font
+                    color: "#000000"
+                    opacity: 0.54
+                    elide: Label.ElideRight
+                    horizontalAlignment: Qt.AlignLeft
+                    verticalAlignment: Qt.AlignVCenter
                 }
             }
-            delegate: SwipeDelegate {
-                id: swipeDelegate
 
-                property bool isChecked: false
+            ListView {
+                id: purchasesParamsListView
 
-                onIsCheckedChanged: {
-                    model.isChecked = isChecked
+                property bool checkMode: false
+                property int checkedPurchasesCnt: 0
 
-                    if (isChecked) {
-                        purchasesParamsListView.checkedPurchasesCnt++
-                    } else {
-                        purchasesParamsListView.checkedPurchasesCnt--
+                onCheckModeChanged: {
+                    if (!checkMode) {
+                        resetCheckedPurchases()
                     }
-                    deleteMenu.checkedPurchasesCnt = purchasesParamsListView.checkedPurchasesCnt
+                }
+
+                onVisibleChanged: {
+                    console.log("THIS onVisibleChanged: " + visible)
+                    setRightMenuButtonVisible(visible)
+                    setAddRightMenuButtonVisible(visible)
+
+                    if (visible) {
+                        periodLabelRow.visible = !(isNaN(popupDate.beginDate) || isNaN(popupDate.endDate))
+                    } else {
+                        checkMode = false
+                        periodLabelRow.visible = false
+                        popupDate.reset()
+                    }
                 }
 
                 width: parent.width
-                height: purchaseParamsColumn.height
-                ListView.onRemove: SequentialAnimation {
-                    PropertyAction {
-                        target: swipeDelegate
-                        property: "ListView.delayRemove"
-                        value: true
-                    }
-                    NumberAnimation {
-                        target: swipeDelegate
-                        property: "height"
-                        to: 0
-                        easing.type: Easing.InOutQuad
-                    }
-                    PropertyAction {
-                        target: swipeDelegate
-                        property: "ListView.delayRemove"
-                        value: false
+                height: parent.height -
+                        (periodLabelRow.visible ? periodLabelRow.height : 0) -
+                        parent.topPadding
+                visible: (purchasesParamsListModel.count > 0)
+                anchors.horizontalCenter: parent.horizontalCenter
+                clip: true
+                cacheBuffer: 100 * 0.15 * purchasesParamsListView.height
+                add: Transition { NumberAnimation { properties: "scale"; from: 0; to: 1; easing.type: Easing.InOutQuad } }
+                model: ListModel {
+                    id: purchasesParamsListModel
+                    onCountChanged: {
+                        if (count <= 0) {
+                            state = "emptyPurchasesDb"
+                        }
                     }
                 }
-                swipe.enabled: !purchasesParamsListView.checkMode
-                swipe.right: Rectangle {
-                    id: deleteFrame
+                delegate: SwipeDelegate {
+                    id: swipeDelegate
+
+                    property bool isChecked: false
+
+                    onIsCheckedChanged: {
+                        model.isChecked = isChecked
+
+                        if (isChecked) {
+                            purchasesParamsListView.checkedPurchasesCnt++
+                        } else {
+                            purchasesParamsListView.checkedPurchasesCnt--
+                        }
+                        deleteMenu.checkedPurchasesCnt = purchasesParamsListView.checkedPurchasesCnt
+                    }
+
                     width: parent.width
-                    height: parent.height
-                    anchors.right: parent.right
-                    clip: true
-                    color: "red"
-
-                    Image {
-                        height: 0.3 * parent.height
-                        width: height
-                        anchors.centerIn: parent
-                        source: "qrc:/ico/menu/delete.png"
-                        fillMode: Image.PreserveAspectFit
+                    height: purchaseParamsColumn.height
+                    ListView.onRemove: SequentialAnimation {
+                        PropertyAction {
+                            target: swipeDelegate
+                            property: "ListView.delayRemove"
+                            value: true
+                        }
+                        NumberAnimation {
+                            target: swipeDelegate
+                            property: "height"
+                            to: 0
+                            easing.type: Easing.InOutQuad
+                        }
+                        PropertyAction {
+                            target: swipeDelegate
+                            property: "ListView.delayRemove"
+                            value: false
+                        }
                     }
-                }
-                swipe.onCompleted: {
-                    purchasesParamsListView.currentIndex = index
-                    openPurchaseDeleteDialog(index, number, date)
-                }
-                onClicked: {
-                    if (purchasesParamsListView.checkMode) {
+                    swipe.enabled: !purchasesParamsListView.checkMode
+                    swipe.right: Rectangle {
+                        id: deleteFrame
+                        width: parent.width
+                        height: parent.height
+                        anchors.right: parent.right
+                        clip: true
+                        color: "red"
+
+                        Image {
+                            height: 0.3 * parent.height
+                            width: height
+                            anchors.centerIn: parent
+                            source: "qrc:/ico/menu/delete.png"
+                            fillMode: Image.PreserveAspectFit
+                        }
+                    }
+                    swipe.onCompleted: {
                         purchasesParamsListView.currentIndex = index
-                        purchasesParamsListView.currentItem.isChecked = !purchasesParamsListView.currentItem.isChecked
-                    } else {
-                        qrCodePopup.open()
+                        openPurchaseDeleteDialog(index, number, date)
                     }
-                }
-
-                SaleComponents.Line {
-                    width: purchaseParamsColumn.width
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    visible: (model.index === 0)
-                    color: "#E0E0E0"
-                }
-
-                Column {
-                    id: purchaseParamsColumn
-                    width: parent.width - 0.1 * parent.width
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    spacing: 0.021 * width
-                    topPadding: 2 * spacing
-                    clip: true
-                    opacity: 1 + swipeDelegate.swipe.position
-
-                    Row {
-                        width: parent.width
-
-                        Row {
-                            id: statusRow
-                            width: 0.6 * parent.width
-                            spacing: 0.5 * 0.021 * purchaseParamsColumn.width
-
-                            Image {
-                                id: statusImage
-                                height: statusLabel.font.pixelSize
-                                width: height
-                                anchors.verticalCenter: parent.verticalCenter
-                                source: getStatusIco(orderStatus)
-                                fillMode: Image.PreserveAspectFit
-                            }
-
-                            Label {
-                                id: statusLabel
-                                text: qsTr(getStatusMsg(orderStatus))
-                                width: parent.width - statusImage.width - parent.spacing
-                                anchors.verticalCenter: parent.verticalCenter
-                                font {
-                                    pixelSize: 0.055 * parent.width
-                                    family: "Roboto"
-                                    styleName: "normal"
-                                }
-                                color: "#979797"
-                                elide: Label.ElideRight
-                                horizontalAlignment: Qt.AlignLeft
-                                verticalAlignment: Qt.AlignVCenter
-                            }
-                        }
-
-                        Row {
-                            id: retryRow
-                            width: parent.width - statusRow.width
-                            spacing: statusRow.spacing
-                            anchors.verticalCenter: statusRow.verticalCenter
-                            visible: (orderStatus === "failed")
-                            leftPadding: width - (retryImage.width + retryLabel.contentWidth + spacing)
-
-                            Button {
-                                background: Row {
-                                    spacing: statusRow.spacing
-                                    anchors.verticalCenter: statusRow.verticalCenter
-
-                                    Image {
-                                        id: retryImage
-                                        width: statusImage.width
-                                        height: width
-                                        anchors.verticalCenter: parent.verticalCenter
-                                        source: "qrc:/ico/settings/update_blue.png"
-                                        fillMode: Image.PreserveAspectFit
-                                    }
-
-                                    Label {
-                                        id: retryLabel
-                                        text: qsTr("ПОВТОРИТЬ ПОПЫТКУ")
-                                        anchors.verticalCenter: parent.verticalCenter
-                                        font {
-                                            pixelSize: 0.0336 * purchaseParamsColumn.width
-                                            family: "Roboto"
-                                            styleName: "normal"
-                                        }
-                                        color: "#0064B4"
-                                        elide: Label.ElideRight
-                                        horizontalAlignment: Qt.AlignRight
-                                        verticalAlignment: Qt.AlignVCenter
-                                    }
-                                }
-                                onClicked: {
-                                    console.info("[Orders.qml]\t\tretry order")
-                                }
-                            }
-                        }
-                    }
-
-                    Row {
-                        width: parent.width
-
-                        Column {
-                            width: 0.5 * parent.width
-                            spacing: 0.5 * purchaseParamsColumn.spacing
-                            anchors.verticalCenter: totalLabel
-
-                            Row {
-                                width: parent.width
-
-                                Label {
-                                    id: numberLabel
-                                    text: qsTr("№ " + number + " ")
-                                    font {
-                                        pixelSize: 0.0462 * purchaseParamsColumn.width
-                                        family: "Roboto"
-                                        styleName: Font.DemiBold
-                                    }
-                                    color: "black"
-                                    elide: Label.ElideRight
-                                    horizontalAlignment: Qt.AlignLeft
-                                    verticalAlignment: Qt.AlignBottom
-                                }
-
-                                Label {
-                                    height: numberLabel.contentHeight
-                                    text: qsTr("от " + date)
-                                    font {
-                                        pixelSize: 0.7 * numberLabel.font.pixelSize
-                                        family: "Roboto"
-                                        styleName: "normal"
-                                    }
-                                    color: "black"
-                                    elide: Label.ElideRight
-                                    horizontalAlignment: Qt.AlignLeft
-                                    verticalAlignment: Qt.AlignBottom
-                                }
-                            }
-
-                            Label {
-                                text: qsTr(buyersContacts)
-                                width: parent.width
-                                font {
-                                    pixelSize: 0.0336 * purchaseParamsColumn.width
-                                    family: "Roboto"
-                                    styleName: "normal"
-                                }
-                                lineHeight: 1.3
-                                color: statusLabel.color
-                                horizontalAlignment: statusLabel.horizontalAlignment
-                                verticalAlignment: statusLabel.verticalAlignment
-                            }
-                        }
-
-                        Label {
-                            id: totalLabel
-                            width: 0.5 * parent.width
-                            text: total + "&nbsp;\u20BD"
-                            textFormat: Label.RichText
-                            font: numberLabel.font
-                            color: "black"
-                            elide: Label.ElideRight
-                            maximumLineCount: 2
-                            wrapMode: Label.WordWrap
-                            horizontalAlignment: Qt.AlignRight
-                            verticalAlignment: Qt.AlignBottom
+                    onClicked: {
+                        if (purchasesParamsListView.checkMode) {
+                            purchasesParamsListView.currentIndex = index
+                            purchasesParamsListView.currentItem.isChecked = !purchasesParamsListView.currentItem.isChecked
+                        } else {
+                            qrCodePopup.open()
                         }
                     }
 
                     SaleComponents.Line {
-                        width: parent.width
+                        width: purchaseParamsColumn.width
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        visible: (model.index === 0)
                         color: "#E0E0E0"
                     }
-                }
 
-                Column {
-                    id: checkColumn
-                    width: swipeDelegate.width
-                    height: 0.95 * swipeDelegate.height
-                    anchors.centerIn: parent
-                    visible: purchasesParamsListView.checkMode
+                    Column {
+                        id: purchaseParamsColumn
+                        width: parent.width - 0.1 * parent.width
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        spacing: 0.021 * width
+                        topPadding: 2 * spacing
+                        clip: true
+                        opacity: 1 + swipeDelegate.swipe.position
 
-                    Rectangle {
-                        id: checkRect
-                        anchors.fill: parent
-                        visible: swipeDelegate.isChecked
-                        color: "#C4C4C4"
-                        radius: 8
-                        opacity: 0
-                        states: State {
-                            name: "enable"; when: purchasesParamsListView.checkMode
-                            PropertyChanges {
-                                target: checkRect
-                                opacity: 0.4
+                        Row {
+                            width: parent.width
+
+                            Row {
+                                id: statusRow
+                                width: 0.6 * parent.width
+                                spacing: 0.5 * 0.021 * purchaseParamsColumn.width
+
+                                Image {
+                                    id: statusImage
+                                    height: statusLabel.font.pixelSize
+                                    width: height
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    source: getStatusIco(orderStatus)
+                                    fillMode: Image.PreserveAspectFit
+                                }
+
+                                Label {
+                                    id: statusLabel
+                                    text: qsTr(getStatusMsg(orderStatus))
+                                    width: parent.width - statusImage.width - parent.spacing
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    font {
+                                        pixelSize: 0.055 * parent.width
+                                        family: "Roboto"
+                                        styleName: "normal"
+                                    }
+                                    color: "#979797"
+                                    elide: Label.ElideRight
+                                    horizontalAlignment: Qt.AlignLeft
+                                    verticalAlignment: Qt.AlignVCenter
+                                }
+                            }
+
+                            Row {
+                                id: retryRow
+                                width: parent.width - statusRow.width
+                                spacing: statusRow.spacing
+                                anchors.verticalCenter: statusRow.verticalCenter
+                                visible: (orderStatus === "failed")
+                                leftPadding: width - (retryImage.width + retryLabel.contentWidth + spacing)
+
+                                Button {
+                                    background: Row {
+                                        spacing: statusRow.spacing
+                                        anchors.verticalCenter: statusRow.verticalCenter
+
+                                        Image {
+                                            id: retryImage
+                                            width: statusImage.width
+                                            height: width
+                                            anchors.verticalCenter: parent.verticalCenter
+                                            source: "qrc:/ico/settings/update_blue.png"
+                                            fillMode: Image.PreserveAspectFit
+                                        }
+
+                                        Label {
+                                            id: retryLabel
+                                            text: qsTr("ПОВТОРИТЬ ПОПЫТКУ")
+                                            anchors.verticalCenter: parent.verticalCenter
+                                            font {
+                                                pixelSize: 0.0336 * purchaseParamsColumn.width
+                                                family: "Roboto"
+                                                styleName: "normal"
+                                            }
+                                            color: "#0064B4"
+                                            elide: Label.ElideRight
+                                            horizontalAlignment: Qt.AlignRight
+                                            verticalAlignment: Qt.AlignVCenter
+                                        }
+                                    }
+                                    onClicked: {
+                                        console.info("[Orders.qml]\t\tretry order")
+                                    }
+                                }
                             }
                         }
-                        transitions: Transition {
-                            from: ""; to: "enable"
-                            reversible: true
 
-                            PropertyAnimation {
-                                properties: "opacity"
-                                easing.type: Easing.InOutQuad
-                                duration: 500
+                        Row {
+                            width: parent.width
+
+                            Column {
+                                width: 0.5 * parent.width
+                                spacing: 0.5 * purchaseParamsColumn.spacing
+                                anchors.verticalCenter: totalLabel
+
+                                Row {
+                                    width: parent.width
+
+                                    Label {
+                                        id: numberLabel
+                                        text: qsTr("№ " + number + " ")
+                                        font {
+                                            pixelSize: 0.0462 * purchaseParamsColumn.width
+                                            family: "Roboto"
+                                            styleName: Font.DemiBold
+                                        }
+                                        color: "black"
+                                        elide: Label.ElideRight
+                                        horizontalAlignment: Qt.AlignLeft
+                                        verticalAlignment: Qt.AlignBottom
+                                    }
+
+                                    Label {
+                                        height: numberLabel.contentHeight
+                                        text: qsTr("от " + date)
+                                        font {
+                                            pixelSize: 0.7 * numberLabel.font.pixelSize
+                                            family: "Roboto"
+                                            styleName: "normal"
+                                        }
+                                        color: "black"
+                                        elide: Label.ElideRight
+                                        horizontalAlignment: Qt.AlignLeft
+                                        verticalAlignment: Qt.AlignBottom
+                                    }
+                                }
+
+                                Label {
+                                    text: qsTr(buyersContacts)
+                                    width: parent.width
+                                    font {
+                                        pixelSize: 0.0336 * purchaseParamsColumn.width
+                                        family: "Roboto"
+                                        styleName: "normal"
+                                    }
+                                    lineHeight: 1.3
+                                    color: statusLabel.color
+                                    horizontalAlignment: statusLabel.horizontalAlignment
+                                    verticalAlignment: statusLabel.verticalAlignment
+                                }
                             }
+
+                            Label {
+                                id: totalLabel
+                                width: 0.5 * parent.width
+                                text: total + "&nbsp;\u20BD"
+                                textFormat: Label.RichText
+                                font: numberLabel.font
+                                color: "black"
+                                elide: Label.ElideRight
+                                maximumLineCount: 2
+                                wrapMode: Label.WordWrap
+                                horizontalAlignment: Qt.AlignRight
+                                verticalAlignment: Qt.AlignBottom
+                            }
+                        }
+
+                        SaleComponents.Line {
+                            width: parent.width
+                            color: "#E0E0E0"
                         }
                     }
 
-                    Image {
-                        id: tileCheckIco
-                        width: 0.075 * parent.width
-                        height: width
-                        transformOrigin: Item.Center
-                        scale: 0
-                        anchors {
-                            right: parent.right
-                            rightMargin: 0.5 * width
-                            top: parent.top
-                            topMargin: 0.15 * width
-                        }
-                        source: swipeDelegate.isChecked ? "qrc:/ico/tiles/tileCheckOn" : "qrc:/ico/tiles/tileCheckOff"
-                        states: State {
-                            name: "enable"; when: purchasesParamsListView.checkMode
-                            PropertyChanges {
-                                target: tileCheckIco
-                                scale: 1.0
+                    Column {
+                        id: checkColumn
+                        width: swipeDelegate.width
+                        height: 0.95 * swipeDelegate.height
+                        anchors.centerIn: parent
+                        visible: purchasesParamsListView.checkMode
+
+                        Rectangle {
+                            id: checkRect
+                            anchors.fill: parent
+                            visible: swipeDelegate.isChecked
+                            color: "#C4C4C4"
+                            radius: 8
+                            opacity: 0
+                            states: State {
+                                name: "enable"; when: purchasesParamsListView.checkMode
+                                PropertyChanges {
+                                    target: checkRect
+                                    opacity: 0.4
+                                }
+                            }
+                            transitions: Transition {
+                                from: ""; to: "enable"
+                                reversible: true
+
+                                PropertyAnimation {
+                                    properties: "opacity"
+                                    easing.type: Easing.InOutQuad
+                                    duration: 500
+                                }
                             }
                         }
-                        transitions: Transition {
-                            from: ""; to: "enable"
-                            reversible: true
 
-                            PropertyAnimation {
-                                properties: "scale"
-                                easing.type: Easing.InOutQuad
-                                duration: 500
+                        Image {
+                            id: tileCheckIco
+                            width: 0.075 * parent.width
+                            height: width
+                            transformOrigin: Item.Center
+                            scale: 0
+                            anchors {
+                                right: parent.right
+                                rightMargin: 0.5 * width
+                                top: parent.top
+                                topMargin: 0.15 * width
+                            }
+                            source: swipeDelegate.isChecked ? "qrc:/ico/tiles/tileCheckOn" : "qrc:/ico/tiles/tileCheckOff"
+                            states: State {
+                                name: "enable"; when: purchasesParamsListView.checkMode
+                                PropertyChanges {
+                                    target: tileCheckIco
+                                    scale: 1.0
+                                }
+                            }
+                            transitions: Transition {
+                                from: ""; to: "enable"
+                                reversible: true
+
+                                PropertyAnimation {
+                                    properties: "scale"
+                                    easing.type: Easing.InOutQuad
+                                    duration: 500
+                                }
                             }
                         }
                     }
                 }
+
+                ScrollBar.vertical: ScrollBar {
+                    id: scroll
+                    policy: ScrollBar.AsNeeded
+                    width: 4
+                }
             }
-
-            ScrollBar.vertical: ScrollBar {
-                id: scroll
-                policy: ScrollBar.AsNeeded
-                width: 4
-            }
-        }
-    }
-
-    Column {
-        id: loaderColumn
-        anchors.fill: parent
-        visible: false
-        spacing: loader.height
-        topPadding: (height - (loader.height + loaderMsg.contentHeight + spacing)) / 2
-
-        BusyIndicator {
-            id: loader
-            implicitWidth: 0.1 * parent.width
-            implicitHeight: implicitWidth
-            anchors.horizontalCenter: parent.horizontalCenter
-            running: loaderColumn.visible
-            Material.accent: "#5C7490"
-        }
-
-        Label {
-            id: loaderMsg
-            width: infoMsg.width
-            anchors.horizontalCenter: parent.horizontalCenter
-            text: qsTr("Загрузка чеков")
-            font: infoMsg.font
-            color: "black"
-            elide: infoMsg.elide
-            horizontalAlignment: Label.AlignHCenter
-            verticalAlignment: Label.AlignVCenter
         }
     }
 
@@ -693,7 +703,6 @@ Page {
             id: infoMsg
             width: 0.72 * parent.width
             anchors.horizontalCenter: parent.horizontalCenter
-            text: qsTr("Здесь будет список чеков")
             font {
                 pixelSize: 0.04 * parent.width
                 family: "Roboto"

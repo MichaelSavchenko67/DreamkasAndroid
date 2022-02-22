@@ -210,15 +210,15 @@ ApplicationWindow {
         contextButton.visible = false
     }
 
-    function setToolbarWithoutShadow(visible) {
-        toolBarShadow.visible = false
-        toolBar.visible = visible
+    function setToolbarShadow(visible) {
+        toolBarShadow.visible = visible
     }
 
     function setToolbarVisible(visible) {
         toolBarShadow.visible = visible
         toolBar.visible = visible
     }
+
     // MAIN POPUP
     function popupOpen() {
         popup.open()
@@ -480,8 +480,9 @@ ApplicationWindow {
         height: 0.133 * width + statusBarHeight
         visible: false
 
-        Column {
+        contentData: Column {
             anchors.fill: parent
+            spacing: 0
 
             Row {
                 id: frame
@@ -571,7 +572,7 @@ ApplicationWindow {
                 cached: true
                 samples: 1 + 2 * radius
                 horizontalOffset: 0
-                verticalOffset: 2
+                verticalOffset: 4
                 radius: 8
                 color: "#D6D6D6"
                 source: parent

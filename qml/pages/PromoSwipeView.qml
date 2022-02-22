@@ -11,7 +11,8 @@ Page {
     onFocusChanged: {
         if (focus) {
             console.log("[PromoSwipeView.qml]\tfocus changed: " + focus)
-            setToolbarWithoutShadow(true)
+            setToolbarVisible(true)
+            setToolbarShadow(false)
             setMainPageTitle("")
             setLeftMenuButtonAction(close)
             resetAddRightMenuButton()

@@ -16,7 +16,8 @@ Page {
             console.log("[SearchGoods.qml]\tfocus changed: " + focus)
             setMainPageTitle("Поиск товара")
             setLeftMenuButtonAction(back)
-            setToolbarWithoutShadow(true)
+            setToolbarVisible(true)
+            setToolbarShadow(false)
             setRightMenuButtonVisible(false)
             resetAddRightMenuButton()
         }

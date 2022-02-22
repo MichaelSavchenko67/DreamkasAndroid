@@ -12,7 +12,8 @@ Page {
     onFocusChanged: {
         if (focus) {
             console.log("[Sale.qml]\tfocus changed: " + focus)
-            setToolbarWithoutShadow(true)
+            setToolbarVisible(true)
+            setToolbarShadow(false)
             setMainPageTitle("Приход")
             setHeaderTitleButtonVisible(true)
             setLeftMenuButtonAction(openMenu)

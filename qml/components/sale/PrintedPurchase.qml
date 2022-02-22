@@ -18,6 +18,10 @@ Popup {
         contentRect.state = "loading"
         loadingTimer.running = true
     }
+    onClosed: {
+        purchaseView.visible = false
+        loadingTimer.running = false
+    }
     background: Rectangle {
         id: contentRect
         anchors.fill: parent
@@ -127,9 +131,9 @@ Popup {
                             id: loaderMsg
                             width: 0.72 * parent.width
                             anchors.horizontalCenter: parent.horizontalCenter
-                            text: qsTr("Загрузка данных чека")
+                            text: qsTr("Загрузка данных\nчека")
                             font {
-                                pixelSize: 0.04 * parent.width
+                                pixelSize: goodsNameLabel.font.pixelSize
                                 family: "Roboto"
                                 styleName: "normal"
                             }
