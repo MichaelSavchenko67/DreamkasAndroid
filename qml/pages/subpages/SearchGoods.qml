@@ -17,7 +17,7 @@ Page {
             setMainPageTitle("Поиск товара")
             setLeftMenuButtonAction(back)
             setToolbarVisible(true)
-            setToolBarShadow(false)
+            setToolbarShadow(false)
             setRightMenuButtonVisible(false)
             resetAddRightMenuButton()
         }

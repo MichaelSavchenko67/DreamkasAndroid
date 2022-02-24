@@ -15,6 +15,7 @@ Rectangle {
     property var defaultText: "Название или штрихкод"
     property var editOn: true
     property real fontSize: 0.55 * height
+    property bool isUseShadow: true
 
     signal changeText(var txt)
 
@@ -45,12 +46,13 @@ Rectangle {
             color: "#5C7490"
 
             DropShadow {
-                visible: true
+                id: dropShadow
+                visible: isUseShadow
                 anchors.fill: parent
                 cached: true
                 samples: 1 + 2 * radius
                 horizontalOffset: 0
-                verticalOffset: 2
+                verticalOffset: 4
                 radius: 8
                 color: "#D6D6D6"
                 source: parent

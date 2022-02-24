@@ -13,7 +13,7 @@ Page {
         if (focus) {
             console.log("[Sale.qml]\tfocus changed: " + focus)
             setToolbarVisible(true)
-            setToolBarShadow(false)
+            setToolbarShadow(false)
             setMainPageTitle("Приход")
             setHeaderTitleButtonVisible(true)
             setLeftMenuButtonAction(openMenu)

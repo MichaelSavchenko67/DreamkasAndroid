@@ -14,16 +14,6 @@ Page {
     property bool sectionCheckMode: false
 
     anchors.fill: parent
-//    Timer {
-//        id: checkTimer
-//        running: true
-//        repeat: true
-//        interval: 10000
-//        onTriggered: {
-//            console.log("TIMER!!!")
-//            sectionCheckMode = !sectionCheckMode
-//        }
-//    }
 
     onTilesInRowChanged: {
         tileGridView.cellWidth = parent.width / tilesInRow
