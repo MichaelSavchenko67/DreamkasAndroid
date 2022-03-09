@@ -110,7 +110,7 @@ Page {
                 width: Math.max(100, tabBar.width / ((tabs.count > 4) ? 4.5 : 4))
 
                 Label {
-                    anchors.fill: parent
+                    anchors.horizontalCenter: parent.horizontalCenter
                     text: qsTr(modelData)
                     font {
                         pixelSize: 0.4 * parent.height

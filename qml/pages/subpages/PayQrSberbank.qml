@@ -33,7 +33,7 @@ Page {
                 width: tabBar.width / 2
 
                 Label {
-                    anchors.fill: parent
+                    anchors.horizontalCenter: parent.horizontalCenter
                     text: qsTr(modelData)
                     font {
                         pixelSize: 0.4 * parent.height

@@ -10,5 +10,6 @@ Menu {
     bottomPadding: topPadding
     leftPadding: topPadding
     rightPadding: topPadding
+    x: parent.width - (width + 0.02 * toolBar.width)
     delegate: SettingsComponents.CustomMenuItem { id: menuItem }
 }

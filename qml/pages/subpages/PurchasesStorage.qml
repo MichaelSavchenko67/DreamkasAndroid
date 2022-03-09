@@ -1,4 +1,5 @@
 import QtQuick 2.15
+import QtQuick.Layouts 1.15
 import QtQuick.Controls 2.15
 import QtQuick.Controls.Material 2.15
 
@@ -33,7 +34,7 @@ Page {
             PropertyChanges { target: progressBarFrame; visible: false }
             PropertyChanges { target: findPurchaseInput; visible: false }
             PropertyChanges { target: purchasesParamsListView; visible: false }
-            PropertyChanges { target: infoMsg; text: qsTr("Здесь будет список чеков") }
+            PropertyChanges { target: infoMsg; text: qsTr("Здесь будет список " + (purchasesParamsListView.isOrders ? "заказов" : "чеков")) }
             PropertyChanges { target: go2saleButton; visible: true }
             PropertyChanges { target: purchasesNotFoundColumn; visible: true }
             PropertyChanges { target: girl; visible: true }
@@ -44,30 +45,23 @@ Page {
             PropertyChanges { target: progressBarFrame; visible: false }
             PropertyChanges { target: findPurchaseInput; visible: false }
             PropertyChanges { target: purchasesParamsListView; visible: false }
-            PropertyChanges { target: infoMsg; text: qsTr("Чеки с заданными параметрами не найдены") }
+            PropertyChanges { target: infoMsg; text: qsTr((purchasesParamsListView.isOrders ? "Заказы" : "Чеки") + " с заданными параметрами не найдены") }
             PropertyChanges { target: go2saleButton; visible: false }
             PropertyChanges { target: purchasesNotFoundColumn; visible: true }
             PropertyChanges { target: girl; visible: false }
         }
     ]
     state: "loading"
-    onStateChanged: {
-        if (state === "emptyPurchasesDb") {
-            setToolbarShadow(true)
-        }
-    }
     onFocusChanged: {
         if (focus) {
             console.log("[Orders.qml]\tfocus changed: " + focus)
             setMainPageTitle("Чеки и заказы")
             setLeftMenuButtonAction(openMenu)
             resetAddRightMenuButton()
-            setRightMenuButtonIco("qrc:/ico/menu/delete.png")
-            setRightMenuButtonAction(openDeleteMenu)
+            setRightMenuButtonIco("qrc:/ico/menu/context_menu.png")
+            setRightMenuButtonAction(openContextMenu)
             setAddRightMenuButtonAction(openCalendar)
             setAddRightMenuButtonIco("qrc:/ico/menu/calendar.png")
-            //            setAddRightMenuButton2Action()
-            //            setAddRightMenuButton2ico()
             setToolbarVisible(true)
             setToolbarShadow(false)
         }
@@ -100,60 +94,42 @@ Page {
         purchasesParamsListView.checkedPurchasesCnt = 0
     }
 
-    function delCheckedPurchases() {
+    function execForCheckedPurchases(isDelete) {
         while (purchasesParamsListView.checkedPurchasesCnt > 0) {
             for (var i = 0; i <= purchasesParamsListModel.rowCount(); i++) {
                 console.log("purchasesParamsListModel number " + purchasesParamsListModel.get(i)["number"])
                 console.log("purchasesParamsListModel isChecked " + purchasesParamsListModel.get(i)["isChecked"])
 
                 if (purchasesParamsListModel.get(i)["isChecked"]) {
-                    purchasesParamsListModel.remove(i)
+
+                    if (isDelete) {
+                        purchasesParamsListModel.remove(i)
+                    }
                     purchasesParamsListView.checkedPurchasesCnt--
                     break
                 }
             }
         }
-        deleteMenu.checkedPurchasesCnt = purchasesParamsListView.checkedPurchasesCnt
         purchasesParamsListView.checkMode = false
     }
 
     SettingsComponents.CustomMenu {
-        id: deleteMenu
+        id: contextMenu
         width: 2 / 3 * toolBar.width
-        x: parent.width - width
-        property int checkedPurchasesCnt: purchasesParamsListView.checkedPurchasesCnt
+        y: toolBar.height -
+           findPurchaseInput.height -
+           progressBar.height -
+           tabBar.height
 
-        onCheckedPurchasesCntChanged: {
-            delPurchases.enabled = (checkedPurchasesCnt > 0)
-            delPurchases.text = delPurchases.enabled ? (checkedPurchasesCnt + " чеков") : ""
-        }
+        property bool isOrders: purchasesParamsListView.isOrders
 
-        onOpened: {
-            delPurchases.enabled = (checkedPurchasesCnt > 0)
-            delPurchases.text = delPurchases.enabled ? (checkedPurchasesCnt + " чеков") : ""
-        }
-
-        SettingsComponents.CustomMenuSubtitle { subtitle: "УДАЛИТЬ" }
-
-        Action { text: qsTr("Выбрать чеки"); checkable: false; enabled: !purchasesParamsListView.checkMode; onTriggered: { purchasesParamsListView.checkMode = true; deleteMenu.close() } }
-        Action { id: delPurchases; checkable: false; enabled: (deleteMenu.checkedPurchasesCnt > 0); onTriggered: { openCheckedPurchasesDialog(deleteMenu.checkedPurchasesCnt) } }
-        Action { text: qsTr("Все чеки"); checkable: false; onTriggered: { openPurchasesDeleteAllDialog() } }
-
-        MenuSeparator {
-            visible: cancelDel.enabled
-            contentItem: Rectangle {
-                implicitWidth: deleteMenu.width - deleteMenu.leftPadding
-                implicitHeight: 1
-                color: "#ECECEC"
-            }
-        }
-
-        Action { id: cancelDel; text: qsTr("Отменить"); checkable: false; enabled: purchasesParamsListView.checkMode; onTriggered: { purchasesParamsListView.checkMode = false; deleteMenu.close() } }
+        Action { text: qsTr("Удалить " + (contextMenu.isOrders ? "заказы" : "чеки")); checkable: false; onTriggered: { openDeleteDialog() } }
+        Action { text: qsTr("Оформить чеки"); checkable: false; enabled: contextMenu.isOrders && isPrinterConnected; onTriggered: { openPrintOrdersDialog() } }
     }
 
     Action {
-        id: openDeleteMenu
-        onTriggered: { deleteMenu.open() }
+        id: openContextMenu
+        onTriggered: { contextMenu.open() }
     }
 
     SettingsComponents.PopupDate {
@@ -182,15 +158,42 @@ Page {
     }
 
     Action {
-        id: deleteCheckedPurchases
+        id: deletePurchasesDialog
+        enabled: (purchasesParamsListView.checkedPurchasesCnt > 0)
+        onTriggered: {
+            openDeleteCheckedPurchasesDialog(purchasesParamsListView.checkedPurchasesCnt)
+        }
+    }
+
+    Action {
+        id: printCheckedOrdersDialog
+        enabled: (purchasesParamsListView.checkedPurchasesCnt > 0)
+        onTriggered: {
+            openPrintCheckedOrdersDialog(purchasesParamsListView.checkedPurchasesCnt)
+        }
+    }
+
+    Action {
+        id: execCheckedPurchases
+
+        property bool isDelete: true
+
         onTriggered: {
             popupReset()
-            delCheckedPurchases()
+            execForCheckedPurchases(isDelete)
         }
     }
 
     Action {
         id: deleteAllPurchases
+        onTriggered: {
+            popupReset()
+            purchasesParamsListModel.clear()
+        }
+    }
+
+    Action {
+        id: printAllOrders
         onTriggered: {
             popupReset()
             purchasesParamsListModel.clear()
@@ -206,10 +209,29 @@ Page {
         }
     }
 
+    Action {
+        id: startCheckMode
+
+        property bool isDelete: true
+
+        onTriggered: {
+            popupReset()
+            contextMenu.close()
+            purchasesParamsListView.checkMode = true;
+        }
+    }
+
+    Action {
+        id: cancelCheckMode
+        onTriggered: {
+            purchasesParamsListView.checkMode = false
+        }
+    }
+
     function openPurchaseDeleteDialog(index, number, date) {
         popupReset()
-        root.popupSetTitle("Удаление чека")
-        root.popupSetAddMsg("Вы уверены, что хотите удалить чек № " + number + " от " + date + "?")
+        root.popupSetTitle("Удаление " + (purchasesParamsListView.isOrders ? "заказа" : "чека"))
+        root.popupSetAddMsg("Вы уверены, что хотите удалить " + (purchasesParamsListView.isOrders ? "заказ" : "чек") + " № " + number + " от " + date + "?")
         root.popupSetFirstActionName("УДАЛИТЬ")
         deletePurchase.index = index
         root.popupSetFirstAction(deletePurchase)
@@ -219,23 +241,63 @@ Page {
         root.popupOpen()
     }
 
-    function openCheckedPurchasesDialog(cnt) {
+    function openDeleteCheckedPurchasesDialog(cnt) {
         popupReset()
-        root.popupSetTitle("Удаление " + cnt + " чеков")
-        root.popupSetAddMsg("Вы уверены, что хотите удалить " + cnt + " чеков")
+        root.popupSetTitle("Удаление " + cnt + (purchasesParamsListView.isOrders ? " заказов" : " чеков"))
+        root.popupSetAddMsg("Вы уверены, что хотите удалить " + cnt + (purchasesParamsListView.isOrders ? " заказов?" : " чеков?"))
         root.popupSetFirstActionName("УДАЛИТЬ")
-        root.popupSetFirstAction(deleteCheckedPurchases)
+        execCheckedPurchases.isDelete = true
+        root.popupSetFirstAction(execCheckedPurchases)
         root.popupSetSecondActionName("ОТМЕНА")
         root.popupSetSecondAction(cancelDeletePurchase)
-        root.popupSetClosePolicy(Popup.NoAutoClose)
+        root.popupSetClosePolicy(Popup.CloseOnPressOutside | Popup.CloseOnEscape)
         root.popupOpen()
     }
 
-    function openPurchasesDeleteAllDialog() {
+    function openPrintCheckedOrdersDialog(cnt) {
         popupReset()
-        root.popupSetTitle("Удаление всех чеков")
-        root.popupSetAddMsg("Вы уверены, что хотите удалить все чеки")
-        root.popupSetFirstActionName("УДАЛИТЬ")
+        root.popupSetTitle("Оформление чеков")
+        root.popupSetAddMsg("Вы уверены, что хотите оформить чеки по " + cnt + " заказам?")
+        root.popupSetFirstActionName("ОФОРМИТЬ")
+        execCheckedPurchases.isDelete = false
+        root.popupSetFirstAction(execCheckedPurchases)
+        root.popupSetSecondActionName("ОТМЕНА")
+        root.popupSetSecondAction(cancelDeletePurchase)
+        root.popupSetClosePolicy(Popup.CloseOnPressOutside | Popup.CloseOnEscape)
+        root.popupOpen()
+    }
+
+    function openDeleteDialog() {
+        popupReset()
+        root.popupSetTitle("Удаление " + (purchasesParamsListView.isOrders ? "заказов" : "чеков"))
+        root.popupSetAddMsg("Выбрать несколько " + (purchasesParamsListView.isOrders ? "заказов" : "чеков") + " или удалить все?")
+        root.popupSetFirstActionName("УДАЛИТЬ ВСЕ")
+        root.popupSetFirstAction(deleteAllPurchases)
+        root.popupSetSecondActionName("ВЫБРАТЬ")
+        startCheckMode.isDelete = true
+        root.popupSetSecondAction(startCheckMode)
+        root.popupSetClosePolicy(Popup.CloseOnPressOutside | Popup.CloseOnEscape)
+        root.popupOpen()
+    }
+
+    function openPrintOrdersDialog() {
+        popupReset()
+        root.popupSetTitle("Оформление чеков")
+        root.popupSetAddMsg("Выбрать несколько заказов или оформить чеки по всем заказам?")
+        root.popupSetFirstActionName("ОФОРМИТЬ ВСЕ")
+        root.popupSetFirstAction(printAllOrders)
+        root.popupSetSecondActionName("ВЫБРАТЬ")
+        startCheckMode.isDelete = false
+        root.popupSetSecondAction(startCheckMode)
+        root.popupSetClosePolicy(Popup.CloseOnPressOutside | Popup.CloseOnEscape)
+        root.popupOpen()
+    }
+
+    function openOrdersPrintAllDialog() {
+        popupReset()
+        root.popupSetTitle("Оформить чеки по всем заказам")
+        root.popupSetAddMsg("Вы уверены, что хотите оформить чеки по всем заказам?")
+        root.popupSetFirstActionName("ОФОРМИТЬ")
         root.popupSetFirstAction(deleteAllPurchases)
         root.popupSetSecondActionName("ОТМЕНА")
         root.popupSetSecondAction(cancelDeletePurchase)
@@ -277,13 +339,14 @@ Page {
         id: findPurchaseInput
         visible: false
         isUseShadow: false
-        defaultText: "ФД, ФПД чека или товар"
+        defaultText: (purchasesParamsListView.isOrders ? "Наименование товара" : "ФД, ФПД чека или товар")
         onChangeText: {
         }
     }
     contentData: Column {
         width: parent.width
-        height: parent.height - findPurchaseInput.height
+        height: parent.height -
+                findPurchaseInput.height
         spacing: 0
 
         Rectangle {
@@ -292,15 +355,52 @@ Page {
             implicitWidth: parent.width
             implicitHeight: 12
 
-            SettingsComponents.CustomProgressBar {
-                id: progressBar
-                isUseShadow: true
+            SettingsComponents.CustomProgressBar { id: progressBar }
+        }
+
+        TabBar {
+            id: tabBar
+            width: parent.width
+            height: 0.0898 * width
+            currentIndex: 0
+            contentData: Repeater {
+                id: tabs
+                model: ["ЧЕКИ", "ЗАКАЗЫ"]
+
+                TabButton {
+                    height: parent.height
+                    width: tabBar.width / 2
+
+                    Label {
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        text: qsTr(modelData)
+                        font {
+                            pixelSize: 0.4 * parent.height
+                            family: "Roboto"
+                            styleName: "normal"
+                            weight: Font.DemiBold
+                        }
+                        color: "#5C7490"
+                        opacity: parent.focus ? 1 : 0.74
+                        elide: Label.ElideRight
+                        horizontalAlignment: Qt.AlignCenter
+                        verticalAlignment: Qt.AlignVCenter
+                        Layout.fillWidth: true
+                    }
+                }
+            }
+            background: Rectangle {
+                color: "#FFFFFF"
+            }
+            onCurrentIndexChanged: {
+                console.log("onCurrentIndexChanged: " + currentIndex)
+                purchasesParamsListView.isOrders = (currentIndex === 1)
             }
         }
 
         Column {
             width: parent.width
-            height: parent.height - progressBar.height
+            height: parent.height - progressBar.height - tabBar.height
             spacing: 0
             topPadding: (periodLabelRow.visible ? 0 : 0.025 * parent.width)
 
@@ -340,12 +440,38 @@ Page {
             ListView {
                 id: purchasesParamsListView
 
+                property bool isOrders: false
                 property bool checkMode: false
                 property int checkedPurchasesCnt: 0
 
+                onIsOrdersChanged: {
+                    contextMenu.isOrders = isOrders
+                }
+
                 onCheckModeChanged: {
-                    if (!checkMode) {
+                    console.log("onCheckModeChanged: " + checkMode)
+
+                    if (checkMode) {
+                        setMainPageTitle(checkedPurchasesCnt + " Выбрано")
+                        setLeftMenuButtonAction(cancelCheckMode)
+                        setLeftButtonIco("qrc:/ico/menu/close.png")
+                        resetAddRightMenuButton()
+                        setRightMenuButtonIco(startCheckMode.isDelete ? "qrc:/ico/menu/delete.png" : "qrc:/ico/menu/print_tool.png")
+                        setRightMenuButtonAction(startCheckMode.isDelete ? deletePurchasesDialog : printCheckedOrdersDialog)
+                    } else {
                         resetCheckedPurchases()
+                        setMainPageTitle("Чеки и заказы")
+                        setLeftMenuButtonAction(openMenu)
+                        setRightMenuButtonIco("qrc:/ico/menu/context_menu.png")
+                        setRightMenuButtonAction(openContextMenu)
+                        setAddRightMenuButtonAction(openCalendar)
+                        setAddRightMenuButtonIco("qrc:/ico/menu/calendar.png")
+                    }
+                }
+
+                onCheckedPurchasesCntChanged: {
+                    if (checkMode && (checkedPurchasesCnt >= 0)) {
+                        setMainPageTitle(checkedPurchasesCnt + " Выбрано")
                     }
                 }
 
@@ -393,7 +519,7 @@ Page {
                         } else {
                             purchasesParamsListView.checkedPurchasesCnt--
                         }
-                        deleteMenu.checkedPurchasesCnt = purchasesParamsListView.checkedPurchasesCnt
+                        contextMenu.checkedPurchasesCnt = purchasesParamsListView.checkedPurchasesCnt
                     }
 
                     width: parent.width
@@ -724,7 +850,7 @@ Page {
             background: Label {
                 id: go2saleMsg
                 width: parent.width
-                text: qsTr("ПЕРЕЙТИ К ФОРМИРОВАНИЮ ЧЕКА")
+                text: qsTr("ПЕРЕЙТИ К ФОРМИРОВАНИЮ " + (purchasesParamsListView.isOrders ? "ЗАКАЗА" : "ЧЕКА"))
                 font {
                     pixelSize: 0.8 * infoMsg.font.pixelSize
                     family: "Roboto"

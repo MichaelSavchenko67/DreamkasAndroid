@@ -252,5 +252,6 @@
         <file>qml/components/sale/QrCodePopup.qml</file>
         <file>ico/menu/calendar_grey.png</file>
         <file>qml/pages/subpages/PurchasesStorage.qml</file>
+        <file>ico/menu/print_tool.png</file>
     </qresource>
 </RCC>

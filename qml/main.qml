@@ -520,7 +520,6 @@ ApplicationWindow {
                 SettingsComponents.CustomMenu {
                     id: contextMenu
                     width: 2 / 3 * toolBar.width
-                    x: parent.width - width
                     y: -toolBar.y
 
                     Action { text: qsTr("Продажа"); checkable: true; checked: true; }
