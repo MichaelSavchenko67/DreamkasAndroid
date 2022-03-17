@@ -192,7 +192,6 @@
         <file>ico/settings/check_blue.png</file>
         <file>qml/pages/subpages/printer/ChoosePrinterType.qml</file>
         <file>ico/printer/atol.png</file>
-        <file>ico/printer/Dreamkas.png</file>
         <file>ico/printer/dreamkas.png</file>
         <file>qml/components/settings/ChoosenItemDelegate.qml</file>
         <file>qml/components/settings/InfoButton.qml</file>
