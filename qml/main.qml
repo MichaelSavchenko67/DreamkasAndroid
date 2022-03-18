@@ -23,7 +23,16 @@ ApplicationWindow {
     property bool isShiftOpened: true
     property bool isCabinetEnable: false
     property var cashInDrawer: "100,00"
+    Rectangle
+    {
+        id:bgFillForOnBoarding
+        visible:false
+        z:1
+        width: root.width
+        height: root.height
+        color: Qt.rgba(0.39,0.39,0.39,0.75)
 
+    }
     Action {
         id: openMenu
         onTriggered: {
@@ -89,7 +98,6 @@ ApplicationWindow {
             popupSetLoader(true)
         }
     }
-
     SaleComponents.AddPositionPopup {
     }
 
@@ -104,6 +112,12 @@ ApplicationWindow {
 
     SaleComponents.PopupCashlessPay {
         id: popupCashlessPay
+    }
+    function enterOnbordingMode()
+    {
+        bgFillForOnBoarding.visible = true
+        isShiftOpened = false
+        rootStack.replace("qrc:/qml/pages/Sale.qml")
     }
 
     function setMainPageTitle(title) {
@@ -478,7 +492,7 @@ ApplicationWindow {
         id: toolBar
         width: root.width
         height: 0.133 * width + statusBarHeight
-        visible: false
+        visible: true
 
         contentData: Column {
             anchors.fill: parent

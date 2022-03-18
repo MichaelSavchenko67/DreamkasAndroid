@@ -47,18 +47,18 @@ private:
 };
 
 
-class Demo : public QObject
-{
-    Q_OBJECT
-public:
-    explicit Demo(QObject *parent = nullptr);
+//class Demo : public QObject
+//{
+//    Q_OBJECT
+//public:
+//    explicit Demo(QObject *parent = nullptr);
 
-    Q_INVOKABLE bool isFirstConnectionPrinter() const { return m_isFirstConnectionPrinter; }
+//    Q_INVOKABLE bool isFirstConnectionPrinter() const { return m_isFirstConnectionPrinter; }
 
 
-private:
+//private:
 
-    bool m_isFirstConnectionPrinter {false};
-};
+//    bool m_isFirstConnectionPrinter {false};
+//};
 
 #endif // MODELDEMOSWIPE_H

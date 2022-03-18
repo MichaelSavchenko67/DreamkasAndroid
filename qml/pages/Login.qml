@@ -10,7 +10,7 @@ Page {
     Layout.fillHeight: true
     Layout.fillWidth: true
 
-    property bool isFirstConnectToPrinter: demo.isFirstConnectionPrinter()
+    //property bool isFirstConnectToPrinter: demo.isFirstConnectionPrinter()
 
     onFocusChanged: {
         if (focus) {
@@ -53,9 +53,9 @@ Page {
     Action {
         id: loggedIn
         onTriggered: {
-            loginField.visible = false
-            isLoggedIn = true
-            loggedInDelay.running = true
+              loginField.visible = false
+              isLoggedIn = true
+              loggedInDelay.running = true
         }
     }
 
@@ -297,9 +297,10 @@ Page {
             }
 
             states: State {
-                name: "enable"; when: isLoggedIn
+                name: "enable"
+                when: isLoggedIn
                 PropertyChanges {
-                    target: helloUser;
+                    target: helloUser
                     visible: true
                     opacity: 1
                 }

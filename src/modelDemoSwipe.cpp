@@ -48,7 +48,7 @@ QHash<int, QByteArray> ModelDemoSwipe::roleNames() const
     return roles;
 }
 
-Demo::Demo(QObject *parent) : QObject(parent)
-{
+//Demo::Demo(QObject *parent) : QObject(parent)
+//{
 
-}
+//}

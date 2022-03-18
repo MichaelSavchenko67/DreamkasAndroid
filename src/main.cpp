@@ -22,8 +22,8 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);   
     QQmlApplicationEngine engine;
 
-    Demo demo;
-    engine.rootContext()->setContextProperty("demo", &demo);
+//    Demo demo;
+//    engine.rootContext()->setContextProperty("demo", &demo);
 
     CashlessPayModel cashlessPayModel;
     CashlessPayModel::declareQML();
