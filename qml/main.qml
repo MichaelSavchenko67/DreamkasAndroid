@@ -9,6 +9,7 @@ import "qrc:/qml/components/settings" as SettingsComponents
 
 ApplicationWindow {
     id: root
+
 //    width: Screen.width
 //    height: Screen.height
     width: 360
@@ -23,16 +24,7 @@ ApplicationWindow {
     property bool isShiftOpened: true
     property bool isCabinetEnable: false
     property var cashInDrawer: "100,00"
-    Rectangle
-    {
-        id:bgFillForOnBoarding
-        visible:false
-        z:1
-        width: root.width
-        height: root.height
-        color: Qt.rgba(0.39,0.39,0.39,0.75)
 
-    }
     Action {
         id: openMenu
         onTriggered: {
@@ -115,11 +107,25 @@ ApplicationWindow {
     }
     function enterOnbordingMode()
     {
-        bgFillForOnBoarding.visible = true
+        setLeftButtonIco("qrc:/ico/menu/close.png")
+        setLeftButtonIcoZPosition(100)
+        setVisibleForOnbordingProgressBar(true)
+        toolBarbg.visible = true
+        setToolbarVisible(true)
+        setToolbarEnabled(true)
         isShiftOpened = false
-        rootStack.replace("qrc:/qml/pages/Sale.qml")
+        rootStack.clear()
+        rootStack.push("qrc:/qml/onBoarding/onboarding_first.qml")
+    }
+    function setVisibleForOnbordingProgressBar(visible)
+    {
+        progressElementPage.visible = visible
     }
 
+    function incrementOnboardingProgressIndicator()
+   {
+        ++toolBar.onboardingPageIndex
+    }
     function setMainPageTitle(title) {
         headerTitle.text = qsTr(title)
     }
@@ -151,6 +157,14 @@ ApplicationWindow {
 
         return "qrc:/ico/menu/context_menu.png"
     }
+    function setContextMenuEnabled(enabled)
+    {
+        contextMenu.enabled = enabled
+    }
+    function setContextMenuVisible(visible)
+    {
+        contextMenu.visible = visible
+    }
 
     function setLeftMenuButtonAction(action) {
         leftButton.action = action
@@ -161,7 +175,9 @@ ApplicationWindow {
         leftButton.icon.source = icon
         leftButton.visible = true
     }
-
+    function setLeftButtonIcoZPosition(value) {
+        leftButton.z = value
+    }
     function setLeftMenuButtonIco(ico) {
         leftButton.icon.source = ico
     }
@@ -187,7 +203,9 @@ ApplicationWindow {
     function setRightMenuButtonVisible(visible) {
         rightButton.visible = visible
     }
-
+    function setRightMenuButtonEnabled(enabled) {
+        rightButton.enabled = enabled
+    }
     function resetAddRightMenuButton() {
         addRightButton.action = null
         addRightButton.visible = false
@@ -232,7 +250,9 @@ ApplicationWindow {
         toolBarShadow.visible = visible
         toolBar.visible = visible
     }
-
+    function setToolbarEnabled(enabled) {
+        toolBar.enabled = enabled
+    }
     // MAIN POPUP
     function popupOpen() {
         popup.open()
@@ -487,22 +507,74 @@ ApplicationWindow {
             console.info("[Sale.qml]\t\tbuyers contacts: " + textEntered)
         }
     }
-
     menuBar: ToolBar {
+        states:
+        [
+            State
+            {
+                name: "onBoarding"
+                PropertyChanges {target: toolBarbg; visible: true}
+                PropertyChanges {target: leftButton; visible: toolBar.onboardingPageIndex===1}
+
+            },
+            State
+            {
+                name: "normal"
+                PropertyChanges {target: toolBarbg; visible: false}
+                PropertyChanges {target: leftButton; visible: true}
+            }
+        ]
         id: toolBar
         width: root.width
         height: 0.133 * width + statusBarHeight
         visible: true
-
+        property int onboardingPageIndex: 0
         contentData: Column {
             anchors.fill: parent
             spacing: 0
+            Row
+            {
+                id: onboardingRow
+                width: parent.width
+                height: progressElementPage.height + anchors.topMargin
+                spacing: 2
+                anchors.horizontalCenter: toolBar.horizontalCenter
+                Repeater
+                {
+                    z:3
+                    model:13
+                    visible: true
+                    anchors.topMargin: 2
+                    anchors.rightMargin: 5
+                    anchors.leftMargin: 5
+                     anchors.horizontalCenter: toolBar.horizontalCenter
+                    Rectangle
+                    {
+                        id: progressElementPage
+                        height: 2
+                        width: (toolBar.width
+                                - onboardingRow.anchors.rightMargin
+                                - onboardingRow.anchors.leftMargin
+                                - ((onboardingProgressBar.count - 1) * onboardingRow.spacing))
+                                /  onboardingProgressBar.count
+                        color: "#FFFFFF"
+                    }
 
+                }
+            }
             Row {
                 id: frame
                 width: parent.width
                 height: parent.height - statusBarHeight
                 leftPadding: 0.15 * leftButton.width
+                Rectangle
+                {
+                     z:2
+                     id: toolBarbg
+                     visible:false
+                     anchors.fill: parent
+                     color: Qt.rgba(0.39,0.39,0.39,0.75)
+                }
 
                 SettingsComponents.ToolButtonCustom {
                     id: leftButton
@@ -575,10 +647,10 @@ ApplicationWindow {
             }
         }
 
-        background: Rectangle {
+        background: Rectangle
+        {
             anchors.fill: parent
             color: "#5C7490"
-
             DropShadow {
                 id: toolBarShadow
                 visible: true
@@ -617,6 +689,7 @@ ApplicationWindow {
     }
 
     contentData: StackView {
+
         id: rootStack
         initialItem: "qrc:/qml/pages/Login.qml"
         anchors.fill: parent

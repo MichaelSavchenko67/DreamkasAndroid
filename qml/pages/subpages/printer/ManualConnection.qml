@@ -113,6 +113,7 @@ Page {
             resetAddRightMenuButton()
             setLeftMenuButtonAction(prevStep)
             setLeftButtonIco("qrc:/ico/menu/back.png")
+
             setRightMenuButtonVisible(false)
             setToolbarVisible(true)
             setStep(stepValue)
