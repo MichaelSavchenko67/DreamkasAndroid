@@ -19,12 +19,22 @@ ApplicationWindow {
     visible: true
 //    visibility: "FullScreen"
 
+    property bool isOnboadingModeEnabled: false
     property int statusBarHeight: /*47*/0
     property bool isPrinterConnected: true
     property bool isShiftOpened: true
     property bool isCabinetEnable: false
     property var cashInDrawer: "100,00"
 
+    Action {
+        id: skipOnboarding
+        onTriggered: {
+            console.log("[main.qml]\we are going to skip onboarding")
+            root.isOnboadingModeEnabled = false
+            rootStack.clear()
+            rootStack.replace("qrc:/qml/pages/Sale.qml")
+        }
+    }
     Action {
         id: openMenu
         onTriggered: {
@@ -107,19 +117,14 @@ ApplicationWindow {
     }
     function enterOnbordingMode()
     {
-        setLeftButtonIco("qrc:/ico/menu/close.png")
-        setLeftButtonIcoZPosition(100)
-        setVisibleForOnbordingProgressBar(true)
-        toolBarbg.visible = true
-        setToolbarVisible(true)
-        setToolbarEnabled(true)
+        root.isOnboadingModeEnabled = true
         isShiftOpened = false
         rootStack.clear()
         rootStack.push("qrc:/qml/onBoarding/onboarding_first.qml")
     }
     function setVisibleForOnbordingProgressBar(visible)
     {
-        progressElementPage.visible = visible
+        //progressElementPage.visible = visible
     }
 
     function incrementOnboardingProgressIndicator()
@@ -157,14 +162,6 @@ ApplicationWindow {
 
         return "qrc:/ico/menu/context_menu.png"
     }
-    function setContextMenuEnabled(enabled)
-    {
-        contextMenu.enabled = enabled
-    }
-    function setContextMenuVisible(visible)
-    {
-        contextMenu.visible = visible
-    }
 
     function setLeftMenuButtonAction(action) {
         leftButton.action = action
@@ -174,9 +171,6 @@ ApplicationWindow {
     function setLeftButtonIco(icon) {
         leftButton.icon.source = icon
         leftButton.visible = true
-    }
-    function setLeftButtonIcoZPosition(value) {
-        leftButton.z = value
     }
     function setLeftMenuButtonIco(ico) {
         leftButton.icon.source = ico
@@ -513,15 +507,36 @@ ApplicationWindow {
             State
             {
                 name: "onBoarding"
-                PropertyChanges {target: toolBarbg; visible: true}
-                PropertyChanges {target: leftButton; visible: toolBar.onboardingPageIndex===1}
+                when: root.isOnboadingModeEnabled === true
+                PropertyChanges {target: toolBarMainRect; color: Qt.rgba(0.39,0.39,0.39,0.75)}
+                PropertyChanges {target: leftButton; enabled: false}
+                PropertyChanges {target: leftButton; opacity: 0.1}
+                PropertyChanges {target: addRightButton; enabled: false}
+                PropertyChanges {target: addRightButton2; enabled: false}
+                PropertyChanges {target: rightButton; enabled: false}
+                PropertyChanges {target: onboardingRow; visible: true}
+                PropertyChanges {target: onboardingRow; z: 100}
+                PropertyChanges {target: skipOnboardingBtn; visible: toolBar.onboardingPageIndex==0}
+                PropertyChanges {target: contextButton; enabled: false}
+                PropertyChanges {target: frame; z: -1}
 
             },
             State
             {
                 name: "normal"
-                PropertyChanges {target: toolBarbg; visible: false}
-                PropertyChanges {target: leftButton; visible: true}
+                when: root.isOnboadingModeEnabled === false
+                PropertyChanges {target: toolBarMainRect; color: "transparent"}
+                PropertyChanges {target: leftButton; enabled: true}
+                PropertyChanges {target: leftButton; opacity: 1}
+                PropertyChanges {target: addRightButton; enabled: true}
+                PropertyChanges {target: addRightButton2; enabled: true}
+                PropertyChanges {target: rightButton; enabled: true}
+                PropertyChanges {target: onboardingRow; visible: false}
+                PropertyChanges {target: onboardingRow; z: 0}
+                PropertyChanges {target: skipOnboardingBtn; visible: false}
+                PropertyChanges {target: contextButton; enabled: true}
+                PropertyChanges {target: frame; z: 1}
+
             }
         ]
         id: toolBar
@@ -529,123 +544,134 @@ ApplicationWindow {
         height: 0.133 * width + statusBarHeight
         visible: true
         property int onboardingPageIndex: 0
-        contentData: Column {
-            anchors.fill: parent
-            spacing: 0
-            Row
-            {
-                id: onboardingRow
-                width: parent.width
-                height: progressElementPage.height + anchors.topMargin
-                spacing: 2
-                anchors.horizontalCenter: toolBar.horizontalCenter
-                Repeater
-                {
-                    z:3
-                    model:13
-                    visible: true
-                    anchors.topMargin: 2
-                    anchors.rightMargin: 5
-                    anchors.leftMargin: 5
-                     anchors.horizontalCenter: toolBar.horizontalCenter
-                    Rectangle
-                    {
-                        id: progressElementPage
-                        height: 2
-                        width: (toolBar.width
-                                - onboardingRow.anchors.rightMargin
-                                - onboardingRow.anchors.leftMargin
-                                - ((onboardingProgressBar.count - 1) * onboardingRow.spacing))
-                                /  onboardingProgressBar.count
-                        color: "#FFFFFF"
-                    }
-
-                }
-            }
-            Row {
-                id: frame
-                width: parent.width
-                height: parent.height - statusBarHeight
-                leftPadding: 0.15 * leftButton.width
-                Rectangle
-                {
-                     z:2
-                     id: toolBarbg
-                     visible:false
+        contentData:
+        Rectangle
+        {
+             z:2
+             visible:true
+             id: toolBarMainRect
+             anchors.fill: parent
+             color: "transparent"
+             SettingsComponents.ToolButtonCustom {
+                 id: skipOnboardingBtn
+                 x: leftButton.x
+                 y: leftButton.y
+                 z: 100
+                 visible: true
+                 action: skipOnboarding
+                 icon.source: "qrc:/ico/menu/close.png"
+             }
+             Column {
                      anchors.fill: parent
-                     color: Qt.rgba(0.39,0.39,0.39,0.75)
-                }
+                     spacing: 0
+                     Row
+                     {
+                         id: onboardingRow
+                         width: parent.width
+                         height: 2
+                         spacing: 2
+                         visible: true
+                         leftPadding: 20
+                         rightPadding: 20
 
-                SettingsComponents.ToolButtonCustom {
-                    id: leftButton
-                    visible: true
-                    action: openMenu
-                    icon.source: root.getButtonIco(action)
-                }
+                         Repeater
+                         {
+                             id: onboardingProgressIndicator
+                             z:300
+                             model:13
+                             visible: true
+                             anchors.fill: parent
 
-                Label {
-                    id: headerTitle
-                    anchors.verticalCenter: frame.verticalCenter
-                    leftPadding: parent.leftPadding
-                    width: parent.width -
-                           (leftButton.visible + addRightButton2.visible + addRightButton.visible + rightButton.visible + contextButton.visible) * leftButton.width -
-                           parent.leftPadding -
-                           leftPadding
-                    font {
-                        pixelSize: 0.375 * (toolBar.height - statusBarHeight)
-                        family: "Roboto"
-                        styleName: "normal"
-                        weight: Font.DemiBold
-                    }
-                    color: "white"
-                    elide: Label.ElideRight
-                    horizontalAlignment: Qt.AlignLeft
-                    verticalAlignment: Qt.AlignVCenter
-                }
+                             delegate:Rectangle
+                             {
+                                 height: 2
+                                 width: (onboardingRow.width - onboardingRow.leftPadding - onboardingRow.rightPadding -
+                                         (onboardingRow.spacing * (onboardingProgressIndicator.count - 1)))
+                                        / onboardingProgressIndicator.count
+                                 color: "#FFFFFF"
+                                 visible: true
+                                 opacity: toolBar.onboardingPageIndex >= index ? 1  : 0.5
+                             }
 
-                SettingsComponents.CustomMenu {
-                    id: contextMenu
-                    width: 2 / 3 * toolBar.width
-                    x: parent.width - width
-                    y: -toolBar.y
+                         }
+                     }
+                     Row {
+                         id: frame
+                         width: parent.width
+                         height: parent.height - statusBarHeight
+                         leftPadding: 0.15 * leftButton.width
+                         SettingsComponents.ToolButtonCustom {
+                             id: leftButton
+                             visible: true
+                             action: openMenu
+                             icon.source: root.getButtonIco(action)
+                         }
 
-                    Action { text: qsTr("Продажа"); checkable: true; checked: true; }
-                    Action { text: qsTr("Возврат"); checkable: true; checked: false; enabled: true }
-                    Action { text: qsTr("Расход"); checkable: true; checked: false; enabled: true }
-                    Action { text: qsTr("Возврат расхода"); checkable: true; checked: false; enabled: true }
+                         Label {
+                             id: headerTitle
+                             anchors.verticalCenter: frame.verticalCenter
+                             leftPadding: parent.leftPadding
+                             width: parent.width -
+                                    (leftButton.visible + addRightButton2.visible + addRightButton.visible + rightButton.visible + contextButton.visible) * leftButton.width -
+                                    parent.leftPadding -
+                                    leftPadding
+                             font {
+                                 pixelSize: 0.375 * (toolBar.height - statusBarHeight)
+                                 family: "Roboto"
+                                 styleName: "normal"
+                                 weight: Font.DemiBold
+                             }
+                             color: "white"
+                             elide: Label.ElideRight
+                             horizontalAlignment: Qt.AlignLeft
+                             verticalAlignment: Qt.AlignVCenter
+                         }
 
-                    MenuSeparator {
-                        contentItem: Rectangle {
-                            implicitWidth: contextMenu.width - contextMenu.leftPadding
-                            implicitHeight: 1
-                            color: "#ECECEC"
-                        }
-                    }
+                         SettingsComponents.CustomMenu {
+                             id: contextMenu
+                             width: 2 / 3 * toolBar.width
+                             x: parent.width - width
+                             y: -toolBar.y
 
-                    Action { text: qsTr("Контакты покупателя"); checkable: false; onTriggered: { buyersContactsPopup.open() } }
-                }
+                             Action { text: qsTr("Продажа"); checkable: true; checked: true; }
+                             Action { text: qsTr("Возврат"); checkable: true; checked: false; enabled: true }
+                             Action { text: qsTr("Расход"); checkable: true; checked: false; enabled: true }
+                             Action { text: qsTr("Возврат расхода"); checkable: true; checked: false; enabled: true }
 
-                SettingsComponents.ToolButtonCustom {
-                    id: addRightButton2
-                    visible: false
-                    icon.source: "qrc:/ico/menu/close.png"
-                }
+                             MenuSeparator {
+                                 contentItem: Rectangle {
+                                     implicitWidth: contextMenu.width - contextMenu.leftPadding
+                                     implicitHeight: 1
+                                     color: "#ECECEC"
+                                 }
+                             }
 
-                SettingsComponents.ToolButtonCustom { id: addRightButton; visible: false }
+                             Action { text: qsTr("Контакты покупателя"); checkable: false; onTriggered: { buyersContactsPopup.open() } }
+                         }
 
-                SettingsComponents.ToolButtonCustom { id: rightButton; visible: false }
+                         SettingsComponents.ToolButtonCustom {
+                             id: addRightButton2
+                             visible: false
+                             icon.source: "qrc:/ico/menu/close.png"
+                         }
 
-                SettingsComponents.ToolButtonCustom {
-                    id: contextButton
-                    visible: false
-                    enabled: !contextMenu.opened
-                    icon.source: "qrc:/ico/menu/context_menu.png"
-                    onClicked: {
-                        contextMenu.open()
-                    }
-                }
-            }
+                         SettingsComponents.ToolButtonCustom { id: addRightButton; visible: false }
+
+                         SettingsComponents.ToolButtonCustom { id: rightButton; visible: false }
+
+                         SettingsComponents.ToolButtonCustom {
+                             id: contextButton
+                             visible: false
+                             enabled: !contextMenu.opened
+                             icon.source: "qrc:/ico/menu/context_menu.png"
+                             onClicked: {
+                                 contextMenu.open()
+                             }
+                         }
+                     }
+                 }
         }
+
 
         background: Rectangle
         {

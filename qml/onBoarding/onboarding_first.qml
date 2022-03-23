@@ -12,11 +12,9 @@ Page
             console.log("[Onboarding.qml]\tfocus changed: " + focus)
             setToolbarVisible(true)
             setToolbarShadow(false)
-            setMainPageTitle("Обучение тест")
+            setMainPageTitle("Приход")
             setHeaderTitleButtonVisible(true)
-            resetAddRightMenuButton()
-            setRightMenuButtonVisible(false)
-            setContextMenuVisible(false)
+
         }
     }
     Rectangle {
@@ -121,7 +119,7 @@ Page
                            topMargin: 5
                            horizontalCenter: parent.horizontalCenter
                        }
-                       source: "qrc:/img/arrow/arrowOnboardingFirst.png"
+                       source: "qrc:/img/onboarding/first_arrow.png"
                    }
                 SaleComponents.Button_1 {
                     z:3

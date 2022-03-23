@@ -253,6 +253,6 @@
         <file>qml/pages/subpages/PurchasesStorage.qml</file>
         <file>qml/pages/Onboarding.qml</file>
         <file>qml/onBoarding/onboarding_first.qml</file>
-        <file>img/arrow/arrowOnboardingFirst.png</file>
+        <file>img/onboarding/first_arrow.png</file>
     </qresource>
 </RCC>
