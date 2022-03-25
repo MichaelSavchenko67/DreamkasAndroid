@@ -12,7 +12,26 @@ Page {
     implicitHeight: parent.height
     implicitWidth: parent.width
     anchors.fill: parent
+    states: [
+    State {
+       name: "onboarding"
+       when: root.isOnboadingModeEnabled === true
+       PropertyChanges {target: calculator; z: 10}
+       PropertyChanges {target: textRectangle; visible: true}
+       PropertyChanges {target: greyBgColor; visible: true}
+       PropertyChanges {target: chooseSno; enabled: false}
 
+
+        },
+    State {
+       name: "normal"
+       when: root.isOnboadingModeEnabled === false
+       PropertyChanges {target: calculator; z: 0}
+       PropertyChanges {target: textRectangle; visible: false}
+       PropertyChanges {target: greyBgColor; visible: false}
+       PropertyChanges {target: chooseSno; enabled: !snoMenu.opened}
+        }
+        ]
     contentData: Item {
         anchors.fill: parent
 
@@ -30,12 +49,30 @@ Page {
             onAdd2purchase: {
                 openPurchase.total = calculator.formulaTotal
                 calculator.reset()
+                popupEnterPosName.open()
+                if(root.isOnboadingModeEnabled === true)
+                {
+                     incrementOnboardingProgressIndicator()
+                }
             }
         }
 
         SaleComponents.PopupCashlessPaymentChoose {
             id: popupCashlessPaymentChoose
             total: openPurchase.total
+        }
+        SaleComponents.PopupEnterPosName {
+            z:0
+            id: popupEnterPosName
+            popupTitle: "Введите название"
+            enteredTextTitle: "Наименование товара"
+            enteredTextPlaceholder: "Введите название"
+            isStayLastEntered: true
+            onEntered:
+            {
+                openPage("qrc:/qml/onBoarding/cameraOnboardingSkipper.qml")
+                incrementOnboardingProgressIndicator()
+            }
         }
     }
 
@@ -59,7 +96,38 @@ Page {
         Component.onCompleted: {
             calculator.setFooterHeight(height)
         }
+        Rectangle {
+            z:4
+            id:textRectangle
+            width: parent.width
+            color: "transparent"
 
+            Label
+            {
+                id: userInfoText
+                width: parent.width
+                topPadding: 20
+                text: qsTr("Введите цену товара")
+                color: "white"
+                horizontalAlignment: Label.AlignHCenter
+                font {
+                   pixelSize: 15
+                   family: "Roboto"
+                   styleName: "medium"
+                   weight: Font.Medium
+                   bold: true
+
+                    }
+
+            }
+
+        }
+        Rectangle {
+            z:3
+            id:greyBgColor
+            anchors.fill: parent
+             color: Qt.rgba(0.39,0.39,0.39,0.80)
+        }
         Rectangle {
             anchors.fill: parent
             color: "#F6F6F6"

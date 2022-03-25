@@ -5,19 +5,11 @@ import QtQuick.Layouts 1.3
 import "qrc:/qml/components/sale" as SaleComponents
 Page
 {
-    Layout.fillHeight: true
-    Layout.fillWidth: true
-    onFocusChanged: {
-        if (focus) {
-            console.log("[Onboarding.qml]\tfocus changed: " + focus)
-            setToolbarVisible(true)
-            setToolbarShadow(false)
-            setMainPageTitle("Приход")
-            setHeaderTitleButtonVisible(true)
-
-        }
-    }
-    Rectangle {
+    implicitHeight: parent.height
+    implicitWidth: parent.width
+    anchors.fill: parent
+    Rectangle
+    {
         Layout.fillHeight: true
         Layout.fillWidth: true
         anchors.fill: parent
@@ -27,7 +19,7 @@ Page
                 id:bgFillForOnBoarding
                 width: parent.width
                 height: parent.height
-                color: Qt.rgba(0.39,0.39,0.39,0.75)
+                color: Qt.rgba(0.39,0.39,0.39,0.80)
 
            }
          Image
@@ -137,7 +129,7 @@ Page
                     buttonTxtColor: "white"
                     pushUpColor: "#415A77"
                     pushDownColor: "#004075"
-                    action: openShift
+                    action: openShiftOnBoarding
                 }
             }
             }

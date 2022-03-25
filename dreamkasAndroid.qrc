@@ -251,8 +251,8 @@
         <file>qml/components/sale/QrCodePopup.qml</file>
         <file>ico/menu/calendar_grey.png</file>
         <file>qml/pages/subpages/PurchasesStorage.qml</file>
-        <file>qml/pages/Onboarding.qml</file>
-        <file>qml/onBoarding/onboarding_first.qml</file>
         <file>img/onboarding/first_arrow.png</file>
+        <file>qml/onBoarding/OpenShiftBannerOnboarding.qml</file>
+        <file>qml/onBoarding/cameraOnboardingSkipper.qml</file>
     </qresource>
 </RCC>

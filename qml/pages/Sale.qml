@@ -10,31 +10,55 @@ import "qrc:/qml/components/settings" as SettingsComponents
 
 Page {
     onFocusChanged: {
-        if (focus) {
-            console.log("[Sale.qml]\tfocus changed: " + focus)
-            setToolbarVisible(true)
-            setToolbarShadow(false)
-            setMainPageTitle("Приход")
-            setHeaderTitleButtonVisible(true)
-            setLeftMenuButtonAction(openMenu)
-            resetAddRightMenuButton()
-            setAddRightMenuButtonIco("qrc:/ico/menu/search.png")
-            setAddRightMenuButtonAction(searchGoods)
-            setAddRightMenuButtonVisible(true)
+        if (focus)
+        {
+                console.log("[Sale.qml]\tfocus changed: " + focus)
+                setToolbarVisible(true)
+                setToolbarShadow(false)
+                setMainPageTitle("Приход")
+                setHeaderTitleButtonVisible(true)
+            if(!root.isOnboadingModeEnabled)
+            {
+                setLeftMenuButtonAction(openMenu)
+                resetAddRightMenuButton()
+                setAddRightMenuButtonIco("qrc:/ico/menu/search.png")
+                setAddRightMenuButtonAction(searchGoods)
+                setAddRightMenuButtonVisible(true)
 
-            setRightMenuButtonAction(openSectionMenu)
-            setRightMenuButtonIco("qrc:/ico/settings/edit.png")
-            sectionMenu.addAction(renameSection)
-            sectionMenu.addAction(delSection)
-            sectionMenu.addAction(tilesInRow)
-            sectionMenu.addAction(delTiles)
+                setRightMenuButtonAction(openSectionMenu)
+                setRightMenuButtonIco("qrc:/ico/settings/edit.png")
+                sectionMenu.addAction(renameSection)
+                sectionMenu.addAction(delSection)
+                sectionMenu.addAction(tilesInRow)
+                sectionMenu.addAction(delTiles)
 
-            enterCost.isOpenShiftBannerEnable = !isShiftOpened
-//            popupTimer.running = isShiftOpened
+                enterCost.isOpenShiftBannerEnable = !isShiftOpened
+    //            popupTimer.running = isShiftOpened
+            }
         } else {
             resetHeaderTitleButton()
         }
     }
+
+    states: [
+    State {
+       name: "onboarding"
+       when: root.isOnboadingModeEnabled === true
+       PropertyChanges {target: tabBar; currentIndex: 0}
+       PropertyChanges {target: tabStack; currentIndex: 0}
+       PropertyChanges {target: headerBgColor; color: Qt.rgba(0.39,0.39,0.39,0.80)}
+
+
+        },
+    State {
+       name: "normal"
+       when: root.isOnboadingModeEnabled === false
+       PropertyChanges {target: tabBar; currentIndex: tabStack.currentIndex}
+       PropertyChanges {target: tabStack; currentIndex: tabBar.currentIndex}
+       PropertyChanges {target: headerBgColor; color: "#FFFFFF"}
+        }
+        ]
+
 
     Action {
         id: openSectionMenu
@@ -129,6 +153,7 @@ Page {
         }
 
         background: Rectangle {
+            id:headerBgColor
             color: "#FFFFFF"
         }
     }

@@ -63,7 +63,14 @@ ApplicationWindow {
             closePage()
         }
     }
-
+    Action {
+    id:openShiftOnBoarding
+    onTriggered: {
+        root.openShift()
+        isShiftOpened = true
+        ++toolBar.onboardingPageIndex
+    }
+}
     Action {
         id: openShift
         onTriggered: {
@@ -115,12 +122,17 @@ ApplicationWindow {
     SaleComponents.PopupCashlessPay {
         id: popupCashlessPay
     }
+    function isOnBoardingMode()
+    {
+        return root.isOnboadingModeEnabled
+    }
+
     function enterOnbordingMode()
     {
         root.isOnboadingModeEnabled = true
         isShiftOpened = false
         rootStack.clear()
-        rootStack.push("qrc:/qml/onBoarding/onboarding_first.qml")
+        rootStack.push("qrc:/qml/pages/Sale.qml")
     }
     function setVisibleForOnbordingProgressBar(visible)
     {
@@ -130,6 +142,10 @@ ApplicationWindow {
     function incrementOnboardingProgressIndicator()
    {
         ++toolBar.onboardingPageIndex
+    }
+    function getOnboardingCurrentPageIndex()
+   {
+        return toolBar.onboardingPageIndex
     }
     function setMainPageTitle(title) {
         headerTitle.text = qsTr(title)
