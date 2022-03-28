@@ -254,5 +254,7 @@
         <file>img/onboarding/first_arrow.png</file>
         <file>qml/onBoarding/OpenShiftBannerOnboarding.qml</file>
         <file>qml/onBoarding/cameraOnboardingSkipper.qml</file>
+        <file>img/onboarding/leftArrow.png</file>
+        <file>img/onboarding/rightArrow.png</file>
     </qresource>
 </RCC>

@@ -5,13 +5,14 @@ import QtGraphicalEffects 1.0
 
 Rectangle {
     id: frame
+    property bool visibilityOfShadow: false
     width: parent.width
     height: 0.3 * width
     anchors.bottom: parent.bottom
     color: "#F6F6F6"
 
     DropShadow {
-        visible: true
+        visible: visibilityOfShadow
         anchors.fill: parent
         cached: true
         verticalOffset: -6

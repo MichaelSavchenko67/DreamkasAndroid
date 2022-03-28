@@ -45,6 +45,7 @@ Page {
        name: "onboarding"
        when: root.isOnboadingModeEnabled === true
        PropertyChanges {target: tabBar; currentIndex: 0}
+       PropertyChanges {target: tabBar; enabled: false}
        PropertyChanges {target: tabStack; currentIndex: 0}
        PropertyChanges {target: headerBgColor; color: Qt.rgba(0.39,0.39,0.39,0.80)}
 
@@ -54,6 +55,7 @@ Page {
        name: "normal"
        when: root.isOnboadingModeEnabled === false
        PropertyChanges {target: tabBar; currentIndex: tabStack.currentIndex}
+        PropertyChanges {target: tabBar; enabled: true}
        PropertyChanges {target: tabStack; currentIndex: tabBar.currentIndex}
        PropertyChanges {target: headerBgColor; color: "#FFFFFF"}
         }

@@ -142,6 +142,7 @@ ApplicationWindow {
     function incrementOnboardingProgressIndicator()
    {
         ++toolBar.onboardingPageIndex
+        console.log("[main.qml]\tINCREAMENTED PAGE NUMBER NOW IS: " + toolBar.onboardingPageIndex)
     }
     function getOnboardingCurrentPageIndex()
    {
@@ -524,15 +525,17 @@ ApplicationWindow {
             {
                 name: "onBoarding"
                 when: root.isOnboadingModeEnabled === true
-                PropertyChanges {target: toolBarMainRect; color: Qt.rgba(0.39,0.39,0.39,0.75)}
+                PropertyChanges {target: toolBarMainRectColor; color: Qt.rgba(0.39,0.39,0.39,0.75)}
+                PropertyChanges {target: toolBarMainRectColor; z:3}
                 PropertyChanges {target: leftButton; enabled: false}
                 PropertyChanges {target: leftButton; opacity: 0.1}
                 PropertyChanges {target: addRightButton; enabled: false}
                 PropertyChanges {target: addRightButton2; enabled: false}
                 PropertyChanges {target: rightButton; enabled: false}
                 PropertyChanges {target: onboardingRow; visible: true}
-                PropertyChanges {target: onboardingRow; z: 100}
-                PropertyChanges {target: skipOnboardingBtn; visible: toolBar.onboardingPageIndex==0}
+                PropertyChanges {target: onboardingRow; z: 4}
+                PropertyChanges {target: onboardingProgressIndicator; z: 100}
+                PropertyChanges {target: skipOnboardingBtn; visible: toolBar.onboardingPageIndex===0}
                 PropertyChanges {target: contextButton; enabled: false}
                 PropertyChanges {target: frame; z: -1}
 
@@ -541,7 +544,8 @@ ApplicationWindow {
             {
                 name: "normal"
                 when: root.isOnboadingModeEnabled === false
-                PropertyChanges {target: toolBarMainRect; color: "transparent"}
+                PropertyChanges {target: toolBarMainRectColor; color: "transparent"}
+                PropertyChanges {target: toolBarMainRectColor; z:0}
                 PropertyChanges {target: leftButton; enabled: true}
                 PropertyChanges {target: leftButton; opacity: 1}
                 PropertyChanges {target: addRightButton; enabled: true}
@@ -549,6 +553,7 @@ ApplicationWindow {
                 PropertyChanges {target: rightButton; enabled: true}
                 PropertyChanges {target: onboardingRow; visible: false}
                 PropertyChanges {target: onboardingRow; z: 0}
+                PropertyChanges {target: onboardingProgressIndicator; z: 0}
                 PropertyChanges {target: skipOnboardingBtn; visible: false}
                 PropertyChanges {target: contextButton; enabled: true}
                 PropertyChanges {target: frame; z: 1}
@@ -557,18 +562,26 @@ ApplicationWindow {
         ]
         id: toolBar
         width: root.width
-        height: 0.133 * width + statusBarHeight
+        height: 0.133 * width + statusBarHeight + onboardingProgressIndicator.height +
+                onboardingRow.topPadding
         visible: true
         property int onboardingPageIndex: 0
         contentData:
-        Rectangle
+        Item
         {
-             z:2
+
+             Rectangle
+             {
+                 id: toolBarMainRectColor
+                 anchors.fill: parent
+                 z:3
+             }
+
+            ///TO_DO на завтра, пока помню снести все column и row и попробовать их поменять на простые Rectangle
              visible:true
-             id: toolBarMainRect
              anchors.fill: parent
-             color: "transparent"
              SettingsComponents.ToolButtonCustom {
+
                  id: skipOnboardingBtn
                  x: leftButton.x
                  y: leftButton.y
@@ -582,6 +595,7 @@ ApplicationWindow {
                      spacing: 0
                      Row
                      {
+                         z:4
                          id: onboardingRow
                          width: parent.width
                          height: 2
@@ -589,11 +603,12 @@ ApplicationWindow {
                          visible: true
                          leftPadding: 20
                          rightPadding: 20
+                         topPadding: 10
 
                          Repeater
                          {
                              id: onboardingProgressIndicator
-                             z:300
+                             z:4
                              model:13
                              visible: true
                              anchors.fill: parent
@@ -612,6 +627,7 @@ ApplicationWindow {
                          }
                      }
                      Row {
+                         z:2
                          id: frame
                          width: parent.width
                          height: parent.height - statusBarHeight
@@ -691,6 +707,7 @@ ApplicationWindow {
 
         background: Rectangle
         {
+            z:0
             anchors.fill: parent
             color: "#5C7490"
             DropShadow {

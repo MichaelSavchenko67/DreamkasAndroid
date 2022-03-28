@@ -26,7 +26,10 @@ Page
                 }
 
                 z:3
-                text: qsTr("пока нет страниц \n с камерой, \n тут будет заглушка")
+                text:  getOnboardingCurrentPageIndex()===3 ? qsTr("Добавьте товар камерой \n вашего \n смартфона") :
+                       getOnboardingCurrentPageIndex()===4 ? qsTr("Поместите штрихкод \n в прямоугольник \n видоискателя") :
+                                                             qsTr("введите названия \n товара \n")
+
                 font {
                     pixelSize: 20
                     family: "Roboto"
@@ -58,13 +61,10 @@ Page
                 pushDownColor: "#004075"
                 onClicked:
                 {
-                    if(getOnboardingCurrentPageIndex()<6)
+                    incrementOnboardingProgressIndicator()
+                    if(getOnboardingCurrentPageIndex()>5)
                     {
-                        incrementOnboardingProgressIndicator()
-                    }
-                    else
-                    {
-                        closePage()
+                         closePage()
                     }
                 }
             }
