@@ -15,7 +15,7 @@ Popup {
     property var measure: "шт"
     property bool isCostEdit: true
     property bool isQuantityEdit: true
-
+    property bool isAdd2PurchaseButtonEnable: false
     property var costMask: RegExpValidator { regExp: /^(0|[1-9]\d*)([.]|[,]\d{1,2})?$/ }
     property var countMask: RegExpValidator { regExp: /[1-9]\d*/ }
     property var scaleMask: RegExpValidator { regExp: /^(0|[1-9]\d*)([.]|[,]\d{1,3})?$/ }
@@ -245,7 +245,7 @@ Popup {
                     id: add2purchaseButton
                     width: parent.width
                     height: 0.2 * width
-                    enabled: false
+                    enabled: isAdd2PurchaseButtonEnable
                     opacity: enabled ? 1 : 0.6
                     borderWidth: 0
                     backRadius: 8

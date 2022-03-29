@@ -533,7 +533,6 @@ ApplicationWindow {
                 PropertyChanges {target: addRightButton2; enabled: false}
                 PropertyChanges {target: rightButton; enabled: false}
                 PropertyChanges {target: onboardingRow; visible: true}
-                PropertyChanges {target: onboardingRow; z: 4}
                 PropertyChanges {target: onboardingProgressIndicator; z: 100}
                 PropertyChanges {target: skipOnboardingBtn; visible: toolBar.onboardingPageIndex===0}
                 PropertyChanges {target: contextButton; enabled: false}
@@ -552,7 +551,6 @@ ApplicationWindow {
                 PropertyChanges {target: addRightButton2; enabled: true}
                 PropertyChanges {target: rightButton; enabled: true}
                 PropertyChanges {target: onboardingRow; visible: false}
-                PropertyChanges {target: onboardingRow; z: 0}
                 PropertyChanges {target: onboardingProgressIndicator; z: 0}
                 PropertyChanges {target: skipOnboardingBtn; visible: false}
                 PropertyChanges {target: contextButton; enabled: true}
@@ -562,8 +560,7 @@ ApplicationWindow {
         ]
         id: toolBar
         width: root.width
-        height: 0.133 * width + statusBarHeight + onboardingProgressIndicator.height +
-                onboardingRow.topPadding
+        height: 0.133 * width + statusBarHeight
         visible: true
         property int onboardingPageIndex: 0
         contentData:
@@ -577,7 +574,6 @@ ApplicationWindow {
                  z:3
              }
 
-            ///TO_DO на завтра, пока помню снести все column и row и попробовать их поменять на простые Rectangle
              visible:true
              anchors.fill: parent
              SettingsComponents.ToolButtonCustom {
@@ -590,42 +586,50 @@ ApplicationWindow {
                  action: skipOnboarding
                  icon.source: "qrc:/ico/menu/close.png"
              }
+             Rectangle /// индикатор прогресса(плитки)
+             {
+                 id: onboardingProgressIndicatorRect
+                 width:parent.width
+                 x: parent.x
+                 y: parent.y
+                 z:100
+                 Row
+                 {
+                     id: onboardingRow
+                     width: parent.width
+                     height: 2
+                     spacing: 2
+                     visible: true
+                     leftPadding: 20
+                     rightPadding: 20
+                     topPadding: 5
+
+                     Repeater
+                     {
+                         id: onboardingProgressIndicator
+                         z:400
+                         model:13
+                         visible: true
+                         anchors.fill: parent
+
+                         delegate:Rectangle
+                         {
+                             height: 2
+                             width: (onboardingRow.width - onboardingRow.leftPadding - onboardingRow.rightPadding -
+                                     (onboardingRow.spacing * (onboardingProgressIndicator.count - 1)))
+                                    / onboardingProgressIndicator.count
+                             color: "#FFFFFF"
+                             visible: true
+                             opacity: toolBar.onboardingPageIndex >= index ? 1  : 0.5
+                         }
+
+                     }
+                 }
+             }
+
              Column {
                      anchors.fill: parent
                      spacing: 0
-                     Row
-                     {
-                         z:4
-                         id: onboardingRow
-                         width: parent.width
-                         height: 2
-                         spacing: 2
-                         visible: true
-                         leftPadding: 20
-                         rightPadding: 20
-                         topPadding: 10
-
-                         Repeater
-                         {
-                             id: onboardingProgressIndicator
-                             z:4
-                             model:13
-                             visible: true
-                             anchors.fill: parent
-
-                             delegate:Rectangle
-                             {
-                                 height: 2
-                                 width: (onboardingRow.width - onboardingRow.leftPadding - onboardingRow.rightPadding -
-                                         (onboardingRow.spacing * (onboardingProgressIndicator.count - 1)))
-                                        / onboardingProgressIndicator.count
-                                 color: "#FFFFFF"
-                                 visible: true
-                                 opacity: toolBar.onboardingPageIndex >= index ? 1  : 0.5
-                             }
-
-                         }
-                     }
                      Row {
                          z:2
                          id: frame

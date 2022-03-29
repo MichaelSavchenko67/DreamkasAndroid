@@ -143,6 +143,16 @@ Page {
             id: popupCashlessPaymentChoose
             total: openPurchase.total
         }
+        SaleComponents.AddPositionPopup
+        {
+            id:popupAddPosition
+            onClosed:
+            {
+                openPage("qrc:/qml/onBoarding/cameraOnboardingSkipper.qml")
+                incrementOnboardingProgressIndicator()
+            }
+        }
+
         SaleComponents.PopupEnterPosName {
             z:0
             id: popupEnterPosName
@@ -152,9 +162,14 @@ Page {
             isStayLastEntered: true
             onEntered:
             {
-                openPage("qrc:/qml/onBoarding/cameraOnboardingSkipper.qml")
-                incrementOnboardingProgressIndicator()
+                popupAddPosition.goodsName = textEntered
+                popupAddPosition.unitPrice = openPurchase.total
+                popupAddPosition.quantity  = "1"
+                popupAddPosition.isAdd2PurchaseButtonEnable = true
+                popupAddPosition.open()
+
             }
+
         }
     }
 
