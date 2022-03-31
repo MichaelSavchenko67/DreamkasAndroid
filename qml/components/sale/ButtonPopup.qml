@@ -21,7 +21,7 @@ Button {
             text: (txt !== "undefinded") ? qsTr(txt) : ""
             clip: true
             font {
-                pixelSize: fontPixelSize
+                pixelSize: root.isOnboardingModeEnabled ===true ? 0.4 * parent.height : fontPixelSize
                 family: "Roboto"
                 styleName: "normal"
                 weight: Font.Bold

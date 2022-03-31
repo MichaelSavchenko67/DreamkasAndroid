@@ -4,108 +4,23 @@ import QtQuick.Window 2.3
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 
+import "qrc:/qml/pages/subpages" as Subpages
 import "qrc:/qml/components/sale" as SaleComponents
 import "qrc:/qml/components/settings" as SettingsComponents
-
+import "qrc:/qml/onboarding" as Onboarding
 ApplicationWindow {
-    id: root
-//    width: Screen.width
-//    height: Screen.height
-    width: 360
-    height: 640
-//    width: 1080
-//    height: 1920
-    visible: true
-//    visibility: "FullScreen"
+    function enterOnbordingMode()
+    {
+        isOnboardingModeEnabled = true
+        isShiftOpened = false
+        rootStack.clear()
+        rootStack.push("qrc:/qml/pages/Sale.qml")
 
-    property int statusBarHeight: /*47*/0
-    property bool isPrinterConnected: true
-    property bool isShiftOpened: true
-    property bool isCabinetEnable: false
-    property var cashInDrawer: "100,00"
-
-    Action {
-        id: openMenu
-        onTriggered: {
-            console.log("[main.qml]\tOpen menu")
-            drawer.open()
-        }
     }
-
-    Action {
-        id: back
-        onTriggered: {
-            closePage()
-        }
+    function leaveOnbordingMode()
+    {
+        isOnboardingModeEnabled = false
     }
-
-    Action {
-        id: searchGoods
-        onTriggered: {
-            openPage("qrc:/qml/pages/subpages/SearchGoods.qml")
-        }
-    }
-
-    Action {
-        id: close
-        onTriggered: {
-            closePage()
-        }
-    }
-
-    Action {
-        id: openShift
-        onTriggered: {
-            root.openShift()
-            isShiftOpened = true
-        }
-    }
-
-    Action {
-        id: closeShift
-        onTriggered: {
-            root.closeShift()
-            isShiftOpened = false
-        }
-    }
-
-    Action {
-        id: disconnectPrinter
-        onTriggered: {
-            root.disconnectPrinter()
-        }
-    }
-
-    Action {
-        id: popupCancel
-        onTriggered: {
-            root.popupClose()
-        }
-    }
-
-    Action {
-        id: printXReport
-        onTriggered: {
-            popupSetLoader(true)
-        }
-    }
-
-    SaleComponents.AddPositionPopup {
-    }
-
-    SaleComponents.PopupMain {
-        id: popup
-    }
-
-    SaleComponents.PopupSale {
-        id: popupSale
-        closePolicy: Popup.NoAutoClose
-    }
-
-    SaleComponents.PopupCashlessPay {
-        id: popupCashlessPay
-    }
-
     function setMainPageTitle(title) {
         headerTitle.text = qsTr(title)
     }
@@ -450,6 +365,249 @@ ApplicationWindow {
         popupImageInfo.subtitleOpacity = 0.6
         popupImageInfo.open()
     }
+    id: root
+//    width: Screen.width
+//    height: Screen.height
+    width: 360
+    height: 640
+//    width: 1080
+//    height: 1920
+    visible: true
+//    visibility: "FullScreen"
+    property int statusBarHeight: /*47*/0
+    property bool isPrinterConnected: true
+    property bool isShiftOpened: true
+    property bool isCabinetEnable: false
+    property var cashInDrawer: "100,00"
+    property bool isOnboardingModeEnabled: false
+   Onboarding.OnboardingMain{ id:onboardingHover;}
+    Page
+    {
+        id:mainPageRoot
+        anchors.fill: parent
+        header: ToolBar {
+            id: toolBar
+            width: root.width
+            height: 0.133 * width + statusBarHeight
+            visible: false
+
+            contentData: Column {
+                anchors.fill: parent
+                spacing: 0
+
+                Row {
+                    id: frame
+                    width: parent.width
+                    height: parent.height - statusBarHeight
+                    leftPadding: 0.15 * leftButton.width
+
+                    SettingsComponents.ToolButtonCustom {
+                        id: leftButton
+                        visible: true
+                        action: openMenu
+                        icon.source: root.getButtonIco(action)
+                    }
+
+                    Label {
+                        id: headerTitle
+                        anchors.verticalCenter: frame.verticalCenter
+                        leftPadding: parent.leftPadding
+                        width: parent.width -
+                               (leftButton.visible + addRightButton2.visible + addRightButton.visible + rightButton.visible + contextButton.visible) * leftButton.width -
+                               parent.leftPadding -
+                               leftPadding
+                        font {
+                            pixelSize: 0.375 * (toolBar.height - statusBarHeight)
+                            family: "Roboto"
+                            styleName: "normal"
+                            weight: Font.DemiBold
+                        }
+                        color: "white"
+                        elide: Label.ElideRight
+                        horizontalAlignment: Qt.AlignLeft
+                        verticalAlignment: Qt.AlignVCenter
+                    }
+
+                    SettingsComponents.CustomMenu {
+                        id: contextMenu
+                        width: 2 / 3 * toolBar.width
+                        x: parent.width - width
+                        y: -toolBar.y
+
+                        Action { text: qsTr("Продажа"); checkable: true; checked: true; }
+                        Action { text: qsTr("Возврат"); checkable: true; checked: false; enabled: true }
+                        Action { text: qsTr("Расход"); checkable: true; checked: false; enabled: true }
+                        Action { text: qsTr("Возврат расхода"); checkable: true; checked: false; enabled: true }
+
+                        MenuSeparator {
+                            contentItem: Rectangle {
+                                implicitWidth: contextMenu.width - contextMenu.leftPadding
+                                implicitHeight: 1
+                                color: "#ECECEC"
+                            }
+                        }
+
+                        Action { text: qsTr("Контакты покупателя"); checkable: false; onTriggered: { buyersContactsPopup.open() } }
+                    }
+
+                    SettingsComponents.ToolButtonCustom {
+                        id: addRightButton2
+                        visible: false
+                        icon.source: "qrc:/ico/menu/close.png"
+                    }
+
+                    SettingsComponents.ToolButtonCustom { id: addRightButton; visible: false }
+
+                    SettingsComponents.ToolButtonCustom { id: rightButton; visible: false }
+
+                    SettingsComponents.ToolButtonCustom {
+                        id: contextButton
+                        visible: false
+                        enabled: !contextMenu.opened
+                        icon.source: "qrc:/ico/menu/context_menu.png"
+                        onClicked: {
+                            contextMenu.open()
+                        }
+                    }
+                }
+            }
+
+            background: Rectangle {
+                anchors.fill: parent
+                color: "#5C7490"
+
+                DropShadow {
+                    id: toolBarShadow
+                    visible: true
+                    anchors.fill: parent
+                    cached: true
+                    samples: 1 + 2 * radius
+                    horizontalOffset: 0
+                    verticalOffset: 4
+                    radius: 8
+                    color: "#D6D6D6"
+                    source: parent
+                }
+            }
+        }
+
+        contentData: StackView {
+            id: rootStack
+            initialItem: "qrc:/qml/pages/Login.qml"
+            anchors.fill: parent
+        }
+    Action
+    {
+        id:skipOnboarding
+        onTriggered: {
+            console.log("[main.qml]\tskipOnboarding")
+            popupReset()
+            popupSetAddMsg(qsTr("Вы уверены, что хотите отключить режим обучения?"))
+            popupSetTitle(qsTr("Пропустить Обучение"))
+            popupSetSecondActionName(qsTr("НЕТ, ПРОДОЛЖИТЬ"))
+            popupSetFirstActionName (qsTr("ДА, ПРОПУСТИТЬ"))
+            popupSetFirstAction(exitOnboarding)
+            popupSetSecondAction(popupCancel)
+            root.popupSetClosePolicy(Popup.NoAutoClose)
+            popup.open()
+                     }
+
+
+    }
+    Action
+    {
+        id:exitOnboarding
+        onTriggered: {
+            console.log("[main.qml]\tskipOnboarding")
+            leaveOnbordingMode()
+            root.popupClose()
+                     }
+
+
+    }
+    Action {
+        id: openMenu
+        onTriggered: {
+            console.log("[main.qml]\tOpen menu")
+            drawer.open()
+        }
+    }
+
+    Action {
+        id: back
+        onTriggered: {
+            closePage()
+        }
+    }
+
+    Action {
+        id: searchGoods
+        onTriggered: {
+            openPage("qrc:/qml/pages/subpages/SearchGoods.qml")
+        }
+    }
+
+    Action {
+        id: close
+        onTriggered: {
+            closePage()
+        }
+    }
+
+    Action {
+        id: openShift
+        onTriggered: {
+            root.openShift()
+            isShiftOpened = true
+        }
+    }
+
+    Action {
+        id: closeShift
+        onTriggered: {
+            root.closeShift()
+            isShiftOpened = false
+        }
+    }
+
+    Action {
+        id: disconnectPrinter
+        onTriggered: {
+            root.disconnectPrinter()
+        }
+    }
+
+    Action {
+        id: popupCancel
+        onTriggered: {
+            root.popupClose()
+        }
+    }
+
+    Action {
+        id: printXReport
+        onTriggered: {
+            popupSetLoader(true)
+        }
+    }
+
+    SaleComponents.AddPositionPopup {
+    }
+
+    SaleComponents.PopupMain {
+        id: popup
+    }
+
+    SaleComponents.PopupSale {
+        id: popupSale
+        closePolicy: Popup.NoAutoClose
+    }
+
+    SaleComponents.PopupCashlessPay {
+        id: popupCashlessPay
+    }
+
+
 
     SaleComponents.PopupImageInfo {
         id: popupImageInfo
@@ -473,113 +631,6 @@ ApplicationWindow {
             console.info("[Sale.qml]\t\tbuyers contacts: " + textEntered)
         }
     }
-
-    menuBar: ToolBar {
-        id: toolBar
-        width: root.width
-        height: 0.133 * width + statusBarHeight
-        visible: false
-
-        contentData: Column {
-            anchors.fill: parent
-            spacing: 0
-
-            Row {
-                id: frame
-                width: parent.width
-                height: parent.height - statusBarHeight
-                leftPadding: 0.15 * leftButton.width
-
-                SettingsComponents.ToolButtonCustom {
-                    id: leftButton
-                    visible: true
-                    action: openMenu
-                    icon.source: root.getButtonIco(action)
-                }
-
-                Label {
-                    id: headerTitle
-                    anchors.verticalCenter: frame.verticalCenter
-                    leftPadding: parent.leftPadding
-                    width: parent.width -
-                           (leftButton.visible + addRightButton2.visible + addRightButton.visible + rightButton.visible + contextButton.visible) * leftButton.width -
-                           parent.leftPadding -
-                           leftPadding
-                    font {
-                        pixelSize: 0.375 * (toolBar.height - statusBarHeight)
-                        family: "Roboto"
-                        styleName: "normal"
-                        weight: Font.DemiBold
-                    }
-                    color: "white"
-                    elide: Label.ElideRight
-                    horizontalAlignment: Qt.AlignLeft
-                    verticalAlignment: Qt.AlignVCenter
-                }
-
-                SettingsComponents.CustomMenu {
-                    id: contextMenu
-                    width: 2 / 3 * toolBar.width
-                    x: parent.width - width
-                    y: -toolBar.y
-
-                    Action { text: qsTr("Продажа"); checkable: true; checked: true; }
-                    Action { text: qsTr("Возврат"); checkable: true; checked: false; enabled: true }
-                    Action { text: qsTr("Расход"); checkable: true; checked: false; enabled: true }
-                    Action { text: qsTr("Возврат расхода"); checkable: true; checked: false; enabled: true }
-
-                    MenuSeparator {
-                        contentItem: Rectangle {
-                            implicitWidth: contextMenu.width - contextMenu.leftPadding
-                            implicitHeight: 1
-                            color: "#ECECEC"
-                        }
-                    }
-
-                    Action { text: qsTr("Контакты покупателя"); checkable: false; onTriggered: { buyersContactsPopup.open() } }
-                }
-
-                SettingsComponents.ToolButtonCustom {
-                    id: addRightButton2
-                    visible: false
-                    icon.source: "qrc:/ico/menu/close.png"
-                }
-
-                SettingsComponents.ToolButtonCustom { id: addRightButton; visible: false }
-
-                SettingsComponents.ToolButtonCustom { id: rightButton; visible: false }
-
-                SettingsComponents.ToolButtonCustom {
-                    id: contextButton
-                    visible: false
-                    enabled: !contextMenu.opened
-                    icon.source: "qrc:/ico/menu/context_menu.png"
-                    onClicked: {
-                        contextMenu.open()
-                    }
-                }
-            }
-        }
-
-        background: Rectangle {
-            anchors.fill: parent
-            color: "#5C7490"
-
-            DropShadow {
-                id: toolBarShadow
-                visible: true
-                anchors.fill: parent
-                cached: true
-                samples: 1 + 2 * radius
-                horizontalOffset: 0
-                verticalOffset: 4
-                radius: 8
-                color: "#D6D6D6"
-                source: parent
-            }
-        }
-    }
-
     SettingsComponents.PopupUsersForm { onSave: { openPopupUsersFormSended() } }
 
     SettingsComponents.PopupText {
@@ -601,10 +652,5 @@ ApplicationWindow {
         enteredTextPlaceholder: "Введите название"
         isStayLastEntered: true
     }
-
-    contentData: StackView {
-        id: rootStack
-        initialItem: "qrc:/qml/pages/Login.qml"
-        anchors.fill: parent
     }
 }

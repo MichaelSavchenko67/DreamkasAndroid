@@ -47,7 +47,7 @@ Popup {
                 text: (titleMsg !== "undefined") ? qsTr(titleMsg) : ""
                 clip: true
                 font {
-                    pixelSize: 0.15 * parent.height
+                    pixelSize:  root.isOnboardingModeEnabled === true ? 0.135 * parent.height : 0.15 * parent.height
                     family: "Roboto"
                     styleName: "normal"
                     weight: Font.Bold

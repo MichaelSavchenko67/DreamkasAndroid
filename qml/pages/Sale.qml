@@ -7,7 +7,6 @@ import "qrc:/qml/pages/" as Pages
 import "qrc:/qml/pages/subpages" as Subpages
 import "qrc:/qml/components/sale" as SaleComponents
 import "qrc:/qml/components/settings" as SettingsComponents
-
 Page {
     onFocusChanged: {
         if (focus) {
