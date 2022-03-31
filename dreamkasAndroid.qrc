@@ -253,5 +253,8 @@
         <file>ico/menu/calendar_grey.png</file>
         <file>qml/pages/subpages/PurchasesStorage.qml</file>
         <file>qml/onboarding/OnboardingMain.qml</file>
+        <file>qml/onboarding/subpages/OnboardingPage_1.qml</file>
+        <file>qml/onboarding/components/OnboardingProgressIndicator.qml</file>
+        <file>qml/onboarding/components/OnboardingButtonSkip.qml</file>
     </qresource>
 </RCC>
