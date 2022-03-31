@@ -508,7 +508,7 @@ ApplicationWindow {
             popupSetFirstActionName (qsTr("ДА, ПРОПУСТИТЬ"))
             popupSetFirstAction(exitOnboarding)
             popupSetSecondAction(popupCancel)
-            root.popupSetClosePolicy(Popup.NoAutoClose)
+            root.popupSetClosePolicy(Popup.CloseOnEscape | Popup.CloseOnPressOutside)
             popup.open()
                      }
 
