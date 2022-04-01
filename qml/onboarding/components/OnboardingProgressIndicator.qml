@@ -28,7 +28,7 @@ Rectangle /// индикатор прогресса(плитки)
         {
             id: onboardingProgressIndicator
             z:3
-            model:7
+            model:15
             visible: true
             anchors.fill: parent
 
@@ -40,7 +40,7 @@ Rectangle /// индикатор прогресса(плитки)
                        / onboardingProgressIndicator.count
                 color: "#FFFFFF"
                 visible: true
-                opacity: onboardingIndicatorValue >= index ? 1  : 0.5
+                opacity: onboardingPageIndex >= index ? 1  : 0.5
             }
 
         }

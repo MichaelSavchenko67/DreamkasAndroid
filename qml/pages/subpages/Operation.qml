@@ -14,6 +14,10 @@ Page {
         if (focus) {
             console.log("[Operation.qml]\tfocus changed: " + focus)
             setToolbarVisible(false)
+            if(isOnboardingModeEnabled===true)
+            {
+                onboardingHover.visible = false
+            }
         }
     }
 
@@ -160,6 +164,10 @@ Page {
                 repeat: false
                 onTriggered: {
                     rootStack.pop(null)
+                    if(isOnboardingModeEnabled===true)
+                    {
+                        onboardingHover.visible = true
+                    }
                 }
             }
         }

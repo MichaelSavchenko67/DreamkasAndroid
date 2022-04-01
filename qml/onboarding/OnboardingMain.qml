@@ -8,34 +8,34 @@ import "qrc:/qml/components/settings" as SettingsComponents
 import "qrc:/qml/onboarding/components" as OnboardingComponents
 import "qrc:/qml/onboarding/subpages" as OnboardingPages
 
-Button
+Rectangle ///основной прямоугольник режима обучения, содержит кнопку выхода
+          ///а также прогресс бар по прохождению обучения
 {
     z:2
-    property int onboardingPageIndex: 0 /// это реальный номер страницы прохождения обучения
-    property int onboardingIndicatorValue: 0 /// а эта цифра используется для подстветки индикатора прогресса обучения
-                                             /// фактически она меньше чем onboardingPageIndex
-    id:onboardingMainButton
+    property int onboardingPageIndex: 0 /// это номер страницы прохождения обучения
+    id:onboardingMainRect
     enabled: true
     visible: root.isOnboardingModeEnabled
+    color:"transparent"
     anchors.fill:parent
     Connections {
         target: firstPage
-        function onNextPage() { onboardingPageIndex++; onboardingIndicatorValue++}
+        function onNextPage() { onboardingPageIndex++;}
     }
-
-    background:
-    Rectangle
+    OnboardingComponents.OnboardingProgressIndicator{id: progressIndicator; z:30;}
+    OnboardingComponents.OnboardingButtonSkip{id:skipButton;z:30;}
+    Rectangle ///  тут содержится stackLayout который меняет подложку и настраивает mouse Area чтобы нельзя было нажимать на определенные элементы
     {
         anchors.fill:parent
         color: "transparent"
-        OnboardingComponents.OnboardingProgressIndicator{id: progressIndicator; z:30;}
-        OnboardingComponents.OnboardingButtonSkip{id:skipButton;z:30;}
         StackLayout
         {
-           id:onboardinfHovers
+           id:onboardingHovers
+           visible: true
            anchors.fill:parent
            currentIndex: onboardingPageIndex
            OnboardingPages.OnboardingPage_1{id:firstPage;}
+           OnboardingPages.OnboardingPage_2{id:secondPage;}
         }
 
     }

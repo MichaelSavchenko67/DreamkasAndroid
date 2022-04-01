@@ -256,5 +256,9 @@
         <file>qml/onboarding/subpages/OnboardingPage_1.qml</file>
         <file>qml/onboarding/components/OnboardingProgressIndicator.qml</file>
         <file>qml/onboarding/components/OnboardingButtonSkip.qml</file>
+        <file>img/onboarding/first_arrow.png</file>
+        <file>img/onboarding/leftArrow.png</file>
+        <file>img/onboarding/rightArrow.png</file>
+        <file>qml/onboarding/subpages/OnboardingPage_2.qml</file>
     </qresource>
 </RCC>

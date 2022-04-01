@@ -10,6 +10,13 @@ import "qrc:/qml/components/settings" as SettingsComponents
 
 Rectangle
 {
+    MouseArea
+    {
+        z:2
+        id:mArea
+        anchors.fill: parent
+    }
+
     z:2
     id: firstPage
     color:Qt.rgba(0.15,0.15,0.15,0.8)
