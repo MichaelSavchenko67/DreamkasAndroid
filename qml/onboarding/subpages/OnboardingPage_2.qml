@@ -80,7 +80,7 @@ Rectangle {
             id:mAreaBot
             anchors.fill:parent
         }
-        Label // текстовая метка отвечает за то, чтобы показывать текст в footer
+        Label
         {
           z:4
           id: userInfoText
@@ -91,7 +91,7 @@ Rectangle {
           horizontalAlignment: Label.AlignHCenter
           font
               {
-              pixelSize: 15
+              pixelSize: 18
               family: "Roboto"
               styleName: "medium"
               weight: Font.Medium

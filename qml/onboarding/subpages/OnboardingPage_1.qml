@@ -101,7 +101,7 @@ Rectangle
                               topMargin: 5
                               horizontalCenter: parent.horizontalCenter
                           }
-                          source: "qrc:/img/onboarding/first_arrow.png"
+                          source: "qrc:/img/onboarding/page_1_arrow.png"
                       }
                    SaleComponents.Button_1 {
                        z:3

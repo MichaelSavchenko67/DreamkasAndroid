@@ -96,4 +96,38 @@ Rectangle {
             anchors.fill:parent
         }
     }
+    Image
+       {
+           z:4
+           id: arrowImg
+           height: 135
+           width: 100
+           anchors {
+               top: fifthPage.top
+               topMargin: toolBar.height + 0.0898 * root.width + 5
+               left:fifthPage.left
+               leftMargin: leftRect.width + (mainRect.width/6) - width/2
+               //horizontalCenter: parent.horizontalCenter
+           }
+           source: "qrc:/img/onboarding/page_5_arrow.png"
+       }
+    Label
+    {
+      z:4
+      id: userInfoText
+      width: parent.width
+      anchors.top: arrowImg.bottom
+      text: qsTr("Также можно добавить товары\nиз плиток быстрого доступа ")
+      color: "white"
+      horizontalAlignment: Label.AlignHCenter
+      font
+          {
+          pixelSize: 18
+          family: "Roboto"
+          styleName: "medium"
+          weight: Font.Medium
+          bold: true
+         }
+
+       }
 }
