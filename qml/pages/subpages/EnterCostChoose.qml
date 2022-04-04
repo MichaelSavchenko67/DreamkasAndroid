@@ -20,7 +20,6 @@ Page {
             id: calculator
 
             anchors.top: parent.top
-
             Component.onCompleted: {
                 reset()
                 setDisplay("saleDisplay")
@@ -30,12 +29,50 @@ Page {
             onAdd2purchase: {
                 openPurchase.total = calculator.formulaTotal
                 calculator.reset()
+                popupEnterPosName.open()
+                if(root.isOnboardingModeEnabled === true)
+                {
+                     incrimentOnboardingProgressBar()
+                }
             }
         }
 
         SaleComponents.PopupCashlessPaymentChoose {
             id: popupCashlessPaymentChoose
             total: openPurchase.total
+        }
+        SaleComponents.AddPositionPopup
+        {
+            id:popupAddPosition
+            onClosed:
+            {
+                if(root.isOnboardingModeEnabled === true)
+                {
+                     incrimentOnboardingProgressBar()
+                }
+            }
+        }
+
+        SaleComponents.PopupEnterPosName {
+            z:0
+            id: popupEnterPosName
+            popupTitle: "Введите название"
+            enteredTextTitle: "Наименование товара"
+            enteredTextPlaceholder: "Введите название"
+            isStayLastEntered: true
+            onEntered:
+            {
+                popupAddPosition.goodsName = textEntered
+                popupAddPosition.unitPrice = openPurchase.total
+                popupAddPosition.quantity  = "1"
+                popupAddPosition.open()
+                if(root.isOnboardingModeEnabled === true)
+                {
+                     incrimentOnboardingProgressBar()
+                }
+
+            }
+
         }
     }
 

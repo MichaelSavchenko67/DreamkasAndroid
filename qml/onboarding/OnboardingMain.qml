@@ -36,6 +36,9 @@ Rectangle ///основной прямоугольник режима обуче
            currentIndex: onboardingPageIndex
            OnboardingPages.OnboardingPage_1{id:firstPage;}
            OnboardingPages.OnboardingPage_2{id:secondPage;}
+           OnboardingPages.OnboardingPage_3{id:thirdPage;}
+           OnboardingPages.OnboardingPage_4{id:fourthPage;}
+           OnboardingPages.OnboardingPage_5{id:fifthPage;}
         }
 
     }

@@ -260,5 +260,8 @@
         <file>img/onboarding/leftArrow.png</file>
         <file>img/onboarding/rightArrow.png</file>
         <file>qml/onboarding/subpages/OnboardingPage_2.qml</file>
+        <file>qml/onboarding/subpages/OnboardingPage_3.qml</file>
+        <file>qml/onboarding/subpages/OnboardingPage_4.qml</file>
+        <file>qml/onboarding/subpages/OnboardingPage_5.qml</file>
     </qresource>
 </RCC>
