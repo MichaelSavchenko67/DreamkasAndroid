@@ -20,7 +20,7 @@ Rectangle ///основной прямоугольник режима обуче
     anchors.fill:parent
     Connections {
         target: firstPage
-        function onNextPage() { onboardingPageIndex++;}
+        function onNextPage() { root.incrimentOnboardingProgressBar()}
     }
     OnboardingComponents.OnboardingProgressIndicator{id: progressIndicator; z:30;}
     OnboardingComponents.OnboardingButtonSkip{id:skipButton;z:30;}

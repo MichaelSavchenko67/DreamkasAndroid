@@ -17,6 +17,11 @@ ApplicationWindow {
         rootStack.push("qrc:/qml/pages/Sale.qml")
 
     }
+    function incrimentOnboardingProgressBar()
+    {
+        ++onboardingHover.onboardingPageIndex
+    }
+
     function leaveOnbordingMode()
     {
         isOnboardingModeEnabled = false

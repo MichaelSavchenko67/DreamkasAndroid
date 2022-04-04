@@ -83,6 +83,25 @@ Rectangle {
             id:mAreaBot
             anchors.fill:botRect
         }
+        Label // текстовая метка отвечает за то, чтобы показывать текст в footer
+        {
+          z:4
+          id: userInfoText
+          width: parent.width
+          topPadding: 20
+          text: qsTr("Введите цену товара")
+          color: "white"
+          horizontalAlignment: Label.AlignHCenter
+          font
+              {
+              pixelSize: 15
+              family: "Roboto"
+              styleName: "medium"
+              weight: Font.Medium
+              bold: true
+             }
+
+           }
     }
     Rectangle
     {
@@ -118,18 +137,6 @@ Rectangle {
             anchors.fill:leftRect
         }
     }
-    Rectangle
-    {
-        id:textRect
-        width:secondPage.width
-        height:toolBar.height + 0.21 * root.width
-        color:"transparent"
-        anchors.bottom: secondPage.bottom
-        anchors.centerIn: parent
-        Label
-        {
 
-        }
-    }
 }
 
