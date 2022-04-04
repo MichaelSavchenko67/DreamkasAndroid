@@ -9,6 +9,7 @@ Popup {
     id: enterTextPopup
 
     property string popupTitle: ""
+    property string enteredText: ""
     property string enteredTextTitle: ""
     property string enteredTextPlaceholder: ""
     property string buttonText: "ДОБАВИТЬ В ЧЕК"
@@ -50,6 +51,7 @@ Popup {
 
         ToolButton {
             id: exitButton
+            visible: !root.isOnboardingModeEnabled
             anchors {
                 top: parent.top
                 topMargin: 0.5 * exitButton.icon.height
@@ -124,6 +126,7 @@ Popup {
                         placeholderText: qsTr(enteredTextPlaceholder)
                         placeholderTextColor: "#979797"
                         inputMethodHints: Qt.ImhNone
+                        text: enteredText
                         font {
                             pixelSize: title.font.pixelSize
                             family: "Roboto"

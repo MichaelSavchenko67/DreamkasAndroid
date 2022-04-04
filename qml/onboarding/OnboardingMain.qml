@@ -35,7 +35,7 @@ Rectangle ///основной прямоугольник режима обуче
            anchors.fill:parent
            currentIndex: onboardingPageIndex
            OnboardingPages.OnboardingPage_1{id:firstPage;} // открытие смены
-           ///между первой и второй странницей будет операция открытия смены
+           ///между первой и второй страницей будет операция открытия смены
            OnboardingPages.OnboardingPage_2{id:secondPage;} // ввод по свободной цене
            OnboardingPages.OnboardingPage_3{id:thirdPage;} //popup введите название товара(просто черный залоченный фон)
            OnboardingPages.OnboardingPage_4{id:fourthPage;} //popup введите количество товара (просто черный залоченный фон)

@@ -61,6 +61,7 @@ Popup {
 
         ToolButton {
             id: exitButton
+            visible: !root.isOnboardingModeEnabled
             anchors {
                 top: parent.top
                 topMargin: 0.5 *  0.038 * parent.height

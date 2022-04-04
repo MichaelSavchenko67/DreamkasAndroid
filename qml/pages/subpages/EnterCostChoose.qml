@@ -29,11 +29,13 @@ Page {
             onAdd2purchase: {
                 openPurchase.total = calculator.formulaTotal
                 calculator.reset()
-                popupEnterPosName.open()
+                popupEnterPosName.cost = openPurchase.total
                 if(root.isOnboardingModeEnabled === true)
                 {
-                     incrimentOnboardingProgressBar()
+                    incrimentOnboardingProgressBar()
+                    popupEnterPosName.enteredText = qsTr("Замена розетки")
                 }
+                popupEnterPosName.open()
             }
         }
 
@@ -64,7 +66,7 @@ Page {
             {
                 popupAddPosition.goodsName = textEntered
                 popupAddPosition.unitPrice = openPurchase.total
-                popupAddPosition.quantity  = "1"
+                popupAddPosition.quantity  = qsTr("1")
                 popupAddPosition.open()
                 if(root.isOnboardingModeEnabled === true)
                 {

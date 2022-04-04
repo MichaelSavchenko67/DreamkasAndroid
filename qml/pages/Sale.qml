@@ -111,7 +111,7 @@ Page {
                     anchors.fill: parent
                     text: qsTr(modelData)
                     font {
-                        pixelSize: 0.38 * parent.height
+                        pixelSize: 0.36 * parent.height
                         family: "Roboto"
                         styleName: "normal"
                         weight: Font.DemiBold
