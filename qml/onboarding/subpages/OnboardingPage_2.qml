@@ -7,10 +7,7 @@ import "qrc:/qml/pages/" as Pages
 import "qrc:/qml/pages/subpages" as Subpages
 import "qrc:/qml/components/sale" as SaleComponents
 import "qrc:/qml/components/settings" as SettingsComponents
-import QtQuick 2.12
-import QtQuick.Window 2.12
-import QtQuick 2.0
-import QtQuick.Window 2.0
+
 
 Rectangle {
     id:secondPage
@@ -68,7 +65,7 @@ Rectangle {
         MouseArea
         {
             id:mAreaTop
-            anchors.fill:topRect
+            anchors.fill:parent
         }
     }
     Rectangle
@@ -81,7 +78,7 @@ Rectangle {
         MouseArea
         {
             id:mAreaBot
-            anchors.fill:botRect
+            anchors.fill:parent
         }
         Label // текстовая метка отвечает за то, чтобы показывать текст в footer
         {
@@ -117,7 +114,7 @@ Rectangle {
         MouseArea
         {
             id:mAreaRight
-            anchors.fill:rightRect
+            anchors.fill:parent
         }
     }
     Rectangle
@@ -134,7 +131,7 @@ Rectangle {
         MouseArea
         {
             id:mAreaLeft
-            anchors.fill:leftRect
+            anchors.fill:parent
         }
     }
 

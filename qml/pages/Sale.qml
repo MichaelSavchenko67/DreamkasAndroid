@@ -102,17 +102,16 @@ Page {
 
         contentData: Repeater {
             id: tabs
-            model: ["ВВОД ЦЕНЫ", "ПЛИТКИ", "ОВОЩИ", "ФРУКТЫ", "+ РАЗДЕЛ"]
+            model: ["ВВОД ЦЕНЫ", "ОВОЩИ", "ФРУКТЫ", "МОЛОКО"]
 
             TabButton {
                 height: parent.height
-                width: Math.max(100, tabBar.width / ((tabs.count > 4) ? 4.5 : 4))
-
+                width: tabBar.width / (tabs.count) //Math.max(100, tabBar.width / ((tabs.count > 4) ? 4.5 : 4))
                 Label {
                     anchors.fill: parent
                     text: qsTr(modelData)
                     font {
-                        pixelSize: 0.4 * parent.height
+                        pixelSize: 0.38 * parent.height
                         family: "Roboto"
                         styleName: "normal"
                         weight: Font.DemiBold
@@ -123,6 +122,7 @@ Page {
                     horizontalAlignment: Qt.AlignCenter
                     verticalAlignment: Qt.AlignVCenter
                     Layout.fillWidth: true
+
                 }
             }
         }
