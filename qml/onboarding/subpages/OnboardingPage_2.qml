@@ -9,87 +9,135 @@ import "qrc:/qml/components/sale" as SaleComponents
 import "qrc:/qml/components/settings" as SettingsComponents
 import QtQuick 2.12
 import QtQuick.Window 2.12
+import QtQuick 2.0
+import QtQuick.Window 2.0
+
 Rectangle {
- id:secondPage
- anchors.fill: parent
- color: "transparent"
+    id:secondPage
+    anchors.fill: parent
+    visible: true
+    color:"transparent"
 
- Rectangle
- {
-     id:topRect
-     width:secondPage.width
-     height:toolBar.height + 0.135 * root.width
-     color:Qt.rgba(0.15,0.15,0.15,0.8)
-     anchors.top: secondPage.top
-     MouseArea
-     {
-         id:mAreaTop
-         anchors.fill:topRect
-     }
- }
- Rectangle
- {
-     id:botRect
-     width:secondPage.width
-     height:toolBar.height + 0.21 * root.width
-     color:Qt.rgba(0.15,0.15,0.15,0.8)
-     anchors.bottom: secondPage.bottom
-     MouseArea
-     {
-         id:mAreaBot
-         anchors.fill:botRect
-     }
- }
- Rectangle
- {
-     id:rightRect
-     width:mainRect.anchors.rightMargin
-     color:Qt.rgba(0.15,0.15,0.15,0.8)
-     anchors
-     {
-         right: secondPage.right
-         top:topRect.bottom
-         bottom:botRect.top
-     }
-     MouseArea
-     {
-         id:mAreaRight
-         anchors.fill:botRect
-     }
- }
- Rectangle
- {
-     id:leftRect
-     width:mainRect.anchors.leftMargin
-     color:Qt.rgba(0.15,0.15,0.15,0.8)
-     anchors
-     {
-         left: secondPage.left
-         top:topRect.bottom
-         bottom:botRect.top
-     }
-     MouseArea
-     {
-         id:mAreaLeft
-         anchors.fill:botRect
-     }
- }
- Rectangle
- {
-     id:mainRect
-     width: rootStack.width
-     height: rootStack.height - 0.425 * width
-     anchors
-        {
-            top: secondPage.top
-            topMargin: toolBar.height + 0.0898 * root.width
-            right:secondPage.right
-            rightMargin:20
-            left:secondPage.left
-            leftMargin:20
+    Rectangle {
+        id:littleRect
+        anchors.fill: parent
+        visible: false
+        color:Qt.rgba(0.15,0.15,0.15,0.8)
+    }
+
+    Item {
+        id: hidingRect
+        anchors.fill: littleRect
+        visible: false
+
+        Rectangle {
+            z:100
+            //anchors.centerIn: parent
+            anchors.horizontalCenter: parent.horizontalCenter
+            width: rootStack.width
+            height: rootStack.height - 0.500 * width
+            anchors
+               {
+                   right:parent.right
+                   left:parent.left
+                   leftMargin:18
+                   rightMargin:18
+                   top: parent.top
+                   topMargin: toolBar.height + 0.1125 * root.width
+               }
+            radius:15
         }
-      color:"transparent"
-      radius:10
+    }
 
- }
+    OpacityMask {
+        anchors.fill: littleRect
+        source: littleRect
+        maskSource: hidingRect
+        invert: true
+
+    }
 }
+//Rectangle {
+// id:secondPage
+// anchors.fill: parent
+// color: "transparent"
+
+// Rectangle
+// {
+//     id:topRect
+//     width:secondPage.width
+//     height:toolBar.height + 0.135 * root.width
+//     color:Qt.rgba(0.15,0.15,0.15,0.8)
+//     anchors.top: secondPage.top
+//     MouseArea
+//     {
+//         id:mAreaTop
+//         anchors.fill:topRect
+//     }
+// }
+// Rectangle
+// {
+//     id:botRect
+//     width:secondPage.width
+//     height:toolBar.height + 0.21 * root.width
+//     color:Qt.rgba(0.15,0.15,0.15,0.8)
+//     anchors.bottom: secondPage.bottom
+//     MouseArea
+//     {
+//         id:mAreaBot
+//         anchors.fill:botRect
+//     }
+// }
+// Rectangle
+// {
+//     id:rightRect
+//     width:mainRect.anchors.rightMargin
+//     color:Qt.rgba(0.15,0.15,0.15,0.8)
+//     anchors
+//     {
+//         right: secondPage.right
+//         top:topRect.bottom
+//         bottom:botRect.top
+//     }
+//     MouseArea
+//     {
+//         id:mAreaRight
+//         anchors.fill:botRect
+//     }
+// }
+// Rectangle
+// {
+//     id:leftRect
+//     width:mainRect.anchors.leftMargin
+//     color:Qt.rgba(0.15,0.15,0.15,0.8)
+//     anchors
+//     {
+//         left: secondPage.left
+//         top:topRect.bottom
+//         bottom:botRect.top
+//     }
+//     MouseArea
+//     {
+//         id:mAreaLeft
+//         anchors.fill:botRect
+//     }
+// }
+// Rectangle
+// {
+//     id:mainRect
+//     width: rootStack.width
+//     height: rootStack.height - 0.425 * width
+//     anchors
+//        {
+//            top: secondPage.top
+//            topMargin: toolBar.height + 0.0898 * root.width
+//            right:secondPage.right
+//            rightMargin:20
+//            left:secondPage.left
+//            leftMargin:20
+//        }
+//      color:"transparent"
+//      radius:10
+
+// }
+//}
