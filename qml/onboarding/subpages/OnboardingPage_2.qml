@@ -32,6 +32,7 @@ Rectangle {
 
         Rectangle {
             z:100
+            id:mainRect
             //anchors.centerIn: parent
             anchors.horizontalCenter: parent.horizontalCenter
             width: rootStack.width
@@ -56,88 +57,79 @@ Rectangle {
         invert: true
 
     }
+    /// далее идут прямоугольник с MouseArea они нужны чтобы не дать юзеру нажать на лишнее
+    Rectangle
+    {
+        id:topRect
+        width:secondPage.width
+        height:toolBar.height + 0.135 * root.width
+         color:"transparent"
+        anchors.top: secondPage.top
+        MouseArea
+        {
+            id:mAreaTop
+            anchors.fill:topRect
+        }
+    }
+    Rectangle
+    {
+        id:botRect
+        width:secondPage.width
+        height:toolBar.height + 0.21 * root.width
+        color:"transparent"
+        anchors.bottom: secondPage.bottom
+        MouseArea
+        {
+            id:mAreaBot
+            anchors.fill:botRect
+        }
+    }
+    Rectangle
+    {
+        id:rightRect
+        width:mainRect.anchors.rightMargin
+         color:"transparent"
+        anchors
+        {
+            right: secondPage.right
+            top:topRect.bottom
+            bottom:botRect.top
+        }
+        MouseArea
+        {
+            id:mAreaRight
+            anchors.fill:rightRect
+        }
+    }
+    Rectangle
+    {
+        id:leftRect
+        width:mainRect.anchors.leftMargin
+         color:"transparent"
+        anchors
+        {
+            left: secondPage.left
+            top:topRect.bottom
+            bottom:botRect.top
+        }
+        MouseArea
+        {
+            id:mAreaLeft
+            anchors.fill:leftRect
+        }
+    }
+    Rectangle
+    {
+        id:textRect
+        width:secondPage.width
+        height:toolBar.height + 0.21 * root.width
+        color:"transparent"
+        anchors.bottom: secondPage.bottom
+        anchors.centerIn: parent
+        Label
+        {
+
+        }
+    }
 }
-//Rectangle {
-// id:secondPage
-// anchors.fill: parent
-// color: "transparent"
 
-// Rectangle
-// {
-//     id:topRect
-//     width:secondPage.width
-//     height:toolBar.height + 0.135 * root.width
-//     color:Qt.rgba(0.15,0.15,0.15,0.8)
-//     anchors.top: secondPage.top
-//     MouseArea
-//     {
-//         id:mAreaTop
-//         anchors.fill:topRect
-//     }
-// }
-// Rectangle
-// {
-//     id:botRect
-//     width:secondPage.width
-//     height:toolBar.height + 0.21 * root.width
-//     color:Qt.rgba(0.15,0.15,0.15,0.8)
-//     anchors.bottom: secondPage.bottom
-//     MouseArea
-//     {
-//         id:mAreaBot
-//         anchors.fill:botRect
-//     }
-// }
-// Rectangle
-// {
-//     id:rightRect
-//     width:mainRect.anchors.rightMargin
-//     color:Qt.rgba(0.15,0.15,0.15,0.8)
-//     anchors
-//     {
-//         right: secondPage.right
-//         top:topRect.bottom
-//         bottom:botRect.top
-//     }
-//     MouseArea
-//     {
-//         id:mAreaRight
-//         anchors.fill:botRect
-//     }
-// }
-// Rectangle
-// {
-//     id:leftRect
-//     width:mainRect.anchors.leftMargin
-//     color:Qt.rgba(0.15,0.15,0.15,0.8)
-//     anchors
-//     {
-//         left: secondPage.left
-//         top:topRect.bottom
-//         bottom:botRect.top
-//     }
-//     MouseArea
-//     {
-//         id:mAreaLeft
-//         anchors.fill:botRect
-//     }
-// }
-// Rectangle
-// {
-//     id:mainRect
-//     width: rootStack.width
-//     height: rootStack.height - 0.425 * width
-//     anchors
-//        {
-//            top: secondPage.top
-//            topMargin: toolBar.height + 0.0898 * root.width
-//            right:secondPage.right
-//            rightMargin:20
-//            left:secondPage.left
-//            leftMargin:20
-//        }
-//      color:"transparent"
-//      radius:10
-
-// }
-//}
