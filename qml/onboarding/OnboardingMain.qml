@@ -18,10 +18,6 @@ Rectangle ///основной прямоугольник режима обуче
     visible: root.isOnboardingModeEnabled
     color:"transparent"
     anchors.fill:parent
-    Connections {
-        target: firstPage
-        function onNextPage() { root.incrimentOnboardingProgressBar()}
-    }
     OnboardingComponents.OnboardingProgressIndicator{id: progressIndicator; z:30;}
     OnboardingComponents.OnboardingButtonSkip{id:skipButton;z:30;}
     Rectangle ///  тут содержится stackLayout который меняет подложку и настраивает mouse Area чтобы нельзя было нажимать на определенные элементы
@@ -40,8 +36,10 @@ Rectangle ///основной прямоугольник режима обуче
            OnboardingPages.OnboardingPage_3{id:thirdPage;} //popup введите название товара(просто черный залоченный фон)
            OnboardingPages.OnboardingPage_4{id:fourthPage;} //popup введите количество товара (просто черный залоченный фон)
            OnboardingPages.OnboardingPage_5{id:fifthPage;} // вы можете добавить товары с плиток
-           OnboardingPages.OnboardingPage_6{id:sixPage;}   // выбор товаров
-           OnboardingPages.OnboardingPage_7{id:seventhPage;}   // выбор товаров
+           OnboardingPages.OnboardingPage_6{id:sixPage;}   // выбор товаров из плитки
+           OnboardingPages.OnboardingPage_7{id:seventhPage;} // добавить товар в плитку
+           OnboardingPages.OnboardingPage_8{id:eightPage;}   // камера(пока муляж)
+           OnboardingPages.OnboardingPage_9{id:ninePage;}   // камера_2(пока муляж)
         }
 
     }

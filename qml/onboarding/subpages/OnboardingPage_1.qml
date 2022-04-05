@@ -21,7 +21,6 @@ Rectangle
     id: firstPage
     color:Qt.rgba(0.15,0.15,0.15,0.8)
     anchors.fill: parent
-    signal nextPage()
     Rectangle
     {
          z:3
@@ -122,7 +121,7 @@ Rectangle
                        action: openShift
                        onClicked:
                        {
-                            nextPage()
+                             root.incrimentOnboardingProgressBar()
                        }
                    }
                }

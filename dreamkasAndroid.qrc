@@ -268,5 +268,7 @@
         <file>img/onboarding/page_6_arrow.png</file>
         <file>qml/onboarding/subpages/OnboardingPage_7.qml</file>
         <file>img/onboarding/page_7_arrow.png</file>
+        <file>qml/onboarding/subpages/OnboardingPage_8.qml</file>
+        <file>qml/onboarding/subpages/OnboardingPage_9.qml</file>
     </qresource>
 </RCC>
