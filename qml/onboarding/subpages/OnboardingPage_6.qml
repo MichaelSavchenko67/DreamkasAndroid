@@ -10,36 +10,36 @@ import "qrc:/qml/components/settings" as SettingsComponents
 
 
 Rectangle {
-    id:secondPage
+    id:sixPage
     anchors.fill: parent
     visible: true
     color:"transparent"
 
     Rectangle {
-        id:littleRectSecond
+        id:littleRectSix
         anchors.fill: parent
         visible: false
         color:Qt.rgba(0.15,0.15,0.15,0.8)
     }
 
     Item {
-        id: hidingRectSecond
-        anchors.fill: littleRectSecond
+        id: hidingRectSix
+        anchors.fill: littleRectSix
         visible: false
 
         Rectangle {
             z:100
-            id:mainRectSecond
+            id:mainRectSix
             //anchors.centerIn: parent
             anchors.horizontalCenter: parent.horizontalCenter
             width: rootStack.width
-            height: rootStack.height - 0.500 * width
+            height: rootStack.height - 0.700 * width - rootStack.width / 3 - 5
             anchors
                {
                    right:parent.right
                    left:parent.left
-                   leftMargin:18
-                   rightMargin:18
+                   leftMargin:5
+                   rightMargin:5
                    top: parent.top
                    topMargin: toolBar.height + 0.1125 * root.width
                }
@@ -47,21 +47,23 @@ Rectangle {
         }
     }
 
+
     OpacityMask {
-        anchors.fill: littleRectSecond
-        source: littleRectSecond
-        maskSource: hidingRectSecond
+        anchors.fill: littleRectSix
+        source: littleRectSix
+        maskSource: hidingRectSix
         invert: true
 
     }
+
     /// далее идут прямоугольник с MouseArea они нужны чтобы не дать юзеру нажать на лишнее
     Rectangle
     {
         id:topRect
-        width:secondPage.width
+        width:sixPage.width
         height:toolBar.height + 0.135 * root.width
          color:"transparent"
-        anchors.top: secondPage.top
+        anchors.top: sixPage.top
         MouseArea
         {
             id:mAreaTop
@@ -71,22 +73,37 @@ Rectangle {
     Rectangle
     {
         id:botRect
-        width:secondPage.width
-        height:toolBar.height + 0.21 * root.width
+        width:sixPage.width
+        height:toolBar.height + 0.437 * root.height
         color:"transparent"
-        anchors.bottom: secondPage.bottom
+        anchors.bottom: sixPage.bottom
         MouseArea
         {
             id:mAreaBot
             anchors.fill:parent
         }
+        Image
+           {
+               z:4
+               id: arrowImg
+               height: 80
+               width: 69
+               anchors {
+                   top: parent.top
+                   topMargin:5
+                   //left:sixPage.left
+                   //leftMargin: leftRect.width + (mainRectSix.width/6) - width/2
+                   horizontalCenter: parent.horizontalCenter
+               }
+               source: "qrc:/img/onboarding/page_6_arrow.png"
+           }
         Label
         {
           z:4
           id: userInfoText
           width: parent.width
-          topPadding: 20
-          text: qsTr("Введите цену товара")
+          anchors.top: arrowImg.bottom
+          text: qsTr("Нажмите на плитку с товаром\nдля добавления в заказ")
           color: "white"
           horizontalAlignment: Label.AlignHCenter
           font
@@ -103,11 +120,11 @@ Rectangle {
     Rectangle
     {
         id:rightRect
-        width:mainRectSecond.anchors.rightMargin
+        width:mainRectSix.anchors.rightMargin
          color:"transparent"
         anchors
         {
-            right: secondPage.right
+            right: sixPage.right
             top:topRect.bottom
             bottom:botRect.top
         }
@@ -120,11 +137,11 @@ Rectangle {
     Rectangle
     {
         id:leftRect
-        width:mainRectSecond.anchors.leftMargin
+        width:mainRectSix.anchors.leftMargin
          color:"transparent"
         anchors
         {
-            left: secondPage.left
+            left: sixPage.left
             top:topRect.bottom
             bottom:botRect.top
         }

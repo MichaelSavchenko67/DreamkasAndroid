@@ -14,7 +14,7 @@ Button {
     width: parent.width / 3
     height: width
     transformOrigin: Item.Center
-    visible: !((state === "addTile") && checkMode)
+    visible: true//!((state === "addTile") && checkMode)
 
     function setState() {
         if (name === "") {
@@ -68,6 +68,14 @@ Button {
 
     onClicked: {
         isChecked = !isChecked
+        if(root.isOnboardingModeEnabled===true)
+        {
+            if((onboardingHover.onboardingPageIndex===5 && state !== "addTile") ||
+               (onboardingHover.onboardingPageIndex===6 && state === "addTile"))
+            {
+               root.incrimentOnboardingProgressBar()
+            }
+        }
     }
 
     background: Rectangle {

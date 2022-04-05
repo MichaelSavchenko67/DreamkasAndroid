@@ -63,13 +63,6 @@ Page {
             tileImg: "qrc:/ico/tiles/tileGoods5.png"
         }
         ListElement {
-            tileSectionId: 0
-            tileName: "Морковь"
-            tileCost: 60
-            tileMeasure: "кг"
-            tileImg: "qrc:/ico/tiles/tileGoods6.png"
-        }
-        ListElement {
             tileSectionId: 1
             tileName: "Картофель"
             tileCost: 70
@@ -92,40 +85,48 @@ Page {
         }
         ListElement {
             tileSectionId: 1
-            tileName: "Роллы"
-            tileCost: 100
-            tileMeasure: "шт"
-            tileImg: "qrc:/ico/tiles/tileGoods10.png"
-        }
-        ListElement {
-            tileSectionId: 1
-            tileName: "Конфеты"
-            tileCost: 110
-            tileMeasure: "шт"
-            tileImg: "qrc:/ico/tiles/tileGoods11.png"
-        }
-        ListElement {
-            tileSectionId: 1
-            tileName: "Баклажан"
-            tileCost: 10
-            tileMeasure: "кг"
-            tileImg: "qrc:/ico/tiles/tileGoods1.png"
-        }
-        ListElement {
-            tileSectionId: 1
-            tileName: "Товар без картинки на плитке"
-            tileCost: 10
-            tileMeasure: "кг"
-            tileImg: ""
-        }
-        ListElement {
-            tileSectionId: 1
             tileName: ""
-            tileCost: 0
-            tileMeasure: ""
+            tileCost: 100
+            tileMeasure: "кг"
             tileImg: ""
         }
-    }
+
+//        ListElement {
+//            tileSectionId: 1
+//            tileName: "Роллы"
+//            tileCost: 100
+//            tileMeasure: "шт"
+//            tileImg: "qrc:/ico/tiles/tileGoods10.png"
+//        }
+//        ListElement {
+//            tileSectionId: 1
+//            tileName: "Конфеты"
+//            tileCost: 110
+//            tileMeasure: "шт"
+//            tileImg: "qrc:/ico/tiles/tileGoods11.png"
+//        }
+//        ListElement {
+//            tileSectionId: 1
+//            tileName: "Баклажан"
+//            tileCost: 10
+//            tileMeasure: "кг"
+//            tileImg: "qrc:/ico/tiles/tileGoods1.png"
+//        }
+//        ListElement {
+//            tileSectionId: 1
+//            tileName: "Товар без картинки на плитке"
+//            tileCost: 10
+//            tileMeasure: "кг"
+//            tileImg: ""
+//        }
+//        ListElement {
+//            tileSectionId: 1
+//            tileName: ""
+//            tileCost: 0
+//            tileMeasure: ""
+//            tileImg: ""
+//        }
+   }
 
     SettingsComponents.FilterProxyModel {
         id: filterProxyModel

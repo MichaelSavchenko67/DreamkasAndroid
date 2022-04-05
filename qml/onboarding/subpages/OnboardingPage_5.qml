@@ -16,20 +16,20 @@ Rectangle {
     color:"transparent"
 
     Rectangle {
-        id:littleRect
+        id:littleRectFifth
         anchors.fill: parent
         visible: false
         color:Qt.rgba(0.15,0.15,0.15,0.8)
     }
 
     Item {
-        id: hidingRect
-        anchors.fill: littleRect
+        id: hidingRectFifth
+        anchors.fill: littleRectFifth
         visible: false
 
         Rectangle {
             z:100
-            id:mainRect
+            id:mainRectFifth
             //anchors.centerIn: parent
             //anchors.horizontalCenter: parent.horizontalCenter
             width: root.width - root.width/4
@@ -46,9 +46,9 @@ Rectangle {
     }
 
     OpacityMask {
-        anchors.fill: littleRect
-        source: littleRect
-        maskSource: hidingRect
+        anchors.fill: littleRectFifth
+        source: littleRectFifth
+        maskSource: hidingRectFifth
         invert: true
 
     }
@@ -88,7 +88,7 @@ Rectangle {
         anchors{
             top:topRect.bottom
             left:fifthPage.left
-            right: mainRect.left
+            right: mainRectFifth.left
         }
         MouseArea
         {
@@ -106,7 +106,7 @@ Rectangle {
                top: fifthPage.top
                topMargin: toolBar.height + 0.0898 * root.width + 5
                left:fifthPage.left
-               leftMargin: leftRect.width + (mainRect.width/6) - width/2
+               leftMargin: leftRect.width + (mainRectFifth.width/6) - width/2
                //horizontalCenter: parent.horizontalCenter
            }
            source: "qrc:/img/onboarding/page_5_arrow.png"
@@ -125,7 +125,7 @@ Rectangle {
           pixelSize: 18
           family: "Roboto"
           styleName: "medium"
-          weight: Font.Medium
+          weight: Font.Bold
           bold: true
          }
 

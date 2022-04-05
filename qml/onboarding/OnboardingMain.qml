@@ -40,6 +40,8 @@ Rectangle ///основной прямоугольник режима обуче
            OnboardingPages.OnboardingPage_3{id:thirdPage;} //popup введите название товара(просто черный залоченный фон)
            OnboardingPages.OnboardingPage_4{id:fourthPage;} //popup введите количество товара (просто черный залоченный фон)
            OnboardingPages.OnboardingPage_5{id:fifthPage;} // вы можете добавить товары с плиток
+           OnboardingPages.OnboardingPage_6{id:sixPage;}   // выбор товаров
+           OnboardingPages.OnboardingPage_7{id:seventhPage;}   // выбор товаров
         }
 
     }

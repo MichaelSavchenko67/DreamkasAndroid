@@ -88,7 +88,6 @@ function calc(formula) {
     try {
         var tmp = formula
         tmp = tmp.replace(/,/g, dot)
-
         if (tmp.toString()) {
             res = eval(tmp.toString()).toFixed(precRes)
         }

@@ -99,6 +99,16 @@ Page {
         width: root.width
         height: 0.0898 * width
         currentIndex: tabStack.currentIndex
+        onCurrentIndexChanged:
+        {
+            if(root.isOnboardingModeEnabled===true)
+            {
+                if(onboardingHover.onboardingPageIndex===4 && currentIndex!==0)
+                {
+                   root.incrimentOnboardingProgressBar()
+                }
+            }
+        }
 
         contentData: Repeater {
             id: tabs
@@ -107,6 +117,7 @@ Page {
             TabButton {
                 height: parent.height
                 width: tabBar.width / (tabs.count) //Math.max(100, tabBar.width / ((tabs.count > 4) ? 4.5 : 4))
+
                 Label {
                     anchors.fill: parent
                     text: qsTr(modelData)
@@ -148,9 +159,9 @@ Page {
         }
 
         Subpages.EnterCost {id: enterCost}
-        Subpages.SectionGoods { tilesInRow: 2 }
         Subpages.SectionGoods { tilesInRow: 3 }
-        Subpages.SectionGoods { tilesInRow: 4 }
+        Subpages.SectionGoods { tilesInRow: 3 }
+        Subpages.SectionGoods { tilesInRow: 3 }
         Subpages.Favorites { pageTitle: "+ РАЗДЕЛ"}
     }
 }
