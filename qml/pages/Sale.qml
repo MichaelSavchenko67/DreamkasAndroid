@@ -105,6 +105,7 @@ Page {
             {
                 if(onboardingHover.onboardingPageIndex===4 && currentIndex!==0)
                 {
+                   onboardingHover.sixPageSelectedMenuOption = currentIndex
                    root.incrimentOnboardingProgressBar()
                 }
             }
@@ -112,7 +113,7 @@ Page {
 
         contentData: Repeater {
             id: tabs
-            model: ["ВВОД ЦЕНЫ", "ОВОЩИ", "ФРУКТЫ", "МОЛОКО"]
+            model: ["ВВОД ЦЕНЫ", "УСЛУГИ", "ОВОЩИ", "ПРОДУКТЫ"]
 
             TabButton {
                 height: parent.height
@@ -153,15 +154,24 @@ Page {
         }
 
         onCurrentIndexChanged: {
+            if(currentIndex === 0)
+            {
+                toolBar.state = "freeSale"
+            }
+            else
+            {
+                toolBar.state = "tileSelection"
+            }
+
             if (currentIndex === 4) {
                 popupEnterSectionName.open()
             }
         }
 
         Subpages.EnterCost {id: enterCost}
+        Subpages.SectionGoods { tilesInRow: 2 }
         Subpages.SectionGoods { tilesInRow: 3 }
-        Subpages.SectionGoods { tilesInRow: 3 }
-        Subpages.SectionGoods { tilesInRow: 3 }
+        Subpages.SectionGoods { tilesInRow: 4 }
         Subpages.Favorites { pageTitle: "+ РАЗДЕЛ"}
     }
 }

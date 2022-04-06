@@ -270,5 +270,6 @@
         <file>img/onboarding/page_7_arrow.png</file>
         <file>qml/onboarding/subpages/OnboardingPage_8.qml</file>
         <file>qml/onboarding/subpages/OnboardingPage_9.qml</file>
+        <file>ico/menu/scanner.png</file>
     </qresource>
 </RCC>

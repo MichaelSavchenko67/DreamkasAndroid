@@ -54,6 +54,10 @@ ApplicationWindow {
         } else if (action === close) {
             return "qrc:/ico/menu/close.png"
         }
+        else if(action === cameraImitator)
+        {
+            return "qrc:/ico/menu/scanner.png"
+        }
 
         return "qrc:/ico/menu/context_menu.png"
     }
@@ -392,6 +396,28 @@ ApplicationWindow {
         anchors.fill: parent
         header: ToolBar {
             id: toolBar
+            states:
+                State {
+                name: "freeSale";
+                PropertyChanges {target: rightButton; visible: true}
+                PropertyChanges {target: rightButton; icon.source: "qrc:/ico/menu/search.png"}
+                PropertyChanges {target: addRightButton; visible: false}
+                PropertyChanges {target: addRightButton2; icon.source: "qrc:/ico/menu/scanner.png"}
+                PropertyChanges {target: addRightButton2; visible: true}
+            }
+            State {
+            name: "tileSelection";
+            PropertyChanges {target: addRightButton2; icon.source: "qrc:/ico/menu/scanner.png"}
+            PropertyChanges {target: addRightButton2; visible: true}
+            PropertyChanges {target: addRightButton; visible: true}
+            PropertyChanges {target: addRightButton; icon.source: "qrc:/ico/menu/search.png"}
+            PropertyChanges {target: rightButton; visible: true}
+            PropertyChanges {target: rightButton; icon.source: "qrc:/ico/settings/edit.png"}
+
+        }
+
+
+
             width: root.width
             height: 0.133 * width + statusBarHeight
             visible: false
@@ -457,10 +483,9 @@ ApplicationWindow {
 
                     SettingsComponents.ToolButtonCustom {
                         id: addRightButton2
-                        visible: false
+                        visible: true
                         icon.source: "qrc:/ico/menu/close.png"
                     }
-
                     SettingsComponents.ToolButtonCustom { id: addRightButton; visible: false }
 
                     SettingsComponents.ToolButtonCustom { id: rightButton; visible: false }
@@ -537,7 +562,12 @@ ApplicationWindow {
             drawer.open()
         }
     }
-
+    Action {
+        id: cameraImitator
+        onTriggered: {
+           console.log("SCAN SOMETHING AND ADD PRODUCT")
+        }
+    }
     Action {
         id: back
         onTriggered: {

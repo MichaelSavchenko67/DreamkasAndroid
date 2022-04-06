@@ -10,9 +10,27 @@ import "qrc:/qml/components/settings" as SettingsComponents
 
 
 Rectangle {
+    function calculateOnboardingHoleHeight()
+    {
+         var splitTileKoef = pageType + 1 // так совпало что у нас количество плиток в ряду на текущий момент зависят от индекса меню
+                                          // 0 индекс(Ввод цены нам никогда не придет)
+                                          // на 1 индексе(Услуги) у нас 2 плитки в ряду
+                                          // на 2 индексе(Овощи) у нас 3 плитки в ряду
+                                          // на 3 индексе(Продукты) у нас 4 плитки в ряду
+        mainRectSix.height =  rootStack.width / splitTileKoef  * 2
+
+    }
+
     id:sixPage
     anchors.fill: parent
     visible: true
+    property int pageType:0
+    onPageTypeChanged:
+    {
+        calculateOnboardingHoleHeight()
+    }
+
+
     color:"transparent"
 
     Rectangle {
@@ -33,7 +51,7 @@ Rectangle {
             //anchors.centerIn: parent
             anchors.horizontalCenter: parent.horizontalCenter
             width: rootStack.width
-            height: rootStack.height - 0.700 * width - rootStack.width / 3 - 5
+            //height: calculateOnboardingHoleHeight()//rootStack.height - 0.700 * width - rootStack.width / 3 - 5
             anchors
                {
                    right:parent.right

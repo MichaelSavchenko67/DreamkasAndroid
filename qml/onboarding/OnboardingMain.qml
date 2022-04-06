@@ -13,6 +13,13 @@ Rectangle ///основной прямоугольник режима обуче
 {
     z:2
     property int onboardingPageIndex: 0 /// это номер страницы прохождения обучения
+    property int sixPageSelectedMenuOption:0 /// этот пункт спецаильно для шестой страницы где мы в зависимости от выбранного пользователем элемента
+                                             /// меняем положение и размер подложки
+    onSixPageSelectedMenuOptionChanged:
+    {
+        sixPage.pageType = sixPageSelectedMenuOption
+    }
+
     id:onboardingMainRect
     enabled: true
     visible: root.isOnboardingModeEnabled
