@@ -4,9 +4,22 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.12
 
 Item {
-    property var itemLogo: ""
-    property var itemTitle: ""
-    property var itemSubscription: ""
+    width: parent.width
+    height: txtColumn.height
+
+    property string itemLogo: ""
+    property string itemTitle: ""
+    property string itemSubscription: ""
+    property real icoHeight: 0
+    property real icoWidth: 0
+
+    onIcoHeightChanged: {
+        ico.height = icoHeight
+    }
+
+    onIcoWidthChanged: {
+        ico.width = icoWidth
+    }
 
     function setChecked(isChecked) {
         switchToggle.checked = isChecked
@@ -27,27 +40,36 @@ Item {
     signal switched()
 
     Rectangle {
+        id: mainFrame
         anchors.fill: parent
         color: "transparent"
-        radius: 16
+        radius: 8
 
         Row {
-            id: printerType
-            width: parent.width
-            height: 0.85 * parent.height
-            anchors.verticalCenter: manufacturerLogo.verticalCenter
-            leftPadding: 0.042 * parent.width
+            id: mainRow
+            anchors.fill: parent
+            spacing: 0.042 * parent.width
+            leftPadding: spacing
 
             Image {
-                id: manufacturerLogo
+                id: ico
                 anchors.verticalCenter: parent.verticalCenter
-                width: 0.09 * parent.width
-                height: width
+                height: mainFrame.height
+                width: height
                 source: itemLogo
             }
 
             Column {
-                width: parent.width - manufacturerLogo.width - switchToggle.width - loader.implicitWidth - 3 * parent.leftPadding
+                id: txtColumn
+                width: parent.width -
+                       ico.width -
+                       switchToggle.width -
+                       loader.implicitWidth -
+                       2 * parent.leftPadding -
+                       3 * parent.spacing
+                height: printerTypeName.contentHeight +
+                        subscriptionLabel.contentHeight +
+                        spacing
                 anchors.verticalCenter: parent.verticalCenter
                 spacing: 0.25 * printerTypeName.font.pixelSize
 
@@ -56,7 +78,7 @@ Item {
                     width: parent.width
                     text: qsTr(itemTitle)
                     font {
-                        pixelSize: 0.5 * manufacturerLogo.height
+                        pixelSize: 0.045 * mainRow.width
                         family: "Roboto"
                         styleName: "normal"
                         weight: Font.Normal
@@ -64,13 +86,14 @@ Item {
                     color: "black"
                     clip: true
                     elide: "ElideRight"
+                    maximumLineCount: 2
+                    wrapMode: Label.WordWrap
                     verticalAlignment: Label.AlignTop
-                    leftPadding: font.pixelSize
                 }
 
                 Label {
+                    id: subscriptionLabel
                     width: parent.width
-                    leftPadding: printerTypeName.leftPadding
                     text: qsTr(itemSubscription)
                     font {
                         pixelSize: 0.67 * printerTypeName.font.pixelSize
@@ -81,16 +104,15 @@ Item {
                     color: "#979797"
                     clip: true
                     elide: "ElideRight"
-                    verticalAlignment: Label.AlignBottom
                     maximumLineCount: 4
                     wrapMode: Label.WordWrap
+                    verticalAlignment: Label.AlignBottom
                 }
             }
 
-
             BusyIndicator {
                 id: loader
-                implicitWidth: parent.height
+                implicitWidth: 0.09 * parent.width
                 implicitHeight: implicitWidth
                 anchors.verticalCenter: parent.verticalCenter
                 running: false

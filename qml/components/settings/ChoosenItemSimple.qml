@@ -3,14 +3,15 @@ import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 
 Button {
-    property var title: ""
-    property var icoPath: ""
-    property var fontPixelSize: 0.06 * printerTypeRow.width
+    property string title: ""
+    property string icoPath: ""
+    property real fontPixelSize: 0.06 * printerTypeRow.width
+    property real icoHeight: 0.8 * printerTypeRow.height
 
     background: Rectangle {
         anchors.fill: parent
         color: "#F6F6F6"
-        radius: 16
+        radius: 8
 
         Row {
             id: printerTypeRow
@@ -20,7 +21,7 @@ Button {
             Image {
                 id: levelIco
                 anchors.verticalCenter: parent.verticalCenter
-                height: 0.8 * parent.height
+                height: icoHeight
                 fillMode: Image.PreserveAspectFit
                 source: (icoPath.length > 0) ? icoPath : "qrc:/ico/settings/signal_100_percent.png"
             }
@@ -43,6 +44,8 @@ Button {
                     color: "black"
                     clip: true
                     elide: "ElideRight"
+                    maximumLineCount: 2
+                    wrapMode: Label.WordWrap
                     verticalAlignment: Label.AlignTop
                     leftPadding: font.pixelSize
                 }

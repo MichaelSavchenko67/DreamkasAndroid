@@ -253,5 +253,8 @@
         <file>ico/menu/calendar_grey.png</file>
         <file>qml/pages/subpages/PurchasesStorage.qml</file>
         <file>ico/menu/print_tool.png</file>
+        <file>qml/pages/subpages/settings/CheckingAccountSettings.qml</file>
+        <file>ico/settings/contacts.png</file>
+        <file>qml/pages/subpages/PayCheckingAccount.qml</file>
     </qresource>
 </RCC>

@@ -2,16 +2,16 @@ import QtQuick 2.12
 import QtQuick.Controls 2.3
 
 Row {
-    property var message: ""
-    property var customWidth: 0.9 * parent.width
+    width: parent.width
+    spacing: 0.5 * circle.width
 
-    anchors.horizontalCenter: parent.horizontalCenter
+    property string message: ""
 
     Label {
         id: circle
         text: qsTr("\u25CF")
         font {
-            pixelSize: 0.047 * customWidth
+            pixelSize: 0.055 * parent.width
             family: "Roboto"
             styleName: "normal"
             weight: Font.Normal
@@ -25,7 +25,7 @@ Row {
 
     Label {
         id: userMsg
-        width: customWidth - 3 * circle.font.pixelSize
+        width: parent.width - 3 * circle.font.pixelSize
         text: qsTr(message)
         font: circle.font
         color: "#979797"
@@ -33,7 +33,7 @@ Row {
         elide: "ElideRight"
         maximumLineCount: 3
         wrapMode: Label.WordWrap
-        horizontalAlignment: Label.AlignHCenter
+        horizontalAlignment: Label.AlignLeft
         verticalAlignment: Label.AlignVCenter
     }
 }

@@ -242,6 +242,10 @@ Popup {
                         console.log("CashlessPayModelEnums.CASHLESS_TYPE_PAY_QR_SBERBANK")
                         root.openPage("qrc:/qml/pages/subpages/PayQrSberbank.qml")
                         break
+                    case CashlessPayModelEnums.CASHLESS_TYPE_PAY_CHECKING_ACCOUNT:
+                        console.log("CashlessPayModelEnums.CASHLESS_TYPE_PAY_CHECKING_ACCOUNT")
+                        root.openPage("qrc:/qml/pages/subpages/PayCheckingAccount.qml")
+                        break
                     default:
                         break
                 }
