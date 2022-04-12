@@ -1,7 +1,8 @@
 #include "include/cashlessPayModel.h"
 
 const QList<QPair<uint, QString>> CashlessPayModel::m_payTypes = {{CASHLESS_TYPE::CASHLESS_TYPE_PINPAD, "Банковская карта"},
-                                                                  {CASHLESS_TYPE::CASHLESS_TYPE_PAY_QR_SBERBANK, "Плати QR от Сбера"}};
+                                                                  {CASHLESS_TYPE::CASHLESS_TYPE_PAY_QR_SBERBANK, "Плати QR от Сбера"},
+                                                                  {CASHLESS_TYPE::CASHLESS_TYPE_PAY_CHECKING_ACCOUNT, "Оплата на Р/С"}};
 
 int CashlessPayModel::rowCount(const QModelIndex &parent) const
 {
