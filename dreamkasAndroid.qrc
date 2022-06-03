@@ -256,5 +256,13 @@
         <file>qml/pages/subpages/settings/CheckingAccountSettings.qml</file>
         <file>ico/settings/contacts.png</file>
         <file>qml/pages/subpages/PayCheckingAccount.qml</file>
+        <file>ico/settings/2can.png</file>
+        <file>ico/settings/2can_color.png</file>
+        <file>ico/settings/google_play_market.png</file>
+        <file>ico/settings/nfc.png</file>
+        <file>ico/settings/phone_color.png</file>
+        <file>qml/pages/subpages/settings/Pinpad2canSettings.qml</file>
+        <file>qml/components/settings/Login.qml</file>
+        <file>qml/pages/subpages/settings/Login2can.qml</file>
     </qresource>
 </RCC>

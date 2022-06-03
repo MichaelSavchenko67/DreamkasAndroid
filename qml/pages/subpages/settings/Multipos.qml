@@ -87,15 +87,6 @@ Page {
         root.popupOpen()
     }
 
-    function getInterfaceIco(deviceInterface) {
-        if (deviceInterface === "USB") {
-            return "qrc:/ico/settings/usb.png"
-        } else if (deviceInterface === "Bluetooth") {
-            return "qrc:/ico/settings/bluetooth.png"
-        }
-        return ""
-    }
-
     Timer {
         id: loaderSwitch
         interval: 3000
@@ -121,6 +112,10 @@ Page {
             console.log("[Multipos.qml]\t\tchoosen pinpad: " + type)
             externalPinpad.setChecked(false)
             inpasSoftPosPinpad.setChecked(false)
+        } else if ((type === "2CAN") && pinpad2can.getChecked()) {
+            console.log("[Multipos.qml]\t\tchoosen pinpad: " + type)
+            externalPinpad.setChecked(false)
+            integratedPinpad.setChecked(false)
         }
 
         isExternalPinpad = externalPinpad.getChecked()
@@ -507,6 +502,58 @@ Page {
                             visible: pinpadsNotFoundRow.visible
                             source: "qrc:/ico/settings/girl.png"
                             fillMode: Image.PreserveAspectFit
+                        }
+                    }
+
+                    Column {
+                        width: parent.width
+                        spacing: 0.5 * parent.spacing
+
+                        SettingsComponents.InfoToggle {
+                            id: pinpad2can
+                            width: externalPinpad.width
+                            icoHeight: externalPinpad.icoHeight
+                            icoWidth: icoHeight
+                            itemLogo: "qrc:/ico/settings/2can.png"
+                            itemTitle: qsTr("2can")
+                            itemSubscription: qsTr("Интеграция с платёжным сервисом")
+                            onSwitched: {
+                                changePinpad("2CAN")
+                            }
+                        }
+
+                        SettingsComponents.ChoosenItemSimple {
+                            id: pinpad2canCredentials
+                            visible: pinpad2can.getChecked()
+                            leftPadding: payQrSberbank.leftPadding
+                            width: payQrSberbank.width
+                            height: payQrSberbank.height
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            title: root.is2canLoggedIn ? "m.savchenko@dreamkas.ru" : "Авторизация в 2can"
+                            fontPixelSize: (root.is2canLoggedIn ? 0.8 : 1) * payQrSberbank.fontPixelSize
+                            icoPath: "qrc:/ico/settings/language.png"
+                            icoHeight: checkingAccount.icoHeight
+                            isApplied: root.is2canLoggedIn
+                            appliedMsg: "Вход выполнен"
+                            onClicked: {
+                                root.openPage("qrc:/qml/pages/subpages/settings/Login2can.qml")
+                            }
+                        }
+
+                        SettingsComponents.ChoosenItemSimple {
+                            id: pinpad2canSettings
+                            visible: pinpad2can.getChecked() && root.is2canLoggedIn
+                            leftPadding: payQrSberbank.leftPadding
+                            width: payQrSberbank.width
+                            height: payQrSberbank.height
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            title: "Настройки 2can"
+                            fontPixelSize: payQrSberbank.fontPixelSize
+                            icoPath: "qrc:/ico/settings/cast.png"
+                            icoHeight: checkingAccount.icoHeight
+                            onClicked: {
+                                root.openPage("qrc:/qml/pages/subpages/settings/Pinpad2canSettings.qml")
+                            }
                         }
                     }
                 }

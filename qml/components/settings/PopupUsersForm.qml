@@ -99,6 +99,7 @@ Popup {
                     title: "Телефон"
                     paramPlaceholder: "Введите телефон"
                     paramValue: userPhone
+                    inputMethod: Qt.ImhDigitsOnly
                     regExpValidator: RegExpValidator {regExp: /^(?:\d{11})$/ }
                     onEntered: {
                         console.log("[PopupUsersForm.qml]\t\t" + title + ": " + value)
@@ -111,7 +112,8 @@ Popup {
                     title: "Эл. почта"
                     paramPlaceholder: "Введите email"
                     paramValue: userEmail
-                    regExpValidator: RegExpValidator {regExp: /^(\S+@\w+\.\w{2,3})$/ }
+                    inputMethod: Qt.ImhEmailCharactersOnly
+                    regExpValidator: RegExpValidator {regExp: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/ }
                     onEntered: {
                         console.log("[PopupUsersForm.qml]\t\t" + title + ": " + value)
                         userEmail = value
