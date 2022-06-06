@@ -72,6 +72,7 @@ Page {
                 username: "a.pushkin@gmail.com"
                 passwordTitle: "Секретный ключ"
                 password: "123123123"
+                loginProcessMsg: "Авторизация в 2can"
                 onIsAcceptedChanged: {
                     confirmButton.enabled = isAccepted
                 }

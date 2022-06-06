@@ -18,6 +18,7 @@ Column {
     property bool isEnabled: !inProgress
     property bool inProgress: false
     property bool isLoggedIn: false
+    property string loginProcessMsg: "Авторизация"
 
     signal loggedIn()
 
@@ -139,6 +140,7 @@ Column {
             Row {
                 id: passwordRow
                 width: parent.width
+                height: eyeButton.height * eyeButton.scale
 
                 TextField {
                     id: passwordField
@@ -189,9 +191,8 @@ Column {
 
     Row {
         id: loginProcessRow
-        width: 0.6 * parent.width
         anchors.horizontalCenter: parent.horizontalCenter
-        spacing: 0.25 * loginMsg.font.pixelSize
+        spacing: 0.5 * loginMsg.font.pixelSize
 
         Timer {
             id: successDelay
@@ -211,7 +212,7 @@ Column {
             State {
                 name: "login";
                 PropertyChanges { target: loginProcessRow; visible: true }
-                PropertyChanges { target: loginMsg; text: qsTr("Авторизация в 2can") }
+                PropertyChanges { target: loginMsg; text: qsTr(loginProcessMsg) }
                 PropertyChanges { target: loginMsg; color: "#979797" }
                 PropertyChanges { target: loaderLogin; running: true }
             },
@@ -235,26 +236,6 @@ Column {
         ]
         state: "init"
 
-        Label {
-            id: loginMsg
-            width: parent.width -
-                   (statusImage.visible ? statusImage.width : 0) -
-                   (loaderLogin.visible ? loaderLogin.implicitWidth : 0) -
-                   parent.spacing
-            font {
-                pixelSize: 0.05 * 0.9 * root.width
-                family: "Roboto"
-                styleName: "normal"
-                weight: Font.Normal
-            }
-            clip: true
-            elide: Label.ElideRight
-            maximumLineCount: 2
-            wrapMode: Label.WordWrap
-            horizontalAlignment: Label.AlignHCenter
-            verticalAlignment: Label.AlignVCenter
-        }
-
         Image {
             id: statusImage
             visible: !loaderLogin.visible
@@ -271,6 +252,22 @@ Column {
             visible: running
             anchors.verticalCenter: loginMsg.verticalCenter
             Material.accent: "#5C7490"
+        }
+
+        Label {
+            id: loginMsg
+            font {
+                pixelSize: 0.05 * 0.9 * root.width
+                family: "Roboto"
+                styleName: "normal"
+                weight: Font.Normal
+            }
+            clip: true
+            elide: Label.ElideRight
+            maximumLineCount: 2
+            wrapMode: Label.WordWrap
+            horizontalAlignment: Label.AlignHCenter
+            verticalAlignment: Label.AlignVCenter
         }
     }
 }

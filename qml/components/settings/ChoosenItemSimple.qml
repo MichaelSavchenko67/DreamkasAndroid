@@ -4,15 +4,18 @@ import QtQuick.Layouts 1.3
 
 Button {
     property string title: ""
-    property string icoPath: ""
+    property string icoPath: "qrc:/ico/settings/signal_100_percent.png"
     property real fontPixelSize: 0.06 * printerTypeRow.width
     property real icoHeight: 0.8 * printerTypeRow.height
     property bool isApplied: false
     property string appliedMsg: ""
+    property bool isChooseVisible: true
+    property var pushUpColor: "#F6F6F6"
+    property var pushDownColor: "#c3c3c3"
 
     background: Rectangle {
         anchors.fill: parent
-        color: parent.pressed ? "#c3c3c3" : "#F6F6F6"
+        color: parent.pressed ? pushDownColor : pushUpColor
         radius: 8
 
         Row {
@@ -25,7 +28,7 @@ Button {
                 anchors.verticalCenter: parent.verticalCenter
                 height: icoHeight
                 fillMode: Image.PreserveAspectFit
-                source: (icoPath.length > 0) ? icoPath : "qrc:/ico/settings/signal_100_percent.png"
+                source: icoPath
             }
 
             Column {
@@ -68,7 +71,6 @@ Button {
 
                     Label {
                         id: appliedMsgLabel
-                        visible: appliedIco.visible
                         width: parent.width -
                                appliedIco.width -
                                parent.leftPAdding -
@@ -91,6 +93,7 @@ Button {
 
             Image {
                 id: ico
+                visible: isChooseVisible
                 anchors.verticalCenter: parent.verticalCenter
                 width: 0.09 * printerTypeRow.width
                 height: width

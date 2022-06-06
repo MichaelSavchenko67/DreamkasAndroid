@@ -12,6 +12,11 @@ Page {
     Layout.fillWidth: true
     Layout.fillHeight: true
 
+    property bool isUsbConnected: false
+    property bool isBluetoothConnected: false
+    property bool isTap2goConnected: false
+    property bool isTtkConnected: false
+
     onFocusChanged: {
         if (focus) {
             setMainPageTitle("Настройки 2can")
@@ -31,39 +36,9 @@ Page {
         spacing: 0.05 * parent.width
         topPadding: 1.5 * spacing
 
-        Image {
-            id: logoImg
-            width: 0.15 * parent.width
-            height: width
-            anchors.horizontalCenter: parent.horizontalCenter
-            fillMode: Image.PreserveAspectFit
-            source: "qrc:/ico/settings/2can_color.png"
-        }
-
-        Label {
-            id: title
-            width: parent.width
-            text: qsTr("Выберите тип терминала")
-            font {
-                pixelSize: 0.06 * parent.width
-                family: "Roboto"
-                styleName: "normal"
-                weight: Font.Bold
-                bold: true
-            }
-            clip: true
-            elide: "ElideRight"
-            horizontalAlignment: Label.AlignLeft
-            verticalAlignment: Label.AlignVCenter
-            topPadding: 0.5 * parent.spacing
-        }
-
         Rectangle {
             width: parent.width
             height: parent.height -
-                    logoImg.height -
-                    title.contentHeight -
-                    title.topPadding -
                     parent.topPadding -
                     2 * parent.spacing
 
@@ -81,6 +56,25 @@ Page {
                         spacing: mainColumn.spacing
                         leftPadding: spacing
 
+                        Label {
+                            id: physicalPinpadsGroupTitle
+                            width: physicalPinpadsColumn.width
+                            visible: true
+                            text: qsTr("Оплата через мобильный терминал")
+                            font {
+                                pixelSize: usb2canButton.fontPixelSize
+                                family: "Roboto"
+                                styleName: "normal"
+                                weight: Font.Normal
+                            }
+                            color: "black"
+                            clip: true
+                            elide: Label.ElideRight
+                            maximumLineCount: 2
+                            wrapMode: Label.WordWrap
+                            verticalAlignment: Label.AlignVCenter
+                        }
+
                         Rectangle {
                             id: physicalPinpadsGroup
                             width: parent.width - parent.leftPadding
@@ -92,40 +86,24 @@ Page {
 
                             Column {
                                 id: physicalPinpadsColumn
-                                width: parent.width - 2 * parent.leftPadding
+                                width: parent.width - parent.leftPadding
                                 anchors.centerIn: parent
                                 spacing: mainColumn.spacing
-
-                                Label {
-                                    id: physicalPinpadsGroupTitle
-                                    width: parent.width
-                                    text: qsTr("Оплата через мобильный терминал")
-                                    font {
-                                        pixelSize: usb2canButton.fontPixelSize
-                                        family: "Roboto"
-                                        styleName: "normal"
-                                        weight: Font.Normal
-                                    }
-                                    color: "black"
-                                    clip: true
-                                    elide: Label.ElideRight
-                                    maximumLineCount: 2
-                                    wrapMode: Label.WordWrap
-                                    verticalAlignment: Label.AlignVCenter
-                                }
 
                                 SettingsComponents.ChoosenItemSimple {
                                     id: usb2canButton
                                     width: mainColumn.width - 2 * mainColumn.spacing
                                     height: 0.2 * width
                                     leftPadding: 0.042 * mainColumn.width
-                                    title: "Мобильный терминал USB"
+                                    title: "Подключение по USB"
                                     fontPixelSize: 0.045 * mainColumn.width
                                     icoPath: "qrc:/ico/settings/usb.png"
                                     icoHeight: 0.09 * width
-                                    isApplied: true
-                                    appliedMsg: "Подключено"
+                                    isApplied: isUsbConnected
+                                    appliedMsg: isUsbConnected ? "Подключено" : "Подключите по USB"
+                                    isChooseVisible: false
                                     onClicked: {
+                                        isUsbConnected = !isUsbConnected
                                     }
                                 }
 
@@ -133,19 +111,21 @@ Page {
                                     width: usb2canButton.width
                                     height: usb2canButton.height
                                     leftPadding: usb2canButton.leftPadding
-                                    title: "Мобильный терминал Bluetooth"
+                                    title: "Подключение по Bluetooth"
                                     fontPixelSize: usb2canButton.fontPixelSize
                                     icoPath: "qrc:/ico/settings/bluetooth.png"
                                     icoHeight: usb2canButton.icoHeight
+                                    isChooseVisible: false
                                     onClicked: {
+                                        isBluetoothConnected = !isBluetoothConnected
                                     }
                                 }
 
                                 ListView {
                                     id: bluetoothReaders
                                     width: parent.width - parent.spacing
-                                    height: 0.3 * mainColumn.height
-                                    visible: (bluetoothReaders.count > 0)
+                                    height: 1.1 * usb2canButton.height * count
+                                    visible: isBluetoothConnected && (bluetoothReaders.count > 0)
                                     anchors.horizontalCenter: parent.horizontalCenter
                                     clip: true
                                     model: ListModel {
@@ -166,17 +146,39 @@ Page {
                                             isConnected: true
                                         }
                                     }
-                                    delegate: SettingsComponents.ChoosenItemSimple {
-                                        width: 0.8 * usb2canButton.width
-                                        height: usb2canButton.height
-                                        leftPadding: usb2canButton.leftPadding
-                                        title: deviceName
-                                        fontPixelSize: usb2canButton.fontPixelSize
-                                        icoPath: "qrc:/ico/settings/bluetooth.png"
-                                        icoHeight: usb2canButton.icoHeight
-                                        isApplied: isConnected
-                                        appliedMsg: "Подключено"
-                                        onClicked: {
+                                    delegate: Column {
+                                        id: delegateFrame
+                                        width: 1.1 * usb2canButton.width
+                                        height: 1.1 * usb2canButton.height
+                                        anchors.horizontalCenter: parent.horizontalCenter
+
+                                        SettingsComponents.ChoosenItemSimple {
+                                            id: delegateItem
+                                            width: 0.8 * usb2canButton.width
+                                            height: 0.8 * usb2canButton.height
+                                            anchors.centerIn: parent
+                                            leftPadding: usb2canButton.leftPadding
+                                            title: deviceName
+                                            fontPixelSize: 0.9 * usb2canButton.fontPixelSize
+                                            icoPath: ""
+                                            pushUpColor: "transparent"
+                                            pushDownColor: "#F6F6F6"
+                                            icoHeight: usb2canButton.icoHeight
+                                            isApplied: isConnected
+                                            appliedMsg: isConnected ? "Подключено" : "Нажмите для подключения"
+                                            isChooseVisible: false
+                                            onClicked: {
+                                            }
+                                        }
+
+                                        Row {
+                                            width: usb2canButton.width
+                                            anchors.horizontalCenter: parent.horizontalCenter
+                                            leftPadding: (usb2canButton.width - delegateItem.width - 0.5 * delegateItem.leftPadding)
+
+                                            SaleComponents.Line {
+                                                width: parent.width - parent.leftPadding
+                                            }
                                         }
                                     }
                                     ScrollBar.vertical: ScrollBar {
@@ -185,7 +187,40 @@ Page {
                                         width: 8
                                     }
                                 }
+
+                                Label {
+                                    width: parent.width - parent.spacing
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    visible: !bluetoothReaders.visible
+                                    text: qsTr("- включите терминал\n- нажмите на Подключение по Bluetooth\n- сопрягите устройство\n- вернитесь в приложении для настройки")
+                                    font {
+                                        pixelSize: 0.85 * usb2canButton.fontPixelSize
+                                        family: "Roboto"
+                                        styleName: "normal"
+                                        weight: Font.Normal
+                                    }
+                                    color: accessCodeLabel.color
+                                    clip: accessCodeLabel.clip
+                                    elide: accessCodeLabel.elide
+                                    maximumLineCount: 5
+                                    wrapMode: Label.WordWrap
+                                    leftPadding: usb2canButton.leftPadding
+                                    verticalAlignment: Label.AlignVCenter
+                                }
                             }
+                        }
+
+                        Label {
+                            id: tap2goGroup
+                            width: physicalPinpadsGroupTitle.width
+                            text: qsTr("Оплата через приложение tap2go")
+                            font: physicalPinpadsGroupTitle.font
+                            color: physicalPinpadsGroupTitle.color
+                            clip: physicalPinpadsGroupTitle.clip
+                            elide: physicalPinpadsGroupTitle.elide
+                            maximumLineCount: physicalPinpadsGroupTitle.maximumLineCount
+                            wrapMode: physicalPinpadsGroupTitle.wrapMode
+                            verticalAlignment: physicalPinpadsColumn.verticalCenter
                         }
 
                         Rectangle {
@@ -201,19 +236,6 @@ Page {
                                 width: physicalPinpadsColumn.width
                                 anchors.centerIn: parent
                                 spacing: physicalPinpadsColumn.spacing
-
-                                Label {
-                                    id: tap2goGroup
-                                    width: physicalPinpadsGroupTitle.width
-                                    text: qsTr("Оплата через приложение tap2go")
-                                    font: physicalPinpadsGroupTitle.font
-                                    color: physicalPinpadsGroupTitle.color
-                                    clip: physicalPinpadsGroupTitle.clip
-                                    elide: physicalPinpadsGroupTitle.elide
-                                    maximumLineCount: physicalPinpadsGroupTitle.maximumLineCount
-                                    wrapMode: physicalPinpadsGroupTitle.wrapMode
-                                    verticalAlignment: physicalPinpadsColumn.verticalCenter
-                                }
 
                                 Rectangle {
                                     width: usb2canButton.width
@@ -244,12 +266,90 @@ Page {
                                     fontPixelSize: usb2canButton.fontPixelSize
                                     icoPath: "qrc:/ico/settings/nfc.png"
                                     icoHeight: 0.9 * usb2canButton.icoHeight
-                                    isApplied: true
-                                    appliedMsg: "Подключено"
+                                    isApplied: isTap2goConnected
+                                    appliedMsg: isTap2goConnected ? "Подключено" : "Нажмите для подключения"
+                                    isChooseVisible: false
                                     onClicked: {
+                                        isTap2goConnected = !isTap2goConnected
+                                    }
+                                }
+
+                                Column {
+                                    id: accessCode
+                                    width: parent.width
+                                    spacing: 0.25 * parent.spacing
+
+                                    Label {
+                                        id: accessCodeLabel
+                                        width: parent.width
+                                        text: qsTr("Код авторизации")
+                                        font {
+                                            pixelSize: tap2goGroup.font.pixelSize
+                                            family: "Roboto"
+                                            styleName: "normal"
+                                            weight: Font.Normal
+                                        }
+                                        color: "#979797"
+                                        clip: true
+                                        elide: "ElideRight"
+                                        horizontalAlignment: Label.AlignLeft
+                                        verticalAlignment: Label.AlignVCenter
+                                    }
+
+                                    Row {
+                                        id: accessCoderRow
+                                        width: parent.width
+                                        height: eyeButton.height * eyeButton.scale
+                                        property bool passwordView: false
+
+                                        TextField {
+                                            id: accessCodeField
+                                            width: parent.width - eyeButton.implicitBackgroundWidth
+                                            text: qsTr("123123123")
+                                            placeholderText: qsTr((text.length === 0) ? "Код авторизации" : text)
+                                            placeholderTextColor: "#979797"
+                                            font: tap2goGroup.font
+                                            color: "#0064B4"
+                                            inputMethodHints: Qt.ImhDigitsOnly
+                                            echoMode: accessCoderRow.passwordView ? TextInput.Normal : TextInput.Password
+                                        }
+
+                                        ToolButton {
+                                            id: eyeButton
+                                            scale: 0.5
+                                            anchors.verticalCenter: accessCodeField.verticalCenter
+                                            enabled: (accessCodeField.text.length > 0)
+                                            contentItem: Image {
+                                                source: accessCoderRow.passwordView ? "qrc:/ico/settings/eye.png" : "qrc:/ico/settings/eye_off.png"
+                                            }
+                                            background: Rectangle {
+                                                implicitWidth: parent.width
+                                                implicitHeight: parent.height
+                                                radius: 0.5 * implicitWidth
+                                                color: Qt.darker("#33333333", eyeButton.enabled && (eyeButton.checked || eyeButton.highlighted) ? 1.5 : 1.0)
+                                                opacity: enabled ? 1 : 0.3
+                                                visible: eyeButton.down || (eyeButton.enabled && (eyeButton.checked || eyeButton.highlighted))
+                                            }
+                                            onClicked: {
+                                                accessCoderRow.passwordView = !accessCoderRow.passwordView
+                                            }
+                                        }
                                     }
                                 }
                             }
+                        }
+
+                        Label {
+                            id: ttkGroup
+                            width: physicalPinpadsGroupTitle.width
+                            text: qsTr("Оплата через приложение TTK")
+                            font: physicalPinpadsGroupTitle.font
+                            color: physicalPinpadsGroupTitle.color
+                            clip: physicalPinpadsGroupTitle.clip
+                            elide: physicalPinpadsGroupTitle.elide
+                            maximumLineCount: physicalPinpadsGroupTitle.maximumLineCount
+                            wrapMode: physicalPinpadsGroupTitle.wrapMode
+                            verticalAlignment: physicalPinpadsColumn.verticalCenter
                         }
 
                         Rectangle {
@@ -265,19 +365,6 @@ Page {
                                 width: physicalPinpadsColumn.width
                                 anchors.centerIn: parent
                                 spacing: physicalPinpadsColumn.spacing
-
-                                Label {
-                                    id: ttkGroup
-                                    width: physicalPinpadsGroupTitle.width
-                                    text: qsTr("Оплата через приложение TTK")
-                                    font: physicalPinpadsGroupTitle.font
-                                    color: physicalPinpadsGroupTitle.color
-                                    clip: physicalPinpadsGroupTitle.clip
-                                    elide: physicalPinpadsGroupTitle.elide
-                                    maximumLineCount: physicalPinpadsGroupTitle.maximumLineCount
-                                    wrapMode: physicalPinpadsGroupTitle.wrapMode
-                                    verticalAlignment: physicalPinpadsColumn.verticalCenter
-                                }
 
                                 Rectangle {
                                     width: usb2canButton.width
@@ -308,9 +395,11 @@ Page {
                                     fontPixelSize: usb2canButton.fontPixelSize
                                     icoPath: "qrc:/ico/settings/nfc.png"
                                     icoHeight: 0.9 * usb2canButton.icoHeight
-                                    isApplied: true
-                                    appliedMsg: "Подключено"
+                                    isApplied: isTtkConnected
+                                    appliedMsg: isTtkConnected ? "Подключено" : "Нажмите для подключения"
+                                    isChooseVisible: false
                                     onClicked: {
+                                        isTtkConnected = !isTtkConnected
                                     }
                                 }
                             }
