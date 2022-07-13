@@ -23,6 +23,7 @@ ApplicationWindow {
     property bool isShiftOpened: true
     property bool isCabinetEnable: false
     property var cashInDrawer: "100,00"
+    property bool is2canLoggedIn: true
 
     Action {
         id: openMenu
@@ -472,6 +473,15 @@ ApplicationWindow {
         onEntered: {
             console.info("[Sale.qml]\t\tbuyers contacts: " + textEntered)
         }
+    }
+
+    function getInterfaceIco(deviceInterface) {
+        if (deviceInterface === "USB") {
+            return "qrc:/ico/settings/usb.png"
+        } else if (deviceInterface === "Bluetooth") {
+            return "qrc:/ico/settings/bluetooth.png"
+        }
+        return ""
     }
 
     menuBar: ToolBar {

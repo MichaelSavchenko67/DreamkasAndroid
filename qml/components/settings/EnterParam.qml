@@ -11,6 +11,7 @@ Column {
     property var paramValue: ""
     property var regExpValidator: ""
     property bool isAcceptable: enterParamValueField.acceptableInput
+    property var inputMethod: Qt.ImhNone
 
     signal entered(string value)
 
@@ -41,6 +42,7 @@ Column {
             focus: true
             placeholderText: (text.length === 0) ? qsTr(paramPlaceholder) : text
             placeholderTextColor: "#979797"
+            inputMethodHints: inputMethod
             validator: regExpValidator
             font {
                 pixelSize: 4 * enterParamData.spacing
