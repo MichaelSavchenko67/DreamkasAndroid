@@ -264,5 +264,6 @@
         <file>qml/pages/subpages/settings/Pinpad2canSettings.qml</file>
         <file>qml/components/settings/Login.qml</file>
         <file>qml/pages/subpages/settings/Login2can.qml</file>
+        <file>qml/components/settings/SbpMerchantsList.qml</file>
     </qresource>
 </RCC>
