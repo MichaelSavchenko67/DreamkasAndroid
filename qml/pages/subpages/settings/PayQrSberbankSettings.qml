@@ -104,6 +104,7 @@ Page {
 
                     SettingsComponents.ToolTipButton {
                         id: tidFieldHelpButton
+                        width: 1.25 * tidField.font.pixelSize
                     }
 
                     SettingsComponents.ToolTipPopup {
@@ -155,6 +156,7 @@ Page {
 
                     SettingsComponents.ToolTipButton {
                         id: idQrFieldHelpButton
+                        width: 1.25 * tidField.font.pixelSize
                     }
 
                     SettingsComponents.ToolTipPopup {

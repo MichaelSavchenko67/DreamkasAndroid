@@ -6,7 +6,6 @@ Button {
 
     property bool isHelpVisible: false
 
-    width: 1.25 * tidField.font.pixelSize
     height: width
     anchors.verticalCenter: parent.verticalCenter
     background: Image {

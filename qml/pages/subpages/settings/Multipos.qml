@@ -276,6 +276,40 @@ Page {
                         spacing: 0.5 * parent.spacing
 
                         SettingsComponents.InfoToggle {
+                            id: newPayPinpad
+                            width: externalPinpad.width
+                            icoHeight: externalPinpad.icoHeight
+                            icoWidth: icoHeight
+                            itemLogo: "qrc:/ico/settings/pay_qr.png"
+                            itemTitle: qsTr("Оплата по QR")
+                            itemSubscription: qsTr("Приём безналичной оплаты")
+                            onSwitched: {
+                                newPay.visible = getChecked()
+                            }
+                        }
+
+                        SettingsComponents.ChoosenItemSimple {
+                            id: newPay
+                            visible: newPayPinpad.getChecked()
+                            leftPadding: 0.042 * parent.width
+                            width: parent.width - 4 * parent.spacing
+                            height: 1.6 * newPayPinpad.height
+                            anchors.horizontalCenter: newPayPinpad.horizontalCenter
+                            title: "СБП от NewPay"
+                            fontPixelSize: 0.045 * newPayPinpad.width
+                            icoPath: "qrc:/ico/settings/newPay_logo.png"
+                            icoHeight: newPayPinpad.icoHeight
+                            onClicked: {
+                                root.openPage("qrc:/qml/pages/subpages/settings/NewPaySettings.qml")
+                            }
+                        }
+                    }
+
+                    Column {
+                        width: parent.width
+                        spacing: 0.5 * parent.spacing
+
+                        SettingsComponents.InfoToggle {
                             id: checkingAccount
                             width: externalPinpad.width
                             icoWidth: externalPinpad.icoWidth
