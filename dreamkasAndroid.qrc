@@ -265,5 +265,8 @@
         <file>qml/components/settings/Login.qml</file>
         <file>qml/pages/subpages/settings/Login2can.qml</file>
         <file>qml/components/settings/SbpMerchantsList.qml</file>
+        <file>ico/settings/newPay_logo.png</file>
+        <file>qml/pages/subpages/settings/NewPaySettings.qml</file>
+        <file>qml/components/settings/NewPayCashbox.qml</file>
     </qresource>
 </RCC>

@@ -7,8 +7,9 @@ ToolTip {
     width: parent.width
     delay: 0
     contentItem: Text {
-        text: toolTip.text
         width: parent.width
+        text: toolTip.text
+        onLinkActivated: Qt.openUrlExternally(link)
         font {
             pixelSize: 0.56 * 0.06 * parent.width
             family: "Roboto"
