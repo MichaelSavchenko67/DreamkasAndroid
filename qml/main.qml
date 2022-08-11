@@ -6,17 +6,18 @@ import QtGraphicalEffects 1.0
 
 import "qrc:/qml/components/sale" as SaleComponents
 import "qrc:/qml/components/settings" as SettingsComponents
+import "qrc:/qml/pages/subpages" as SubPages
 
 ApplicationWindow {
     id: root
-//    width: Screen.width
-//    height: Screen.height
+    //    width: Screen.width
+    //    height: Screen.height
     width: 360
     height: 640
-//    width: 1080
-//    height: 1920
+    //    width: 1080
+    //    height: 1920
     visible: true
-//    visibility: "FullScreen"
+    //    visibility: "FullScreen"
 
     property int statusBarHeight: /*47*/0
     property bool isPrinterConnected: true
@@ -396,10 +397,10 @@ ApplicationWindow {
         drawer.close()
         popupReset()
         openPage("qrc:/qml/pages/subpages/OpenShift.qml")
-//        rootStack.currentItem.operation = "Открытие смены"
-//        rootStack.currentItem.complite = true
-//        rootStack.currentItem.resMsg = "Смена открыта"
-//        isShiftOpened = true
+        //        rootStack.currentItem.operation = "Открытие смены"
+        //        rootStack.currentItem.complite = true
+        //        rootStack.currentItem.resMsg = "Смена открыта"
+        //        isShiftOpened = true
     }
 
     function closeShift() {
@@ -613,7 +614,11 @@ ApplicationWindow {
 
     contentData: StackView {
         id: rootStack
+        visible: false
         initialItem: "qrc:/qml/pages/Login.qml"
         anchors.fill: parent
+    }
+
+    SubPages.PurchasesCharts {
     }
 }

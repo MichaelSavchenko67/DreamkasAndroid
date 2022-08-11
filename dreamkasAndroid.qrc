@@ -268,5 +268,13 @@
         <file>ico/settings/newPay_logo.png</file>
         <file>qml/pages/subpages/settings/NewPaySettings.qml</file>
         <file>qml/components/settings/NewPayCashbox.qml</file>
+        <file>js/d3.js</file>
+        <file>qml/pages/subpages/animationExample.qml</file>
+        <file>qml/pages/subpages/Chart.qml</file>
+        <file>content/Chart.js</file>
+        <file>content/chart.js</file>
+        <file>qml/components/charts/ChartMain.qml</file>
+        <file>qml/components/charts/Bar.qml</file>
+        <file>qml/pages/subpages/PurchasesCharts.qml</file>
     </qresource>
 </RCC>
