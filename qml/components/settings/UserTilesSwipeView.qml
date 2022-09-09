@@ -28,7 +28,7 @@ Column {
 
         Timer {
             id: initUserTileDelay
-            interval: 300
+            interval: 30
             running: false
             repeat: false
             onTriggered: {

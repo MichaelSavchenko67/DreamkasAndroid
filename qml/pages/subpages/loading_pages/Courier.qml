@@ -129,8 +129,8 @@ Rectangle {
             {
                 id: bikeRotation
                 loops: Animation.Infinite
-                from: -0.05 * leftWheel.height
-                to: 0.05 * leftWheel.height
+                from: -0.00742 * root.width
+                to: 0.00742 * root.width
                 duration: 1500
                 easing.type: Easing.CosineCurve
             }

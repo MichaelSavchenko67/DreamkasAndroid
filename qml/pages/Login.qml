@@ -59,7 +59,7 @@ Rectangle {
             PropertyChanges { target: loginField; visible: true }
             PropertyChanges { target: enterPasswordColumn; visible: true }
             PropertyChanges { target: loginIndicators; visible: false }
-            PropertyChanges { target: loggedInRow; visible: true }
+            PropertyChanges { target: loaderLogin; running: true }
             PropertyChanges { target: grid; visible: false }
         }
     ]
@@ -205,16 +205,19 @@ Rectangle {
                     spacing: parent.spacing
 
                     Row {
-                        width: 0.6 * parent.width
+                        id: userInfoRow
+                        width: 0.75 * parent.width
                         height: avatarImage.height
                         anchors.horizontalCenter: parent.horizontalCenter
                         spacing: usernameLoginLabel.font.pixelSize
                         leftPadding: spacing
+                        scale: 1.0
 
                         SettingsComponents.AvatarFrame {
                             id: avatarImage
                             width: 0.3 * parent.width
                             height: width
+                            x: parent.leftPadding
 
                             Image {
                                 anchors.fill: parent
@@ -224,6 +227,7 @@ Rectangle {
                         }
 
                         Column {
+                            id: userInfoColumn
                             width: parent.width -
                                    avatarImage.width -
                                    parent.spacing
@@ -283,32 +287,44 @@ Rectangle {
                             verticalAlignment: loginTitle.verticalAlignment
                         }
 
-                        Row {
-                            id: loggedInRow
-                            width: loginLabel.contentWidth + loaderLogin.width + spacing
-                            height: parent.height
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            visible: false
-                            spacing: 0.25 * loaderLogin.width
-
-                            Label {
-                                id: loginLabel
-                                anchors.verticalCenter: parent.verticalCenter
-                                text: qsTr("Выполняем вход")
-                                font: enterPasswordTitle.font
-                                color: enterPasswordTitle.color
-                                elide: enterPasswordTitle.elide
-                                horizontalAlignment: enterPasswordTitle.horizontalAlignment
-                                verticalAlignment: enterPasswordTitle.verticalAlignment
-                            }
+                        Column {
+                            width: parent.width
+                            spacing: 0.25 * loaderLogin.height
+                            anchors.centerIn: parent
 
                             BusyIndicator {
                                 id: loaderLogin
                                 implicitWidth: 0.1 * root.width
                                 implicitHeight: implicitWidth
+                                running: false
                                 visible: running
-                                anchors.verticalCenter: parent.verticalCenter
+                                anchors.horizontalCenter: parent.horizontalCenter
                                 Material.accent: "#5C7490"
+                            }
+
+                            Label {
+                                id: welcomeLabel
+                                width: parent.width
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                opacity: 0.0
+                                text: qsTr("Добро пожаловать")
+                                font {
+                                    pixelSize: 0.833 * loginTitle.font.pixelSize
+                                    family: loginTitle.font.family
+                                    styleName: loginTitle.font.styleName
+                                    weight: loginTitle.font.weight
+                                }
+                                color: "black"
+                                elide: loginTitle.elide
+                                horizontalAlignment: loginTitle.horizontalAlignment
+                                verticalAlignment: loginTitle.verticalAlignment
+
+                                OpacityAnimator {
+                                    target: welcomeLabel
+                                    to: 1.0
+                                    duration: 2000
+                                    running: loaderLogin.running
+                                }
                             }
                         }
                     }
@@ -338,7 +354,7 @@ Rectangle {
                                 id: wrongPswd
                                 width: parent.width
                                 anchors.centerIn: parent
-                                visible: first.shake && !loggedInRow.visible
+                                visible: first.shake && !loaderLogin.running
                                 text: qsTr("Неверный пароль, попробуйте ещё раз")
                                 font {
                                     pixelSize: 0.025 * frame.height
@@ -420,6 +436,17 @@ Rectangle {
                         to: 0
                         duration: 350
                         easing.type: Easing.Linear
+                    }
+
+                    NumberAnimation on y {
+                        alwaysRunToEnd: true
+                        to: 0.5 * parent.height -
+                            dreamkasLogo.height -
+                            frame.spacing -
+                            2 * frame.topPadding
+                        duration: 500
+                        easing.type: Easing.Linear
+                        running: loaderLogin.running
                     }
                 }
             }

@@ -9,7 +9,7 @@ import "qrc:/qml/pages/subpages/loading_pages" as LoadingPages
 Page {
     id: loadingPage
     anchors.fill: parent
-    property bool isLoadingFinished: true
+    property bool isLoadingFinished: false
 
     Timer {
         interval: 7500
