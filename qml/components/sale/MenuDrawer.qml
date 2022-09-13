@@ -139,7 +139,8 @@ Drawer {
                     "Изъять или внести": function() { root.openPage("qrc:/qml/pages/subpages/InsResTabs.qml") },
                     "Чек коррекции": function() { root.openPage("qrc:/qml/pages/subpages/PurchaseCorrection.qml") },
                     "УТМ": function() { root.openPage("qrc:/qml/pages/subpages/Utm.qml") },
-                    "Test Popup": function() { root.openPage("qrc:/qml/components/sale/PopupCashlessPay.qml") }
+                    "Test Popup": function() { root.openPage("qrc:/qml/components/sale/PopupCashlessPay.qml") },
+                    "Техподдержка": function() { root.openPage("qrc:/qml/pages/subpages/SupportHelp.qml") }
                 }
 
                 ListElement {item: "Формирование чека"}
@@ -161,6 +162,7 @@ Drawer {
                 ListElement {item: "Чек коррекции"}
                 ListElement {item: "УТМ"}
                 ListElement {item: "Test Popup"}
+                ListElement {item: "Техподдержка"}
             }
 
             delegate: ItemDelegate {

@@ -276,5 +276,6 @@
         <file>qml/components/charts/ChartMain.qml</file>
         <file>qml/components/charts/Bar.qml</file>
         <file>qml/pages/subpages/PurchasesCharts.qml</file>
+        <file>qml/pages/subpages/SupportHelp.qml</file>
     </qresource>
 </RCC>
