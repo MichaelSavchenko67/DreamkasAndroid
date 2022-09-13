@@ -614,11 +614,11 @@ ApplicationWindow {
 
     contentData: StackView {
         id: rootStack
-        visible: false
         initialItem: "qrc:/qml/pages/Login.qml"
         anchors.fill: parent
     }
 
     SubPages.PurchasesCharts {
+        visible: false
     }
 }
