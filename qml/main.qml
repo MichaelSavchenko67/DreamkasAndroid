@@ -7,15 +7,16 @@ import QtGraphicalEffects 1.0
 import "qrc:/qml/components/sale" as SaleComponents
 import "qrc:/qml/components/settings" as SettingsComponents
 import "qrc:/qml/pages/subpages" as SubPages
+import "qrc:/qml/pages/subpages/loading_pages" as LoadingPages
 
 ApplicationWindow {
     id: root
     //    width: Screen.width
     //    height: Screen.height
-    width: 360
-    height: 640
-    //    width: 1080
-    //    height: 1920
+//    width: 360
+//    height: 640
+    width: 540
+    height: 960
     visible: true
     //    visibility: "FullScreen"
 
@@ -614,11 +615,8 @@ ApplicationWindow {
 
     contentData: StackView {
         id: rootStack
-        initialItem: "qrc:/qml/pages/Login.qml"
+        initialItem: "qrc:/qml/pages/subpages/loading_pages/LoadingPage.qml"
         anchors.fill: parent
     }
 
-    SubPages.PurchasesCharts {
-        visible: false
-    }
 }
