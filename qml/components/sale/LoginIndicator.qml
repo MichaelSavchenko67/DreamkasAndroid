@@ -12,7 +12,6 @@ Rectangle {
 
     Image {
         id: indicator
-        anchors.fill: parent
 
         function getIco() {
             if (shake) {
@@ -25,20 +24,11 @@ Rectangle {
             }
         }
 
+        width: parent.width
+        height: parent.height
         enabled: parent.enabled
         visible: (digit.length === 0)
         source: getIco()
-
-        states:
-            State {
-            name: "moved"; when: shake
-            PropertyChanges { target: indicator; x: x }
-        }
-
-        transitions: Transition {
-            to: "moved"
-            NumberAnimation { properties: "x"; from: x; to: x + 0.8 * width; easing.type: Easing.OutElastic; duration: 250}
-        }
     }
 
     Label {
