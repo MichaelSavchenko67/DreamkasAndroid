@@ -78,8 +78,9 @@ Rectangle {
 
     function deleteDigit() {
         setLoginIndShake(false)
+
         if (pswd.length > 0) {
-            pswd = pswd.substring(0, pswd.length - 1)
+            pswd = ((pswd.length < 4) ? pswd.substring(0, pswd.length - 1) : "")
         }
     }
 
@@ -103,6 +104,7 @@ Rectangle {
     onPswdChanged: {
         if (pswd.length >= 4) {
             console.log("[Login.qml]\tPassword by user: " + pswd)
+
             if (pswd === "0000") {
                 console.log("[Login.qml]\tFailed!")
                 setLoginIndShake(true)
@@ -330,19 +332,31 @@ Rectangle {
                     }
 
                     Column {
+                        id: loginColumn
                         width: parent.width
                         spacing: 0.25 * parent.spacing
 
                         Row {
                             id: loginIndicators
                             width: 0.3 * frame.width
-                            anchors.horizontalCenter: parent.horizontalCenter
+                            x: 0.5 * (loginColumn.width - (4 * first.width + 3 * spacing))
                             spacing: 2 * first.width
 
                             SaleComponents.LoginIndicator { id: first; width: 0.03 * frame.width; enabled: (pswd.length >= 1) }
                             SaleComponents.LoginIndicator { id: second; width: first.width; enabled: (pswd.length >= 2) }
                             SaleComponents.LoginIndicator { id: third; width: first.width; enabled: (pswd.length >= 3) }
                             SaleComponents.LoginIndicator { id: fourth; width: first.width; enabled: (pswd.length === 4) }
+
+                            NumberAnimation on x {
+                                from: 0.4 * (loginColumn.width - (4 * first.width + 3 * loginIndicators.spacing))
+                                to: 0.5 * (loginColumn.width - (4 * first.width + 3 * loginIndicators.spacing))
+                                running: first.shake
+                                duration: 500
+                                easing {
+                                    type: Easing.OutElastic
+                                    amplitude: 2.5
+                                }
+                            }
                         }
 
                         Rectangle {
@@ -375,7 +389,7 @@ Rectangle {
                             id: grid
                             width: 0.69 * frame.width
                             height: 0.82 * width
-                            anchors.horizontalCenter: loginIndicators.horizontalCenter
+                            anchors.horizontalCenter: parent.horizontalCenter
                             columns: 3
                             spacing: 0
 
