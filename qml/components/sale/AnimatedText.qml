@@ -28,7 +28,7 @@ Text {
     }
 
     font {
-        pixelSize: 0.4 * height
+        pixelSize: 0.15 * height
         family: "Roboto"
         styleName: "normal"
         weight: Font.Normal
@@ -36,8 +36,8 @@ Text {
     clip: true
     color: "black"
     elide: Text.ElideRight
-    wrapMode: Text.WrapAnywhere
-    maximumLineCount: 2
+    wrapMode: Text.WordWrap
+    maximumLineCount: 3
     horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
 

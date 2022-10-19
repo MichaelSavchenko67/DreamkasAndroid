@@ -277,5 +277,25 @@
         <file>qml/components/charts/Bar.qml</file>
         <file>qml/pages/subpages/PurchasesCharts.qml</file>
         <file>qml/pages/subpages/SupportHelp.qml</file>
+        <file>img/loading_page/bike_without_wheels.png</file>
+        <file>img/loading_page/left_wheel.png</file>
+        <file>img/loading_page/right_wheel.png</file>
+        <file>img/loading_page/road.png</file>
+        <file>img/loading_page/cloud_1.png</file>
+        <file>img/loading_page/cloud_2.png</file>
+        <file>img/loading_page/cloud_3.png</file>
+        <file>qml/pages/subpages/loading_pages/LoadingPage.qml</file>
+        <file>qml/pages/subpages/loading_pages/Courier.qml</file>
+        <file>qml/pages/subpages/loading_pages/PhoneMarket.qml</file>
+        <file>img/loading_page/phone_market.png</file>
+        <file>img/loading_page/cart_left_wheel.png</file>
+        <file>img/loading_page/cart_right_wheel.png</file>
+        <file>img/loading_page/cart_without_wheels.png</file>
+        <file>img/loading_page/food_1.png</file>
+        <file>img/loading_page/food_2.png</file>
+        <file>img/loading_page/food_3.png</file>
+        <file>qml/components/settings/UserTile.qml</file>
+        <file>qml/components/settings/UserTilesSwipeView.qml</file>
+        <file>ico/users/default_avatar.png</file>
     </qresource>
 </RCC>
