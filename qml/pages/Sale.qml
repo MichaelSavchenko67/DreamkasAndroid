@@ -103,13 +103,14 @@ Page {
 
         contentData: Repeater {
             id: tabs
-            model: ["ВВОД ЦЕНЫ", "ПЛИТКИ", "ОВОЩИ", "ФРУКТЫ", "+ РАЗДЕЛ"]
+            model: ["ВВОД ЦЕНЫ", "ПЛИТКИ ШОКОЛАДА", "ОВОЩИ", "ФРУКТЫ", "+ РАЗДЕЛ"]
 
             TabButton {
                 height: parent.height
-                width: Math.max(100, tabBar.width / ((tabs.count > 4) ? 4.5 : 4))
+                width: tabNameLabel.contentWidth
 
                 Label {
+                    id: tabNameLabel
                     anchors.horizontalCenter: parent.horizontalCenter
                     text: qsTr(modelData)
                     font {
