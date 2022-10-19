@@ -276,6 +276,7 @@
         <file>qml/components/charts/ChartMain.qml</file>
         <file>qml/components/charts/Bar.qml</file>
         <file>qml/pages/subpages/PurchasesCharts.qml</file>
+        <file>qml/pages/subpages/SupportHelp.qml</file>
         <file>img/loading_page/bike_without_wheels.png</file>
         <file>img/loading_page/left_wheel.png</file>
         <file>img/loading_page/right_wheel.png</file>

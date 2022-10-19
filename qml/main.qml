@@ -618,5 +618,4 @@ ApplicationWindow {
         initialItem: "qrc:/qml/pages/subpages/loading_pages/LoadingPage.qml"
         anchors.fill: parent
     }
-
 }
