@@ -9,7 +9,7 @@ Label {
     onWeightChanged: {
         setWeightRoutine.stop()
         setWeightRoutine.setStep(weight)
-        setWeightRoutine.restart()
+        setWeightRoutine.start()
     }
 
     Timer {
