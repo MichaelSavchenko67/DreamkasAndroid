@@ -297,5 +297,6 @@
         <file>qml/components/settings/UserTile.qml</file>
         <file>qml/components/settings/UserTilesSwipeView.qml</file>
         <file>ico/users/default_avatar.png</file>
+        <file>qml/components/sale/WeighingField.qml</file>
     </qresource>
 </RCC>
