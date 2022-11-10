@@ -297,5 +297,11 @@
         <file>qml/components/settings/UserTile.qml</file>
         <file>qml/components/settings/UserTilesSwipeView.qml</file>
         <file>ico/users/default_avatar.png</file>
+        <file>qml/pages/startCustomerDisplay/CashboxWait.qml</file>
+        <file>ico/settings/offline.png</file>
+        <file>qml/pages/startCustomerDisplay/ManualSettings.qml</file>
+        <file>qml/pages/startCustomerDisplay/Weighing.qml</file>
+        <file>ico/menu/back_blue.png</file>
+        <file>ico/settings/check_in_white.png</file>
     </qresource>
 </RCC>

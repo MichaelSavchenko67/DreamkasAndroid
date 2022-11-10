@@ -127,6 +127,11 @@ ApplicationWindow {
         }
     }
 
+    function replacePage(page) {
+        console.log("[main.qml]\tOpen page: " + page)
+        rootStack.replace(page)
+    }
+
     function getButtonIco(action) {
         if (action === openMenu) {
             return "qrc:/ico/menu/menu.png"
@@ -615,7 +620,9 @@ ApplicationWindow {
 
     contentData: StackView {
         id: rootStack
-        initialItem: "qrc:/qml/pages/subpages/loading_pages/LoadingPage.qml"
+//        initialItem: "qrc:/qml/pages/subpages/loading_pages/LoadingPage.qml"
+//        initialItem: "qrc:/qml/pages/startCustomerDisplay/CashboxWait.qml"
+        initialItem: "qrc:/qml/pages/startCustomerDisplay/Weighing.qml"
         anchors.fill: parent
     }
 }
