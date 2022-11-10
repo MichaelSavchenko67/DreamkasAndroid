@@ -303,5 +303,6 @@
         <file>qml/pages/startCustomerDisplay/Weighing.qml</file>
         <file>ico/menu/back_blue.png</file>
         <file>ico/settings/check_in_white.png</file>
+        <file>qml/components/sale/WeighingField.qml</file>
     </qresource>
 </RCC>
