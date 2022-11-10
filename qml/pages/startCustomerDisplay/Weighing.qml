@@ -1,6 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 
+import "qrc:/qml/components/sale" as SaleComponents
 import "qrc:/qml/components/settings" as SettingsComponents
 
 Page {
@@ -86,10 +87,12 @@ Page {
                         verticalAlignment: productMeasureLabel.verticalAlignment
                     }
 
-                    Label {
+                    SaleComponents.DynamicNumberField {
+                        id: weightField
                         width: productMeasureLabel.width
                         anchors.horizontalCenter: parent.horizontalCenter
-                        text: qsTr("2,500 кг")
+                        accuracy: 3
+                        ending: "кг"
                         font {
                             pixelSize: 1.5 * productNameLabel.font.pixelSize
                             family: "Roboto"
@@ -105,9 +108,20 @@ Page {
                 }
 
                 Timer {
+                    interval: 1000
+                    repeat: false
+                    running: true
+                    onTriggered: {
+                        weightField.number = 2.500
+                        totalNumber.number = 308.625
+                        weighingTimer.start()
+                    }
+                }
+
+                Timer {
+                    id: weighingTimer
                     interval: 7
                     repeat: true
-                    running: true
                     onTriggered: {
                         if (control.value < 1) {
                             control.value = control.value + 0.01
@@ -173,12 +187,14 @@ Page {
                     verticalAlignment: productMeasureLabel.verticalAlignment
                 }
 
-                Label {
+                SaleComponents.DynamicNumberField {
+                    id: totalNumber
                     width: parent.width -
                            2 * parent.leftPadding -
                            totalTitleLabel.contentWidth
                     anchors.verticalCenter: parent.verticalCenter
-                    text: qsTr("123,45 \u20BD")
+                    accuracy: 2
+                    ending: "\u20BD"
                     font: productNameLabel.font
                     color: productMeasureLabel.color
                     elide: productMeasureLabel.elide

@@ -303,6 +303,18 @@
         <file>qml/pages/startCustomerDisplay/Weighing.qml</file>
         <file>ico/menu/back_blue.png</file>
         <file>ico/settings/check_in_white.png</file>
-        <file>qml/components/sale/WeighingField.qml</file>
+        <file>qml/components/sale/DynamicNumberField.qml</file>
+        <file>qml/pages/startCustomerDisplay/Payment.qml</file>
+        <file>ico/sale/pinpad.png</file>
+        <file>qml/pages/startCustomerDisplay/PaymentCompleted.qml</file>
+        <file>ico/sale/check_in_success.png</file>
+        <file>ico/sale/failed.png</file>
+        <file>ico/sale/feedback_good.png</file>
+        <file>ico/sale/feedback_not_good.png</file>
+        <file>qml/pages/startCustomerDisplay/Purchase.qml</file>
+        <file>qml/components/sale/RoundButtonCustom.qml</file>
+        <file>ico/sale/carbon_qr_code.png</file>
+        <file>ico/sale/cashless_blue.png</file>
+        <file>ico/sale/cash_rub.png</file>
     </qresource>
 </RCC>
