@@ -2,47 +2,16 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 
 import "qrc:/qml/components/sale" as SaleComponents
+import "qrc:/qml/components/menu" as MenuComponents
 import "qrc:/qml/components/settings" as SettingsComponents
 
 Page {
     id: manualConnectionPage
     width: parent.width
     height: parent.height
-    header: Row {
+    header: MenuComponents.ToolBarSimple {
         id: toolBar
-        width: parent.width
-        leftPadding: 0.25 * (width - 0.896 * width)
-        topPadding: 1.5 * 0.04375 * parent.width
-        bottomPadding: topPadding
-        spacing: 0.25 * backButton.width
-
-        SettingsComponents.ToolButtonCustom {
-            id: backButton
-            visible: true
-            height: 1.5 * titleLabel.font.pixelSize
-            icon.source: "qrc:/ico/menu/back_blue.png"
-            onClicked: {
-                root.replacePage("qrc:/qml/pages/startCustomerDisplay/CashboxWait.qml")
-            }
-        }
-
-        Label {
-            id: titleLabel
-            width: parent.width
-            anchors.verticalCenter: parent.verticalCenter
-            text: qsTr("Данные сети")
-            font {
-                pixelSize: 0.04375 * manualConnectionPage.width
-                family: "Roboto"
-                styleName: "normal"
-                weight: Font.DemiBold
-                bold: true
-            }
-            color: "black"
-            elide: Label.ElideRight
-            horizontalAlignment: Label.AlignLeft
-            verticalAlignment: Label.AlignVCenter
-        }
+        title: "Данные сети"
     }
     contentData: Column {
         width: 0.896 * parent.width
@@ -52,15 +21,14 @@ Page {
         Column {
             id: infoColumn
             width: parent.width
-            spacing: parent.topPadding
 
             Column {
                 width: parent.width
-                spacing: titleLabel.font.pixelSize
+                spacing: 0.04375 * manualConnectionPage.width
 
                 Column {
                     id: networkNameColumn
-                    width: parent.width - 2 * parent.leftPadding
+                    width: parent.width
                     spacing: 0.32 * parent.spacing
 
                     Label {
@@ -68,7 +36,7 @@ Page {
                         width: parent.width
                         text: qsTr("Название сети")
                         font {
-                            pixelSize: 0.75 * titleLabel.font.pixelSize
+                            pixelSize: 0.7 * 0.04375 * manualConnectionPage.width
                             family: "Roboto"
                             styleName: "normal"
                             weight: Font.Normal
@@ -86,7 +54,7 @@ Page {
                         enabled: false
                         text: "Dreamkas"
                         font {
-                            pixelSize: 0.9 * titleLabel.font.pixelSize
+                            pixelSize: 0.9 * 0.04375 * manualConnectionPage.width
                             family: "Roboto"
                             styleName: "normal"
                             weight: Font.Normal

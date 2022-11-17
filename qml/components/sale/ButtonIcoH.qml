@@ -20,10 +20,10 @@ Button {
     property bool fontBold: true
 
     contentItem: Row {
-        anchors.fill: parent
+        width: parent.width
         opacity: enabled ? 1.0 : 0.6
-        leftPadding: 0.755 * txt.font.pixelSize
-        spacing: 0.5 * leftPadding
+        spacing: 0.755 * txt.font.pixelSize
+        leftPadding: 0.5 * (width - ico.width - spacing - txt.contentWidth)
 
         Image {
             id: ico
@@ -53,6 +53,7 @@ Button {
     }
 
     background: Rectangle {
+        id: rect
         color: parent.down ? pushDownColor : pushUpColor
         border {
             width: borderWidth

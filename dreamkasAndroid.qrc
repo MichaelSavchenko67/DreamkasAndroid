@@ -316,5 +316,26 @@
         <file>ico/sale/carbon_qr_code.png</file>
         <file>ico/sale/cashless_blue.png</file>
         <file>ico/sale/cash_rub.png</file>
+        <file>ico/sale/basket.png</file>
+        <file>ico/menu/gallery.png</file>
+        <file>ico/menu/menu_swipe.png</file>
+        <file>ico/menu/other.png</file>
+        <file>ico/menu/settings_blue.png</file>
+        <file>ico/menu/menu_line.png</file>
+        <file>qml/components/menu/ToolBarSimple.qml</file>
+        <file>qml/pages/startCustomerDisplay/MainSettings.qml</file>
+        <file>qml/components/menu/MenuDisplay.qml</file>
+        <file>qml/pages/startCustomerDisplay/Gallery.qml</file>
+        <file>qml/components/settings/SpinBoxCustom.qml</file>
+        <file>ico/settings/trash_can.png</file>
+        <file>ico/settings/camera.png</file>
+        <file>img/gallery/gallery_1.png</file>
+        <file>img/gallery/gallery_2.png</file>
+        <file>img/gallery/gallery_3.png</file>
+        <file>img/gallery/gallery_4.png</file>
+        <file>qml/components/settings/GalleryElement.qml</file>
+        <file>qml/pages/startCustomerDisplay/Advertising.qml</file>
+        <file>ico/settings/close_blue.png</file>
+        <file>img/sale/cashier_woman.png</file>
     </qresource>
 </RCC>

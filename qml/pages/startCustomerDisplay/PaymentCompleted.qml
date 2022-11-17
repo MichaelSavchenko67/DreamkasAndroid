@@ -4,6 +4,13 @@ import QtQuick.Controls 2.15
 Page {
     width: parent.width
     height: parent.height
+
+    onFocusChanged: {
+        if (focus) {
+            root.setMenuEnabled(false)
+        }
+    }
+
     states: [
         State {
             name: "success"

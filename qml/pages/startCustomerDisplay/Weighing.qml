@@ -7,6 +7,13 @@ import "qrc:/qml/components/settings" as SettingsComponents
 Page {
     width: parent.width
     height: parent.height
+
+    onFocusChanged: {
+        if (focus) {
+            root.setMenuEnabled(false)
+        }
+    }
+
     contentData: Column {
         anchors.fill: parent
         topPadding: 1.1 * productNameLabel.font.pixelSize

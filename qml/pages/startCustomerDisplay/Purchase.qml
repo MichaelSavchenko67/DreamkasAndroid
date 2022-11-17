@@ -1,13 +1,23 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Controls.Material 2.15
+import QtGraphicalEffects 1.15
 
 import "qrc:/qml/components/sale" as SaleComponents
 import "qrc:/qml/components/settings" as SettingsComponents
 
 Page {
+    id: purchasePage
     width: parent.width
     height: parent.height
+
+    onFocusChanged: {
+        if (focus) {
+            root.setMenuEnabled(false)
+        }
+    }
+
+    property string lastPositionImageSrc: "qrc:/ico/tiles/tileGoods6.png"
 
     function choosePaymentType(id) {
         cashlessButton.isChoosen = (id === cashlessButton)
@@ -15,20 +25,60 @@ Page {
         qrCodeButton.isChoosen = (id === qrCodeButton)
     }
 
+    Timer {
+        id: appendPositionsTimer
+        interval: 250
+        repeat: true
+        running: false
+
+        property int cnt: 1
+
+        onTriggered: {
+            if (positionModel.count >= 10) {
+                stop()
+            } else {
+                console.log("positionModel.append")
+                positionModel.append({goodsName: "Яблоки красные, вкусные красные",
+                                     cost: "100,00",
+                                     total: "1 000,00",
+                                     quantity: 1,
+                                     measure: "шт"})
+            }
+        }
+    }
+
+    states: [
+        State {
+            name: "lastPosition"
+            PropertyChanges { target: borderRect; visible: false }
+            PropertyChanges { target: productTitleColumn; visible: true }
+            PropertyChanges { target: lastPositionImage; visible: (lastPositionImage.avatarSrc.length > 0) }
+            PropertyChanges { target: purchaseColumn; visible: false }
+        },
+        State {
+            name: "purchase"
+            PropertyChanges { target: productTitleColumn; visible: false }
+            PropertyChanges { target: lastPositionImage; visible: false }
+            PropertyChanges { target: purchaseColumn; visible: true }
+            PropertyChanges { target: borderRect; visible: true }
+        }
+    ]
+    state: "lastPosition"
     contentData: Column {
         id: mainColumn
         anchors.fill: parent
-        topPadding: 1.1 * productNameLabel.font.pixelSize
+        topPadding: ((purchasePage.state === "lastPosition") ? 1.1 * productNameLabel.font.pixelSize : 0)
         bottomPadding: 0.0394 * width
         spacing: height -
                  topPadding -
-                 productTitleColumn.height -
+                 ((purchasePage.state === "lastPosition") ? productTitleColumn.height : purchaseColumn.height) -
                  footerColumn.height -
                  bottomPadding
 
         Column {
             id: productTitleColumn
             width: parent.width
+            visible: false
             spacing: 2 * productNameLabel.font.pixelSize
 
             Label {
@@ -54,6 +104,13 @@ Page {
 
             Column {
                 width: parent.width
+                topPadding: (lastPositionImage.visible ? 0 : 0.5 * (mainColumn.height -
+                                                                    mainColumn.topPadding -
+                                                                    footerColumn.height -
+                                                                    productNameLabel.contentHeight -
+                                                                    lastPositionImage.height -
+                                                                    footerColumn.spacing -
+                                                                    parent.spacing))
                 spacing: 0.5 * productMeasureLabel.font.pixelSize
 
                 Label {
@@ -81,7 +138,7 @@ Page {
                     accuracy: 2
                     ending: "\u20BD"
                     font {
-                        pixelSize: 1.5 * productNameLabel.font.pixelSize
+                        pixelSize: (lastPositionImage.visible ? 1.5 : 2) * productNameLabel.font.pixelSize
                         family: "Roboto"
                         styleName: "normal"
                         weight: Font.DemiBold
@@ -96,14 +153,193 @@ Page {
         }
 
         Column {
+            id: purchaseColumn
+            width: totalFrame.width
+            height: mainColumn.height -
+                    footerColumn.height -
+                    mainColumn.bottomPadding -
+                    0.5 * totalFrame.radius -
+                    mainColumn.spacing +
+                    0.25 * openPurchaseButton.height
+            anchors.horizontalCenter: parent.horizontalCenter
+            visible: false
+
+            ListView {
+                id: purchaseView
+                anchors.fill: parent
+                clip: true
+                cacheBuffer: 100 * 0.15 * purchaseView.height
+                add: Transition { NumberAnimation { properties: "scale"; from: 0; to: 1; easing.type: Easing.InOutQuad } }
+                remove: Transition { NumberAnimation { properties: "scale"; from: 1; to: 0; easing.type: Easing.InOutQuad } }
+                model: ListModel {
+                    id: positionModel
+
+//                    ListElement {
+//                        goodsName: "Яблоки красные, вкусные красные"
+//                        cost: "100,00"
+//                        total: "1 000,00"
+//                        quantity: 1
+//                        measure: "шт"
+//                    }
+
+//                    ListElement {
+//                        goodsName: "Коньки хоккейные Bauer Suprime мужские"
+//                        cost: "1 000,00"
+//                        total: "10 000,00"
+//                        quantity: 2
+//                        measure: "шт"
+//                    }
+
+//                    ListElement {
+//                        goodsName: "Шоколад Милка с лесным орехом очень очень очень очень очень вкусный"
+//                        cost: "10 000,00"
+//                        total: "100 000,00"
+//                        quantity: 3.456
+//                        measure: "кг"
+//                    }
+
+//                    ListElement {
+//                        goodsName: "Шоколад Милка с лесным орехом очень очень очень очень очень очень очень очень очень очень вкусный"
+//                        cost: "100 000,00"
+//                        total: "1 000 000,00"
+//                        quantity: 3.456
+//                        measure: "кг"
+//                    }
+
+//                    ListElement {
+//                        goodsName: "Шоколад Милка с лесным орехом очень очень очень очень очень очень очень очень очень очень вкусный"
+//                        cost: "100 000 000,00"
+//                        total: "1 000 000 000,00"
+//                        quantity: 3.456
+//                        measure: "кг"
+//                    }
+
+//                    ListElement {
+//                        goodsName: "Шоколад Милка с лесным орехом очень очень очень очень очень очень очень очень очень очень вкусный"
+//                        cost: "100 000 000 000,00"
+//                        total: "1 000 000 000 000,00"
+//                        quantity: 3.456
+//                        measure: "кг"
+//                    }
+                }
+                delegate: Item {
+                    id: position
+                    height: positionColumn.height
+                    width: purchaseView.width - scroll.width
+                    transformOrigin: Item.Center
+
+                    Column {
+                        id: positionColumn
+                        width: parent.width - 2 * scroll.width
+                        topPadding: 0.25 * positionNameLabel.font.pixelSize
+                        bottomPadding: topPadding
+                        spacing: 2 * topPadding
+                        anchors.horizontalCenter: parent.horizontalCenter
+
+                        Row {
+                            id: positionRow
+                            width: parent.width
+                            spacing: parent.spacing
+
+                            Label {
+                                id: positionNameLabel
+                                width: 0.5 * parent.width
+                                anchors.verticalCenter: parent.verticalCenter
+                                leftPadding: scroll.width
+                                text: qsTr(goodsName)
+                                font {
+                                    pixelSize: 0.667 * productNameLabel.font.pixelSize
+                                    family: productNameLabel.font.family
+                                    styleName: productNameLabel.font.styleName
+                                    weight: Font.Normal
+                                }
+                                color: "black"
+                                elide: Label.ElideRight
+                                lineHeight: 1.4
+                                maximumLineCount: 6
+                                wrapMode: Label.WordWrap
+                                horizontalAlignment: Label.AlignLeft
+                                verticalAlignment: Label.AlignVCenter
+                            }
+
+                            Column {
+                                id: positionCostColumn
+                                width: parent.width - positionNameLabel.width - parent.spacing
+                                anchors.verticalCenter: parent.verticalCenter
+                                spacing: positionUnitPrice.font.pixelSize
+
+                                Label {
+                                    id: positionUnitPrice
+                                    width: parent.width
+                                    text: cost + "&nbsp;\u20BD&nbsp;x&nbsp;" + quantity + "&nbsp;" + measure
+                                    textFormat: Label.RichText
+                                    font {
+                                        pixelSize: 0.75 * positionNameLabel.font.pixelSize
+                                        family: positionNameLabel.font.family
+                                        styleName: positionNameLabel.font.styleName
+                                        weight: positionNameLabel.font.weight
+                                    }
+                                    color: positionNameLabel.color
+                                    opacity: 0.6
+                                    elide: positionNameLabel.elide
+                                    maximumLineCount: 2
+                                    wrapMode: Label.WordWrap
+                                    horizontalAlignment: Qt.AlignRight
+                                    verticalAlignment: Qt.AlignVCenter
+                                }
+
+                                Label {
+                                    id: positionTotalPriceLabel
+                                    width: parent.width
+                                    text: total + "&nbsp;\u20BD"
+                                    textFormat: Label.RichText
+                                    font {
+                                        pixelSize: positionNameLabel.font.pixelSize
+                                        family: positionNameLabel.font.family
+                                        styleName: "Normal"
+                                        weight: Font.DemiBold
+                                        bold: true
+                                    }
+                                    color: positionNameLabel.color
+                                    elide: positionNameLabel.elide
+                                    maximumLineCount: 2
+                                    wrapMode: positionUnitPrice.wrapMode
+                                    horizontalAlignment: positionUnitPrice.horizontalAlignment
+                                    verticalAlignment: positionUnitPrice.verticalAlignment
+                                }
+                            }
+                        }
+
+                        SaleComponents.Line {
+                            id: positionSeparator
+                            width: parent.width
+                            color: "#E0E0E0"
+                            visible: model.index < (purchaseView.count - 1)
+                        }
+                    }
+                }
+                ScrollBar.vertical: ScrollBar {
+                    id: scroll
+                    policy: ScrollBar.AsNeeded
+                    width: 8
+
+                    onVisualPositionChanged: {
+                    }
+                }
+            }
+        }
+
+        Column {
             id: footerColumn
             width: parent.width
             spacing: mainColumn.bottomPadding + 0.6 * openPurchaseButton.height
 
             SettingsComponents.Avatar {
+                id: lastPositionImage
                 width: 0.3 * parent.width
                 anchors.horizontalCenter: parent.horizontalCenter
-                avatarSrc: "qrc:/ico/tiles/tileGoods6.png"
+                avatarSrc: lastPositionImageSrc
+                visible: false
             }
 
             Column {
@@ -122,17 +358,45 @@ Page {
                         color: "#F6F6F6"
                         radius: 16
 
+                        Rectangle {
+                            id: borderRect
+                            width: parent.width - 2 * scroll.width
+                            height: 0.2 * openPurchaseButton.height
+                            visible: false
+                            anchors {
+                                horizontalCenter: parent.horizontalCenter
+                                bottom: openPurchaseButton.verticalCenter
+                            }
+                            color: "white"
+                            opacity: 0.75
+                        }
+
+                        FastBlur {
+                            anchors.fill: borderRect
+                            source: borderRect
+                            visible: borderRect.visible
+                            radius: 32
+                            opacity: 0.75
+                        }
+
                         SaleComponents.RoundButtonCustom {
                             id: openPurchaseButton
                             width: 0.175 * parent.width
                             height: width
                             anchors.verticalCenter: totalsColumn.top
-                            iconPath: "qrc:/ico/menu/purchase.png"
-                            buttonTxt: "ЧЕК"
+                            iconPath: (purchasePage.state === "lastPosition") ? "qrc:/ico/menu/purchase.png" : "qrc:/ico/sale/basket.png"
+                            buttonTxt: (purchasePage.state === "lastPosition") ? "Чек" : "Товар"
                             buttonTxtColor: "black"
+                            fontSize: 0.195 * height
+                            fontBold: false
                             backRadius: width
                             anchors.horizontalCenter: parent.horizontalCenter
                             onClicked: {
+                                purchasePage.state = ((purchasePage.state === "lastPosition") ? "purchase" : "lastPosition")
+
+                                if (purchasePage.state === "purchase") {
+                                    appendPositionsTimer.start()
+                                }
                             }
                         }
 

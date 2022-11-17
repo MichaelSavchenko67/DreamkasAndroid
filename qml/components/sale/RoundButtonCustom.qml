@@ -12,6 +12,7 @@ RoundButton {
     property color pushDownColor: "#F2F2F2"
     property string iconPath: ""
     property real fontSize: 0.2 * height
+    property bool fontBold: true
 
     background: Rectangle {
         id: rect
@@ -28,6 +29,7 @@ RoundButton {
             topPadding: (height -
                          ico.height -
                          txt.contentHeight) / 3
+            bottomPadding: topPadding
             spacing: topPadding
 
             Image {
@@ -50,8 +52,8 @@ RoundButton {
                 color: buttonTxtColor
                 font {
                     pixelSize: fontSize
-                    weight: Font.DemiBold
-                    bold: true
+                    weight: fontBold ? Font.DemiBold : Font.Normal
+                    bold: fontBold
                 }
             }
         }

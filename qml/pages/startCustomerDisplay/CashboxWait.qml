@@ -8,10 +8,16 @@ Page {
     width: parent.width
     height: parent.height
 
+    onFocusChanged: {
+        if (focus) {
+            root.setMenuEnabled(true)
+        }
+    }
+
     Action {
         id: openManualSettings
         onTriggered: {
-            root.replacePage("qrc:/qml/pages/startCustomerDisplay/ManualSettings.qml")
+            root.openPage("qrc:/qml/pages/startCustomerDisplay/ManualSettings.qml")
         }
     }
 
@@ -39,7 +45,7 @@ Page {
             PropertyChanges { target: connectionStatusTitleLabel; text: qsTr("Отсканируйте QR-код") }
             PropertyChanges { target: connectionStatusDescriptionLabel; text: qsTr("Подключите дисплей к кассе\nпри помощи сканера или введите данные вручную") }
             PropertyChanges { target: connectActionButton; buttonTxt: qsTr("ВВЕСТИ ВРУЧНУЮ") }
-            PropertyChanges { target: connectActionButton; buttonTxtColor: "#415A77" }
+            PropertyChanges { target: connectActionButton; buttonTxtColor: "#0064B4" }
             PropertyChanges { target: connectActionButton; pushUpColor: "white" }
             PropertyChanges { target: connectActionButton; pushDownColor: "#F6F6F6" }
             PropertyChanges { target: connectActionButton; action: openManualSettings }
