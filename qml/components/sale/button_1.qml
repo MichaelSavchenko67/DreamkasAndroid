@@ -31,7 +31,7 @@ Button {
 
         Text {
             id: txt
-            text: buttonTxt
+            text: qsTr(buttonTxt)
             anchors.fill: parent
             elide: Text.ElideRight
             maximumLineCount: 3

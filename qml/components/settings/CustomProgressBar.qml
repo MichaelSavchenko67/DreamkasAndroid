@@ -6,13 +6,15 @@ import QtQuick.Controls.Material 2.12
 ProgressBar {
     property bool isUseShadow: false
     property bool isRunning: false
+    property color backgroundColor: "#5C7490"
+    property color accentColor: "white"
 
     width: parent.width
     height: 12
     indeterminate: isRunning
-    Material.accent: "white"
+    Material.accent: accentColor
     background: Rectangle {
-        color: "#5C7490"
+        color: backgroundColor
         implicitWidth: parent.width
         implicitHeight: parent.height
 

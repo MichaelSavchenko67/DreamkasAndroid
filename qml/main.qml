@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 
 import "qrc:/qml/components/sale" as SaleComponents
+import "qrc:/qml/components/menu" as MenuComponents
 import "qrc:/qml/components/settings" as SettingsComponents
 import "qrc:/qml/pages/subpages" as SubPages
 import "qrc:/qml/pages/subpages/loading_pages" as LoadingPages
@@ -13,8 +14,8 @@ ApplicationWindow {
     id: root
     //    width: Screen.width
     //    height: Screen.height
-//    width: 360
-//    height: 640
+    //    width: 360
+    //    height: 640
     width: 540
     height: 960
     visible: true
@@ -125,6 +126,11 @@ ApplicationWindow {
         } else {
             rootStack.pop()
         }
+    }
+
+    function replacePage(page) {
+        console.log("[main.qml]\tOpen page: " + page)
+        rootStack.replace(page)
     }
 
     function getButtonIco(action) {
@@ -615,7 +621,45 @@ ApplicationWindow {
 
     contentData: StackView {
         id: rootStack
-        initialItem: "qrc:/qml/pages/subpages/loading_pages/LoadingPage.qml"
+        //        initialItem: "qrc:/qml/pages/subpages/loading_pages/LoadingPage.qml"
+//                initialItem: "qrc:/qml/pages/startCustomerDisplay/CashboxWait.qml"
+        //        initialItem: "qrc:/qml/pages/startCustomerDisplay/Weighing.qml"
+        //        initialItem: "qrc:/qml/pages/startCustomerDisplay/Payment.qml"
+        //        initialItem: "qrc:/qml/pages/startCustomerDisplay/PaymentCompleted.qml"
+//        initialItem: "qrc:/qml/pages/startCustomerDisplay/Purchase.qml"
+//        initialItem: "qrc:/qml/pages/startCustomerDisplay/Gallery.qml"
+        initialItem: "qrc:/qml/pages/startCustomerDisplay/Advertising.qml"
         anchors.fill: parent
+    }
+
+    function setMenuEnabled(isEnabled) {
+        menuDisplay.interactive = isEnabled
+        footerColumn.visible = isEnabled
+    }
+
+    MenuComponents.MenuDisplay {
+        id: menuDisplay
+    }
+
+    footer: Column {
+        id: footerColumn
+        width: 0.151 * root.width
+        anchors.horizontalCenter: parent.horizontalCenter
+        bottomPadding: 1.167 * menuLineButton.height
+
+        Button {
+            id: menuLineButton
+            width: 0.151 * root.width
+            height: 0.103 * width
+            background: Image {
+                anchors.fill: parent
+                source: "qrc:/ico/menu/menu_line.png"
+                fillMode: Image.PreserveaspectFit
+                scale: menuLineButton.pressed ? 0.8 : 1.0
+            }
+            onPressed: {
+                menuDisplay.open()
+            }
+        }
     }
 }
