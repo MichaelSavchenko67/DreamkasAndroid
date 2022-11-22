@@ -15,6 +15,7 @@ Page {
     }
 
     contentData: Column {
+        id: mainColumn
         anchors.fill: parent
         topPadding: 1.1 * productNameLabel.font.pixelSize
         bottomPadding: 0.0394 * width
@@ -137,36 +138,6 @@ Page {
                         }
                     }
                 }
-
-                ProgressBar {
-                    id: control
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    value: 0
-                    rotation: -90
-                    background: Rectangle {
-                        implicitWidth: 7 * productNameLabel.font.pixelSize
-                        implicitHeight: 0.683 * implicitWidth
-                        color: "transparent"
-                    }
-                    contentItem: Item {
-                        implicitWidth: 200
-                        implicitHeight: 4
-
-                        Rectangle {
-                            width: control.visualPosition * parent.width
-                            height: parent.height
-                            color: "#72E9C5"
-                        }
-
-                        Image {
-                            width: 0.5 * parent.width
-                            anchors.centerIn: parent
-                            fillMode: Image.PreserveAspectFit
-                            source: "qrc:/ico/settings/check_in_white.png"
-                            rotation: -control.rotation
-                        }
-                    }
-                }
             }
         }
 
@@ -208,6 +179,40 @@ Page {
                     horizontalAlignment: Label.AlignRight
                     verticalAlignment: productMeasureLabel.verticalAlignment
                 }
+            }
+        }
+    }
+
+    ProgressBar {
+        id: control
+        anchors {
+            horizontalCenter: parent.horizontalCenter
+            bottom: parent.bottom
+            bottomMargin: 0.5 * mainColumn.spacing + mainColumn.bottomPadding
+        }
+        value: 0
+        rotation: -90
+        background: Rectangle {
+            implicitWidth: 7 * productNameLabel.font.pixelSize
+            implicitHeight: 0.683 * implicitWidth
+            color: "transparent"
+        }
+        contentItem: Item {
+            implicitWidth: 200
+            implicitHeight: 4
+
+            Rectangle {
+                width: control.visualPosition * parent.width
+                height: parent.height
+                color: "#72E9C5"
+            }
+
+            Image {
+                width: 0.5 * parent.width
+                anchors.centerIn: parent
+                fillMode: Image.PreserveAspectFit
+                source: "qrc:/ico/settings/check_in_white.png"
+                rotation: -control.rotation
             }
         }
     }

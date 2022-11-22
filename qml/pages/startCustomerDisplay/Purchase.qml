@@ -162,11 +162,14 @@ Page {
                     mainColumn.spacing +
                     0.25 * openPurchaseButton.height
             anchors.horizontalCenter: parent.horizontalCenter
+            topPadding: mainColumn.bottomPadding
             visible: false
 
             ListView {
                 id: purchaseView
-                anchors.fill: parent
+                width: parent.width
+                height: parent.height - parent.topPadding
+                anchors.bottom: parent.bottom
                 clip: true
                 cacheBuffer: 100 * 0.15 * purchaseView.height
                 add: Transition { NumberAnimation { properties: "scale"; from: 0; to: 1; easing.type: Easing.InOutQuad } }
