@@ -38,7 +38,7 @@ Page {
                 stop()
             } else {
                 console.log("positionModel.append")
-                positionModel.append({goodsName: "Яблоки красные, вкусные красные",
+                positionModel.append({goodsName: "Виноград",
                                      cost: "100,00",
                                      total: "1 000,00",
                                      quantity: 1,
@@ -234,6 +234,11 @@ Page {
                     Column {
                         id: positionColumn
                         width: parent.width - 2 * scroll.width
+                        height: topPadding +
+                                positionRow.height +
+                                spacing +
+                                positionSeparator.height +
+                                bottomPadding
                         topPadding: 0.25 * positionNameLabel.font.pixelSize
                         bottomPadding: topPadding
                         spacing: 2 * topPadding
@@ -242,6 +247,9 @@ Page {
                         Row {
                             id: positionRow
                             width: parent.width
+                            height: positionNameLabel.contentHeight +
+                                    spacing +
+                                    positionCostColumn.height
                             spacing: parent.spacing
 
                             Label {
@@ -268,6 +276,9 @@ Page {
                             Column {
                                 id: positionCostColumn
                                 width: parent.width - positionNameLabel.width - parent.spacing
+                                height: positionUnitPrice.contentHeight +
+                                        spacing +
+                                        positionTotalPriceLabel.contentHeight
                                 anchors.verticalCenter: parent.verticalCenter
                                 spacing: positionUnitPrice.font.pixelSize
 

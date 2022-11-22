@@ -26,65 +26,45 @@ Drawer {
 
             Button {
                 id: closeMenuButton
-                width: 0.151 * root.width
-                height: 0.103 * width
-                anchors.centerIn: parent
-                background: Image {
+                width: 0.5 * root.width
+                height: menuSwipeIco.height
+                anchors.horizontalCenter: parent.horizontalCenter
+                background: Row {
                     anchors.fill: parent
-                    source: "qrc:/ico/menu/menu_line.png"
-                    fillMode: Image.PreserveaspectFit
-                    scale: closeMenuButton.pressed ? 0.8 : 1.0
+                    spacing: menuSwipeIco.width
+                    leftPadding: 0.5 * (width - menuSwipeIco.width - spacing - menuTitleLabel.contentWidth)
+
+                    Image {
+                        id: menuSwipeIco
+                        width: 0.02 * root.width
+                        height: 1.12 * width
+                        source: "qrc:/ico/menu/menu_swipe.png"
+                        fillMode: Image.PreserveaspectFit
+                        rotation: 180
+                        scale: closeMenuButton.pressed ? 0.8 : 1.0
+                    }
+
+                    Label {
+                        id: menuTitleLabel
+                        text: qsTr("Нажмите, чтобы скрыть меню")
+                        anchors.verticalCenter: parent.verticalCenter
+                        font {
+                            pixelSize: 0.028 * root.width
+                            family: "Roboto"
+                            styleName: "normal"
+                            weight: Font.Normal
+                        }
+                        color: "#0064B4"
+                        elide: Label.ElideRight
+                        horizontalAlignment: Label.AlignLeft
+                        verticalAlignment: Label.AlignVCenter
+                    }
                 }
-                onClicked: {
+                onPressed: {
                     menuDisplay.close()
                 }
             }
         }
-
-        //            Row {
-        //                id: menuTitleRow
-        //                width: 0.5 * parent.width
-        //                height: menuSwipeButton.height +
-        //                        spacing +
-        //                        menuHeaderLabel.contentHeight
-        //                anchors.horizontalCenter: parent.horizontalCenter
-        //                spacing: parent.spacing
-        //                leftPadding: 0.5 * (width -
-        //                                    menuSwipeButton.width -
-        //                                    spacing -
-        //                                    menuHeaderLabel.contentWidth)
-        //                clip: true
-
-        //                Image {
-        //                    id: menuSwipeButton
-        //                    width: 0.667 * menuHeaderLabel.font.pixelSize
-        //                    height: width
-        //                    anchors.verticalCenter: parent.verticalCenter
-        //                    source: "qrc:/ico/menu/menu_swipe.png"
-        //                    fillMode: Image.PreserveaspectFit
-        //                    rotation: menuDisplay.opened ? 180 : 0
-
-        //                    Behavior on rotation {
-        //                        NumberAnimation { duration: 500 }
-        //                    }
-        //                }
-
-        //                Label {
-        //                    id: menuHeaderLabel
-        //                    anchors.verticalCenter: parent.verticalCenter
-        //                    text: qsTr(menuDisplay.opened ? "Скрыть Меню" : "Потяните, чтобы открыть Меню")
-        //                    font {
-        //                        pixelSize: 0.0311 * menuDisplay.width
-        //                        family: "Roboto"
-        //                        styleName: "normal"
-        //                        weight: Font.Normal
-        //                    }
-        //                    color: "#0064B4"
-        //                    elide: Label.ElideRight
-        //                    horizontalAlignment: Label.AlignHCenter
-        //                    verticalAlignment: Label.AlignVCenter
-        //                }
-        //            }
 
         GridView {
             id: gridView

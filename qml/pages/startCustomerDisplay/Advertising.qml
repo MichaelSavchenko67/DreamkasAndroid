@@ -40,7 +40,7 @@ Page {
             PropertyChanges { target: welcomeColumn; visible: true }
         }
     ]
-    state: "welcome"
+    state: "view"
     property string imgSrc: "qrc:/img/gallery/gallery_" + (changeImgTimer.cnt++) + ".png"
 
     Timer {
@@ -131,7 +131,7 @@ Page {
             Label {
                 id: welcomeLabel
                 width: parent.width
-                text: qsTr("Добро\nпожаловать!")
+                text: qsTr("Мы рады\nвас видеть!")
                 font {
                     pixelSize: 0.083 * parent.width
                     family: "Roboto"
