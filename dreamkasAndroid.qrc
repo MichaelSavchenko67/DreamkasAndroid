@@ -337,5 +337,6 @@
         <file>qml/pages/startCustomerDisplay/Advertising.qml</file>
         <file>ico/settings/close_blue.png</file>
         <file>img/sale/cashier_woman.png</file>
+        <file>qml/components/settings/DelayButtonCustom.qml</file>
     </qresource>
 </RCC>

@@ -119,9 +119,9 @@ Page {
 
         SaleComponents.Button_1 {
             id: connectActionButton
-            anchors.horizontalCenter: parent.horizontalCenter
             width: 0.5 * parent.width
             height: 0.112 * parent.width
+            anchors.horizontalCenter: parent.horizontalCenter
             borderWidth: 0
             backRadius: 8
             fontSize: 0.028 * parent.width
