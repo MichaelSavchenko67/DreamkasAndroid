@@ -63,6 +63,7 @@ ItemDelegate {
                     color: "#979797"
                     clip: true
                     elide: "ElideRight"
+                    lineHeight: 1.3
                     verticalAlignment: Label.AlignBottom
                     maximumLineCount: 4
                     wrapMode: Label.WordWrap

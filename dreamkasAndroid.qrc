@@ -338,5 +338,17 @@
         <file>ico/settings/close_blue.png</file>
         <file>img/sale/cashier_woman.png</file>
         <file>qml/components/settings/DelayButtonCustom.qml</file>
+        <file>qml/pages/subpages/dreamkas_display/Welcome.qml</file>
+        <file>qml/pages/subpages/dreamkas_display/Connection.qml</file>
+        <file>qml/pages/subpages/dreamkas_display/ConnectionInfo.qml</file>
+        <file>qml/components/settings/InfoDelegate.qml</file>
+        <file>img/dreamkas_display/dreamkas_display_logo.png</file>
+        <file>qml/pages/subpages/dreamkas_display/ConnectionByIpPort.qml</file>
+        <file>qml/pages/subpages/dreamkas_display/ConnectionByNsd.qml</file>
+        <file>img/store/app_gallery_badge.png</file>
+        <file>img/store/app_store_badge.png</file>
+        <file>img/store/google_play_badge.png</file>
+        <file>img/store/rustore_app_badge.png</file>
+        <file>img/dreamkas_display/welcome_slides.png</file>
     </qresource>
 </RCC>
