@@ -1,8 +1,8 @@
-import QtQuick 2.9
-import QtQuick.Controls 2.5
-import QtQuick.Window 2.3
-import QtQuick.Layouts 1.3
-import QtGraphicalEffects 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Window
+import QtQuick.Layouts
+import Qt5Compat.GraphicalEffects
 
 import "qrc:/qml/components/sale" as SaleComponents
 import "qrc:/qml/components/menu" as MenuComponents
@@ -14,10 +14,10 @@ ApplicationWindow {
     id: root
     //    width: Screen.width
     //    height: Screen.height
-    //    width: 360
-    //    height: 640
-    width: 540
-    height: 960
+        width: 360
+        height: 640
+//    width: 540
+//    height: 960
     visible: true
     //    visibility: "FullScreen"
 
@@ -476,7 +476,7 @@ ApplicationWindow {
         id: buyersContactsPopup
         popupTitle: "Контакты покупателя"
         enteredTextTitle: "Телефон или эл. почта"
-        enteredValidator: RegExpValidator {regExp: /^(?:\d{11}|\S+@\w+\.\w{2,3})$/ }
+        enteredValidator: RegularExpressionValidator {regularExpression: /^(?:\d{11}|\S+@\w+\.\w{2,3})$/ }
         buttonText: "Сохранить"
         onEntered: {
             console.info("[Sale.qml]\t\tbuyers contacts: " + textEntered)
@@ -646,6 +646,7 @@ ApplicationWindow {
     Column {
         id: footerColumn
         width: 0.151 * root.width
+        visible: false
         anchors {
             horizontalCenter: parent.horizontalCenter
             bottom: parent.bottom

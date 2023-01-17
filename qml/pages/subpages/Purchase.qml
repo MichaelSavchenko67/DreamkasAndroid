@@ -1,6 +1,6 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.3
-import QtQuick.Layouts 1.3
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 
 import "qrc:/qml/components/sale" as SaleComponents
 
@@ -270,7 +270,7 @@ Page {
                                 horizontalAlignment: Qt.AlignHCenter
                                 verticalAlignment: Qt.AlignBottom
                                 inputMethodHints: Qt.ImhFormattedNumbersOnly
-                                validator: RegExpValidator { regExp: /[0-9]{1,},[0-9]{1,3}/ }
+                                validator: RegularExpressionValidator { regularExpression: /[0-9]{1,},[0-9]{1,3}/ }
                                 onFocusChanged: {
                                     position.editOn = focus
                                 }

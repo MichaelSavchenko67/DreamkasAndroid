@@ -4,8 +4,8 @@
  * Released under the MIT License
  */
 
-import QtQuick 2.0
-import QtQuick.Window 2.0
+import QtQuick
+import QtQuick.Window
 
 import "qrc:/content/chart.js" as Chart
 import "qrc:/qml/pages/subpages" as Subpages

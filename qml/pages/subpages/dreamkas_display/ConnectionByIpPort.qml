@@ -1,6 +1,6 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.3
-import QtQuick.Layouts 1.3
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 import QtQuick.Controls.Material 2.12
 
 import "qrc:/qml/components/sale" as SaleComponents
@@ -80,7 +80,7 @@ Page {
 
                 placeholderTextColor: "#000000"
                 inputMethodHints: Qt.ImhFormattedNumbersOnly
-                validator: RegExpValidator {regExp:  /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/ }
+                validator: RegularExpressionValidator {regularExpression:  /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/ }
                 font {
                     pixelSize: titleLabelInput.font.pixelSize
                     family: "Roboto"
@@ -115,7 +115,7 @@ Page {
                 enabled: false
                 placeholderTextColor: ipField.placeholderTextColor
                 inputMethodHints: Qt.ImhDigitsOnly
-                validator: RegExpValidator {regExp:  /^()([1-9]|[1-5]?[0-9]{2,4}|6[1-4][0-9]{3}|65[1-4][0-9]{2}|655[1-2][0-9]|6553[1-5])$/ }
+                validator: RegularExpressionValidator {regularExpression:  /^()([1-9]|[1-5]?[0-9]{2,4}|6[1-4][0-9]{3}|65[1-4][0-9]{2}|655[1-2][0-9]|6553[1-5])$/ }
                 font: ipField.font
                 color: ipField.color
             }

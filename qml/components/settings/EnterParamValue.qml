@@ -1,5 +1,5 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
+import QtQuick
+import QtQuick.Controls
 import "qrc:/content/calculator.js" as CalcEngine
 
 TextField {
@@ -13,7 +13,7 @@ TextField {
     }
     clip: true
     inputMethodHints: Qt.ImhFormattedNumbersOnly
-    validator: RegExpValidator { regExp: /^(0|[1-9]\d*)([,]\d{1,2})?$/ }
+    validator: RegularExpressionValidator { regularExpression: /^(0|[1-9]\d*)([,]\d{1,2})?$/ }
     placeholderTextColor: "black"
     horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignBottom

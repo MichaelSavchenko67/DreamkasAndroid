@@ -1,7 +1,7 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
+import QtQuick
+import QtQuick.Controls
 import QtQuick.Controls.Material 2.12
-import QtQuick.Layouts 1.12
+import QtQuick.Layouts
 
 import "qrc:/qml/components/sale" as SaleComponents
 import "qrc:/qml/components/settings" as SettingsComponents
@@ -172,7 +172,7 @@ Page {
                     title: "ФИО"
                     paramPlaceholder: "Введите ФИО"
                     paramValue: userName
-                    regExpValidator: RegExpValidator { regExp: /^((([а-я,А-Я]{1,}\s{0,1})?([а-я,А-Я]{1,}\s{0,1})?([а-я,А-Я]{1,}))|(([a-z,A-Z]{1,}\s{0,1})?([a-z,A-Z]{1,}\s{0,1})?([a-z,A-Z}]{1,})))$/ }
+                    regExpValidator: RegularExpressionValidator { regularExpression: /^((([а-я,А-Я]{1,}\s{0,1})?([а-я,А-Я]{1,}\s{0,1})?([а-я,А-Я]{1,}))|(([a-z,A-Z]{1,}\s{0,1})?([a-z,A-Z]{1,}\s{0,1})?([a-z,A-Z}]{1,})))$/ }
                     onEntered: {
                         console.log("[SupportHelp.qml]\t\t" + title + ": " + value)
                         userName = value
@@ -186,7 +186,7 @@ Page {
                     paramPlaceholder: "+ 7"
                     paramValue: userPhone
                     inputMethod: Qt.ImhDigitsOnly
-                    regExpValidator: RegExpValidator { regExp: /^\+7(\(?)\d{3}(\)?)\d{7}$/ }
+                    regExpValidator: RegularExpressionValidator { regularExpression: /^\+7(\(?)\d{3}(\)?)\d{7}$/ }
                     onEntered: {
                         console.log("[SupportHelp.qml]\t\t" + title + ": " + value)
                         userPhone = value
@@ -200,7 +200,7 @@ Page {
                     paramPlaceholder: "Введите email"
                     paramValue: userEmail
                     inputMethod: Qt.ImhEmailCharactersOnly
-                    regExpValidator: RegExpValidator {regExp: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/ }
+                    regExpValidator: RegularExpressionValidator {regularExpression: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/ }
                     onEntered: {
                         console.log("[SupportHelp.qml]\t\t" + title + ": " + value)
                         userEmail = value

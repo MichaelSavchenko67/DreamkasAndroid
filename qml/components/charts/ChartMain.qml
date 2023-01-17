@@ -1,4 +1,4 @@
-import QtQuick 2.15
+import QtQuick
 
 import "qrc:/content/chart.js" as Chart
 import "qrc:/qml/pages/subpages" as Subpages

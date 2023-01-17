@@ -1,5 +1,5 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.3
+import QtQuick
+import QtQuick.Controls
 import QtQuick.Controls.Material 2.12
 
 import "qrc:/content/calculator.js" as CalcEngine
@@ -16,9 +16,9 @@ Popup {
     property bool isCostEdit: true
     property bool isQuantityEdit: true
 
-    property var costMask: RegExpValidator { regExp: /^(0|[1-9]\d*)([.]|[,]\d{1,2})?$/ }
-    property var countMask: RegExpValidator { regExp: /[1-9]\d*/ }
-    property var scaleMask: RegExpValidator { regExp: /^(0|[1-9]\d*)([.]|[,]\d{1,3})?$/ }
+    property var costMask: RegularExpressionValidator { regularExpression: /^(0|[1-9]\d*)([.]|[,]\d{1,2})?$/ }
+    property var countMask: RegularExpressionValidator { regularExpression: /[1-9]\d*/ }
+    property var scaleMask: RegularExpressionValidator { regularExpression: /^(0|[1-9]\d*)([.]|[,]\d{1,3})?$/ }
 
     onOpened: {
         costField.focus = false

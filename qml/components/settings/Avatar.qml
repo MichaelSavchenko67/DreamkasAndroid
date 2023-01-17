@@ -1,6 +1,6 @@
-import QtQuick 2.12
-import QtGraphicalEffects 1.0
-import QtQuick.Controls 2.12
+import QtQuick
+import Qt5Compat.GraphicalEffects
+import QtQuick.Controls
 
 import "qrc:/qml/components/settings" as SettingsComponents
 

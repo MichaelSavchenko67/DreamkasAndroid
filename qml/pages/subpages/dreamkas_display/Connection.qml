@@ -1,6 +1,6 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.3
-import QtQuick.Layouts 1.3
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 import QtQuick.Controls.Material 2.12
 
 import "qrc:/qml/components/sale" as SaleComponents
@@ -75,7 +75,7 @@ Page {
             anchors.horizontalCenter: connectionByQrCode.horizontalCenter
             itemLogo: "qrc:/ico/settings/manual.png"
             itemTitle: "Ввести вручную"
-            itemSubscription: "Подключить устройство по введённому\nIP-адресу и порту"
+            itemSubscription: "Подключить устройство по введённому\nIP-адресу и порту"
             onClicked: {
                 root.openPage("qrc:/qml/pages/subpages/dreamkas_display/ConnectionByIpPort.qml")
             }

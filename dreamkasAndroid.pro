@@ -1,6 +1,6 @@
 TEMPLATE = app
 TARGET = dreamkasAndroid
-QT += quick quickcontrols2 widgets
+QT += quick quickcontrols2 widgets core5compat
 
 CONFIG += sdk_no_version_check
 

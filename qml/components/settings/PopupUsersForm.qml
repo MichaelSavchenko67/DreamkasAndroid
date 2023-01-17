@@ -1,5 +1,5 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.3
+import QtQuick
+import QtQuick.Controls
 import QtQuick.Controls.Material 2.12
 
 import "qrc:/qml/components/sale" as SaleComponents
@@ -87,7 +87,7 @@ Popup {
                     title: "ФИО"
                     paramPlaceholder: "Введите ФИО"
                     paramValue: userName
-                    regExpValidator: RegExpValidator { regExp: /^((([а-я,А-Я]{1,}\s{0,1})?([а-я,А-Я]{1,}\s{0,1})?([а-я,А-Я]{1,}))|(([a-z,A-Z]{1,}\s{0,1})?([a-z,A-Z]{1,}\s{0,1})?([a-z,A-Z}]{1,})))$/ }
+                    regExpValidator: RegularExpressionValidator { regularExpression: /^((([а-я,А-Я]{1,}\s{0,1})?([а-я,А-Я]{1,}\s{0,1})?([а-я,А-Я]{1,}))|(([a-z,A-Z]{1,}\s{0,1})?([a-z,A-Z]{1,}\s{0,1})?([a-z,A-Z}]{1,})))$/ }
                     onEntered: {
                         console.log("[PopupUsersForm.qml]\t\t" + title + ": " + value)
                         userName = value
@@ -100,7 +100,7 @@ Popup {
                     paramPlaceholder: "Введите телефон"
                     paramValue: userPhone
                     inputMethod: Qt.ImhDigitsOnly
-                    regExpValidator: RegExpValidator {regExp: /^(?:\d{11})$/ }
+                    regExpValidator: RegularExpressionValidator {regularExpression: /^(?:\d{11})$/ }
                     onEntered: {
                         console.log("[PopupUsersForm.qml]\t\t" + title + ": " + value)
                         userPhone = value
@@ -113,7 +113,7 @@ Popup {
                     paramPlaceholder: "Введите email"
                     paramValue: userEmail
                     inputMethod: Qt.ImhEmailCharactersOnly
-                    regExpValidator: RegExpValidator {regExp: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/ }
+                    regExpValidator: RegularExpressionValidator {regularExpression: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/ }
                     onEntered: {
                         console.log("[PopupUsersForm.qml]\t\t" + title + ": " + value)
                         userEmail = value

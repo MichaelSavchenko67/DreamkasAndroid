@@ -51,6 +51,8 @@ compile_commands.json
 
 # Other
 .DS_Store
+*.DS_Store
+*.DS_Store*
 *.TMP
 
 # Andorid local files
