@@ -122,12 +122,6 @@ Page {
                             source: "qrc:/ico/menu/down.png"
                             fillMode: Image.PreserveAspectFit
 
-                            ColorOverlay {
-                                anchors.fill: snoMenuIco
-                                source: snoMenuIco
-                                color: snoTitle.color
-                            }
-
                             states: State {
                                 name: "toPressed"; when: snoMenu.opened
                                 PropertyChanges {
