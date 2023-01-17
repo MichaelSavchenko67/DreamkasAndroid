@@ -25,7 +25,7 @@ ApplicationWindow {
     property bool isPrinterConnected: true
     property bool isShiftOpened: true
     property bool isCabinetEnable: false
-    property var cashInDrawer: "100,00"
+    property string cashInDrawer: "100,00"
     property bool is2canLoggedIn: true
 
     Action {
@@ -621,14 +621,16 @@ ApplicationWindow {
 
     contentData: StackView {
         id: rootStack
-        //        initialItem: "qrc:/qml/pages/subpages/loading_pages/LoadingPage.qml"
-//                initialItem: "qrc:/qml/pages/startCustomerDisplay/CashboxWait.qml"
-//                initialItem: "qrc:/qml/pages/startCustomerDisplay/Weighing.qml"
-        //        initialItem: "qrc:/qml/pages/startCustomerDisplay/Payment.qml"
-        //        initialItem: "qrc:/qml/pages/startCustomerDisplay/PaymentCompleted.qml"
+//        initialItem: "qrc:/qml/pages/subpages/loading_pages/LoadingPage.qml"
+//        initialItem: "qrc:/qml/pages/startCustomerDisplay/CashboxWait.qml"
+//        initialItem: "qrc:/qml/pages/startCustomerDisplay/Weighing.qml"
+//        initialItem: "qrc:/qml/pages/startCustomerDisplay/Payment.qml"
+//        initialItem: "qrc:/qml/pages/startCustomerDisplay/PaymentCompleted.qml"
 //        initialItem: "qrc:/qml/pages/startCustomerDisplay/Purchase.qml"
 //        initialItem: "qrc:/qml/pages/startCustomerDisplay/Gallery.qml"
-        initialItem: "qrc:/qml/pages/startCustomerDisplay/Advertising.qml"
+//        initialItem: "qrc:/qml/pages/startCustomerDisplay/Advertising.qml"
+//        initialItem: "qrc:/qml/pages/startCustomerDisplay/MainSettings.qml"
+//        initialItem: "qrc:/qml/pages/subpages/dreamkas_display/Connection.qml"
         anchors.fill: parent
     }
 
