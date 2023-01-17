@@ -58,6 +58,9 @@ Popup {
         id: popupFrame
         radius: 8
         color: "#FFFFFF"
+    }
+    contentItem: Rectangle {
+        anchors.fill: parent
 
         ToolButton {
             id: exitButton

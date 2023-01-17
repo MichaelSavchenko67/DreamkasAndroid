@@ -21,24 +21,26 @@ ToolTip {
         maximumLineCount: 3
         wrapMode: Text.WordWrap
     }
-    background: Rectangle {
-        id: toolTipFrame
-        color: "white"
-        border.color: "#d6d6d6"
-        border.width: 1
-        radius: 8
-    }
+    background: Item {
+        Rectangle {
+            id: toolTipFrame
+            anchors.fill: parent
+            color: "white"
+            border.color: "#d6d6d6"
+            border.width: 1
+            radius: 8
+        }
 
-    DropShadow {
-        visible: true
-        anchors.fill: toolTipFrame
-        cached: true
-        horizontalOffset: 3
-        verticalOffset: 3
-        radius: 8.0
-        samples: 16
-        color: "#d6d6d6"
-        source: toolTipFrame
+        DropShadow {
+            visible: true
+            anchors.fill: toolTipFrame
+            cached: true
+            horizontalOffset: 3
+            verticalOffset: 3
+            radius: 8.0
+            samples: 16
+            color: "#d6d6d6"
+            source: toolTipFrame
+        }
     }
 }
-

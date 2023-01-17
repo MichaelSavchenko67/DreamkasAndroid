@@ -1,6 +1,6 @@
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Controls.Material 2.12
+import QtQuick.Controls.Material
 
 import "qrc:/qml/components/sale" as SaleComponents
 
@@ -19,11 +19,14 @@ Popup {
     modal: true
     focus: true
     closePolicy: Popup.NoAutoClose
-
     background: Rectangle {
         anchors.fill: parent
         radius: 8
         color: "white"
+    }
+    contentItem: Rectangle {
+        anchors.fill: parent
+        color: "transparent"
 
         ToolButton {
             id: exitButton

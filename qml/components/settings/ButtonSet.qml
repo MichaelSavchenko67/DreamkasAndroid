@@ -43,24 +43,27 @@ Button {
         }
     }
 
-    background: Rectangle {
-        id: rect
-        color: "transparent"
-        border.color: buttonSet.isSetUp ? "#0064B4" : "#979797"
-        border.width: 1
-        radius: 8
-    }
+    background: Item {
+        Rectangle {
+            id: rect
+            anchors.fill: parent
+            color: "transparent"
+            border.color: buttonSet.isSetUp ? "#0064B4" : "#979797"
+            border.width: 1
+            radius: 8
+        }
 
-    DropShadow {
-        visible: true
-        anchors.fill: rect
-        cached: true
-        horizontalOffset: 3
-        verticalOffset: 3
-        radius: 8.0
-        samples: 16
-        color: "#d6d6d6"
-        source: rect
+        DropShadow {
+            visible: true
+            anchors.fill: rect
+            cached: true
+            horizontalOffset: 3
+            verticalOffset: 3
+            radius: 8.0
+            samples: 16
+            color: "#d6d6d6"
+            source: rect
+        }
     }
 
     onClicked: {

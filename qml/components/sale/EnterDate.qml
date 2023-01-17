@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Private 1.0
-import QtQuick.Controls.Styles 1.1
+import QtQuick.Controls.Styles
 
 Calendar {
     id: calendar

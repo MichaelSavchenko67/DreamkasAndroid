@@ -23,6 +23,7 @@ Menu {
                 visible: menuItem.checkable
                 border.color: "#C4C4C4"
                 radius: 3
+
                 Rectangle {
                     width: 14
                     height: 14

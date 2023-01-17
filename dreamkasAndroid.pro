@@ -51,3 +51,5 @@ DISTFILES += \
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 
 ANDROID_ABIS = armeabi-v7a
+
+QMAKE_INFO_PLIST = $$PWD/ios/Info.plist

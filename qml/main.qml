@@ -498,6 +498,25 @@ ApplicationWindow {
         height: 0.133 * width + statusBarHeight
         visible: false
 
+        Rectangle {
+            id: toolBarFrame
+            anchors.fill: parent
+            color: "#5C7490"
+        }
+
+        DropShadow {
+            id: toolBarShadow
+            visible: true
+            anchors.fill: toolBarFrame
+            cached: true
+            samples: 1 + 2 * radius
+            horizontalOffset: 0
+            verticalOffset: 4
+            radius: 8
+            color: "#D6D6D6"
+            source: toolBarFrame
+        }
+
         contentData: Column {
             anchors.fill: parent
             spacing: 0
@@ -575,24 +594,6 @@ ApplicationWindow {
                         contextMenu.open()
                     }
                 }
-            }
-        }
-
-        background: Rectangle {
-            anchors.fill: parent
-            color: "#5C7490"
-
-            DropShadow {
-                id: toolBarShadow
-                visible: true
-                anchors.fill: parent
-                cached: true
-                samples: 1 + 2 * radius
-                horizontalOffset: 0
-                verticalOffset: 4
-                radius: 8
-                color: "#D6D6D6"
-                source: parent
             }
         }
     }

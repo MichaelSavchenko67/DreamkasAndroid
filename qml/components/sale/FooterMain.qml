@@ -3,20 +3,24 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import Qt5Compat.GraphicalEffects
 
-Rectangle {
-    id: frame
+Item {
     width: parent.width
     height: 0.3 * width
     anchors.bottom: parent.bottom
-    color: "#F6F6F6"
+
+    Rectangle {
+        id: frame
+        anchors.fill: parent
+        color: "#F6F6F6"
+    }
 
     DropShadow {
         visible: true
-        anchors.fill: parent
+        anchors.fill: frame
         cached: true
         verticalOffset: -6
         radius: 8
-        source: parent
+        source: frame
         color: "#D6D6D6"
     }
 }

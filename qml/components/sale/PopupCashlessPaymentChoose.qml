@@ -1,6 +1,6 @@
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Controls.Material 2.12
+import QtQuick.Controls.Material
 
 import "qrc:/qml/components/sale" as SaleComponents
 import "qrc:/qml/components/settings" as SettingsComponents
@@ -22,6 +22,10 @@ Popup {
         anchors.fill: parent
         radius: 8
         color: "#FFFFFF"
+    }
+    contentItem: Rectangle {
+        anchors.fill: parent
+        color: "transparent"
 
         ToolButton {
             id: exitButton

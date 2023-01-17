@@ -16,8 +16,9 @@ Button {
     signal createUser()
     signal userChoosen()
 
-    background: Rectangle {
+    Rectangle {
         id: rect
+        anchors.fill: parent
         radius: 8
 
         Column {

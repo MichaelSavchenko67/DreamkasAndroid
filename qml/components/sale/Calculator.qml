@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
-import QtQuick.Controls.Material 2.12
+import QtQuick.Controls.Material
 import QtQuick.Controls.Universal 2.12
 import Qt5Compat.GraphicalEffects
 import Qt.labs.settings 1.0

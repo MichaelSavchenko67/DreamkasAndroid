@@ -4,17 +4,18 @@ import Qt5Compat.GraphicalEffects
 
 Button {
     id: button
-    width: 0.5 * parent.width
-    height: parent.height
 
-    property var txt
+    property string txt: "undefinded"
     property real fontPixelSize: 0.5 * parent.height
 
+    width: 0.5 * parent.width
+    height: parent.height
     display: AbstractButton.TextOnly
     background: Rectangle {
         anchors.fill: parent
         border.width: 0
         color: "#00FFFFFF"
+
         Text {
             id: name
             anchors.fill: parent
@@ -33,9 +34,6 @@ Button {
         }
 
         transformOrigin: Item.Center
-
-        property bool isEnable: false
-
         states: State {
             name: "toPressed"; when: button.pressed
             PropertyChanges {
@@ -43,7 +41,6 @@ Button {
                 scale: 1.5
             }
         }
-
         transitions: Transition {
             to: "toPressed"
             reversible: true
