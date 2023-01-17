@@ -621,7 +621,7 @@ ApplicationWindow {
 
     contentData: StackView {
         id: rootStack
-//        initialItem: "qrc:/qml/pages/subpages/loading_pages/LoadingPage.qml"
+        initialItem: "qrc:/qml/pages/subpages/loading_pages/LoadingPage.qml"
 //        initialItem: "qrc:/qml/pages/startCustomerDisplay/CashboxWait.qml"
 //        initialItem: "qrc:/qml/pages/startCustomerDisplay/Weighing.qml"
 //        initialItem: "qrc:/qml/pages/startCustomerDisplay/Payment.qml"
