@@ -25,7 +25,7 @@ ApplicationWindow {
     property bool isPrinterConnected: true
     property bool isShiftOpened: true
     property bool isCabinetEnable: false
-    property var cashInDrawer: "100,00"
+    property string cashInDrawer: "100,00"
     property bool is2canLoggedIn: true
 
     Action {
@@ -621,14 +621,16 @@ ApplicationWindow {
 
     contentData: StackView {
         id: rootStack
-        //        initialItem: "qrc:/qml/pages/subpages/loading_pages/LoadingPage.qml"
-//                initialItem: "qrc:/qml/pages/startCustomerDisplay/CashboxWait.qml"
-        //        initialItem: "qrc:/qml/pages/startCustomerDisplay/Weighing.qml"
-        //        initialItem: "qrc:/qml/pages/startCustomerDisplay/Payment.qml"
-        //        initialItem: "qrc:/qml/pages/startCustomerDisplay/PaymentCompleted.qml"
+        initialItem: "qrc:/qml/pages/subpages/loading_pages/LoadingPage.qml"
+//        initialItem: "qrc:/qml/pages/startCustomerDisplay/CashboxWait.qml"
+//        initialItem: "qrc:/qml/pages/startCustomerDisplay/Weighing.qml"
+//        initialItem: "qrc:/qml/pages/startCustomerDisplay/Payment.qml"
+//        initialItem: "qrc:/qml/pages/startCustomerDisplay/PaymentCompleted.qml"
 //        initialItem: "qrc:/qml/pages/startCustomerDisplay/Purchase.qml"
 //        initialItem: "qrc:/qml/pages/startCustomerDisplay/Gallery.qml"
-        initialItem: "qrc:/qml/pages/startCustomerDisplay/Advertising.qml"
+//        initialItem: "qrc:/qml/pages/startCustomerDisplay/Advertising.qml"
+//        initialItem: "qrc:/qml/pages/startCustomerDisplay/MainSettings.qml"
+//        initialItem: "qrc:/qml/pages/subpages/dreamkas_display/Connection.qml"
         anchors.fill: parent
     }
 
@@ -641,21 +643,49 @@ ApplicationWindow {
         id: menuDisplay
     }
 
-    footer: Column {
+    Column {
         id: footerColumn
         width: 0.151 * root.width
-        anchors.horizontalCenter: parent.horizontalCenter
-        bottomPadding: 1.167 * menuLineButton.height
+        anchors {
+            horizontalCenter: parent.horizontalCenter
+            bottom: parent.bottom
+        }
+        bottomPadding: 1.167 * menuSwipeButton.height
 
         Button {
-            id: menuLineButton
-            width: 0.151 * root.width
-            height: 0.103 * width
-            background: Image {
+            id: menuSwipeButton
+            width: 0.5 * root.width
+            height: menuSwipeIco.height
+            anchors.horizontalCenter: parent.horizontalCenter
+            background: Row {
                 anchors.fill: parent
-                source: "qrc:/ico/menu/menu_line.png"
-                fillMode: Image.PreserveaspectFit
-                scale: menuLineButton.pressed ? 0.8 : 1.0
+                spacing: menuSwipeIco.width
+                leftPadding: 0.5 * (width - menuSwipeIco.width - spacing - menuTitleLabel.contentWidth)
+
+                Image {
+                    id: menuSwipeIco
+                    width: 0.02 * root.width
+                    height: 1.12 * width
+                    source: "qrc:/ico/menu/menu_swipe.png"
+                    fillMode: Image.PreserveaspectFit
+                    scale: menuSwipeButton.pressed ? 0.8 : 1.0
+                }
+
+                Label {
+                    id: menuTitleLabel
+                    text: qsTr("Нажмите, чтобы открыть меню")
+                    anchors.verticalCenter: parent.verticalCenter
+                    font {
+                        pixelSize: 0.028 * root.width
+                        family: "Roboto"
+                        styleName: "normal"
+                        weight: Font.Normal
+                    }
+                    color: "#0064B4"
+                    elide: Label.ElideRight
+                    horizontalAlignment: Label.AlignLeft
+                    verticalAlignment: Label.AlignVCenter
+                }
             }
             onPressed: {
                 menuDisplay.open()

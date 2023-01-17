@@ -2,6 +2,8 @@ TEMPLATE = app
 TARGET = dreamkasAndroid
 QT += quick quickcontrols2 widgets
 
+CONFIG += sdk_no_version_check
+
 HEADERS += \
         src/include/cashlessPayModel.h \
         src/include/modelDemoSwipe.h \
