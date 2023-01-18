@@ -1,10 +1,11 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.3
-import QtQuick.Controls.Material 2.12
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls.Material
 
 import "qrc:/qml/components/sale" as SaleComponents
 
 Popup {
+    id: popup
     property var titleMsg
     property var addMsg
     property var firsButtonName
@@ -29,9 +30,13 @@ Popup {
     modal: true
     focus: true
     background: Rectangle {
-        id: popupFrame
         radius: 8
         color: "#FFFFFF"
+    }
+    contentItem: Rectangle {
+        id: popupFrame
+        anchors.fill: parent
+        color: "transparent"
 
         Column {
             width: 0.85 * parent.width

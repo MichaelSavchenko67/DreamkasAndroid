@@ -1,7 +1,7 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.3
-import QtQuick.Layouts 1.3
-import QtQuick.Controls.Material 2.12
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtQuick.Controls.Material
 
 import "qrc:/qml/components/sale" as SaleComponents
 
@@ -68,7 +68,7 @@ Page {
 
                 Label {
                     width: parent.width
-                    text: qsTr("Скачайте новое приложение\nдля вашего магазина")
+                    text: qsTr("Скачайте новое приложение\nдля вашего магазина")
                     font {
                         pixelSize: 0.8 * title.font.pixelSize
                         family: title.font.family

@@ -1,6 +1,6 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.3
-import QtQuick.Controls.Material 2.12
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls.Material
 
 import "qrc:/content/calculator.js" as CalcEngine
 import "qrc:/qml/components/sale" as SaleComponents
@@ -23,6 +23,10 @@ Popup {
         id: popupFrame
         radius: 8
         color: "#FFFFFF"
+    }
+    contentItem: Rectangle {
+        anchors.fill: parent
+        color: "transparent"
 
         ToolButton {
             id: exitButton

@@ -1,5 +1,5 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
+import QtQuick
+import QtQuick.Controls
 //import Taxes 1.0
 
 import "qrc:/qml/components/sale" as SaleComponents

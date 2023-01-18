@@ -1,6 +1,6 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.3
-import QtQuick.Controls.Material 2.12
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls.Material
 
 import "qrc:/qml/components/sale" as SaleComponents
 
@@ -15,8 +15,8 @@ Popup {
     property bool isIntervalEnable: false
 
     onOpened: {
-        calendar.minimumDate = minDate
-        calendar.maximumDate = curDate
+//        calendar.minimumDate = minDate
+//        calendar.maximumDate = curDate
     }
 
     function getConfirmButtonTxt() {
@@ -48,28 +48,32 @@ Popup {
         anchors.fill: parent
         radius: 8
         color: "#FFFFFF"
+    }
+    contentItem: Rectangle {
+        anchors.fill: parent
+        color: "transparent"
 
         Column {
             anchors.fill: parent
             topPadding: 2 * 0.038 * parent.height
             spacing: topPadding
 
-            SaleComponents.EnterDate {
-                id: calendar
-                isIntervalEnable: popupDate.isIntervalEnable
-                width: 0.9 * parent.width
-                height: width
-                anchors.horizontalCenter: parent.horizontalCenter
-                onSelectedDateChanged: {
-                    if (isIntervalEnable) {
-                        beginDate = startDate
-                        endDate = stopDate
-                    } else {
-                        choosenDate = selectedDate
-                    }
-                    confirmButton.buttonTxt = getConfirmButtonTxt()
-                }
-            }
+//            SaleComponents.EnterDate {
+//                id: calendar
+//                isIntervalEnable: popupDate.isIntervalEnable
+//                width: 0.9 * parent.width
+//                height: width
+//                anchors.horizontalCenter: parent.horizontalCenter
+//                onSelectedDateChanged: {
+//                    if (isIntervalEnable) {
+//                        beginDate = startDate
+//                        endDate = stopDate
+//                    } else {
+//                        choosenDate = selectedDate
+//                    }
+//                    confirmButton.buttonTxt = getConfirmButtonTxt()
+//                }
+//            }
 
             SaleComponents.Button_1 {
                 id: confirmButton

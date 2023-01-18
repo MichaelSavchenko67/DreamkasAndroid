@@ -1,7 +1,7 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
-import QtQuick.Controls.Material 2.12
-import QtQuick.Layouts 1.12
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls.Material
+import QtQuick.Layouts
 
 import "qrc:/qml/components/sale" as SaleComponents
 import "qrc:/qml/components/settings" as SettingsComponents
@@ -166,7 +166,7 @@ Page {
                     // Савченко                     Savchenko
                     // Савченко Михаил              Savchenko Mikhail
                     // Савченко Михаил Андреевич    Savchenko Mikhail Andreevich
-                    validator: RegExpValidator { regExp: /^((([а-я,А-Я]{1,}\s{0,1})?([а-я,А-Я]{1,}\s{0,1})?([а-я,А-Я]{1,}))|(([a-z,A-Z]{1,}\s{0,1})?([a-z,A-Z]{1,}\s{0,1})?([a-z,A-Z}]{1,})))$/ }
+                    validator: RegularExpressionValidator { regularExpression: /^((([а-я,А-Я]{1,}\s{0,1})?([а-я,А-Я]{1,}\s{0,1})?([а-я,А-Я]{1,}))|(([a-z,A-Z]{1,}\s{0,1})?([a-z,A-Z]{1,}\s{0,1})?([a-z,A-Z}]{1,})))$/ }
                     onAcceptableInputChanged: {
                         if (acceptableInput) {
                             console.log("[UserPage.qml]\t\t Username accepted")
@@ -213,7 +213,7 @@ Page {
                             color: nameField.color
                             echoMode: passwordView ? TextInput.Normal : TextInput.Password
                             inputMethodHints: Qt.ImhDigitsOnly
-                            validator: RegExpValidator { regExp: /[0-9]\d{3}/ }
+                            validator: RegularExpressionValidator { regularExpression: /[0-9]\d{3}/ }
                             onAcceptableInputChanged: {
                                 if (acceptableInput) {
                                     console.log("[UserPage.qml]\t\t Password accepted")
@@ -306,7 +306,7 @@ Page {
                     font: nameField.font
                     color: nameField.color
                     inputMethodHints: Qt.ImhDigitsOnly
-                    validator: RegExpValidator { regExp: /^([1-9]{1}([0-9]{9}|[0-9]{11}))$/}
+                    validator: RegularExpressionValidator { regularExpression: /^([1-9]{1}([0-9]{9}|[0-9]{11}))$/}
                     onAcceptableInputChanged: {
                         if (acceptableInput) {
                             console.log("[UserPage.qml]\t\t INN accepted")

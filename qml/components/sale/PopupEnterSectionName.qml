@@ -1,7 +1,7 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.3
-import QtQuick.Controls.Material 2.12
-import QtGraphicalEffects 1.13
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls.Material
+import Qt5Compat.GraphicalEffects
 
 import "qrc:/qml/components/sale" as SaleComponents
 
@@ -24,6 +24,10 @@ Popup {
         anchors.fill: parent
         radius: 8
         color: "#FFFFFF"
+    }
+    contentItem: Rectangle {
+        anchors.fill: parent
+        color: "transparent"
         layer.enabled: true
         layer.effect: OpacityMask {
             maskSource: Item {

@@ -1,7 +1,7 @@
-import QtQuick 2.9
-import QtQuick.Controls 2.5
-import QtQuick.Layouts 1.3
-import QtGraphicalEffects 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import Qt5Compat.GraphicalEffects
 
 import "qrc:/qml/components/sale" as SaleComponents
 import "qrc:/content/calculator.js" as CalcEngine
@@ -121,12 +121,6 @@ Page {
                             anchors.verticalCenter: parent.verticalCenter
                             source: "qrc:/ico/menu/down.png"
                             fillMode: Image.PreserveAspectFit
-
-                            ColorOverlay {
-                                anchors.fill: snoMenuIco
-                                source: snoMenuIco
-                                color: snoTitle.color
-                            }
 
                             states: State {
                                 name: "toPressed"; when: snoMenu.opened

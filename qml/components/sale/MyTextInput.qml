@@ -1,7 +1,7 @@
-import QtQuick 2.12
-import QtQuick.Layouts 1.12
-import QtQuick.Controls 2.12
-import QtGraphicalEffects 1.0
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
+import Qt5Compat.GraphicalEffects
 
 import "qrc:/qml/components/settings" as SettingsComponents
 
@@ -23,7 +23,7 @@ ToolBar {
 
     signal changeText(var txt)
 
-    Row {
+    contentItem: Row {
         id: frame
         anchors.fill: parent
         leftPadding: 0.15 * searchButton.width
@@ -68,20 +68,22 @@ ToolBar {
             }
         }
     }
-
-    background: Rectangle {
-        anchors.fill: parent
-        color: "#5C7490"
+    background: Item {
+        Rectangle {
+            id: rect
+            anchors.fill: parent
+            color: "#5C7490"
+        }
 
         DropShadow {
             id: toolBarShadow
             visible: isUseShadow
-            anchors.fill: parent
+            anchors.fill: rect
             cached: true
             verticalOffset: 4
             radius: 8
             samples: 1 + 2 * radius
-            source: parent
+            source: rect
             color: "#D6D6D6"
         }
     }

@@ -1,9 +1,9 @@
-import QtQuick 2.12
-import QtMultimedia 5.12
-import QtQuick.Controls 2.12
-import QtQuick.Controls.Material 2.12
-import QtQuick.Layouts 1.12
-import QtGraphicalEffects 1.0
+import QtQuick
+import QtMultimedia
+import QtQuick.Controls
+import QtQuick.Controls.Material
+import QtQuick.Layouts
+import Qt5Compat.GraphicalEffects
 
 import "qrc:/qml/components/settings" as SettingsComponents
 
@@ -24,6 +24,10 @@ Popup {
         anchors.fill: parent
         radius: 8
         color: "#FFFFFF"
+    }
+    contentItem: Rectangle {
+        anchors.fill: parent
+        color: "transparent"
 
         ToolButton {
             id: exitButton
@@ -71,27 +75,33 @@ Popup {
                 id: avatar
                 width: 0.6 * parent.width
                 anchors.horizontalCenter: parent.horizontalCenter
-                Camera {
-                    id: camera
-                    position: Camera.FrontFace
-                    focus {
-                        focusMode: CameraFocus.FocusContinuous
-                        focusPointMode: CameraFocus.FocusPointAuto
+
+                MediaDevices {
+                    id: mediaDevices
+                }
+
+                CaptureSession {
+                    id: captureSession
+                    camera: Camera {
+                        id: camera
+                        cameraDevice: mediaDevices.defaultVideoInput
+//                        position: Camera.FrontFace
+                        focusMode: Camera.FocusModeAutoNear
                     }
-                    imageCapture {
+                    imageCapture: ImageCapture {
+                        id: imageCapture
                         onImageCaptured: {
                             // Show the preview in an Image
                             console.log("onImageCaptured")
                             photoPreview.source = preview
                         }
                     }
-                }
-
-                VideoOutput {
-                    anchors.fill: parent
-                    autoOrientation: false
-                    fillMode: VideoOutput.PreserveAspectCrop
-                    source: camera
+                    videoOutput: VideoOutput {
+                        anchors.fill: parent
+//                        autoOrientation: false
+                        fillMode: VideoOutput.PreserveAspectCrop
+//                        source: camera
+                    }
                 }
             }
 
@@ -120,7 +130,7 @@ Popup {
                         }
                     }
                     onClicked: {
-                        camera.imageCapture.capture();
+                        captureSession.imageCapture.capture()
                     }
                 }
 

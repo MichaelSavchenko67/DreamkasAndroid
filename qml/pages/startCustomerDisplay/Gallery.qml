@@ -1,7 +1,7 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Controls.Material 2.15
-import QtGraphicalEffects 1.15
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls.Material
+import Qt5Compat.GraphicalEffects
 
 import "qrc:/qml/components/sale" as SaleComponents
 import "qrc:/qml/components/menu" as MenuComponents

@@ -1,7 +1,7 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
-import QtQuick.Controls.Material 2.12
-import QtQuick.Layouts 1.12
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls.Material
+import QtQuick.Layouts
 
 import "qrc:/qml/components/sale" as SaleComponents
 import "qrc:/qml/components/settings" as SettingsComponents
@@ -108,7 +108,7 @@ Page {
                         }
                         color: "#0064B4"
                         inputMethodHints: Qt.ImhDigitsOnly
-                        validator: RegExpValidator { regExp: /^([1-9]{1}([0-9]{9}|[0-9]{11}))$/}
+                        validator: RegularExpressionValidator { regularExpression: /^([1-9]{1}([0-9]{9}|[0-9]{11}))$/}
                         onTextChanged: {
                             organizationInn = text
                             console.log("[CheckingAccountSettings]\t\torganizationInn: " + organizationInn)
@@ -211,7 +211,7 @@ Page {
                         font: innField.font
                         color: innField.color
                         inputMethodHints: Qt.ImhDigitsOnly
-                        validator: RegExpValidator { regExp: /^(04[0-9]{7})$/}
+                        validator: RegularExpressionValidator { regularExpression: /^(04[0-9]{7})$/}
                         onTextChanged: {
                             bankBik = text
                             console.log("[CheckingAccountSettings]\tbankBik: " + bankBik)
@@ -311,7 +311,7 @@ Page {
                         font: innField.font
                         color: innField.color
                         inputMethodHints: Qt.ImhDigitsOnly
-                        validator: RegExpValidator { regExp: /^(301[0-9]{17})$/}
+                        validator: RegularExpressionValidator { regularExpression: /^(301[0-9]{17})$/}
                         onTextChanged: {
                             bankCorespondentAccount = text
                             console.log("[CheckingAccountSettings]\tbankCorespondentAccount: " + bankCorespondentAccount)
@@ -352,7 +352,7 @@ Page {
                         font: innField.font
                         color: innField.color
                         inputMethodHints: Qt.ImhDigitsOnly
-                        validator: RegExpValidator { regExp: /^(1[0-9]{19})$/}
+                        validator: RegularExpressionValidator { regularExpression: /^(1[0-9]{19})$/}
                         onTextChanged: {
                             bankCheckingAccount = text
                             console.log("[CheckingAccountSettings]\tbankCheckingAccount: " + bankCheckingAccount)

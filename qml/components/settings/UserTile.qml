@@ -1,7 +1,7 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.15
-import QtGraphicalEffects 1.15
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import Qt5Compat.GraphicalEffects
 
 import "qrc:/qml/components/sale" as SaleComponents
 import "qrc:/qml/components/settings" as SettingsComponents
@@ -16,8 +16,9 @@ Button {
     signal createUser()
     signal userChoosen()
 
-    background: Rectangle {
+    Rectangle {
         id: rect
+        anchors.fill: parent
         radius: 8
 
         Column {

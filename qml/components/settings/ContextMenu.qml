@@ -1,5 +1,5 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
+import QtQuick
+import QtQuick.Controls
 
 Menu {
     id: menu
@@ -23,6 +23,7 @@ Menu {
                 visible: menuItem.checkable
                 border.color: "#C4C4C4"
                 radius: 3
+
                 Rectangle {
                     width: 14
                     height: 14

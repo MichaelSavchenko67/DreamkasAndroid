@@ -1,5 +1,5 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
+import QtQuick
+import QtQuick.Controls
 
 import "qrc:/qml/components/sale" as SaleComponents
 import "qrc:/qml/components/settings" as SettingsComponents
@@ -194,7 +194,7 @@ Flickable {
                     height: cashSum.height;
                     font: cashSum.font
                     placeholderText: ""
-                    validator: RegExpValidator { regExp: /.*/ }
+                    validator: RegularExpressionValidator { regularExpression: /.*/ }
                     inputMethodHints: Qt.ImhNone
                 }
             }

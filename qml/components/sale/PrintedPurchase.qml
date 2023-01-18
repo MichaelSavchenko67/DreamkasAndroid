@@ -1,7 +1,7 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
-import QtGraphicalEffects 1.15
-import QtQuick.Controls.Material 2.15
+import QtQuick
+import QtQuick.Controls
+import Qt5Compat.GraphicalEffects
+import QtQuick.Controls.Material
 
 import "qrc:/qml/components/sale" as SaleComponents
 
@@ -26,6 +26,10 @@ Popup {
         id: contentRect
         anchors.fill: parent
         radius: 8
+        color: "transparent"
+    }
+    contentItem: Rectangle {
+        anchors.fill: parent
         color: "transparent"
 
         Timer {
@@ -66,6 +70,7 @@ Popup {
                 maskSource: Item {
                     width: contentFrame.width
                     height: contentFrame.height
+
                     Rectangle {
                         anchors.fill: parent
                         width: contentFrame.adapt ? contentFrame.width : Math.min(contentFrame.width, contentFrame.height)

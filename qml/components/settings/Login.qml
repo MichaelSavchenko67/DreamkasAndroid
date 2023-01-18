@@ -1,17 +1,17 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
-import QtQuick.Controls.Material 2.12
-import QtQuick.Layouts 1.12
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls.Material
+import QtQuick.Layouts
 
 Column {
     property string title: ""
     property string usernameTitle: ""
     property var usernameInputMethod: Qt.ImhEmailCharactersOnly
-    property var usernameRegex: RegExpValidator {regExp: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/ }
+    property var usernameRegex: RegularExpressionValidator {regularExpression: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/ }
     property string username: ""
     property string passwordTitle: ""
     property var passwordInputMethod: Qt.ImhNone
-    property var passwordRegex: RegExpValidator {regExp: /^\w+$/ }
+    property var passwordRegex: RegularExpressionValidator {regularExpression: /^\w+$/ }
     property string password: ""
     property bool passwordView: false
     property bool isAccepted: usernameField.acceptableInput && (passwordField.length > 0)

@@ -1,6 +1,6 @@
 TEMPLATE = app
 TARGET = dreamkasAndroid
-QT += quick quickcontrols2 widgets
+QT += quick quickcontrols2 widgets core5compat
 
 CONFIG += sdk_no_version_check
 
@@ -51,3 +51,5 @@ DISTFILES += \
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 
 ANDROID_ABIS = armeabi-v7a
+
+QMAKE_INFO_PLIST = $$PWD/ios/Info.plist

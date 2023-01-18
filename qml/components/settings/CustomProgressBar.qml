@@ -1,7 +1,7 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
-import QtGraphicalEffects 1.15
-import QtQuick.Controls.Material 2.12
+import QtQuick
+import QtQuick.Controls
+import Qt5Compat.GraphicalEffects
+import QtQuick.Controls.Material
 
 ProgressBar {
     property bool isUseShadow: false
@@ -13,22 +13,26 @@ ProgressBar {
     height: 12
     indeterminate: isRunning
     Material.accent: accentColor
-    background: Rectangle {
-        color: backgroundColor
-        implicitWidth: parent.width
-        implicitHeight: parent.height
+    background: Item {
+        Rectangle {
+            id: rect
+            anchors.fill: parent
+            color: backgroundColor
+            implicitWidth: parent.width
+            implicitHeight: parent.height
+        }
 
         DropShadow {
             id: dropShadow
             visible: isUseShadow
-            anchors.fill: parent
+            anchors.fill: rect
             cached: true
             samples: 1 + 2 * radius
             horizontalOffset: 0
             verticalOffset: 4
             radius: 8
             color: "#D6D6D6"
-            source: parent
+            source: rect
         }
     }
 }

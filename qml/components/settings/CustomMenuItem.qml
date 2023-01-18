@@ -1,9 +1,9 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
+import QtQuick
+import QtQuick.Controls
 
 MenuItem {
     id: menuItem
-    width: parent.width - 2 * parent.leftPadding
+    width: parent.width
     implicitHeight: enabled ? 40 : 0
     anchors.horizontalCenter: parent.horizontalCenter
     visible: enabled
@@ -19,16 +19,15 @@ MenuItem {
         anchors.fill: parent
 
         Row {
-            width: menuItem.width
-            anchors.verticalCenter: parent.verticalCenter
-            leftPadding: 0.5 * parent.leftPadding
-            rightPadding: leftPadding
+            width: menuItem.width - 1.25 * spacing
+            height: menuItem.implicitHeight
+            anchors.horizontalCenter: parent.horizontalCenter
             spacing: 0.5 * checkStatus.width
 
-            Text {
+            Label {
                 width: parent.width -
-                       (checkStatus.width + parent.spacing) * menuItem.checkable -
-                       2 * parent.leftPadding
+                       parent.spacing -
+                       checkStatus.width
                 anchors.verticalCenter: parent.verticalCenter
                 text: menuItem.text
                 font: menuItem.font
