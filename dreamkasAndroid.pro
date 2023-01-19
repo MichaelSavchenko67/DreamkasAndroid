@@ -12,7 +12,8 @@ HEADERS += \
         src/include/launcher.h \
         src/include/menu.h \
         src/include/searchGoods.h \
-        src/include/toolbar.h
+        src/include/toolbar.h \
+        src/include/menuModelTree.h
 
 SOURCES += \
         src/cashlessPayModel.cpp \
@@ -20,14 +21,8 @@ SOURCES += \
         src/guiThread.cpp \
         src/main.cpp \
         src/qui.cpp \
-        src/searchGoods.cpp
-
-#OTHER_FILES = qml/main.qml \
-#              qml/components/sale/Button_1.qml \
-#              qml/components/sale/ButtonClc.qml \
-#              qml/components/sale/line.qml \
-#              qml/pages/Calculator.qml \
-#              content/calculator.js
+        src/searchGoods.cpp \
+        src/menuModelTree.cpp
 
 RESOURCES += \
         qtquickcontrols2.conf \

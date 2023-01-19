@@ -7,6 +7,7 @@
 #include <QFontDatabase>
 #include "include/gui.h"
 #include "include/guiThread.h"
+#include "include/menuModelTree.h"
 
 #include "include/modelDemoSwipe.h"
 #include "include/cashlessPayModel.h"
@@ -31,6 +32,10 @@ int main(int argc, char *argv[])
 
     ModelDemoSwipe modelDemoSwipe;
     engine.rootContext()->setContextProperty("modelDemoSwipe", &modelDemoSwipe);
+
+    MenuModelTree menuModelTree;
+    MenuModelTree::declareQML();
+    engine.rootContext()->setContextProperty("menuModelTree", &menuModelTree);
 
     const QFont fixedFont = QFontDatabase::systemFont(QFontDatabase::FixedFont);
     engine.rootContext()->setContextProperty("fixedFont", fixedFont);

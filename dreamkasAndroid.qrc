@@ -350,5 +350,49 @@
         <file>img/store/google_play_badge.png</file>
         <file>img/store/rustore_app_badge.png</file>
         <file>img/dreamkas_display/welcome_slides.png</file>
+        <file>ico/menu/arrow_down.png</file>
+        <file>ico/menu/arrow_up.png</file>
+        <file>ico/menu/exit.png</file>
+        <file>ico/menu/forward.png</file>
+        <file>ico/menu/information_circle.png</file>
+        <file>ico/menu/purchase_charts_ico.png</file>
+        <file>ico/menu/purchase_white.png</file>
+        <file>ico/menu/repeat_white.png</file>
+        <file>ico/menu/repeat.png</file>
+        <file>ico/menu/share.png</file>
+        <file>ico/menu/success_circle.png</file>
+        <file>ico/menu/drawer/account-box-outline.png</file>
+        <file>ico/menu/drawer/account.png</file>
+        <file>ico/menu/drawer/bank_term_ops.png</file>
+        <file>ico/menu/drawer/bank_term_state.png</file>
+        <file>ico/menu/drawer/bank_term.png</file>
+        <file>ico/menu/drawer/close_id.png</file>
+        <file>ico/menu/drawer/connect_kkt.png</file>
+        <file>ico/menu/drawer/connect_scales.png</file>
+        <file>ico/menu/drawer/connect_scanner.png</file>
+        <file>ico/menu/drawer/cur_rep.png</file>
+        <file>ico/menu/drawer/dreamkas_display_menu.png</file>
+        <file>ico/menu/drawer/ins_res.png</file>
+        <file>ico/menu/drawer/logout.png</file>
+        <file>ico/menu/drawer/open_id.png</file>
+        <file>ico/menu/drawer/orders.png</file>
+        <file>ico/menu/drawer/receipt_cor.png</file>
+        <file>ico/menu/drawer/sale_rules.png</file>
+        <file>ico/menu/drawer/sales.png</file>
+        <file>ico/menu/drawer/send_log.png</file>
+        <file>ico/menu/drawer/settings.png</file>
+        <file>ico/menu/drawer/shift.png</file>
+        <file>ico/menu/drawer/support_qustion.png</file>
+        <file>ico/menu/drawer/taxes.png</file>
+        <file>ico/menu/drawer/tech_rep.png</file>
+        <file>ico/menu/drawer/utm.png</file>
+        <file>ico/menu/drawer/x-report.png</file>
+        <file>ico/menu/PaxHeader/check.png</file>
+        <file>ico/menu/PaxHeader/login_dis.png</file>
+        <file>ico/menu/PaxHeader/login_en.png</file>
+        <file>ico/menu/PaxHeader/login_err.png</file>
+        <file>ico/menu/PaxHeader/logo.png</file>
+        <file>ico/menu/PaxHeader/pay_success.jpg</file>
+        <file>ico/menu/PaxHeader/viki.jpg</file>
     </qresource>
 </RCC>
