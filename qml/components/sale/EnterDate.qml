@@ -1,94 +1,264 @@
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Controls.Private 1.0
-import QtQuick.Controls.Styles
+import QtQuick.Controls.Material
+import QtQuick.Layouts
 
-Calendar {
-    id: calendar
-    width: parent.width
-    height: parent.height
-    frameVisible: true
-    weekNumbersVisible: true
-    selectedDate: new Date
-    focus: true
-    property var startDate: undefined
-    property var stopDate: undefined
-    property bool isIntervalEnable: false
+import "qrc:/qml/components/settings" as SettingsComponents
 
-    style: CalendarStyle {
-        dayDelegate: Item {
-            readonly property color sameMonthDateTextColor: "#444"
-            readonly property color selectedDateColor: Qt.platform.os === "osx" ? "#3778d0" : systemPalette.highlight
-            readonly property color selectedDateTextColor: "white"
-            readonly property color differentMonthDateTextColor: "#bbb"
-            readonly property color invalidDatecolor: "#dddddd"
-            property var dateOnFocus: styleData.date
+Page {
+    property bool isPeriodAvailable: true
+    property bool isResultLableEnabled: true
+    property date gridDate: new Date()
+    property date currentDate: new Date()
+    property date choosenDate: currentDate
+    property date choosenDateSecond: new Date("")
+    property date beginPeriodDate: new Date("")
+    property date endPeriodDate: new Date("")
+
+
+    function getResultDateStr() {
+        if (isPeriodAvailable) {
+            let isChoosenDateBegin = choosenDate.getTime() < choosenDateSecond.getTime()
+            beginPeriodDate = isChoosenDateBegin ? choosenDate : choosenDateSecond
+            endPeriodDate = isChoosenDateBegin ? choosenDateSecond : choosenDate
+
+            if (isNaN(beginPeriodDate)) {
+                beginPeriodDate = endPeriodDate
+            } else if (isNaN(endPeriodDate)) {
+                endPeriodDate = beginPeriodDate
+            }
+
+            if (beginPeriodDate.toLocaleDateString() === endPeriodDate.toLocaleDateString()) {
+                return beginPeriodDate.toLocaleDateString(grid.locale)
+            } else {
+                return beginPeriodDate.toLocaleDateString('ru_RU') + " - " + endPeriodDate.toLocaleDateString('ru_RU')
+            }
+        } else {
+            return choosenDate.toLocaleDateString(Qt.locale("ru_RU"))
+        }
+    }
+
+    onChoosenDateChanged: {
+        resultDateLabel.text = getResultDateStr()
+    }
+
+    onChoosenDateSecondChanged: {
+        resultDateLabel.text = getResultDateStr()
+    }
+
+    header: ToolBar {
+        id: calendarToolbar
+
+        RowLayout {
+            anchors.fill: parent
 
             Rectangle {
                 anchors.fill: parent
-                border.color: "transparent"
-                color: ((styleData.date !== undefined) && styleData.selected) ? selectedDateColor : "transparent"
+                color: "#415A77"
             }
 
-            Rectangle {
-                id:fl
-                anchors.fill: parent
-                property bool flag: false
-                color: ((dateOnFocus>calendar.startDate) && (dateOnFocus< calendar.stopDate)) ? "#55555555":
-                                                                                                ((calendar.startDate !== undefined) && (dateOnFocus.getTime() === calendar.startDate.getTime())) ? "#3778d0" :
-                                                                                                                                                                                                   "transparent"
-            }
-
-            MouseArea{
-                anchors.fill: parent
-                propagateComposedEvents: true
-                onPressed: {
-                    if (!isIntervalEnable) {
-                        calendar.startDate = undefined
-                        calendar.stopDate = undefined
+            ToolButton {
+                contentItem: Label {
+                    id: prevMonthButtonLable
+                    Layout.fillWidth: true
+                    text: qsTr("<")
+                    font {
+                        pixelSize: 0.05 * calendarToolbar.width
+                        weight: Font.DemiBold
+                        bold: true
                     }
-
-                    if (calendar.startDate === undefined) {
-                        calendar.startDate  =styleData.date
-                    }
-                    else if (calendar.stopDate === undefined) {
-                        calendar.stopDate = styleData.date
-                    }
-                    else {
-                        calendar.startDate = styleData.date
-                        calendar.stopDate = undefined
-                    }
-
-                    if (calendar.stopDate <= calendar.startDate) {
-                        calendar.startDate = styleData.date
-                        calendar.stopDate = undefined
-                    }
-
-                    mouse.accepted = false
+                    color: "white"
+                    horizontalAlignment: Qt.AlignHCenter
+                    verticalAlignment: Qt.AlignVCenter
+                }
+                onClicked: {
+                    gridDate = new Date(gridDate.setMonth(gridDate.getMonth() - 1));
                 }
             }
-
 
             Label {
-                id: dayDelegateText
-                text: styleData.date.getDate()
-                anchors.centerIn: parent
-                color: {
-                    var color = invalidDatecolor;
-                    if (styleData.valid) {
-                        // Date is within the valid range.
-                        color = styleData.visibleMonth ? sameMonthDateTextColor : differentMonthDateTextColor;
+                id: monthLabel
+                Layout.fillWidth: true
+                text: qsTr(grid.locale.standaloneMonthName(gridDate.getMonth()) + " " + gridDate.toLocaleString(grid.locale, "yyyy"))
+                font {
+                    pixelSize: 0.05 * parent.width
+                    weight: Font.DemiBold
+                    bold: true
+                }
+                color: "white"
+                elide: Label.ElideRight
+                horizontalAlignment: Qt.AlignHCenter
+                verticalAlignment: Qt.AlignVCenter
+            }
 
-                        if (styleData.selected) {
-                            color = selectedDateTextColor;
-                        }
-                        else if (dateOnFocus.getTime() === calendar.startDate.getTime()) {
-                            color = selectedDateTextColor;
-                        }
-                    }
-                    color;
+            ToolButton {
+                contentItem: Label {
+                    Layout.fillWidth: true
+                    text: qsTr(">")
+                    font: prevMonthButtonLable.font
+                    color: prevMonthButtonLable.color
+                    horizontalAlignment: prevMonthButtonLable.horizontalAlignment
+                    verticalAlignment: prevMonthButtonLable.verticalAlignment
+                }
+                onClicked: {
+                    gridDate = new Date(gridDate.setMonth(gridDate.getMonth() + 1));
                 }
             }
+        }
+    }
+
+    GridLayout {
+        anchors.fill: parent
+        columns: 1
+
+        DayOfWeekRow {
+            id: dayOfWeekRow
+            locale: grid.locale
+            font.bold: true
+            delegate: Label {
+                text: model.shortName
+                font: monthLabel.font
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+            }
+
+            Layout.column: 1
+            Layout.fillWidth: true
+        }
+
+        MonthGrid {
+            id: grid
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            month: gridDate.getMonth()
+            year: gridDate.getFullYear()
+            locale: Qt.locale("ru_RU")
+            spacing: 0
+
+            readonly property int gridLineThickness: 1
+
+            delegate: SettingsComponents.MonthGridDelegate {
+                visibleMonth: grid.month
+                gridDateDelegate: gridDate
+                choosenDateDelegate: choosenDate
+                choosenDateSecondDelegate: choosenDateSecond
+                beginPeriodDateDelegate: beginPeriodDate
+                endPeriodDateDelegate: endPeriodDate
+            }
+
+            background: Item {
+                x: grid.leftPadding
+                y: grid.topPadding
+                width: grid.availableWidth
+                height: grid.availableHeight
+
+                // Vertical lines
+                Row {
+                    spacing: (parent.width - (grid.gridLineThickness * rowRepeater.model)) / rowRepeater.model
+
+                    Repeater {
+                        id: rowRepeater
+                        model: 7
+                        delegate: Rectangle {
+                            width: 1
+                            height: grid.height
+                            color: "#ccc"
+                        }
+                    }
+                }
+
+                // Horizontal lines
+                Column {
+                    spacing: (parent.height - (grid.gridLineThickness * columnRepeater.model)) / columnRepeater.model
+
+                    Repeater {
+                        id: columnRepeater
+                        model: 6
+                        delegate: Rectangle {
+                            width: grid.width
+                            height: 1
+                            color: "#ccc"
+                        }
+                    }
+                }
+            }
+
+            onClicked: function (date) {
+                console.log("onClicked date: " + date.toLocaleDateString())
+
+                if (isPeriodAvailable) {
+                    let clickedDateStr = date.toLocaleDateString()
+                    let choosenDateStr = choosenDate.toLocaleDateString()
+                    let choosenDateSecondStr = choosenDateSecond.toLocaleDateString()
+
+                    if (clickedDateStr === choosenDateStr) {
+                        choosenDateSecond = new Date("");
+                    } else if (clickedDateStr === choosenDateSecondStr) {
+                        choosenDate = new Date("")
+                    } else if (isNaN(choosenDate)) {
+                        choosenDate = date
+                    } else if (isNaN(choosenDateSecond)) {
+                        choosenDateSecond = date
+                    } else {
+                        // period already choosen
+                        let isChoosenDateBegin = (choosenDate.getTime() < choosenDateSecond.getTime())
+                        let beginDate = isChoosenDateBegin ? choosenDate : choosenDateSecond
+                        let endDate = isChoosenDateBegin ? choosenDateSecond : choosenDate
+
+
+                        if (date.getTime() < beginDate) {
+                            if (isChoosenDateBegin) {
+                                choosenDate = date
+                            } else {
+                                choosenDateSecond = date
+                            }
+                        } else if (date.getTime() > endDate) {
+                            if (isChoosenDateBegin) {
+                                choosenDateSecond = date
+                            } else {
+                                choosenDate = date
+                            }
+                        } else {
+                            choosenDateSecond = date
+                        }
+                    }
+                } else {
+                    choosenDate = date
+                    console.log("choosenDate: " + choosenDate)
+                }
+            }
+        }
+    }
+
+    footer: ToolBar {
+        visible: isResultLableEnabled
+
+        RowLayout {
+            anchors.fill: parent
+
+            Rectangle {
+                anchors.fill: parent
+                color: "#5C7490"
+            }
+
+            Label {
+                id: resultDateLabel
+                Layout.fillWidth: true
+                text: getResultDateStr()
+                font.pixelSize: Qt.application.font.pixelSize * 1.25
+                elide: Label.ElideRight
+                horizontalAlignment: Qt.AlignHCenter
+                verticalAlignment: Qt.AlignVCenter
+            }
+        }
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        color: "transparent"
+        border {
+            color: "#ccc"
+            width: 1
         }
     }
 }

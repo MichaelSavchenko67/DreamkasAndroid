@@ -10,30 +10,35 @@ Popup {
     property date curDate: new Date()
     property date minDate: new Date(curDate.getFullYear() - 1, curDate.getMonth(), curDate.getDate())
     property date choosenDate: curDate
-    property date beginDate: undefined
-    property date endDate: undefined
-    property bool isIntervalEnable: false
+    property date beginDate: new Date()
+    property date endDate: new Date("")
+    property bool isIntervalEnable: true
 
     onOpened: {
-//        calendar.minimumDate = minDate
-//        calendar.maximumDate = curDate
+        calendar.choosenDate = isIntervalEnable ? beginDate : choosenDate
+
+        if (isIntervalEnable) {
+            calendar.choosenDateSecond = endDate
+        }
     }
 
-    function getConfirmButtonTxt() {
+    function update() {
         if (isIntervalEnable) {
-            console.log("beginDate: " + beginDate.toJSON())
-            console.log("endDate: " + endDate.toJSON())
-            return beginDate.toLocaleDateString('ru_RU') + " - " + endDate.toLocaleDateString('ru_RU')
+            beginDate = calendar.beginPeriodDate
+            endDate = calendar.endPeriodDate
+        } else {
+            choosenDate = calendar.choosenDate
         }
-        return choosenDate.toLocaleDateString(Qt.locale("ru_RU"))
+
+        confirmButton.buttonTxt = calendar.getResultDateStr()
     }
 
     function reset() {
         curDate = new Date()
         minDate = new Date(curDate.getFullYear() - 1, curDate.getMonth(), curDate.getDate())
         choosenDate = curDate
-        beginDate = undefined
-        endDate = undefined
+        beginDate = new Date("")
+        endDate = new Date("")
     }
 
     width: 0.963 * parent.width
@@ -55,25 +60,29 @@ Popup {
 
         Column {
             anchors.fill: parent
-            topPadding: 2 * 0.038 * parent.height
-            spacing: topPadding
+            spacing: (height -
+                      calendar.height -
+                      confirmButton.height) / 3
+            topPadding: spacing
+            bottomPadding: spacing
 
-//            SaleComponents.EnterDate {
-//                id: calendar
-//                isIntervalEnable: popupDate.isIntervalEnable
-//                width: 0.9 * parent.width
-//                height: width
-//                anchors.horizontalCenter: parent.horizontalCenter
-//                onSelectedDateChanged: {
-//                    if (isIntervalEnable) {
-//                        beginDate = startDate
-//                        endDate = stopDate
-//                    } else {
-//                        choosenDate = selectedDate
-//                    }
-//                    confirmButton.buttonTxt = getConfirmButtonTxt()
-//                }
-//            }
+            SaleComponents.EnterDate {
+                id: calendar
+                width: 0.9 * parent.width
+                height: width
+                anchors.horizontalCenter: parent.horizontalCenter
+                isPeriodAvailable: popupDate.isIntervalEnable
+                isResultLableEnabled: false
+                choosenDate: isIntervalEnable ? popupDate.beginDate : popupDate.choosenDate
+                choosenDateSecond: popupDate.endDate
+
+                onChoosenDateChanged: {
+                    popupDate.update()
+                }
+                onChoosenDateSecondChanged: {
+                    popupDate.update()
+                }
+            }
 
             SaleComponents.Button_1 {
                 id: confirmButton
@@ -82,7 +91,7 @@ Popup {
                 height: 0.2 * width
                 borderWidth: 0
                 backRadius: 5
-                buttonTxt: getConfirmButtonTxt()
+                buttonTxt: calendar.getResultDateStr()
                 fontSize: 0.27 * height
                 buttonTxtColor: "white"
                 pushUpColor: "#415A77"
