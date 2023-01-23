@@ -400,7 +400,7 @@ Page {
 
         Column {
             width: parent.width
-            height: parent.height - progressBar.height - tabBar.height
+            height: parent.height - progressBar.height
             spacing: 0
             topPadding: (periodLabelRow.visible ? 0 : 0.025 * parent.width)
 
@@ -491,8 +491,8 @@ Page {
 
                 width: parent.width
                 height: parent.height -
-                        (periodLabelRow.visible ? periodLabelRow.height : 0) -
-                        parent.topPadding
+                        (periodLabelRow.visible ? periodLabelRow.height : 0)
+                anchors.bottom: parent.bottom
                 visible: (purchasesParamsListModel.count > 0)
                 anchors.horizontalCenter: parent.horizontalCenter
                 clip: true
