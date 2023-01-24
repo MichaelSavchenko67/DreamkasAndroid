@@ -1,8 +1,12 @@
 import QtQuick
 import QtQuick.Controls
+import Qt5Compat.GraphicalEffects
 
 MenuItem {
     id: menuItem
+
+    readonly property string iconSource: action.icon.source
+
     width: parent.width
     implicitHeight: enabled ? 40 : 0
     anchors.horizontalCenter: parent.horizontalCenter
@@ -24,9 +28,32 @@ MenuItem {
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: 0.5 * checkStatus.width
 
+            Item {
+                id: ico
+                width: menuItem.font.pixelSize
+                height: width
+                anchors.verticalCenter: parent.verticalCenter
+                visible: iconSource.length
+
+                Image {
+                    id: icoImage
+                    sourceSize: Qt.size(parent.width, parent.height)
+                    source: iconSource
+                    fillMode: Image.PreserveAspectFit
+                }
+
+                ColorOverlay {
+                    anchors.fill: icoImage
+                    source: icoImage
+                    color: "#5C7490"
+                }
+            }
+
             Label {
+                id: menuItemLabel
                 width: parent.width -
-                       parent.spacing -
+                       (ico.visible ? ico.width : 0) -
+                       (ico.visible + 1) * parent.spacing -
                        checkStatus.width
                 anchors.verticalCenter: parent.verticalCenter
                 text: menuItem.text
@@ -44,6 +71,7 @@ MenuItem {
                 height: width
                 anchors.verticalCenter: parent.verticalCenter
                 source: "qrc:/ico/settings/check_blue.png"
+                fillMode: Image.PreserveAspectFit
             }
         }
 
