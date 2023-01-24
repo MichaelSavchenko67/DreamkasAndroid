@@ -10,6 +10,7 @@ Page {
     property bool isResultLableEnabled: true
     property date gridDate: new Date()
     property date currentDate: new Date()
+    property date maxDate: currentDate
     property date choosenDate: currentDate
     property date choosenDateSecond: new Date("")
     property date beginPeriodDate: new Date("")
@@ -185,6 +186,10 @@ Page {
 
             onClicked: function (date) {
                 console.log("onClicked date: " + date.toLocaleDateString())
+
+                if (date.getTime() > maxDate.getTime()) {
+                    return
+                }
 
                 if (isPeriodAvailable) {
                     let clickedDateStr = date.toLocaleDateString()

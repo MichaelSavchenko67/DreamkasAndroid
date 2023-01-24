@@ -9,6 +9,7 @@ Popup {
 
     property date curDate: new Date()
     property date minDate: new Date(curDate.getFullYear() - 1, curDate.getMonth(), curDate.getDate())
+    property date maxDate: curDate
     property date choosenDate: curDate
     property date beginDate: new Date()
     property date endDate: new Date("")
@@ -73,6 +74,7 @@ Popup {
                 anchors.horizontalCenter: parent.horizontalCenter
                 isPeriodAvailable: popupDate.isIntervalEnable
                 isResultLableEnabled: false
+                maxDate: popupDate.maxDate
                 choosenDate: isIntervalEnable ? popupDate.beginDate : popupDate.choosenDate
                 choosenDateSecond: popupDate.endDate
 
