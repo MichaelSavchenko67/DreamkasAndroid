@@ -73,13 +73,6 @@ Page {
 
     state: "default"
 
-    SettingsComponents.CreateAvatarPopup {
-        id: createAvatarPopup
-        onAvatarCaptured: {
-            avatarSource = avatarImage.source
-        }
-    }
-
     ScrollView {
         width: parent.width
         height: parent.height - saveData.height - dataColumn.topPadding
@@ -96,7 +89,28 @@ Page {
             leftPadding: 0.08 * parent.width
             clip: true
 
+            SettingsComponents.CustomMenu {
+                id: contextMenu
+                width: 1.9 * createAvatarButton.width
+                y: createAvatarButton.y
+                x: 0.5 * (parent.width - width)
+                font.pixelSize: nameFieldTitle.font.pixelSize
+
+                Action { text: qsTr("Камера"); icon.source: "qrc:/ico/settings/camera.png"; checkable: false }
+
+                MenuSeparator {
+                    contentItem: Rectangle {
+                        implicitWidth: contextMenu.width - contextMenu.leftPadding
+                        implicitHeight: 1
+                        color: "#ECECEC"
+                    }
+                }
+
+                Action { text: qsTr("Выбрать из галереи"); icon.source: "qrc:/ico/menu/gallery.png"; checkable: false }
+            }
+
             Button {
+                id: createAvatarButton
                 width: 0.28 * userPage.width
                 height: width
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -123,7 +137,7 @@ Page {
                     }
                 }
                 onClicked: {
-                    createAvatarPopup.open()
+                    contextMenu.open()
                 }
             }
 
