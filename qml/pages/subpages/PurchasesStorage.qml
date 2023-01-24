@@ -326,7 +326,7 @@ Page {
         property int cnt: 1
 
         onTriggered: {
-            if (purchasesParamsListModel.count >= 3) {
+            if (purchasesParamsListModel.count >= 10) {
                 running = false
             } else {
                 console.log("purchasesParamsListModel.append")
@@ -343,6 +343,7 @@ Page {
         onChangeText: {
         }
     }
+
     contentData: Column {
         width: parent.width
         height: parent.height -
