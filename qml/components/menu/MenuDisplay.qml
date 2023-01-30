@@ -1,8 +1,20 @@
 import QtQuick
 import QtQuick.Controls
 
+import MenuRolesEnum 1.0
+
 Drawer {
     id: menuDisplay
+
+    property var actions : {
+        "Настройки": function() { root.openPage("qrc:/qml/pages/startCustomerDisplay/MainSettings.qml") },
+        "Галерея": function() { root.openPage("qrc:/qml/pages/startCustomerDisplay/Gallery.qml") },
+        "Терминал 2can NFC": function() {
+            menuDisplayModel.setItemApplied(MenuRoles.MENU_ID_2CAN, true)
+            root.openPage("qrc:/qml/pages/startCustomerDisplay/Pinpad2canSettings.qml") },
+        "Ещё": function() {  }
+    }
+
     width: parent.width
     height: menuItemColumn.topPadding +
             menuHeaderColumn.height +
@@ -72,44 +84,7 @@ Drawer {
             height: parent.height - menuHeaderColumn.height
             cellWidth: width / 3
             cellHeight: 0.5 * cellWidth
-            model: ListModel {
-                id: menuItemsList
-
-                property var actions : {
-                    "Настройки": function() { root.openPage("qrc:/qml/pages/startCustomerDisplay/MainSettings.qml") },
-                    "Галерея": function() { root.openPage("qrc:/qml/pages/startCustomerDisplay/Gallery.qml") },
-                    "2can NFC": function() { root.openPage("qrc:/qml/pages/startCustomerDisplay/Pinpad2canSettings.qml") },
-                    "Ещё": function() {  }
-                }
-
-                ListElement {
-                    name: "Настройки"
-                    icoSrc: "qrc:/ico/menu/settings_blue.png"
-                    isCanApply: false
-                    isApplied: false
-                }
-
-                ListElement {
-                    name: "Галерея"
-                    icoSrc: "qrc:/ico/menu/gallery.png"
-                    isCanApply: false
-                    isApplied: false
-                }
-
-                ListElement {
-                    name: "2can NFC"
-                    icoSrc: "qrc:/ico/settings/2can.png"
-                    isCanApply: true
-                    isApplied: true
-                }
-
-                ListElement {
-                    name: "Ещё"
-                    icoSrc: "qrc:/ico/menu/other.png"
-                    isCanApply: false
-                    isApplied: false
-                }
-            }
+            model: menuDisplayModel
             delegate: Column {
                 width: gridView.cellWidth
                 height: gridView.cellHeight
@@ -181,7 +156,7 @@ Drawer {
 
                     onClicked: {
                         menuDisplay.close()
-                        menuItemsList.actions[name]();
+                        menuDisplay.actions[name]();
                     }
                 }
             }

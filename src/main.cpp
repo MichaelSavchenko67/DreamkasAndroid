@@ -11,6 +11,7 @@
 
 #include "include/modelDemoSwipe.h"
 #include "include/cashlessPayModel.h"
+#include "menuDisplayModel.h"
 #include <QFile>
 #include <QDir>
 
@@ -36,6 +37,10 @@ int main(int argc, char *argv[])
     MenuModelTree menuModelTree;
     MenuModelTree::declareQML();
     engine.rootContext()->setContextProperty("menuModelTree", &menuModelTree);
+
+    MenuDisplayModel menuDisplayModel;
+    MenuDisplayModel::declareQML();
+    engine.rootContext()->setContextProperty("menuDisplayModel", &menuDisplayModel);
 
     const QFont fixedFont = QFontDatabase::systemFont(QFontDatabase::FixedFont);
     engine.rootContext()->setContextProperty("fixedFont", fixedFont);

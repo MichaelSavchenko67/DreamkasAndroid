@@ -4,8 +4,11 @@ QT += quick quickcontrols2 widgets core5compat
 
 CONFIG += sdk_no_version_check
 
+INCLUDEPATH += src/include
+
 HEADERS += \
         src/include/cashlessPayModel.h \
+        src/include/menuDisplayModel.h \
         src/include/modelDemoSwipe.h \
         src/include/gui.h \
         src/include/guiThread.h \
@@ -17,6 +20,7 @@ HEADERS += \
 
 SOURCES += \
         src/cashlessPayModel.cpp \
+        src/menuDisplayModel.cpp \
         src/modelDemoSwipe.cpp \
         src/guiThread.cpp \
         src/main.cpp \
