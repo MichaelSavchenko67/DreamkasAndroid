@@ -78,22 +78,36 @@ Drawer {
                 property var actions : {
                     "Настройки": function() { root.openPage("qrc:/qml/pages/startCustomerDisplay/MainSettings.qml") },
                     "Галерея": function() { root.openPage("qrc:/qml/pages/startCustomerDisplay/Gallery.qml") },
+                    "2can NFC": function() { root.openPage("qrc:/qml/pages/startCustomerDisplay/Pinpad2canSettings.qml") },
                     "Ещё": function() {  }
                 }
 
                 ListElement {
                     name: "Настройки"
                     icoSrc: "qrc:/ico/menu/settings_blue.png"
+                    isCanApply: false
+                    isApplied: false
                 }
 
                 ListElement {
                     name: "Галерея"
                     icoSrc: "qrc:/ico/menu/gallery.png"
+                    isCanApply: false
+                    isApplied: false
+                }
+
+                ListElement {
+                    name: "2can NFC"
+                    icoSrc: "qrc:/ico/settings/2can.png"
+                    isCanApply: true
+                    isApplied: true
                 }
 
                 ListElement {
                     name: "Ещё"
                     icoSrc: "qrc:/ico/menu/other.png"
+                    isCanApply: false
+                    isApplied: false
                 }
             }
             delegate: Column {
@@ -116,14 +130,36 @@ Drawer {
                                            itemName.contentHeight)
                         bottomPadding: topPadding
 
-                        Image {
+                        Rectangle {
                             id: itemIco
-                            width: 0.052 * menuDisplay.width
-                            height: width
+                            height: imageIco.height
+                            width: height
                             anchors.horizontalCenter: parent.horizontalCenter
-                            source: icoSrc
-                            fillMode: Image.PreserveaspectFit
-                            scale: itemMenuActionButton.pressed ? 0.8 : 1
+                            color: "transparent"
+
+                            Image {
+                                id: imageIco
+                                width: 0.052 * menuDisplay.width
+                                height: width
+                                source: icoSrc
+                                fillMode: Image.PreserveAspectFit
+                                scale: itemMenuActionButton.pressed ? 0.8 : 1
+                            }
+
+                            Rectangle {
+                                id: appliedIco
+                                width: 0.5 * imageIco.width
+                                height: width
+                                visible: isCanApply
+                                radius: width / 2
+                                anchors {
+                                    right: imageIco.right
+                                    rightMargin: -width
+                                    bottom: imageIco.bottom
+                                    bottomMargin: -0.5 * height
+                                }
+                                color: isApplied ? "#4DA03F" : "#F7AA13"
+                            }
                         }
 
                         Label {
