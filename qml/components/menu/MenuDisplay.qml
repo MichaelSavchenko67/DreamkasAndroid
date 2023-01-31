@@ -16,17 +16,14 @@ Drawer {
     }
 
     width: parent.width
-    height: menuItemColumn.topPadding +
-            menuHeaderColumn.height +
-            menuItemColumn.spacing +
-            1.1 * Math.ceil(gridView.count / 3) * gridView.cellHeight
+    height: menuItemColumn.height
     edge: Qt.BottomEdge
     dragMargin: 0.018 * width
     contentData: Column {
         id: menuItemColumn
-        anchors.fill: parent
-        spacing: 0.5 * 0.0311 * menuDisplay.width
-        topPadding: 0.5 * spacing
+        width: parent.width
+        topPadding: 0.5 * menuHeaderColumn.height
+        spacing: topPadding
 
         Column {
             id: menuHeaderColumn
@@ -40,7 +37,7 @@ Drawer {
                 id: closeMenuButton
                 width: 0.5 * root.width
                 height: menuSwipeIco.height
-                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.centerIn: parent
                 background: Row {
                     anchors.fill: parent
                     spacing: menuSwipeIco.width
@@ -81,7 +78,7 @@ Drawer {
         GridView {
             id: gridView
             width: parent.width
-            height: parent.height - menuHeaderColumn.height
+            height: Math.ceil(count / 3) * cellHeight
             cellWidth: width / 3
             cellHeight: 0.5 * cellWidth
             model: menuDisplayModel
@@ -99,11 +96,6 @@ Drawer {
                         width: parent.width
                         height: parent.height
                         spacing: 0.5 * itemName.font.pixelSize
-                        topPadding: 0.5 * (height -
-                                           itemIco.height -
-                                           spacing -
-                                           itemName.contentHeight)
-                        bottomPadding: topPadding
 
                         Rectangle {
                             id: itemIco
@@ -148,7 +140,10 @@ Drawer {
                                 weight: Font.Normal
                             }
                             color: "black"
+                            lineHeight: 1.1
                             elide: Label.ElideRight
+                            maximumLineCount: 2
+                            wrapMode: Label.WordWrap
                             horizontalAlignment: Label.AlignHCenter
                             verticalAlignment: Label.AlignVCenter
                         }
