@@ -7,7 +7,7 @@ Button {
     id: button
     property real backRadius: 0
     property real borderWidth: 1
-    property var buttonTxt
+    property string buttonTxt
     property color buttonTxtColor
     property bool dropShadow: false
     property color pushUpColor: "#ffffff"
@@ -30,7 +30,7 @@ Button {
 
         Text {
             id: txt
-            text: qsTr(buttonTxt)
+            text: qsTr((buttonTxt.length > 0) ? buttonTxt : action.text)
             anchors.fill: parent
             elide: Text.ElideRight
             maximumLineCount: 3

@@ -395,5 +395,9 @@
         <file>ico/menu/PaxHeader/pay_success.jpg</file>
         <file>ico/menu/PaxHeader/viki.jpg</file>
         <file>qml/components/settings/MonthGridDelegate.qml</file>
+        <file>qml/components/settings/PopupExtended.qml</file>
+        <file>qml/components/settings/KeypadToolBar.qml</file>
+        <file>ico/settings/keypad_hide.png</file>
+        <file>qml/components/settings/ButtonAdaptive.qml</file>
     </qresource>
 </RCC>

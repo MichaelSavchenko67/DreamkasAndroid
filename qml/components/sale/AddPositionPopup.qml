@@ -4,6 +4,7 @@ import QtQuick.Controls.Material 2.12
 
 import "qrc:/content/calculator.js" as CalcEngine
 import "qrc:/qml/components/sale" as SaleComponents
+import "qrc:/qml/components/settings" as SettingsComponents
 
 Popup {
     id: addPositionPopup
@@ -59,7 +60,8 @@ Popup {
         radius: 8
         color: "#FFFFFF"
     }
-    contentItem: Rectangle {
+    contentItem: SettingsComponents.PopupExtended {
+        id: popupExtended
         anchors.fill: parent
 
         ToolButton {
@@ -244,23 +246,35 @@ Popup {
                     verticalAlignment: costTitle.verticalAlignment
                 }
 
+                Action {
+                    id: add2purchaseAction
+                    enabled: add2purchaseButton.enabled
+                    text: qsTr("ДОБАВИТЬ В ЧЕК")
+                    onTriggered: {
+                        addPositionPopup.close()
+                        console.log(CalcEngine.getNumber(unitPrice) + " x " + CalcEngine.getNumber(quantity) + " = " + CalcEngine.getNumber(totalPrice))
+                    }
+                }
+
                 SaleComponents.Button_1 {
                     id: add2purchaseButton
+
+                    Component.onCompleted: {
+                        popupExtended.reset()
+                        popupExtended.setFirstAction(add2purchaseAction)
+                    }
+
                     width: parent.width
                     height: 0.2 * width
                     enabled: false
                     opacity: enabled ? 1 : 0.6
                     borderWidth: 0
                     backRadius: 8
-                    buttonTxt: qsTr("ДОБАВИТЬ В ЧЕК")
+                    action: add2purchaseAction
                     fontSize: 0.27 * height
                     buttonTxtColor: "white"
                     pushUpColor: "#415A77"
                     pushDownColor: "#004075"
-                    onClicked: {
-                        addPositionPopup.close()
-                        console.log(CalcEngine.getNumber(unitPrice) + " x " + CalcEngine.getNumber(quantity) + " = " + CalcEngine.getNumber(totalPrice))
-                    }
                 }
             }
         }

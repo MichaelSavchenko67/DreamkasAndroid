@@ -3,6 +3,9 @@ import QtQuick.Controls
 
 ToolButton {
     id: control
+
+    property real icoHeight: 0.5 * control.width
+
     height: 0.7 * parent.height
     width: height
     anchors.verticalCenter: parent.verticalCenter
@@ -15,7 +18,7 @@ ToolButton {
 
     Image {
         id: ico
-        height: 0.5 * control.width
+        height: icoHeight
         width: height
         anchors.centerIn: parent
         source: ""

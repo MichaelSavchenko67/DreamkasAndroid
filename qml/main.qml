@@ -694,4 +694,20 @@ ApplicationWindow {
             }
         }
     }
+
+    function setKeypadToolBarMainBlocked(isBlocked) {
+        keypadToolBarMain.isBlocked = isBlocked
+    }
+
+    function resetKeypadToolBarMain() {
+        keypadToolBarMain.reset()
+    }
+
+    function setKeypadToolBarMainFirstAction(action) {
+        keypadToolBarMain.firstAction = action
+    }
+
+    SettingsComponents.KeypadToolBar {
+        id: keypadToolBarMain
+    }
 }
