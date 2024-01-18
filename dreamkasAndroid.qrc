@@ -395,5 +395,9 @@
         <file>ico/menu/PaxHeader/pay_success.jpg</file>
         <file>ico/menu/PaxHeader/viki.jpg</file>
         <file>qml/components/settings/MonthGridDelegate.qml</file>
+        <file>ico/menu/drawer/beer.png</file>
+        <file>qml/pages/subpages/Beer.qml</file>
+        <file>img/sale/keg.png</file>
+        <file>qml/components/settings/PopupChooseTap.qml</file>
     </qresource>
 </RCC>

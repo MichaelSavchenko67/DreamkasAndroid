@@ -22,6 +22,7 @@ const MenuModelTree::ICONS_TABLE MenuModelTree::m_mapIcons = {
     {MenuModelTree::MENU_ID::SETTINGS_EQUIPMENT_ID_BANK_TERM_STATE, "qrc:/ico/menu/drawer/bank_term_state.png"},
     {MenuModelTree::MENU_ID::SETTINGS_EQUIPMENT_ID_BANK_TERM_OPS,   "qrc:/ico/menu/drawer/bank_term_ops.png"},
     {MenuModelTree::MENU_ID::SETTINGS_ID_TRADE_RULES_EGAIS_SET_UTM, "qrc:/ico/menu/drawer/utm.png"},
+    {MenuModelTree::MENU_ID::SETTINGS_ID_BEER,                      "qrc:/ico/menu/drawer/beer.png"},
     {MenuModelTree::MENU_ID::SETTINGS_ID_TRADE_RULES,               "qrc:/ico/menu/drawer/sale_rules.png"},
     {MenuModelTree::MENU_ID::SETTINGS_ID_TECH_REP,                  "qrc:/ico/menu/drawer/tech_rep.png"},
     {MenuModelTree::MENU_ID::SYSTEM_ID_SEND_LOG,                    "qrc:/ico/menu/drawer/send_log.png"},
@@ -160,10 +161,11 @@ void MenuModelTree::initialize()
             m_mapMenuItems[MENU_ID::SETTINGS_EQUIPMENT_ID_BANK_TERM_OPS]   = new MenuItemTree{ bankTerm, 1, MENU_ID::SETTINGS_EQUIPMENT_ID_BANK_TERM_OPS,     "Сервисные операции" };
 
         m_mapMenuItems[MENU_ID::SETTINGS_ID_TRADE_RULES_EGAIS_SET_UTM] = new MenuItemTree{ settingId, 3, MENU_ID::SETTINGS_ID_TRADE_RULES_EGAIS_SET_UTM,  "ЕГАИС", true};
-        m_mapMenuItems[MENU_ID::SETTINGS_ID_TRADE_RULES]               = new MenuItemTree{ settingId, 4, MENU_ID::SETTINGS_ID_TRADE_RULES,                "Правила торговли"};
-        m_mapMenuItems[MENU_ID::SETTINGS_ID_TECH_REP]                  = new MenuItemTree{ settingId, 5, MENU_ID::SETTINGS_ID_TECH_REP,                   "Технический отчёт"};
-        m_mapMenuItems[MENU_ID::SYSTEM_ID_SEND_LOG]                    = new MenuItemTree{ settingId, 6, MENU_ID::SYSTEM_ID_SEND_LOG,                     "Отправка логов"};
-        m_mapMenuItems[MENU_ID::SYSTEM_ID_USERS]                       = new MenuItemTree{ settingId, 7, MENU_ID::SYSTEM_ID_USERS,                        "Пользователи"};
+        m_mapMenuItems[MENU_ID::SETTINGS_ID_BEER]                      = new MenuItemTree{ settingId, 4, MENU_ID::SETTINGS_ID_BEER,                       "Разливное пиво"};
+        m_mapMenuItems[MENU_ID::SETTINGS_ID_TRADE_RULES]               = new MenuItemTree{ settingId, 5, MENU_ID::SETTINGS_ID_TRADE_RULES,                "Правила торговли"};
+        m_mapMenuItems[MENU_ID::SETTINGS_ID_TECH_REP]                  = new MenuItemTree{ settingId, 6, MENU_ID::SETTINGS_ID_TECH_REP,                   "Технический отчёт"};
+        m_mapMenuItems[MENU_ID::SYSTEM_ID_SEND_LOG]                    = new MenuItemTree{ settingId, 7, MENU_ID::SYSTEM_ID_SEND_LOG,                     "Отправка логов"};
+        m_mapMenuItems[MENU_ID::SYSTEM_ID_USERS]                       = new MenuItemTree{ settingId, 8, MENU_ID::SYSTEM_ID_USERS,                        "Пользователи"};
 }
 
 QModelIndex MenuModelTree::index(int row, int column, const QModelIndex &parent) const

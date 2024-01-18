@@ -28,10 +28,13 @@ ApplicationWindow {
     property string cashInDrawer: "100,00"
     property bool is2canLoggedIn: true
 
+    signal mainMenuOpened()
+
     Action {
         id: openMenu
         onTriggered: {
             console.log("[main.qml]\tOpen menu")
+            mainMenuOpened()
             drawer.open()
         }
     }
@@ -632,6 +635,8 @@ ApplicationWindow {
 //        initialItem: "qrc:/qml/pages/startCustomerDisplay/Advertising.qml"
 //        initialItem: "qrc:/qml/pages/startCustomerDisplay/MainSettings.qml"
 //        initialItem: "qrc:/qml/pages/subpages/dreamkas_display/Connection.qml"
+        // initialItem: "qrc:/qml/pages/subpages/Beer.qml"
+        // initialItem: "qrc:/qml/pages/Sale.qml"
         anchors.fill: parent
     }
 
