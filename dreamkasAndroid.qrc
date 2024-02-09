@@ -399,5 +399,6 @@
         <file>qml/pages/subpages/Beer.qml</file>
         <file>img/sale/keg.png</file>
         <file>qml/components/settings/PopupChooseTap.qml</file>
+        <file>qml/components/settings/PopupExtended.qml</file>
     </qresource>
 </RCC>
