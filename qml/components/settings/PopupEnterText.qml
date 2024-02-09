@@ -15,6 +15,7 @@ Popup {
     property var enteredValidator: RegularExpressionValidator { }
     property bool isStayLastEntered: false
     property var ico: ""
+    property alias enteredText: enterText.text
 
     onOpened: {
         title.text = popupTitle

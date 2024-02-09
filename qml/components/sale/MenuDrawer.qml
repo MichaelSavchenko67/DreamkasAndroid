@@ -208,6 +208,7 @@ Drawer {
                 "Подключение":              function() { root.replacePage("qrc:/qml/pages/subpages/settings/Multipos.qml") },
                 "Сервисные операции":       function() { root.replacePage("qrc:/qml/pages/subpages/settings/MultiposService.qml") },
                 "ЕГАИС":                    function() { root.replacePage("qrc:/qml/pages/subpages/Utm.qml") },
+                "Разливное пиво":           function() { root.replacePage("qrc:/qml/pages/subpages/Beer.qml") },
                 "Правила торговли":         function() { root.replacePage("qrc:/qml/pages/subpages/SaleRules.qml") }
             }
 

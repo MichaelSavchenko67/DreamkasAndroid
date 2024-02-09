@@ -14,10 +14,10 @@ ApplicationWindow {
     id: root
     //    width: Screen.width
     //    height: Screen.height
-        width: 360
-        height: 640
-//    width: 540
-//    height: 960
+        // width: 360
+        // height: 640
+    width: 540
+    height: 960
     visible: true
     //    visibility: "FullScreen"
 
@@ -28,10 +28,13 @@ ApplicationWindow {
     property string cashInDrawer: "100,00"
     property bool is2canLoggedIn: true
 
+    signal mainMenuOpened()
+
     Action {
         id: openMenu
         onTriggered: {
             console.log("[main.qml]\tOpen menu")
+            mainMenuOpened()
             drawer.open()
         }
     }
@@ -632,6 +635,8 @@ ApplicationWindow {
 //        initialItem: "qrc:/qml/pages/startCustomerDisplay/Advertising.qml"
 //        initialItem: "qrc:/qml/pages/startCustomerDisplay/MainSettings.qml"
 //        initialItem: "qrc:/qml/pages/subpages/dreamkas_display/Connection.qml"
+        // initialItem: "qrc:/qml/pages/subpages/Beer.qml"
+        // initialItem: "qrc:/qml/pages/Sale.qml"
         anchors.fill: parent
     }
 
@@ -691,6 +696,56 @@ ApplicationWindow {
             }
             onPressed: {
                 menuDisplay.open()
+            }
+        }
+    }
+
+    SettingsComponents.PopupExtended {
+        id: popupExtended
+        isCancelEnabled: false
+        title: "Постановка на кран №1"
+        subtitle: "Рубиновый Эль в Бельгийском стиле"
+        description: "Выполняется создание документа постановки на кран в ЧЗ"
+        onVisibleChanged: {
+            if (visible) {
+                startTimer.start()
+            }
+        }
+        onCanceled: {
+
+        }
+
+        Action {
+            id: cancelAction
+            onTriggered: {
+                popupExtended.close()
+            }
+        }
+
+        Timer {
+            id: startTimer
+            interval: 2500
+            repeat: false
+            onTriggered: {
+                popupExtended.isCancelEnabled = true
+                popupExtended.description = "Ожидание завершения создания документа постановки на кран в ЧЗ"
+                popupExtended.running = true
+                popupExtended.loaderMessage = loaderTimer.cnt + " секунд"
+                popupExtended.buttonName = "ОТМЕНА"
+                popupExtended.buttonAction = cancelAction
+                loaderTimer.start()
+            }
+        }
+
+        Timer {
+            id: loaderTimer
+            property int cnt: 120
+
+            interval: 1000
+            repeat: true
+            running: (cnt > 0)
+            onTriggered: {
+                popupExtended.loaderMessage = cnt-- + " секунд"
             }
         }
     }

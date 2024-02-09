@@ -4,10 +4,13 @@ import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material
 
 ProgressBar {
+    id: progressBar
+
     property bool isUseShadow: false
     property bool isRunning: false
     property color backgroundColor: "#5C7490"
     property color accentColor: "white"
+    property real radius: 0
 
     width: parent.width
     height: 12
@@ -20,6 +23,7 @@ ProgressBar {
             color: backgroundColor
             implicitWidth: parent.width
             implicitHeight: parent.height
+            radius: progressBar.radius
         }
 
         DropShadow {
@@ -33,6 +37,17 @@ ProgressBar {
             radius: 8
             color: "#D6D6D6"
             source: rect
+        }
+    }
+    contentItem: Item {
+        implicitWidth: rect.width
+        implicitHeight: progressBar.height
+
+        Rectangle {
+            width: progressBar.visualPosition * parent.width
+            height: parent.height
+            radius: progressBar.radius
+            color: accentColor
         }
     }
 }

@@ -7,7 +7,7 @@ Button {
     id: button
     property real backRadius: 0
     property real borderWidth: 1
-    property var buttonTxt
+    property string buttonTxt
     property color buttonTxtColor
     property bool dropShadow: false
     property color pushUpColor: "#ffffff"

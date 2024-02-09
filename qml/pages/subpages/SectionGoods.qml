@@ -29,24 +29,41 @@ Page {
 
         ListElement {
             tileSectionId: 1
-            tileName: "Баклажан"
+            tileName: "Василеостровское нефильтрованное светлое"
             tileCost: 10
             tileMeasure: "кг"
-            tileImg: "qrc:/ico/tiles/tileGoods1.png"
+            isTap: true
+            litersLeft: 4
+            litersLeftPercent: 30
+            litersSold: 8
+            tapName: "Кран №1"
+            salesStep: 0.5
         }
         ListElement {
             tileSectionId: 1
-            tileName: "Свекла"
+            tileName: "Мистр Сидр"
             tileCost: 20
             tileMeasure: "кг"
             tileImg: "qrc:/ico/tiles/tileGoods2.png"
+            isTap: true
+            litersLeft: 15
+            litersLeftPercent: 75
+            litersSold: 5
+            tapName: "Кран №2"
+            salesStep: 1
         }
         ListElement {
             tileSectionId: 1
-            tileName: "Кабачок"
-            tileCost: 30
+            tileName: "Мистр Сидр"
+            tileCost: 20
             tileMeasure: "кг"
             tileImg: "qrc:/ico/tiles/tileGoods3.png"
+            isTap: true
+            litersLeft: 0
+            litersLeftPercent: 0
+            litersSold: 10
+            tapName: "Кран №3"
+            salesStep: 1
         }
         ListElement {
             tileSectionId: 1
@@ -134,10 +151,16 @@ Page {
             id: tile
             width: sectionGoods.width / tilesInRow
             height: width
-            name: tileName
-            cost: tileCost
-            measure: tileMeasure
-            img: tileImg
+            name: model.tileName
+            tapName: model.tapName
+            cost: model.tileCost
+            measure: isTap ? "л" : model.tileMeasure
+            img: model.tileImg
+            isTap: model.isTap
+            litersLeft: model.litersLeft
+            litersLeftPercent: model.litersLeftPercent
+            litersSold: model.litersSold
+            salesStep: model.salesStep
             checkMode: sectionCheckMode
         }
 

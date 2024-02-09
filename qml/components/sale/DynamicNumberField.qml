@@ -9,6 +9,7 @@ Label {
     property real number: 0.000
     property int accuracy: 3
     property string ending: ""
+    property real interval: 33
 
     onNumberChanged: {
         setWeightRoutine.stop()
@@ -28,7 +29,7 @@ Label {
            step = (newStep > 0) ? newStep : defaultStep
         }
 
-        interval: 33
+        interval: dynamicNumberLabel.interval
         repeat: true
         running: false
         onTriggered: {
