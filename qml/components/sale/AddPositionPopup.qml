@@ -20,6 +20,8 @@ Popup {
     property var countMask: RegularExpressionValidator { regularExpression: /[1-9]\d*/ }
     property var scaleMask: RegularExpressionValidator { regularExpression: /^(0|[1-9]\d*)([.]|[,]\d{1,3})?$/ }
 
+    signal add2purchase()
+
     onOpened: {
         costField.focus = false
         quantityField.focus = false
@@ -258,8 +260,9 @@ Popup {
                     pushUpColor: "#415A77"
                     pushDownColor: "#004075"
                     onClicked: {
-                        addPositionPopup.close()
+                        // addPositionPopup.close()
                         console.log(CalcEngine.getNumber(unitPrice) + " x " + CalcEngine.getNumber(quantity) + " = " + CalcEngine.getNumber(totalPrice))
+                        add2purchase()
                     }
                 }
             }

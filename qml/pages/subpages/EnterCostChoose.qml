@@ -51,6 +51,51 @@ Page {
         Action { text: qsTr("ЕСХН"); checkable: true; checked: false; enabled: true }
     }
 
+    // Rectangle {
+    //     id: testRect
+    //     width: 0.3 * parent.width
+    //     height: width
+    //     x: 0.5 * (parent.width - width)
+    //     y: 0.5  * (parent.height - height)
+    //     color: "green"
+
+    //     NumberAnimation on y {
+    //         id: goDown
+    //         from: testRect.y
+    //         to: parent.height - 2 * openPurchase.y
+    //         running: false
+    //         duration: 500
+    //         easing.type: Easing.Linear
+    //     }
+
+    //     NumberAnimation on x {
+    //         id: goLeft
+    //         from: testRect.x
+    //         to: -testRect.width
+    //         running: goDown.running
+    //         duration: goDown.duration
+    //         easing.type: goDown.easing.type
+    //     }
+
+    //     NumberAnimation on scale {
+    //         id: goSmall
+    //         from: 1.0
+    //         to: 0.0
+    //         running: goDown.running
+    //         duration: goDown.duration
+    //         easing.type: goDown.easing.type
+    //     }
+
+    //     Timer {
+    //         interval: 3000
+    //         running: true
+    //         repeat: false
+    //         onTriggered: {
+    //             goDown.start()
+    //         }
+    //     }
+    // }
+
     footer: SaleComponents.FooterMain {
         id: footerMain
         height: btnRow.height + totalMsg.height + 3 * 0.125 * btnRow.height
